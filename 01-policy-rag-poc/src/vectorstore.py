@@ -12,6 +12,7 @@ versioning the index, and deciding chunking/embedding parameters.
 """
 
 import shutil
+from functools import lru_cache
 from pathlib import Path
 
 import chromadb
@@ -27,6 +28,7 @@ COLLECTION_NAME = "northkeep_policies"
 
 
 def build_vectorstore(rebuild: bool = True):
+    clear_vectorstore_cache()
     if rebuild and CHROMA_DIR.exists():
         shutil.rmtree(CHROMA_DIR)
     CHROMA_DIR.mkdir(parents=True, exist_ok=True)
@@ -67,12 +69,21 @@ def build_vectorstore(rebuild: bool = True):
     return collection, embedder
 
 
-def load_vectorstore():
-    """Load an already-built collection + the matching fitted embedder."""
+@lru_cache(maxsize=1)
+def _load_vectorstore_cached():
     client = chromadb.PersistentClient(path=str(CHROMA_DIR), settings=Settings(anonymized_telemetry=False))
     collection = client.get_collection(name=COLLECTION_NAME)
     embedder = LocalTfidfEmbeddings.load(str(EMBEDDER_PATH))
     return collection, embedder
+
+
+def load_vectorstore():
+    """Load an already-built collection + the matching fitted embedder."""
+    return _load_vectorstore_cached()
+
+
+def clear_vectorstore_cache():
+    _load_vectorstore_cached.cache_clear()
 
 
 if __name__ == "__main__":

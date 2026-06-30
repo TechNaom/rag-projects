@@ -78,6 +78,7 @@ correct, but will only run with your own key:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
+# or: export GEMINI_API_KEY=...
 python3 src/main.py
 ```
 

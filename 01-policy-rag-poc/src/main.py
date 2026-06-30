@@ -13,21 +13,25 @@ engineering anyway).
 """
 
 import os
-from rag_chain import answer_question
+from rag_chain import answer_question, get_default_provider, get_provider_status
 
 BANNER = """
 ==========================================================
  Northkeep National Bank — Internal Policy Assistant (RAG)
 ==========================================================
-Ask a question about HR or compliance policy. Type 'quit' to exit.
+Ask a question about HR or compliance policy.
+Prefix your question with 'ask groq' or 'ask ollama' to choose the model.
+Type 'quit' to exit.
 """
 
 
 def main():
     print(BANNER)
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("(No ANTHROPIC_API_KEY set - showing retrieval only, no generated answer.\n"
-              " export ANTHROPIC_API_KEY=sk-ant-... to enable generation.)\n")
+    provider = get_default_provider()
+    status = get_provider_status(provider)
+    print(f"Default provider: {provider}")
+    print(status)
+    print()
 
     while True:
         query = input("Your question> ").strip()
@@ -35,7 +39,14 @@ def main():
             break
         if not query:
             continue
-        answer_question(query, k=4, verbose=True)
+        provider = None
+        lowered = query.lower()
+        if lowered.startswith("ask groq"):
+            provider = "groq"
+        elif lowered.startswith("ask ollama"):
+            provider = "ollama"
+
+        answer_question(query, k=4, verbose=True, provider=provider)
 
 
 if __name__ == "__main__":
