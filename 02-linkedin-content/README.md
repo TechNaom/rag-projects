@@ -1,4 +1,4 @@
-# LinkedIn Content — RAG Projects Series
+# LinkedIn Content — Build-in-Public Series
 
 A collection of LinkedIn posts created to educate and enable people on
 building AI systems, RAG pipelines, and developer workflows — documented
@@ -10,31 +10,38 @@ as open source alongside the projects that inspired them.
 - Build in public, one post at a time
 - Help others learn AI development through honest, grounded content
 
-## Source Project
+## Source Projects
 
-All posts in this series are derived from:
-👉 [01-policy-rag-poc](../01-policy-rag-poc/) — A working RAG system over
-banking compliance policy documents built with ChromaDB, TF-IDF embeddings,
-and the Groq API.
+Posts in this series are mirrored from real, working projects:
 
-GitHub: https://github.com/TechNaom/rag-projects/tree/main/01-policy-rag-poc
+- 👉 [01-policy-rag-poc](../01-policy-rag-poc/) — A working RAG system over
+  banking compliance policy documents built with ChromaDB, TF-IDF embeddings,
+  and the Groq API.
+  GitHub: <https://github.com/TechNaom/rag-projects/tree/main/01-policy-rag-poc>
+
+- 👉 [GenAI for Everyone](https://github.com/TechNaom/genai-for-everyone) — a
+  free, complete 7-week / 42-session GenAI curriculum (standalone repo,
+  separate from this monorepo).
+  GitHub: <https://github.com/TechNaom/genai-for-everyone>
 
 ## Posts
 
-| # | Title | Theme | Status |
-|---|-------|-------|--------|
-| 01 | [What is RAG?](posts/01-what-is-rag.md) | Education — core concept | ✅ Ready |
-| 02 | [The Honest Build](posts/02-honest-build.md) | Credibility — showing failures | 🔜 Next |
-| 03 | [The Orchestrator Mindset](posts/03-orchestrator-mindset.md) | Mindset — AI + human collaboration | 🔜 Upcoming |
-| 04 | [The API Key Mistake](posts/04-api-key-mistake.md) | Security — practical lesson | 🔜 Upcoming |
-| 05 | [Why I Built This for Banking](posts/05-banking-domain.md) | Domain framing | 🔜 Upcoming |
+| # | Title | Theme | Source | Status |
+|---|-------|-------|--------|--------|
+| 01 | [What is RAG?](posts/01-what-is-rag.md) | Education — core concept | 01-policy-rag-poc | ✅ Ready |
+| 02 | [GenAI for Everyone (Course Launch)](posts/02-genai-for-everyone-launch.md) | Personal journey — giving away free education | genai-for-everyone | ✅ Ready |
+| 03 | The Honest Build | Credibility — showing failures | 01-policy-rag-poc | 🔜 Upcoming |
+| 04 | The Orchestrator Mindset | Mindset — AI + human collaboration | 01-policy-rag-poc | 🔜 Upcoming |
+| 05 | The API Key Mistake | Security — practical lesson | 01-policy-rag-poc | 🔜 Upcoming |
+| 06 | Why I Built This for Banking | Domain framing | 01-policy-rag-poc | 🔜 Upcoming |
 
 ## Posting Schedule (Suggested)
 
 | Week | Post |
 |------|------|
 | 1 | 01 — What is RAG? |
-| 2 | 02 — The Honest Build |
-| 3 | 03 — The Orchestrator Mindset |
-| 4 | 04 — The API Key Mistake |
-| 5 | 05 — Why I Built This for Banking |
+| 2 | 02 — GenAI for Everyone (Course Launch) |
+| 3 | 03 — The Honest Build |
+| 4 | 04 — The Orchestrator Mindset |
+| 5 | 05 — The API Key Mistake |
+| 6 | 06 — Why I Built This for Banking |
