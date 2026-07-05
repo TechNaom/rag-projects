@@ -7,9 +7,9 @@ Usage:
     python3 src/vectorstore.py     # one-time: build the index
     python3 src/main.py            # ask questions interactively
 
-Set ANTHROPIC_API_KEY in your environment to get full generated answers;
-without it, you'll still see retrieval working (which is most of the
-engineering anyway).
+Set GROQ_API_KEY in your environment (or run a local Ollama server) to get
+full generated answers; without either, you'll still see retrieval working
+(which is most of the engineering anyway).
 """
 
 import os

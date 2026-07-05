@@ -42,7 +42,8 @@ src/vectorstore.py            Fits embedder on corpus, writes to ChromaDB
         |                     (persisted at data/chroma_db/)
         v
 src/rag_chain.py              retrieve() -> build_context_block() -> generate_answer()
-        |                     generation calls Claude via the Anthropic API
+        |                     generation via a local Ollama server, or Groq
+        |                     (Llama 3.3 70B) when GROQ_API_KEY is set
         v
 src/main.py                   Interactive CLI
 src/eval.py                   Golden-set retrieval evaluation (Recall@k, MRR)
@@ -71,31 +72,33 @@ LangChain's standard interface. That pluggability *is* the actual lesson.
 
 ## A real constraint, handled honestly: generation
 
-This sandbox can reach `api.anthropic.com` over the network, but has no API
-key auto-injected (that only happens for in-browser Artifacts, not this
-container). So `rag_chain.py`'s generation step is fully implemented and
-correct, but will only run with your own key:
+`rag_chain.py`'s generation step supports two providers, chosen per-query
+or via a configured default:
 
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-# or: export GEMINI_API_KEY=...
-python3 src/main.py
-```
+- **Ollama, run locally** — the default; no API key, no cost, but you need
+  a local Ollama server running with a model pulled.
+- **Groq** (Llama 3.3 70B) — fast, hosted inference; set `GROQ_API_KEY` (or
+  fill in `config/config.ini`, copied from `config/config.example.ini`).
 
-Without a key, the CLI still shows you the retrieved chunks and scores for
-every question — which, honestly, is most of what's interesting about a RAG
-system anyway. Generation is "stuff the context into a good prompt," which
-is the easy part once retrieval is solid.
+Without either configured, the CLI still shows you the retrieved chunks and
+scores for every question — which, honestly, is most of what's interesting
+about a RAG system anyway. Generation is "stuff the context into a good
+prompt," which is the easy part once retrieval is solid.
 
 ## Running it
 
 ```bash
 pip install -r requirements.txt
 
+# Optional: configure a generation provider
+cp config/config.example.ini config/config.ini   # then fill in GROQ_API_KEY
+# or just run a local Ollama server with a model pulled — it's the default
+
 # 1. Build the index (run once, or whenever data/raw_docs/ changes)
 python3 src/vectorstore.py
 
-# 2. Ask questions interactively
+# 2. Ask questions interactively (prefix a question with "ask groq" or
+#    "ask ollama" to pick the provider for that query)
 python3 src/main.py
 
 # 3. Check retrieval quality against the golden test set
