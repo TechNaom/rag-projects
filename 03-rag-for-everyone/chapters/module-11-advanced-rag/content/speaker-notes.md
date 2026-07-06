@@ -1,14 +1,14 @@
 # Speaker Notes — Module 11: Advanced RAG
 
-    ## Opening
+## Opening
 
-    - Start with the failure or product behavior that makes this module necessary.
-    - Use the running example before introducing terminology.
-    - Keep each subtopic tied to one decision.
+- Start with the failure or product behavior that makes this module necessary.
+- Use the running example before introducing terminology.
+- Keep each subtopic tied to one decision.
 
-    ## Key beats
+## Key beats
 
-    - Agentic RAG
+- Agentic RAG
 - Graph RAG
 - Knowledge Graph RAG
 - Multi-modal RAG
@@ -19,8 +19,8 @@
 - Adaptive retrieval
 - Multi-agent RAG
 
-    ## Closing
+## Closing
 
-    - Summarize the trade-offs
-    - Reconnect to the larger RAG lifecycle
-    - Point learners to the quiz, notebook, and project
+- Summarize the trade-offs
+- Reconnect to the larger RAG lifecycle
+- Point learners to the quiz, notebook, and project

@@ -1,6 +1,6 @@
 # Module 4 Practice Bank
 
-    ## Prompt bank
+## Prompt bank
 
 1. What embeddings are
 2. Vector spaces
@@ -17,8 +17,8 @@
 13. Re-indexing
 14. Provider comparisons: OpenAI, Cohere, Google, and BAAI
 
-    ## Interview-style practice
+## Interview-style practice
 
-    - Explain the trade-off between the simplest and strongest option in this module.
-    - Describe one failure mode you would monitor in production.
-    - Give one example from a banking, support, or developer-assistant use case.
+- Explain the trade-off between the simplest and strongest option in this module.
+- Describe one failure mode you would monitor in production.
+- Give one example from a banking, support, or developer-assistant use case.

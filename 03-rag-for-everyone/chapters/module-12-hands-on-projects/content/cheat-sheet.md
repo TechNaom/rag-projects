@@ -1,8 +1,8 @@
 # Cheat Sheet — Hands-on Projects
 
-    ## Core ideas
+## Core ideas
 
-    - Basic RAG
+- Basic RAG
 - Production-ready RAG
 - Hybrid Search RAG
 - Parent-Child RAG
@@ -16,9 +16,9 @@
 - Interview questions
 - Design trade-offs
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

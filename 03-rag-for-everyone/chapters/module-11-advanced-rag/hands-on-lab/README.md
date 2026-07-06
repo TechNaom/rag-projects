@@ -1,14 +1,14 @@
 # Module 11 Hands-on Lab — Advanced RAG
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Route different query types to different retrieval strategies based on intent.
+Route different query types to different retrieval strategies based on intent.
 
-    ## Tasks
+## Tasks
 
-    - Agentic RAG
+- Agentic RAG
 - Graph RAG
 - Knowledge Graph RAG
 - Multi-modal RAG
@@ -19,7 +19,7 @@
 - Adaptive retrieval
 - Multi-agent RAG
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

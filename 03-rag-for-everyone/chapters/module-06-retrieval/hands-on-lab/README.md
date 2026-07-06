@@ -1,14 +1,14 @@
 # Module 6 Hands-on Lab — Retrieval
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Combine sparse and dense scores with reciprocal rank fusion on a toy dataset.
+Combine sparse and dense scores with reciprocal rank fusion on a toy dataset.
 
-    ## Tasks
+## Tasks
 
-    - Similarity search
+- Similarity search
 - Hybrid search
 - BM25
 - Sparse retrieval
@@ -23,7 +23,7 @@
 - Query rewriting
 - Query expansion
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

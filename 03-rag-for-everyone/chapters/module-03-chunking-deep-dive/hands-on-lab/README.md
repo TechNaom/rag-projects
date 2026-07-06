@@ -1,14 +1,14 @@
 # Module 3 Hands-on Lab — Chunking Deep Dive
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Compare multiple chunking strategies on the same sample policy document.
+Compare multiple chunking strategies on the same sample policy document.
 
-    ## Tasks
+## Tasks
 
-    - Fixed-size chunking
+- Fixed-size chunking
 - Recursive chunking
 - Sentence chunking
 - Paragraph chunking
@@ -19,7 +19,7 @@
 - Agentic chunking
 - LLM-based chunking
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

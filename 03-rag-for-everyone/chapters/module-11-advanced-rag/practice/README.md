@@ -1,6 +1,6 @@
 # Module 11 Practice Bank
 
-    ## Prompt bank
+## Prompt bank
 
 1. Agentic RAG
 2. Graph RAG
@@ -13,8 +13,8 @@
 9. Adaptive retrieval
 10. Multi-agent RAG
 
-    ## Interview-style practice
+## Interview-style practice
 
-    - Explain the trade-off between the simplest and strongest option in this module.
-    - Describe one failure mode you would monitor in production.
-    - Give one example from a banking, support, or developer-assistant use case.
+- Explain the trade-off between the simplest and strongest option in this module.
+- Describe one failure mode you would monitor in production.
+- Give one example from a banking, support, or developer-assistant use case.

@@ -1,14 +1,14 @@
 # Speaker Notes — Module 12: Hands-on Projects
 
-    ## Opening
+## Opening
 
-    - Start with the failure or product behavior that makes this module necessary.
-    - Use the running example before introducing terminology.
-    - Keep each subtopic tied to one decision.
+- Start with the failure or product behavior that makes this module necessary.
+- Use the running example before introducing terminology.
+- Keep each subtopic tied to one decision.
 
-    ## Key beats
+## Key beats
 
-    - Basic RAG
+- Basic RAG
 - Production-ready RAG
 - Hybrid Search RAG
 - Parent-Child RAG
@@ -22,8 +22,8 @@
 - Interview questions
 - Design trade-offs
 
-    ## Closing
+## Closing
 
-    - Summarize the trade-offs
-    - Reconnect to the larger RAG lifecycle
-    - Point learners to the quiz, notebook, and project
+- Summarize the trade-offs
+- Reconnect to the larger RAG lifecycle
+- Point learners to the quiz, notebook, and project

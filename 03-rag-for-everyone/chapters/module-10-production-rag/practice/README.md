@@ -1,6 +1,6 @@
 # Module 10 Practice Bank
 
-    ## Prompt bank
+## Prompt bank
 
 1. Caching
 2. Streaming
@@ -15,8 +15,8 @@
 11. CI/CD
 12. Failure handling
 
-    ## Interview-style practice
+## Interview-style practice
 
-    - Explain the trade-off between the simplest and strongest option in this module.
-    - Describe one failure mode you would monitor in production.
-    - Give one example from a banking, support, or developer-assistant use case.
+- Explain the trade-off between the simplest and strongest option in this module.
+- Describe one failure mode you would monitor in production.
+- Give one example from a banking, support, or developer-assistant use case.

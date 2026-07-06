@@ -1,20 +1,20 @@
 # Module 7 Hands-on Lab — Re-ranking
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Reorder retrieval candidates using a simple feature-based scoring pass.
+Reorder retrieval candidates using a simple feature-based scoring pass.
 
-    ## Tasks
+## Tasks
 
-    - Cross-encoders
+- Cross-encoders
 - Bi-encoders
 - Late interaction
 - Why re-ranking improves quality
 - Trade-offs between speed and accuracy
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

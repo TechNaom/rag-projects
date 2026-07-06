@@ -1,6 +1,6 @@
 # Module 12 Practice Bank
 
-    ## Prompt bank
+## Prompt bank
 
 1. Basic RAG
 2. Production-ready RAG
@@ -16,8 +16,8 @@
 12. Interview questions
 13. Design trade-offs
 
-    ## Interview-style practice
+## Interview-style practice
 
-    - Explain the trade-off between the simplest and strongest option in this module.
-    - Describe one failure mode you would monitor in production.
-    - Give one example from a banking, support, or developer-assistant use case.
+- Explain the trade-off between the simplest and strongest option in this module.
+- Describe one failure mode you would monitor in production.
+- Give one example from a banking, support, or developer-assistant use case.

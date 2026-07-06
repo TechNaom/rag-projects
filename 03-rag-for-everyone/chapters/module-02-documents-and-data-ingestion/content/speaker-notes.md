@@ -1,14 +1,14 @@
 # Speaker Notes — Module 2: Documents and Data Ingestion
 
-    ## Opening
+## Opening
 
-    - Start with the failure or product behavior that makes this module necessary.
-    - Use the running example before introducing terminology.
-    - Keep each subtopic tied to one decision.
+- Start with the failure or product behavior that makes this module necessary.
+- Use the running example before introducing terminology.
+- Keep each subtopic tied to one decision.
 
-    ## Key beats
+## Key beats
 
-    - PDFs
+- PDFs
 - DOCX
 - HTML
 - Markdown
@@ -24,8 +24,8 @@
 - Why preprocessing matters
 - What production pipelines look like
 
-    ## Closing
+## Closing
 
-    - Summarize the trade-offs
-    - Reconnect to the larger RAG lifecycle
-    - Point learners to the quiz, notebook, and project
+- Summarize the trade-offs
+- Reconnect to the larger RAG lifecycle
+- Point learners to the quiz, notebook, and project

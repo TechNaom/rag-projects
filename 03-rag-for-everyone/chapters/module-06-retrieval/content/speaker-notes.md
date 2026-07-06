@@ -1,14 +1,14 @@
 # Speaker Notes — Module 6: Retrieval
 
-    ## Opening
+## Opening
 
-    - Start with the failure or product behavior that makes this module necessary.
-    - Use the running example before introducing terminology.
-    - Keep each subtopic tied to one decision.
+- Start with the failure or product behavior that makes this module necessary.
+- Use the running example before introducing terminology.
+- Keep each subtopic tied to one decision.
 
-    ## Key beats
+## Key beats
 
-    - Similarity search
+- Similarity search
 - Hybrid search
 - BM25
 - Sparse retrieval
@@ -23,8 +23,8 @@
 - Query rewriting
 - Query expansion
 
-    ## Closing
+## Closing
 
-    - Summarize the trade-offs
-    - Reconnect to the larger RAG lifecycle
-    - Point learners to the quiz, notebook, and project
+- Summarize the trade-offs
+- Reconnect to the larger RAG lifecycle
+- Point learners to the quiz, notebook, and project

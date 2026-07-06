@@ -1,6 +1,6 @@
 # Module 6 Practice Bank
 
-    ## Prompt bank
+## Prompt bank
 
 1. Similarity search
 2. Hybrid search
@@ -17,8 +17,8 @@
 13. Query rewriting
 14. Query expansion
 
-    ## Interview-style practice
+## Interview-style practice
 
-    - Explain the trade-off between the simplest and strongest option in this module.
-    - Describe one failure mode you would monitor in production.
-    - Give one example from a banking, support, or developer-assistant use case.
+- Explain the trade-off between the simplest and strongest option in this module.
+- Describe one failure mode you would monitor in production.
+- Give one example from a banking, support, or developer-assistant use case.

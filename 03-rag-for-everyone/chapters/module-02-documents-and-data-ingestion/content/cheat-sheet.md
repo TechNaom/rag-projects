@@ -1,8 +1,8 @@
 # Cheat Sheet — Documents and Data Ingestion
 
-    ## Core ideas
+## Core ideas
 
-    - PDFs
+- PDFs
 - DOCX
 - HTML
 - Markdown
@@ -18,9 +18,9 @@
 - Why preprocessing matters
 - What production pipelines look like
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

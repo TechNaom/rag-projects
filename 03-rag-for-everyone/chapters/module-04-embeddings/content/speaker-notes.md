@@ -1,14 +1,14 @@
 # Speaker Notes — Module 4: Embeddings
 
-    ## Opening
+## Opening
 
-    - Start with the failure or product behavior that makes this module necessary.
-    - Use the running example before introducing terminology.
-    - Keep each subtopic tied to one decision.
+- Start with the failure or product behavior that makes this module necessary.
+- Use the running example before introducing terminology.
+- Keep each subtopic tied to one decision.
 
-    ## Key beats
+## Key beats
 
-    - What embeddings are
+- What embeddings are
 - Vector spaces
 - Similarity
 - Dimensionality
@@ -23,8 +23,8 @@
 - Re-indexing
 - Provider comparisons: OpenAI, Cohere, Google, and BAAI
 
-    ## Closing
+## Closing
 
-    - Summarize the trade-offs
-    - Reconnect to the larger RAG lifecycle
-    - Point learners to the quiz, notebook, and project
+- Summarize the trade-offs
+- Reconnect to the larger RAG lifecycle
+- Point learners to the quiz, notebook, and project

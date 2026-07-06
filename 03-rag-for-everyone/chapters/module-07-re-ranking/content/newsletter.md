@@ -1,14 +1,14 @@
 # Newsletter Draft — Module 7: Re-ranking
 
-    **This issue:** Explain why rerankers improve relevance and how to balance speed, cost, and accuracy.
+**This issue:** Explain why rerankers improve relevance and how to balance speed, cost, and accuracy.
 
-    **What readers get:**
+**What readers get:**
 
-    - One clear lesson
-    - One small lab
-    - One notebook
-    - One interview prep page
+- One clear lesson
+- One small lab
+- One notebook
+- One interview prep page
 
-    **Why it matters:**
+**Why it matters:**
 
-    Initial retrieval gets you candidates. Re-ranking decides which few deserve the expensive attention of the generator.
+Initial retrieval gets you candidates. Re-ranking decides which few deserve the expensive attention of the generator.

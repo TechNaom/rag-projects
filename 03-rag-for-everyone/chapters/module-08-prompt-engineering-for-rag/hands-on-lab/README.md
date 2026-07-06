@@ -1,14 +1,14 @@
 # Module 8 Hands-on Lab — Prompt Engineering for RAG
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Assemble prompts from a user question plus retrieved evidence while enforcing citation rules.
+Assemble prompts from a user question plus retrieved evidence while enforcing citation rules.
 
-    ## Tasks
+## Tasks
 
-    - Context injection
+- Context injection
 - System prompts
 - Citation prompts
 - Grounding
@@ -16,7 +16,7 @@
 - Guardrails
 - Hallucination prevention
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

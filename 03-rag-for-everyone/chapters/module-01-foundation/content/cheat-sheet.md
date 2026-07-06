@@ -1,8 +1,8 @@
 # Cheat Sheet — Foundation
 
-    ## Core ideas
+## Core ideas
 
-    - Why LLMs hallucinate
+- Why LLMs hallucinate
 - Why context windows are limited
 - Why RAG exists
 - Different types of RAG
@@ -14,9 +14,9 @@
 - Adaptive RAG
 - Complete lifecycle of a query
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

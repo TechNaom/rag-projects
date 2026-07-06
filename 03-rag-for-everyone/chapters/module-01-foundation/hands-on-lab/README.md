@@ -1,14 +1,14 @@
 # Module 1 Hands-on Lab — Foundation
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Build a tiny simulator that labels each stage of a RAG request from question to answer.
+Build a tiny simulator that labels each stage of a RAG request from question to answer.
 
-    ## Tasks
+## Tasks
 
-    - Why LLMs hallucinate
+- Why LLMs hallucinate
 - Why context windows are limited
 - Why RAG exists
 - Different types of RAG
@@ -20,7 +20,7 @@
 - Adaptive RAG
 - Complete lifecycle of a query
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

@@ -1,14 +1,14 @@
 # Module 2 Hands-on Lab — Documents and Data Ingestion
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Normalize mixed document records, attach metadata, and prepare them for chunking.
+Normalize mixed document records, attach metadata, and prepare them for chunking.
 
-    ## Tasks
+## Tasks
 
-    - PDFs
+- PDFs
 - DOCX
 - HTML
 - Markdown
@@ -24,7 +24,7 @@
 - Why preprocessing matters
 - What production pipelines look like
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

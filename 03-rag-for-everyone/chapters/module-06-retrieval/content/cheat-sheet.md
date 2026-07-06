@@ -1,8 +1,8 @@
 # Cheat Sheet — Retrieval
 
-    ## Core ideas
+## Core ideas
 
-    - Similarity search
+- Similarity search
 - Hybrid search
 - BM25
 - Sparse retrieval
@@ -17,9 +17,9 @@
 - Query rewriting
 - Query expansion
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

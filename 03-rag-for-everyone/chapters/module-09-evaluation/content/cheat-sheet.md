@@ -1,8 +1,8 @@
 # Cheat Sheet — Evaluation
 
-    ## Core ideas
+## Core ideas
 
-    - Recall@K
+- Recall@K
 - Precision@K
 - MRR
 - NDCG
@@ -14,9 +14,9 @@
 - Cost
 - Evaluation frameworks: Ragas and DeepEval
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

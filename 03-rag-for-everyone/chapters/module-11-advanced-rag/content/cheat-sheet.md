@@ -1,8 +1,8 @@
 # Cheat Sheet — Advanced RAG
 
-    ## Core ideas
+## Core ideas
 
-    - Agentic RAG
+- Agentic RAG
 - Graph RAG
 - Knowledge Graph RAG
 - Multi-modal RAG
@@ -13,9 +13,9 @@
 - Adaptive retrieval
 - Multi-agent RAG
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

@@ -1,14 +1,14 @@
 # Module 5 Hands-on Lab — Vector Databases
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Implement exact search and compare it with a toy approximate candidate-pruning flow.
+Implement exact search and compare it with a toy approximate candidate-pruning flow.
 
-    ## Tasks
+## Tasks
 
-    - ANN vs Exact Search
+- ANN vs Exact Search
 - HNSW
 - IVF
 - PQ
@@ -23,7 +23,7 @@
 - Replication
 - Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

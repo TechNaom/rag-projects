@@ -1,8 +1,8 @@
 # Cheat Sheet — Chunking Deep Dive
 
-    ## Core ideas
+## Core ideas
 
-    - Fixed-size chunking
+- Fixed-size chunking
 - Recursive chunking
 - Sentence chunking
 - Paragraph chunking
@@ -13,9 +13,9 @@
 - Agentic chunking
 - LLM-based chunking
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

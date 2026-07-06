@@ -5,6 +5,7 @@
   const viewerSubtitle = document.getElementById('viewer-subtitle');
   const viewerContent = document.getElementById('viewer-content');
   const viewerToc = document.getElementById('viewer-toc');
+  let currentSourceUrl = null;
 
   function escapeHtml(value) {
     return value
@@ -23,13 +24,38 @@
       .replace(/\s+/g, '-');
   }
 
+  function toViewerHref(url, label) {
+    const viewerUrl = new URL('document.html', window.location.href);
+    viewerUrl.searchParams.set('file', `${url.pathname}${url.search}`);
+    if (label) viewerUrl.searchParams.set('title', label);
+    return viewerUrl.toString();
+  }
+
+  function sanitizeLinkUrl(rawUrl, label = '') {
+    try {
+      const base = currentSourceUrl || new URL(window.location.href);
+      const resolved = new URL(rawUrl, base);
+      if (resolved.protocol === 'mailto:') return resolved.toString();
+      if (!['http:', 'https:'].includes(resolved.protocol)) return null;
+      if (/\.md$/i.test(resolved.pathname) && resolved.origin === window.location.origin) {
+        return toViewerHref(resolved, label);
+      }
+      return resolved.toString();
+    } catch (error) {
+      return null;
+    }
+  }
+
   function renderInline(text) {
     const escaped = escapeHtml(text);
     return escaped
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
       .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, url) => {
+        const safeUrl = sanitizeLinkUrl(url, label);
+        return safeUrl ? `<a href="${safeUrl}">${label}</a>` : label;
+      });
   }
 
   function normalizeMarkdown(markdown) {
@@ -183,6 +209,18 @@
     `;
   }
 
+  function resolveSourceUrl(file) {
+    try {
+      const resolved = new URL(file, window.location.origin);
+      if (resolved.origin !== window.location.origin) return null;
+      if (!['http:', 'https:'].includes(resolved.protocol)) return null;
+      if (!/\.md$/i.test(resolved.pathname)) return null;
+      return resolved;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async function load() {
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
@@ -197,14 +235,23 @@
       return;
     }
 
-    sourcePath.textContent = file;
-    sourceLink.href = file;
+    const sourceUrl = resolveSourceUrl(file);
+    if (!sourceUrl) {
+      viewerSubtitle.textContent = 'This document link is not allowed.';
+      viewerContent.innerHTML = '<div class="viewer-empty"><p>Only same-origin markdown files can be rendered in this viewer.</p></div>';
+      renderToc([]);
+      return;
+    }
+
+    currentSourceUrl = sourceUrl;
+    sourcePath.textContent = `${sourceUrl.pathname}${sourceUrl.search}`;
+    sourceLink.href = sourceUrl.toString();
     viewerSubtitle.textContent = 'Rendered from source so notes, slide outlines, and README files open as readable pages instead of raw markdown.';
     document.title = `${title} — RAG for Everyone`;
 
     try {
-      const response = await fetch(file, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`Unable to load ${file}`);
+      const response = await fetch(sourceUrl.toString(), { cache: 'no-store' });
+      if (!response.ok) throw new Error(`Unable to load ${sourceUrl.pathname}`);
       const markdown = await response.text();
       const rendered = parseMarkdown(markdown);
       viewerContent.innerHTML = `<article class="viewer-prose">${rendered.html}</article>`;

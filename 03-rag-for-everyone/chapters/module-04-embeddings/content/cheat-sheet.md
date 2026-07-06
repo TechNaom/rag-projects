@@ -1,8 +1,8 @@
 # Cheat Sheet — Embeddings
 
-    ## Core ideas
+## Core ideas
 
-    - What embeddings are
+- What embeddings are
 - Vector spaces
 - Similarity
 - Dimensionality
@@ -17,9 +17,9 @@
 - Re-indexing
 - Provider comparisons: OpenAI, Cohere, Google, and BAAI
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

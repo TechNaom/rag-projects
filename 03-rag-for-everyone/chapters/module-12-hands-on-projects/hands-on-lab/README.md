@@ -1,14 +1,14 @@
 # Module 12 Hands-on Lab — Hands-on Projects
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Generate a structured build plan for eight progressively harder RAG projects.
+Generate a structured build plan for eight progressively harder RAG projects.
 
-    ## Tasks
+## Tasks
 
-    - Basic RAG
+- Basic RAG
 - Production-ready RAG
 - Hybrid Search RAG
 - Parent-Child RAG
@@ -22,7 +22,7 @@
 - Interview questions
 - Design trade-offs
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

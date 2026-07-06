@@ -1,14 +1,14 @@
 # Module 9 Hands-on Lab — Evaluation
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Compute retrieval and answer-quality metrics over a tiny benchmark set.
+Compute retrieval and answer-quality metrics over a tiny benchmark set.
 
-    ## Tasks
+## Tasks
 
-    - Recall@K
+- Recall@K
 - Precision@K
 - MRR
 - NDCG
@@ -20,7 +20,7 @@
 - Cost
 - Evaluation frameworks: Ragas and DeepEval
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution

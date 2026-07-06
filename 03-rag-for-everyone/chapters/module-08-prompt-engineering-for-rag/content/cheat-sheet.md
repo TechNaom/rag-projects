@@ -1,8 +1,8 @@
 # Cheat Sheet — Prompt Engineering for RAG
 
-    ## Core ideas
+## Core ideas
 
-    - Context injection
+- Context injection
 - System prompts
 - Citation prompts
 - Grounding
@@ -10,9 +10,9 @@
 - Guardrails
 - Hallucination prevention
 
-    ## Fast recall prompts
+## Fast recall prompts
 
-    - What problem does this solve?
-    - What does it cost?
-    - When is the simple version enough?
-    - What breaks first in production?
+- What problem does this solve?
+- What does it cost?
+- When is the simple version enough?
+- What breaks first in production?

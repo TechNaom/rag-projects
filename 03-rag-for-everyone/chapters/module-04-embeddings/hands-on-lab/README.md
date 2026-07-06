@@ -1,14 +1,14 @@
 # Module 4 Hands-on Lab — Embeddings
 
-    Build the smallest useful artifact that lets you explain this module with evidence.
+Build the smallest useful artifact that lets you explain this module with evidence.
 
-    ## Goal
+## Goal
 
-    Compute cosine, Euclidean, and dot-product similarity over small vectors to see ranking differences.
+Compute cosine, Euclidean, and dot-product similarity over small vectors to see ranking differences.
 
-    ## Tasks
+## Tasks
 
-    - What embeddings are
+- What embeddings are
 - Vector spaces
 - Similarity
 - Dimensionality
@@ -23,7 +23,7 @@
 - Re-indexing
 - Provider comparisons: OpenAI, Cohere, Google, and BAAI
 
-    ## Files
+## Files
 
-    - `starter.py` — incomplete starting point
-    - `solution.py` — one possible reference solution
+- `starter.py` — incomplete starting point
+- `solution.py` — one possible reference solution
