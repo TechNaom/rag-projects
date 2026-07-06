@@ -75,9 +75,12 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   position: fixed; top: 72px; left: 24px; width: 270px; max-height: calc(100vh - 96px); overflow: auto;
   background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: 20px; padding: 14px; box-shadow: 0 20px 40px rgba(15,23,42,0.08);
 }
+.sidebar-section + .sidebar-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
 .sidebar a { display: block; padding: 10px 12px; border-radius: 12px; }
 .sidebar a.active, .sidebar a:hover { background: #eff6ff; text-decoration: none; }
 .with-sidebar { margin-left: 320px; }
+.sidebar-note { color: var(--muted); font-size: 0.94rem; margin: 10px 0 0; }
+.file-links { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0 0; }
 .site-footer { border-top: 1px solid var(--border); margin-top: 48px; background: white; }
 @media (max-width: 1100px) {
   .sidebar { display: none; }
