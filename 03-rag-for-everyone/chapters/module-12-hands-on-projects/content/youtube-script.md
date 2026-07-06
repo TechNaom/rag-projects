@@ -1,12 +1,12 @@
 # YouTube Script Draft — Hands-on Projects
 
-    ## Hook
+## Hook
 
-    Today we are making hands-on projects easy to understand with examples instead of buzzwords.
+Today we are making hands-on projects easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Basic RAG
+- Basic RAG
 - Production-ready RAG
 - Hybrid Search RAG
 - Parent-Child RAG
@@ -20,6 +20,6 @@
 - Interview questions
 - Design trade-offs
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

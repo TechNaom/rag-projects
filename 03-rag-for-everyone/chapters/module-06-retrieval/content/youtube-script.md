@@ -1,12 +1,12 @@
 # YouTube Script Draft — Retrieval
 
-    ## Hook
+## Hook
 
-    Today we are making retrieval easy to understand with examples instead of buzzwords.
+Today we are making retrieval easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Similarity search
+- Similarity search
 - Hybrid search
 - BM25
 - Sparse retrieval
@@ -21,6 +21,6 @@
 - Query rewriting
 - Query expansion
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

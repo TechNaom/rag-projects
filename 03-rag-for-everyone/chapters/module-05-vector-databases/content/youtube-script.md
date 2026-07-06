@@ -1,12 +1,12 @@
 # YouTube Script Draft — Vector Databases
 
-    ## Hook
+## Hook
 
-    Today we are making vector databases easy to understand with examples instead of buzzwords.
+Today we are making vector databases easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - ANN vs Exact Search
+- ANN vs Exact Search
 - HNSW
 - IVF
 - PQ
@@ -21,6 +21,6 @@
 - Replication
 - Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

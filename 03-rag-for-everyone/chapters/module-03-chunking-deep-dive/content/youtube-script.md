@@ -1,12 +1,12 @@
 # YouTube Script Draft — Chunking Deep Dive
 
-    ## Hook
+## Hook
 
-    Today we are making chunking deep dive easy to understand with examples instead of buzzwords.
+Today we are making chunking deep dive easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Fixed-size chunking
+- Fixed-size chunking
 - Recursive chunking
 - Sentence chunking
 - Paragraph chunking
@@ -17,6 +17,6 @@
 - Agentic chunking
 - LLM-based chunking
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

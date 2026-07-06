@@ -1,12 +1,12 @@
 # YouTube Script Draft — Foundation
 
-    ## Hook
+## Hook
 
-    Today we are making foundation easy to understand with examples instead of buzzwords.
+Today we are making foundation easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Why LLMs hallucinate
+- Why LLMs hallucinate
 - Why context windows are limited
 - Why RAG exists
 - Different types of RAG
@@ -18,6 +18,6 @@
 - Adaptive RAG
 - Complete lifecycle of a query
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

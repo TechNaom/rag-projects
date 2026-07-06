@@ -1,12 +1,12 @@
 # YouTube Script Draft — Documents and Data Ingestion
 
-    ## Hook
+## Hook
 
-    Today we are making documents and data ingestion easy to understand with examples instead of buzzwords.
+Today we are making documents and data ingestion easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - PDFs
+- PDFs
 - DOCX
 - HTML
 - Markdown
@@ -22,6 +22,6 @@
 - Why preprocessing matters
 - What production pipelines look like
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

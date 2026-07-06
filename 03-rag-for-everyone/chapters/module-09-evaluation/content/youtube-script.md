@@ -1,12 +1,12 @@
 # YouTube Script Draft — Evaluation
 
-    ## Hook
+## Hook
 
-    Today we are making evaluation easy to understand with examples instead of buzzwords.
+Today we are making evaluation easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Recall@K
+- Recall@K
 - Precision@K
 - MRR
 - NDCG
@@ -18,6 +18,6 @@
 - Cost
 - Evaluation frameworks: Ragas and DeepEval
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

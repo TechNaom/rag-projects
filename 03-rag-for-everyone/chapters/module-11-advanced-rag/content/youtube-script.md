@@ -1,12 +1,12 @@
 # YouTube Script Draft — Advanced RAG
 
-    ## Hook
+## Hook
 
-    Today we are making advanced rag easy to understand with examples instead of buzzwords.
+Today we are making advanced rag easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Agentic RAG
+- Agentic RAG
 - Graph RAG
 - Knowledge Graph RAG
 - Multi-modal RAG
@@ -17,6 +17,6 @@
 - Adaptive retrieval
 - Multi-agent RAG
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.

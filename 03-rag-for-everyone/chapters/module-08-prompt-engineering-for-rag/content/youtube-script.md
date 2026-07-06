@@ -1,12 +1,12 @@
 # YouTube Script Draft — Prompt Engineering for RAG
 
-    ## Hook
+## Hook
 
-    Today we are making prompt engineering for rag easy to understand with examples instead of buzzwords.
+Today we are making prompt engineering for rag easy to understand with examples instead of buzzwords.
 
-    ## Sections
+## Sections
 
-    - Context injection
+- Context injection
 - System prompts
 - Citation prompts
 - Grounding
@@ -14,6 +14,6 @@
 - Guardrails
 - Hallucination prevention
 
-    ## Closing CTA
+## Closing CTA
 
-    Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
+Invite viewers to try the quiz, open the notebook, and adapt the lab to their own domain.
