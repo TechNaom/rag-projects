@@ -2,19 +2,19 @@
 
     ## Prompt bank
 
-    1. Basic RAG
-1. Production-ready RAG
-1. Hybrid Search RAG
-1. Parent-Child RAG
-1. Multi-query RAG
-1. Agentic RAG
-1. Graph RAG
-1. Enterprise RAG
-1. Architecture diagrams
-1. Python implementation
-1. Performance discussion
-1. Interview questions
-1. Design trade-offs
+1. Basic RAG
+2. Production-ready RAG
+3. Hybrid Search RAG
+4. Parent-Child RAG
+5. Multi-query RAG
+6. Agentic RAG
+7. Graph RAG
+8. Enterprise RAG
+9. Architecture diagrams
+10. Python implementation
+11. Performance discussion
+12. Interview questions
+13. Design trade-offs
 
     ## Interview-style practice
 

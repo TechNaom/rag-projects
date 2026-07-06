@@ -1,9 +1,8 @@
 # Flashcards — Retrieval
 
-    | Front | Back |
-    |---|---|
-    | BM25 | Explain bm25 in one sentence and give one production use case. |
-| dense | Explain dense in one sentence and give one production use case. |
-| sparse | Explain sparse in one sentence and give one production use case. |
-| RRF | Explain rrf in one sentence and give one production use case. |
-| compression | Explain compression in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Dense | Explain Dense in one sentence and give one production use case. |
+| Sparse | Explain Sparse in one sentence and give one production use case. |
+| RRF | Explain RRF in one sentence and give one production use case. |
+| Compression | Explain Compression in one sentence and give one production use case. |

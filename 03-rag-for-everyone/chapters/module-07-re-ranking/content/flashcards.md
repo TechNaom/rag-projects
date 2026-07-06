@@ -1,9 +1,8 @@
 # Flashcards — Re-ranking
 
-    | Front | Back |
-    |---|---|
-    | cross-encoder | Explain cross-encoder in one sentence and give one production use case. |
-| bi-encoder | Explain bi-encoder in one sentence and give one production use case. |
-| late interaction | Explain late interaction in one sentence and give one production use case. |
-| latency | Explain latency in one sentence and give one production use case. |
-| reranking | Explain reranking in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Bi-encoder | Explain Bi-encoder in one sentence and give one production use case. |
+| Late interaction | Explain Late interaction in one sentence and give one production use case. |
+| Latency | Explain Latency in one sentence and give one production use case. |
+| Reranking | Explain Reranking in one sentence and give one production use case. |

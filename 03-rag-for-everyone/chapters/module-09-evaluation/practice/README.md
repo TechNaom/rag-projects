@@ -2,17 +2,17 @@
 
     ## Prompt bank
 
-    1. Recall@K
-1. Precision@K
-1. MRR
-1. NDCG
-1. Faithfulness
-1. Context Precision
-1. Answer Relevancy
-1. Groundedness
-1. Latency
-1. Cost
-1. Evaluation frameworks: Ragas and DeepEval
+1. Recall@K
+2. Precision@K
+3. MRR
+4. NDCG
+5. Faithfulness
+6. Context Precision
+7. Answer Relevancy
+8. Groundedness
+9. Latency
+10. Cost
+11. Evaluation frameworks: Ragas and DeepEval
 
     ## Interview-style practice
 

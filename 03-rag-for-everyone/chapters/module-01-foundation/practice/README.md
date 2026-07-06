@@ -2,17 +2,17 @@
 
     ## Prompt bank
 
-    1. Why LLMs hallucinate
-1. Why context windows are limited
-1. Why RAG exists
-1. Different types of RAG
-1. Naive RAG
-1. Advanced RAG
-1. Agentic RAG
-1. Graph RAG
-1. Corrective RAG
-1. Adaptive RAG
-1. Complete lifecycle of a query
+1. Why LLMs hallucinate
+2. Why context windows are limited
+3. Why RAG exists
+4. Different types of RAG
+5. Naive RAG
+6. Advanced RAG
+7. Agentic RAG
+8. Graph RAG
+9. Corrective RAG
+10. Adaptive RAG
+11. Complete lifecycle of a query
 
     ## Interview-style practice
 

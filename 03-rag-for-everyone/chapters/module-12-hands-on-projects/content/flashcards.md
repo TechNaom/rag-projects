@@ -1,9 +1,8 @@
 # Flashcards — Hands-on Projects
 
-    | Front | Back |
-    |---|---|
-    | hybrid | Explain hybrid in one sentence and give one production use case. |
-| diagram | Explain diagram in one sentence and give one production use case. |
-| monitoring | Explain monitoring in one sentence and give one production use case. |
-| trade-offs | Explain trade-offs in one sentence and give one production use case. |
-| security | Explain security in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Diagram | Explain Diagram in one sentence and give one production use case. |
+| Monitoring | Explain Monitoring in one sentence and give one production use case. |
+| Trade-offs | Explain Trade-offs in one sentence and give one production use case. |
+| Security | Explain Security in one sentence and give one production use case. |

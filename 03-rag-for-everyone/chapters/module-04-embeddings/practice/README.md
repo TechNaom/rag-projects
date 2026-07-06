@@ -2,20 +2,20 @@
 
     ## Prompt bank
 
-    1. What embeddings are
-1. Vector spaces
-1. Similarity
-1. Dimensionality
-1. Distance metrics
-1. Cosine similarity
-1. Euclidean distance
-1. Dot product
-1. Embedding models
-1. Domain-specific embeddings
-1. Fine-tuning
-1. Embedding drift
-1. Re-indexing
-1. Provider comparisons: OpenAI, Cohere, Google, and BAAI
+1. What embeddings are
+2. Vector spaces
+3. Similarity
+4. Dimensionality
+5. Distance metrics
+6. Cosine similarity
+7. Euclidean distance
+8. Dot product
+9. Embedding models
+10. Domain-specific embeddings
+11. Fine-tuning
+12. Embedding drift
+13. Re-indexing
+14. Provider comparisons: OpenAI, Cohere, Google, and BAAI
 
     ## Interview-style practice
 

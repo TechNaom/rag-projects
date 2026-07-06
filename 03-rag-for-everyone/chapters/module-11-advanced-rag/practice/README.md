@@ -2,16 +2,16 @@
 
     ## Prompt bank
 
-    1. Agentic RAG
-1. Graph RAG
-1. Knowledge Graph RAG
-1. Multi-modal RAG
-1. SQL RAG
-1. Code RAG
-1. Long-context RAG
-1. Recursive retrieval
-1. Adaptive retrieval
-1. Multi-agent RAG
+1. Agentic RAG
+2. Graph RAG
+3. Knowledge Graph RAG
+4. Multi-modal RAG
+5. SQL RAG
+6. Code RAG
+7. Long-context RAG
+8. Recursive retrieval
+9. Adaptive retrieval
+10. Multi-agent RAG
 
     ## Interview-style practice
 

@@ -1,9 +1,8 @@
 # Flashcards — Vector Databases
 
-    | Front | Back |
-    |---|---|
-    | ANN | Explain ann in one sentence and give one production use case. |
-| HNSW | Explain hnsw in one sentence and give one production use case. |
-| filtering | Explain filtering in one sentence and give one production use case. |
-| sharding | Explain sharding in one sentence and give one production use case. |
-| replication | Explain replication in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| HNSW | Explain HNSW in one sentence and give one production use case. |
+| Filtering | Explain Filtering in one sentence and give one production use case. |
+| Sharding | Explain Sharding in one sentence and give one production use case. |
+| Replication | Explain Replication in one sentence and give one production use case. |

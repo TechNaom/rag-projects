@@ -1,9 +1,8 @@
 # Flashcards — Advanced RAG
 
-    | Front | Back |
-    |---|---|
-    | Graph RAG | Explain graph rag in one sentence and give one production use case. |
-| multimodal | Explain multimodal in one sentence and give one production use case. |
-| SQL RAG | Explain sql rag in one sentence and give one production use case. |
-| adaptive retrieval | Explain adaptive retrieval in one sentence and give one production use case. |
-| multi-agent | Explain multi-agent in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Multimodal | Explain Multimodal in one sentence and give one production use case. |
+| SQL RAG | Explain SQL RAG in one sentence and give one production use case. |
+| Adaptive retrieval | Explain Adaptive retrieval in one sentence and give one production use case. |
+| Multi-agent | Explain Multi-agent in one sentence and give one production use case. |

@@ -1,9 +1,8 @@
 # Flashcards — Evaluation
 
-    | Front | Back |
-    |---|---|
-    | Recall@K | Explain recall@k in one sentence and give one production use case. |
-| MRR | Explain mrr in one sentence and give one production use case. |
-| faithfulness | Explain faithfulness in one sentence and give one production use case. |
-| groundedness | Explain groundedness in one sentence and give one production use case. |
-| cost | Explain cost in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| MRR | Explain MRR in one sentence and give one production use case. |
+| Faithfulness | Explain Faithfulness in one sentence and give one production use case. |
+| Groundedness | Explain Groundedness in one sentence and give one production use case. |
+| Cost | Explain Cost in one sentence and give one production use case. |

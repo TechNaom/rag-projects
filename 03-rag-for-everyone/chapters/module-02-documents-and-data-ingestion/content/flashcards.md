@@ -1,9 +1,8 @@
 # Flashcards — Documents and Data Ingestion
 
-    | Front | Back |
-    |---|---|
-    | OCR | Explain ocr in one sentence and give one production use case. |
-| metadata | Explain metadata in one sentence and give one production use case. |
-| incremental ingestion | Explain incremental ingestion in one sentence and give one production use case. |
-| parsing | Explain parsing in one sentence and give one production use case. |
-| preprocessing | Explain preprocessing in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Metadata | Explain Metadata in one sentence and give one production use case. |
+| Incremental ingestion | Explain Incremental ingestion in one sentence and give one production use case. |
+| Parsing | Explain Parsing in one sentence and give one production use case. |
+| Preprocessing | Explain Preprocessing in one sentence and give one production use case. |

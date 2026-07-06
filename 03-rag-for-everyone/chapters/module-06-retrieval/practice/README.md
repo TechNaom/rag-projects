@@ -2,20 +2,20 @@
 
     ## Prompt bank
 
-    1. Similarity search
-1. Hybrid search
-1. BM25
-1. Sparse retrieval
-1. Dense retrieval
-1. Reciprocal Rank Fusion (RRF)
-1. Multi-query retrieval
-1. Multi-vector retrieval
-1. Parent-document retrieval
-1. Self-query retrieval
-1. Metadata filtering
-1. Context compression
-1. Query rewriting
-1. Query expansion
+1. Similarity search
+2. Hybrid search
+3. BM25
+4. Sparse retrieval
+5. Dense retrieval
+6. Reciprocal Rank Fusion (RRF)
+7. Multi-query retrieval
+8. Multi-vector retrieval
+9. Parent-document retrieval
+10. Self-query retrieval
+11. Metadata filtering
+12. Context compression
+13. Query rewriting
+14. Query expansion
 
     ## Interview-style practice
 

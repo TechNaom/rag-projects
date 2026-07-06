@@ -2,20 +2,20 @@
 
     ## Prompt bank
 
-    1. ANN vs Exact Search
-1. HNSW
-1. IVF
-1. PQ
-1. OPQ
-1. DiskANN
-1. ScaNN
-1. Filtering
-1. Metadata search
-1. Hybrid search
-1. Distributed vector databases
-1. Sharding
-1. Replication
-1. Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma
+1. ANN vs Exact Search
+2. HNSW
+3. IVF
+4. PQ
+5. OPQ
+6. DiskANN
+7. ScaNN
+8. Filtering
+9. Metadata search
+10. Hybrid search
+11. Distributed vector databases
+12. Sharding
+13. Replication
+14. Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma
 
     ## Interview-style practice
 

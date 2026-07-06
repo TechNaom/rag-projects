@@ -2,13 +2,13 @@
 
     ## Prompt bank
 
-    1. Context injection
-1. System prompts
-1. Citation prompts
-1. Grounding
-1. Structured output
-1. Guardrails
-1. Hallucination prevention
+1. Context injection
+2. System prompts
+3. Citation prompts
+4. Grounding
+5. Structured output
+6. Guardrails
+7. Hallucination prevention
 
     ## Interview-style practice
 

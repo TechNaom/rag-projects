@@ -2,18 +2,18 @@
 
     ## Prompt bank
 
-    1. Caching
-1. Streaming
-1. Observability
-1. Logging
-1. Versioning
-1. Security
-1. Authentication
-1. Rate limiting
-1. Cost optimization
-1. Monitoring
-1. CI/CD
-1. Failure handling
+1. Caching
+2. Streaming
+3. Observability
+4. Logging
+5. Versioning
+6. Security
+7. Authentication
+8. Rate limiting
+9. Cost optimization
+10. Monitoring
+11. CI/CD
+12. Failure handling
 
     ## Interview-style practice
 

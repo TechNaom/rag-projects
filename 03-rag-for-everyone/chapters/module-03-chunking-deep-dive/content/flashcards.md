@@ -1,9 +1,8 @@
 # Flashcards — Chunking Deep Dive
 
-    | Front | Back |
-    |---|---|
-    | recursive | Explain recursive in one sentence and give one production use case. |
-| semantic | Explain semantic in one sentence and give one production use case. |
-| overlap | Explain overlap in one sentence and give one production use case. |
-| hierarchical | Explain hierarchical in one sentence and give one production use case. |
-| parent-child | Explain parent-child in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Semantic | Explain Semantic in one sentence and give one production use case. |
+| Overlap | Explain Overlap in one sentence and give one production use case. |
+| Hierarchical | Explain Hierarchical in one sentence and give one production use case. |
+| Parent-child | Explain Parent-child in one sentence and give one production use case. |

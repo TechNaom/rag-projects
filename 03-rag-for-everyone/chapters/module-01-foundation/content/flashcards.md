@@ -1,9 +1,8 @@
 # Flashcards — Foundation
 
-    | Front | Back |
-    |---|---|
-    | hallucination | Explain hallucination in one sentence and give one production use case. |
-| context window | Explain context window in one sentence and give one production use case. |
-| retrieval | Explain retrieval in one sentence and give one production use case. |
-| grounding | Explain grounding in one sentence and give one production use case. |
-| agentic | Explain agentic in one sentence and give one production use case. |
+| Front | Back |
+|---|---|
+| Context window | Explain Context window in one sentence and give one production use case. |
+| Retrieval | Explain Retrieval in one sentence and give one production use case. |
+| Grounding | Explain Grounding in one sentence and give one production use case. |
+| Agentic | Explain Agentic in one sentence and give one production use case. |

@@ -2,11 +2,11 @@
 
     ## Prompt bank
 
-    1. Cross-encoders
-1. Bi-encoders
-1. Late interaction
-1. Why re-ranking improves quality
-1. Trade-offs between speed and accuracy
+1. Cross-encoders
+2. Bi-encoders
+3. Late interaction
+4. Why re-ranking improves quality
+5. Trade-offs between speed and accuracy
 
     ## Interview-style practice
 
