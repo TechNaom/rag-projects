@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topic 1.1: Why RAG Exists | RAG Masterclass</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      color: #1a1a1a;
+      background: #f9f9f9;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    header h1 { font-size: 2em; margin-bottom: 10px; }
+    main {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #667eea;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    h3 {
+      color: #764ba2;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+    .what-is {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .what-is strong { color: #2e7d32; }
+    .example {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .code-block {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+    .key-point {
+      background: #f3e5f5;
+      border-left: 4px solid #9c27b0;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .key-point strong { color: #6a1b9a; }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border: 1px solid #ddd;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    .comparison-table th {
+      background: #667eea;
+      color: white;
+      font-weight: 600;
+    }
+    .comparison-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .recap {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 4px;
+    }
+    .recap strong { color: #1565c0; }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #e0e0e0;
+    }
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #764ba2; }
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Topic 1.1: Why RAG Exists</h1>
+    <p>Understanding the problem that Retrieval-Augmented Generation solves</p>
+  </header>
+
+  <div class="container">
+    <main>
+      <h2>The Problem: LLMs Have Fundamental Limitations</h2>
+      <p>
+        Large Language Models (LLMs) are powerful, but they're not perfect. They have clear, well-documented limitations that make them unreliable for tasks requiring real-time knowledge, proprietary data, or factual accuracy.
+      </p>
+
+      <h3>Limitation 1: Knowledge Cutoff</h3>
+      <p>
+        LLMs are trained on data up to a specific date. GPT-4's knowledge cutoff is April 2024. Claude 3's is April 2024. These models literally do not "know" anything after their training data ends.
+      </p>
+      <div class="example">
+        <strong>Example:</strong><br>
+        Today is July 2026. You ask ChatGPT: "Who won the 2024 US Presidential Election?"<br>
+        ChatGPT can answer this because it happened before its April 2024 cutoff.<br><br>
+        But if you ask: "What's the latest AI breakthrough in 2026?"<br>
+        ChatGPT will either refuse or give an incorrect answer. It has no knowledge of 2026.
+      </div>
+
+      <h3>Limitation 2: Hallucinations</h3>
+      <p>
+        Even within their training data, LLMs sometimes generate confident-sounding but completely false information. This is called a "hallucination."
+      </p>
+      <div class="example">
+        <strong>Example:</strong><br>
+        You ask an LLM: "What is the capital of Atlantis?"<br>
+        It might confidently respond: "The capital of Atlantis is Poseidonia, located on the western coast."<br><br>
+        This sounds plausible. But Atlantis is a fictional island from Plato's writings. The LLM fabricated an answer rather than saying "I don't know."
+      </div>
+
+      <h3>Limitation 3: No Access to Your Data</h3>
+      <p>
+        LLMs only know what was in their training data. They have never seen your company's proprietary documents, internal databases, or confidential research.
+      </p>
+      <div class="example">
+        <strong>Example:</strong><br>
+        Your company has a 500-page employee handbook written in 2023 (before ChatGPT's cutoff).<br>
+        An employee asks an LLM: "What's the policy on remote work?"<br><br>
+        The LLM will not have access to your specific handbook. It might describe general remote work policies, but not your company's actual policy.
+      </div>
+
+      <h3>Limitation 4: Long-Tail Facts Are Hard to Retrieve</h3>
+      <p>
+        Even for public information, LLMs struggle with obscure or specialized knowledge. They excel at common topics but falter on domain-specific or rare information.
+      </p>
+      <div class="example">
+        <strong>Example:</strong><br>
+        "What are the side effects of the drug Fentanyl?" — LLM does well (common knowledge).<br>
+        "What are the interactions between Fentanyl and Drug X from a 2020 clinical trial?" — LLM struggles (specialized, rare).
+      </div>
+
+      <h2>The Solution: Retrieval-Augmented Generation (RAG)</h2>
+      <p>
+        RAG is a technique that gives LLMs access to external knowledge before generating an answer.
+      </p>
+
+      <div class="key-point">
+        <strong>Core Idea:</strong> Instead of relying solely on what the LLM memorized during training, we retrieve relevant information from a knowledge base, then feed that information to the LLM along with the query.
+      </div>
+
+      <h3>How RAG Works (Simple Version)</h3>
+      <ol style="margin: 15px 0; padding-left: 20px;">
+        <li><strong>Ingestion:</strong> Convert your documents into a searchable format</li>
+        <li><strong>Retrieval:</strong> When the user asks a question, find the most relevant documents</li>
+        <li><strong>Augmentation:</strong> Combine the user's question with the retrieved documents</li>
+        <li><strong>Generation:</strong> Send the augmented prompt to an LLM, which generates an answer based on the retrieved context</li>
+      </ol>
+
+      <div class="example">
+        <strong>Example: Employee Handbook RAG</strong><br>
+        <br>
+        <strong>Without RAG:</strong><br>
+        Employee: "What's our remote work policy?"<br>
+        LLM: "Many companies allow 2-3 days remote..." (generic, possibly wrong)<br>
+        <br>
+        <strong>With RAG:</strong><br>
+        Employee: "What's our remote work policy?"<br>
+        System retrieves: "Our company allows 4 days remote per week..." (from your handbook)<br>
+        LLM: "Based on your company handbook, you allow 4 days remote per week..." (correct and grounded)<br>
+      </div>
+
+      <h2>Why RAG Is Important Now</h2>
+
+      <h3>1. Real-Time Information</h3>
+      <p>RAG lets you ask questions about today's news, stock prices, or recent research papers. The LLM can pull in real-time data before answering.</p>
+
+      <h3>2. Proprietary Knowledge</h3>
+      <p>Your company's documents stay private. You never send them to OpenAI or Anthropic. Instead, you embed them locally and retrieve what's relevant.</p>
+
+      <h3>3. Accuracy & Accountability</h3>
+      <p>When an LLM answers based on retrieved documents, you can see exactly which documents were used. This is called "grounding" — the answer is grounded in real sources.</p>
+
+      <h3>4. Cost Efficiency</h3>
+      <p>Instead of training a custom LLM (billions of dollars), you use a commodity LLM + RAG. Much cheaper.</p>
+
+      <h3>5. Domain Expertise</h3>
+      <p>Your domain-specific documents (medical records, legal contracts, technical specs) become your "expert knowledge base." RAG lets any LLM act as an expert in your domain.</p>
+
+      <h2>RAG in the Real World</h2>
+
+      <div class="what-is">
+        <strong>🏥 Healthcare:</strong> Doctors ask a system about treatment guidelines. The system retrieves relevant medical literature and clinical guidelines, then synthesizes an answer.
+      </div>
+
+      <div class="what-is">
+        <strong>⚖️ Legal:</strong> Lawyers search for case law. Instead of reading thousands of documents, RAG retrieves the 5 most relevant cases and summarizes them.
+      </div>
+
+      <div class="what-is">
+        <strong>💼 Enterprise Support:</strong> Customers ask support questions. The system retrieves from your knowledge base and FAQs, then generates a grounded answer.
+      </div>
+
+      <div class="what-is">
+        <strong>🔬 Research:</strong> Researchers explore scientific papers. RAG retrieves papers on a topic and synthesizes findings without hallucinating.
+      </div>
+
+      <h2>The RAG Advantage vs. Fine-Tuning</h2>
+      <table class="comparison-table">
+        <tr>
+          <th>Aspect</th>
+          <th>Fine-Tuned LLM</th>
+          <th>RAG LLM</th>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>$$$$$ (millions)</td>
+          <td>$ (thousands)</td>
+        </tr>
+        <tr>
+          <td>Training Time</td>
+          <td>Weeks to months</td>
+          <td>Hours to days</td>
+        </tr>
+        <tr>
+          <td>Update Knowledge</td>
+          <td>Retrain entire model</td>
+          <td>Add docs to knowledge base</td>
+        </tr>
+        <tr>
+          <td>Explainability</td>
+          <td>Black box</td>
+          <td>Can see sources</td>
+        </tr>
+        <tr>
+          <td>Real-Time Data</td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td>Domain Adaptation</td>
+          <td>Strong (model learns domain)</td>
+          <td>Good (retrieval finds domain docs)</td>
+        </tr>
+      </table>
+
+      <div class="recap">
+        <strong>📝 Key Recap:</strong><br>
+        <br>
+        ✅ LLMs have real limitations: knowledge cutoff, hallucinations, no access to proprietary data, difficulty with rare facts.<br>
+        <br>
+        ✅ RAG solves these by retrieving relevant information before generation.<br>
+        <br>
+        ✅ RAG is faster, cheaper, and more transparent than fine-tuning.<br>
+        <br>
+        ✅ RAG enables real-time knowledge, proprietary data access, and domain expertise.<br>
+        <br>
+        ✅ RAG is the practical solution for most enterprise AI applications today.
+      </div>
+
+      <h2>Next Steps</h2>
+      <p>
+        Now that you understand <strong>why</strong> RAG exists, the next question is: <strong>why do LLMs hallucinate in the first place?</strong>
+      </p>
+      <p>
+        Understanding the root cause of hallucinations helps you design better RAG systems that prevent them.
+      </p>
+
+      <div class="nav">
+        <a href="../../../index.html" class="btn">← Back to Module</a>
+        <a href="../topic-02-hallucinations/lesson.html" class="btn">Next: Why Hallucinations →</a>
+      </div>
+
+      <div style="margin-top: 40px; padding: 20px; background: #f0f0f0; border-radius: 6px;">
+        <h3>📚 Content Available for This Topic</h3>
+        <ul style="padding-left: 20px; margin-top: 10px;">
+          <li>📖 <a href="content/master-chapter.md" style="color: #667eea;">Master Chapter</a> — Full written guide</li>
+          <li>🎥 <a href="content/youtube-script.md" style="color: #667eea;">YouTube Script</a> — Video content outline</li>
+          <li>💻 <a href="practical/notebook.ipynb" style="color: #667eea;">Python Notebook</a> — Code examples</li>
+          <li>📝 <a href="content/blog-post.md" style="color: #667eea;">Blog Post</a> — Long-form article</li>
+          <li>📋 <a href="content/cheat-sheet.md" style="color: #667eea;">Cheat Sheet</a> — Quick reference</li>
+          <li>✍️ <a href="interview-questions.html" style="color: #667eea;">Interview Questions</a> — Q&A prep</li>
+          <li>🎯 <a href="quiz.html" style="color: #667eea;">Quiz</a> — Self-check your understanding</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <p>🔍 RAG Masterclass | MIT Licensed | <a href="https://github.com/TechNaom/rag-projects" style="color: #fff; text-decoration: none;">GitHub</a></p>
+  </footer>
+</body>
+</html>

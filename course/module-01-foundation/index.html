@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 1 — Foundation | RAG Masterclass</title>
+  <meta name="description" content="Foundation module: Why RAG exists, LLM hallucinations, context windows, types of RAG, and the complete query lifecycle.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f9f9f9;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    header p { font-size: 1.1em; opacity: 0.95; }
+    .breadcrumb { margin: 20px 0; color: #666; }
+    .breadcrumb a { color: #667eea; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .overview {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .learning-outcomes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .outcome-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .outcome-card h3 { margin-bottom: 10px; color: #667eea; }
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .topic-card {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .topic-card h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    .topic-card .meta {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
+    .meta-item { display: flex; align-items: center; gap: 5px; }
+    .btn {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #764ba2; }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+    .btn-secondary:hover { background: #e8e8e8; }
+    .project-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin: 30px 0;
+    }
+    .project-card h2 { margin-bottom: 15px; }
+    .project-card p { margin-bottom: 15px; opacity: 0.95; }
+    .skills-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .skills-list li {
+      padding: 5px 0;
+      padding-left: 20px;
+    }
+    .skills-list li:before {
+      content: "✓ ";
+      color: #4ade80;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+    .time-estimate {
+      background: #f0f4ff;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🔍 Module 1 — Foundation</h1>
+      <p>Understand why RAG exists and the principles behind every design decision</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../../index.html">← Back to Course Home</a> | Module 1
+    </div>
+
+    <div class="overview">
+      <h2>What You'll Learn</h2>
+      <p>This module covers the foundational concepts that justify every architectural decision in a RAG system. You'll understand why RAG exists, why LLMs hallucinate, how context windows constrain systems, when to use different RAG architectures, and how queries flow through the entire system.</p>
+      <div class="time-estimate">
+        <strong>⏱️ Time Estimate:</strong> 12-16 hours (includes reading, coding, and project)<br>
+        <strong>📊 Difficulty:</strong> Beginner-friendly | <strong>Prerequisites:</strong> Basic Python, LLM understanding
+      </div>
+    </div>
+
+    <h2>Learning Outcomes</h2>
+    <div class="learning-outcomes">
+      <div class="outcome-card">
+        <h3>✅ Why RAG Is Needed</h3>
+        <p>Understand knowledge cutoff, hallucinations, and long-tail facts that motivate RAG systems.</p>
+      </div>
+      <div class="outcome-card">
+        <h3>✅ Root Causes</h3>
+        <p>Learn why hallucinations happen and why they're fundamentally hard to prevent.</p>
+      </div>
+      <div class="outcome-card">
+        <h3>✅ System Constraints</h3>
+        <p>Design systems around context window limits and token accounting.</p>
+      </div>
+      <div class="outcome-card">
+        <h3>✅ Architecture Choices</h3>
+        <p>Know when to use naive, advanced, agentic, graph, corrective, or adaptive RAG.</p>
+      </div>
+      <div class="outcome-card">
+        <h3>✅ End-to-End Flow</h3>
+        <p>See the complete lifecycle from query to answer and how all pieces fit.</p>
+      </div>
+    </div>
+
+    <h2>5 Topics in This Module</h2>
+    <div class="topics">
+      <div class="topic-card">
+        <h3>1.1 Why RAG Exists</h3>
+        <p>The problem statement. Knowledge cutoff, hallucinations, long-tail facts, and real-time information needs.</p>
+        <div class="meta">
+          <div class="meta-item">⏱️ 20-30 min</div>
+          <div class="meta-item">📊 Beginner</div>
+        </div>
+        <a href="topics/topic-01-why-rag/lesson.html" class="btn">Start Lesson →</a>
+      </div>
+
+      <div class="topic-card">
+        <h3>1.2 Why LLMs Hallucinate</h3>
+        <p>Root cause analysis. How prediction works, why invented facts happen, and how to design around it.</p>
+        <div class="meta">
+          <div class="meta-item">⏱️ 25-35 min</div>
+          <div class="meta-item">📊 Intermediate</div>
+        </div>
+        <a href="topics/topic-02-hallucinations/lesson.html" class="btn">Start Lesson →</a>
+      </div>
+
+      <div class="topic-card">
+        <h3>1.3 Context Windows & Limits</h3>
+        <p>Understanding attention, token counting, model comparison, and how to design retrieval around constraints.</p>
+        <div class="meta">
+          <div class="meta-item">⏱️ 20-30 min</div>
+          <div class="meta-item">📊 Intermediate</div>
+        </div>
+        <a href="topics/topic-03-context-windows/lesson.html" class="btn">Start Lesson →</a>
+      </div>
+
+      <div class="topic-card">
+        <h3>1.4 Types of RAG</h3>
+        <p>Naive, Advanced, Agentic, Graph, Corrective, and Adaptive RAG. Comparison matrix and when to use each.</p>
+        <div class="meta">
+          <div class="meta-item">⏱️ 30-40 min</div>
+          <div class="meta-item">📊 Intermediate</div>
+        </div>
+        <a href="topics/topic-04-rag-types/lesson.html" class="btn">Start Lesson →</a>
+      </div>
+
+      <div class="topic-card">
+        <h3>1.5 Query Lifecycle</h3>
+        <p>Complete end-to-end flow. How a query moves from ingestion → retrieval → reranking → generation → evaluation.</p>
+        <div class="meta">
+          <div class="meta-item">⏱️ 25-35 min</div>
+          <div class="meta-item">📊 Intermediate</div>
+        </div>
+        <a href="topics/topic-05-query-lifecycle/lesson.html" class="btn">Start Lesson →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <h2>🚀 Module 1 Project</h2>
+      <p><strong>Build a Naive RAG System Over Synthetic Banking Data</strong></p>
+      <p>You'll ingest a synthetic banking policy corpus and build a complete RAG pipeline:</p>
+      <ul class="skills-list">
+        <li>Chunk documents into semantic pieces</li>
+        <li>Generate embeddings for each chunk</li>
+        <li>Store in a vector database (Chroma)</li>
+        <li>Retrieve relevant policies for queries</li>
+        <li>Generate grounded answers with citations</li>
+        <li>Evaluate retrieval and generation quality</li>
+      </ul>
+      <p style="margin-top: 20px;"><strong>Time:</strong> 4-6 hours | <strong>Language:</strong> Python</p>
+      <a href="project/" class="btn" style="background: white; color: #667eea;">View Project →</a>
+    </div>
+
+    <h2>📋 Module 1 Exam</h2>
+    <p>After completing all 5 topics and the project, take the written exam to assess your understanding:</p>
+    <div class="time-estimate">
+      <strong>Duration:</strong> 45 minutes<br>
+      <strong>Format:</strong> 5 short-answer + 2 design questions<br>
+      <strong>Covers:</strong> All 5 topics + system design thinking
+    </div>
+    <a href="exam/" class="btn">View Exam →</a>
+
+    <h2>📚 Content Formats in This Module</h2>
+    <p>For each topic, you'll find:</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>📖 Master Chapter</strong><br>
+        <small>Complete written explanation (30-45 min read)</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>🎥 YouTube Script</strong><br>
+        <small>Video content outline (10-20 min watch)</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>💻 Python Notebook</strong><br>
+        <small>Theory + working code examples</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>📝 Blog Post</strong><br>
+        <small>SEO-friendly long-form article</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>📋 Cheat Sheet</strong><br>
+        <small>Quick reference guide</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>✍️ Flashcards</strong><br>
+        <small>Spaced repetition Q&A</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>💼 Interview Questions</strong><br>
+        <small>Q&A with expected answers</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>🎨 Diagrams & Visuals</strong><br>
+        <small>Architecture diagrams, flowcharts</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>📱 LinkedIn Carousel</strong><br>
+        <small>Social media content templates</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>🎤 Workshop Guide</strong><br>
+        <small>Live training material & agenda</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>📧 Newsletter</strong><br>
+        <small>Digest version for email</small>
+      </div>
+      <div style="background: white; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <strong>🧪 Exercises & Labs</strong><br>
+        <small>Hands-on practice with solutions</small>
+      </div>
+    </div>
+
+    <h2>Recommended Learning Paths</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+      <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50;">
+        <h3>🎓 Path A: Foundations First</h3>
+        <p><strong>Best for:</strong> Beginners, book learners</p>
+        <ol style="padding-left: 20px; margin-top: 10px;">
+          <li>Read master chapter</li>
+          <li>Watch YouTube script (mental or video)</li>
+          <li>Run notebook examples</li>
+          <li>Complete exercises</li>
+          <li>Review interview questions</li>
+          <li>Build project</li>
+        </ol>
+      </div>
+      <div style="background: #fff3e0; padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
+        <h3>💪 Path B: Hands-On First</h3>
+        <p><strong>Best for:</strong> Experienced engineers</p>
+        <ol style="padding-left: 20px; margin-top: 10px;">
+          <li>Run notebook examples</li>
+          <li>Complete hands-on lab</li>
+          <li>Read cheat sheet</li>
+          <li>Review interview questions</li>
+          <li>Deep-dive blog if needed</li>
+          <li>Build project</li>
+        </ol>
+      </div>
+      <div style="background: #f3e5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #9c27b0;">
+        <h3>🏗️ Path C: System Design Focus</h3>
+        <p><strong>Best for:</strong> Architects, interviewers</p>
+        <ol style="padding-left: 20px; margin-top: 10px;">
+          <li>Review architecture diagrams</li>
+          <li>Study comparison matrices</li>
+          <li>Answer interview questions</li>
+          <li>Read speaker notes</li>
+          <li>Design your system</li>
+          <li>Build project</li>
+        </ol>
+      </div>
+    </div>
+
+    <h2>✨ What's Next?</h2>
+    <p>After completing Module 1, you'll have a solid foundation. <strong>Module 2 — Documents & Data Ingestion</strong> dives into the first practical step of building a RAG system: how to ingest and preprocess different data sources.</p>
+    <div style="margin-top: 20px;">
+      <a href="../module-02-ingestion/" class="btn">Explore Module 2 →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>🔍 RAG Masterclass | <a href="https://github.com/TechNaom/rag-projects" style="color: #667eea; text-decoration: none;">GitHub</a> | MIT Licensed</p>
+    </div>
+  </footer>
+</body>
+</html>
