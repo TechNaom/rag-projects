@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Viewer — RAG for Everyone</title>
+<meta name="description" content="Rendered notes, README files, and presentation assets for RAG for Everyone.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <div class="page">
+    <a class="brand" href="index.html">🧠 RAG for Everyone</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="docs/curriculum/index.html">Roadmap</a>
+      <a id="source-link" href="#">Open source file</a>
+    </nav>
+  </div>
+</header>
+<main class="page viewer-shell">
+  <section class="viewer-hero">
+    <div class="viewer-card">
+      <span class="eyebrow">Rendered document</span>
+      <h1 id="viewer-title">Document</h1>
+      <p id="viewer-subtitle" class="lede">Readable, styled, and linked back into the course shell.</p>
+      <div class="page-meta">
+        <span>Source file</span>
+        <span id="source-path">—</span>
+      </div>
+    </div>
+    <div class="viewer-card">
+      <h2>Why this view exists</h2>
+      <p>Content assets such as slide outlines, speaker notes, newsletters, and lab readmes should feel like part of the product instead of raw source files.</p>
+      <div class="info-row">
+        <span class="stat-chip">Readable markdown</span>
+        <span class="stat-chip">Course navigation preserved</span>
+        <span class="stat-chip">Direct source access</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="viewer-layout">
+    <aside id="viewer-toc" class="viewer-toc"></aside>
+    <section id="viewer-content" class="viewer-content"></section>
+  </section>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Document viewer</span></div></footer>
+<script src="assets/document-viewer.js"></script>
+</body>
+</html>

@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return `<a class="${isActive}" href="${href}">${module.icon} ${module.title}</a>`;
   }).join('');
 
+  const toViewerHref = (href, label) => {
+    const targetUrl = new URL(href, window.location.href);
+    const viewerUrl = new URL(`${root}document.html`, window.location.href);
+    viewerUrl.searchParams.set('file', `${targetUrl.pathname}${targetUrl.search}`);
+    if (label) viewerUrl.searchParams.set('title', label);
+    return viewerUrl.toString();
+  };
+
+  const renderHref = (item, href) => item.path.endsWith('.md') ? toViewerHref(href, item.label) : href;
   const sections = [];
 
   if (currentModule) {
@@ -42,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderSectionLinks = (items) => items.map((item) => {
       const href = `${basePath}${item.path}`;
       const isActive = item.id === activePage ? 'active' : '';
-      return `<a class="${isActive}" href="${href}">${item.label}</a>`;
+      return `<a class="${isActive}" href="${renderHref(item, href)}">${item.label}</a>`;
     }).join('');
 
     sections.push(`<div class="sidebar-section"><div class="eyebrow">This module</div>${renderSectionLinks(learnerLinks)}<p class="sidebar-note">Move through lesson → quiz → practice → build without leaving the module shell.</p></div>`);
@@ -51,4 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.push(`<div class="sidebar-section"><div class="eyebrow">All modules</div>${links}</div>`);
   sidebar.innerHTML = sections.join('');
+
+  sidebar.closest('body').querySelectorAll('a[href]').forEach((anchor) => {
+    const href = anchor.getAttribute('href');
+    if (!href || !/\.md(?:[#?].*)?$/i.test(href) || anchor.dataset.viewerLinked === 'true') return;
+    anchor.href = toViewerHref(href, anchor.textContent.trim());
+    anchor.dataset.viewerLinked = 'true';
+  });
 });

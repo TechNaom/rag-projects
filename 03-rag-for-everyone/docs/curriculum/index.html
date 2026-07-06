@@ -6,131 +6,121 @@
 <title>RAG for Everyone Roadmap</title>
 <link rel="stylesheet" href="../../assets/style.css">
 </head>
-<body>
-<header class="top-bar"><div class="page"><a class="brand" href="../../index.html">🧠 RAG for Everyone</a><nav><a href="../../index.html">Home</a><a href="CURRICULUM_MAP.md">Curriculum map</a></nav></div></header>
+<body data-root="../../">
+<aside id="module-sidebar" class="sidebar" data-root="../../"></aside>
+<div class="with-sidebar">
+<header class="top-bar">
+  <div class="page">
+    <a class="brand" href="../../index.html">🧠 RAG for Everyone</a>
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="CURRICULUM_MAP.md">Curriculum map</a>
+      <a href="../../document.html?file=../README.md&title=Repository%20Overview">Repo overview</a>
+    </nav>
+  </div>
+</header>
 <main class="page">
-  <div class="page-meta"><span>12 modules</span><span>Foundations → production → portfolio builds</span></div>
-  <h1>Course Roadmap</h1>
-  <p>This roadmap mirrors the conversation-driven learning plan and keeps every module easy to scan before you dive into the full lesson stack.</p>
-  <section>
-    <h2>Per-module roadmap assets</h2>
-    <p>Every module follows the same creator-ready learning bundle so nothing from the roadmap is hidden or implied.</p>
-    <div class="resource-grid">
-      <article class="resource-card"><h3>Learning core</h3><ul><li>Master chapter</li><li>Quiz</li><li>Interview questions</li><li>Flashcards (interactive HTML)</li><li>Python notebook (Jupyter-style HTML)</li><li>Hands-on lab</li></ul></article>
-      <article class="resource-card"><h3>Creator publishing</h3><ul><li>Speaker notes</li><li>Blog post</li><li>Newsletter</li><li>Cheat sheet</li><li>YouTube script</li><li>LinkedIn carousel</li></ul></article>
-      <article class="resource-card"><h3>Presentation assets</h3><ul><li>PowerPoint slides (Markdown)</li><li>Architecture diagrams (SVG)</li><li>Workshop material</li></ul></article>
-      <article class="resource-card"><h3>Bonus practice</h3><ul><li>Practice bank</li><li>Exercises</li><li>Project</li></ul></article>
+  <section class="hero section-shell">
+    <div class="hero-shell">
+      <div class="hero-panel">
+        <span class="eyebrow">Roadmap • Depth map • Production arc</span>
+        <h1>See how the course progresses from retrieval basics to defensible system design.</h1>
+        <p class="lede">The roadmap is meant to answer three questions fast: what the learner will understand, how the modules build on each other, and where the material becomes operational rather than introductory.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="../../chapters/module-01-foundation/lesson.html">Open the first lesson</a>
+          <a class="btn-secondary" href="CURRICULUM_MAP.md">Read the curriculum source</a>
+        </div>
+        <div class="hero-badges">
+          <span>Foundations → retrieval → evaluation</span>
+          <span>Operational depth included</span>
+          <span>Creator assets per module</span>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="hero-insight-card">
+          <span class="section-kicker">Depth lens</span>
+          <p>The goal is not just to know what embeddings, chunking, or re-ranking are. The goal is to know when each one changes system behavior in a meaningful way.</p>
+        </div>
+        <div class="hero-insight-card">
+          <span class="section-kicker">Decision lens</span>
+          <p>The modules are grouped so the learner can reason across a full pipeline: ingestion, representation, retrieval, evaluation, and production safeguards.</p>
+        </div>
+      </aside>
     </div>
   </section>
-  <div class="module-grid">
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🧱</span><span class="module-kicker">Module 1</span></div>
-          <h3>Foundation</h3>
-          <p>Understand why RAG exists, how a query moves through a RAG system, and how the major RAG families differ.</p>
-          <ul><li>Why LLMs hallucinate</li><li>Why context windows are limited</li><li>Why RAG exists</li><li>Different types of RAG</li><li>Naive RAG</li><li>Advanced RAG</li><li>+ 5 more subtopics</li></ul>
-          <a href="../../chapters/module-01-foundation/lesson.html">Open module →</a>
-        </article>
-        
 
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">📥</span><span class="module-kicker">Module 2</span></div>
-          <h3>Documents and Data Ingestion</h3>
-          <p>Learn how raw enterprise data becomes clean, structured, retrievable knowledge with metadata and repeatable ingestion jobs.</p>
-          <ul><li>PDFs</li><li>DOCX</li><li>HTML</li><li>Markdown</li><li>JSON</li><li>APIs</li><li>+ 9 more subtopics</li></ul>
-          <a href="../../chapters/module-02-documents-and-data-ingestion/lesson.html">Open module →</a>
-        </article>
-        
+  <section class="section-shell">
+    <div class="section-head">
+      <div>
+        <span class="section-kicker">Learning architecture</span>
+        <h2>What each stage of the roadmap is trying to unlock.</h2>
+      </div>
+    </div>
+    <div class="resource-grid">
+      <article class="module-group">
+        <h3>Stage 1 — Why retrieval exists</h3>
+        <p>Modules 1–3 establish the limits of vanilla LLM answers, how documents become context, and why chunking quality changes downstream performance.</p>
+      </article>
+      <article class="module-group">
+        <h3>Stage 2 — How relevance is manufactured</h3>
+        <p>Modules 4–8 cover embeddings, vector infrastructure, retrieval strategies, re-ranking, and prompt grounding so learners can explain why one search stack beats another.</p>
+      </article>
+      <article class="module-group">
+        <h3>Stage 3 — How systems are defended in production</h3>
+        <p>Modules 9–12 shift into measurement, operations, advanced patterns, and project execution so learners can defend quality, cost, and reliability decisions.</p>
+      </article>
+    </div>
+  </section>
 
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">✂️</span><span class="module-kicker">Module 3</span></div>
-          <h3>Chunking Deep Dive</h3>
-          <p>Choose chunking strategies based on accuracy, latency, memory, and the shape of the source documents.</p>
-          <ul><li>Fixed-size chunking</li><li>Recursive chunking</li><li>Sentence chunking</li><li>Paragraph chunking</li><li>Semantic chunking</li><li>Sliding window chunking</li><li>+ 4 more subtopics</li></ul>
-          <a href="../../chapters/module-03-chunking-deep-dive/lesson.html">Open module →</a>
-        </article>
-        
+  <section class="section-shell split-layout">
+    <div class="banner-card">
+      <span class="section-kicker">Per-module asset bundle</span>
+      <h2>Every module keeps the same structure so depth compounds instead of scattering.</h2>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Learning core</h3><ul><li>Master chapter</li><li>Quiz</li><li>Interview questions</li><li>Flashcards</li><li>Notebook</li><li>Hands-on lab</li></ul></article>
+        <article class="resource-card"><h3>Creator publishing</h3><ul><li>Speaker notes</li><li>Blog post</li><li>Newsletter</li><li>Cheat sheet</li><li>YouTube script</li><li>LinkedIn carousel</li></ul></article>
+        <article class="resource-card"><h3>Presentation assets</h3><ul><li>Rendered slide outline</li><li>Architecture diagram</li><li>Workshop material</li></ul></article>
+        <article class="resource-card"><h3>Practice path</h3><ul><li>Practice bank</li><li>Exercises</li><li>Project</li><li>Starter code</li><li>Reference solutions</li><li>Portfolio prompt</li></ul></article>
+      </div>
+    </div>
+    <aside class="list-card">
+      <span class="section-kicker">Professional finish</span>
+      <h3>What this roadmap page now clarifies</h3>
+      <ul class="accent-list">
+        <li>Where beginner explanations stop and operational reasoning starts.</li>
+        <li>How each module contributes to a larger retrieval systems mental model.</li>
+        <li>Why supporting notes and presentation assets should open as rendered pages, not raw markdown.</li>
+      </ul>
+    </aside>
+  </section>
 
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🧭</span><span class="module-kicker">Module 4</span></div>
-          <h3>Embeddings</h3>
-          <p>Explain vector similarity, compare embedding models, and reason about drift, dimensionality, and re-indexing.</p>
-          <ul><li>What embeddings are</li><li>Vector spaces</li><li>Similarity</li><li>Dimensionality</li><li>Distance metrics</li><li>Cosine similarity</li><li>+ 8 more subtopics</li></ul>
-          <a href="../../chapters/module-04-embeddings/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🗄️</span><span class="module-kicker">Module 5</span></div>
-          <h3>Vector Databases</h3>
-          <p>Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.</p>
-          <ul><li>ANN vs Exact Search</li><li>HNSW</li><li>IVF</li><li>PQ</li><li>OPQ</li><li>DiskANN</li><li>+ 8 more subtopics</li></ul>
-          <a href="../../chapters/module-05-vector-databases/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🔎</span><span class="module-kicker">Module 6</span></div>
-          <h3>Retrieval</h3>
-          <p>Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.</p>
-          <ul><li>Similarity search</li><li>Hybrid search</li><li>BM25</li><li>Sparse retrieval</li><li>Dense retrieval</li><li>Reciprocal Rank Fusion (RRF)</li><li>+ 8 more subtopics</li></ul>
-          <a href="../../chapters/module-06-retrieval/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🏁</span><span class="module-kicker">Module 7</span></div>
-          <h3>Re-ranking</h3>
-          <p>Explain why rerankers improve relevance and how to balance speed, cost, and accuracy.</p>
-          <ul><li>Cross-encoders</li><li>Bi-encoders</li><li>Late interaction</li><li>Why re-ranking improves quality</li><li>Trade-offs between speed and accuracy</li></ul>
-          <a href="../../chapters/module-07-re-ranking/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">📝</span><span class="module-kicker">Module 8</span></div>
-          <h3>Prompt Engineering for RAG</h3>
-          <p>Write grounded prompts that force citation behavior, structure outputs, and reduce hallucinations.</p>
-          <ul><li>Context injection</li><li>System prompts</li><li>Citation prompts</li><li>Grounding</li><li>Structured output</li><li>Guardrails</li><li>+ 1 more subtopics</li></ul>
-          <a href="../../chapters/module-08-prompt-engineering-for-rag/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">📏</span><span class="module-kicker">Module 9</span></div>
-          <h3>Evaluation</h3>
-          <p>Measure retrieval quality, answer faithfulness, latency, and cost using practical metrics and frameworks.</p>
-          <ul><li>Recall@K</li><li>Precision@K</li><li>MRR</li><li>NDCG</li><li>Faithfulness</li><li>Context Precision</li><li>+ 5 more subtopics</li></ul>
-          <a href="../../chapters/module-09-evaluation/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🏭</span><span class="module-kicker">Module 10</span></div>
-          <h3>Production RAG</h3>
-          <p>Reason about reliability, observability, security, and cost control in a real production deployment.</p>
-          <ul><li>Caching</li><li>Streaming</li><li>Observability</li><li>Logging</li><li>Versioning</li><li>Security</li><li>+ 6 more subtopics</li></ul>
-          <a href="../../chapters/module-10-production-rag/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🚀</span><span class="module-kicker">Module 11</span></div>
-          <h3>Advanced RAG</h3>
-          <p>Compare advanced RAG patterns and explain when added complexity is actually justified.</p>
-          <ul><li>Agentic RAG</li><li>Graph RAG</li><li>Knowledge Graph RAG</li><li>Multi-modal RAG</li><li>SQL RAG</li><li>Code RAG</li><li>+ 4 more subtopics</li></ul>
-          <a href="../../chapters/module-11-advanced-rag/lesson.html">Open module →</a>
-        </article>
-        
-
-        <article class="module-card">
-          <div class="module-card-header"><span class="module-icon">🛠️</span><span class="module-kicker">Module 12</span></div>
-          <h3>Hands-on Projects</h3>
-          <p>Turn the earlier modules into a portfolio of RAG builds you can explain, defend, and iterate on publicly.</p>
-          <ul><li>Basic RAG</li><li>Production-ready RAG</li><li>Hybrid Search RAG</li><li>Parent-Child RAG</li><li>Multi-query RAG</li><li>Agentic RAG</li><li>+ 7 more subtopics</li></ul>
-          <a href="../../chapters/module-12-hands-on-projects/lesson.html">Open module →</a>
-        </article>
-        </div>
+  <section class="section-shell">
+    <div class="section-head">
+      <div>
+        <span class="section-kicker">Full curriculum</span>
+        <h2>Module-by-module roadmap</h2>
+      </div>
+    </div>
+    <div class="module-grid">
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🧱</span><span class="module-kicker">Module 1</span></div><h3>Foundation</h3><p>Understand why RAG exists, how a query moves through a RAG system, and how the major RAG families differ.</p><ul><li>Why LLMs hallucinate</li><li>Why context windows are limited</li><li>Why RAG exists</li><li>Different types of RAG</li><li>Naive RAG</li><li>Advanced RAG</li><li>+ 5 more subtopics</li></ul><a href="../../chapters/module-01-foundation/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">📥</span><span class="module-kicker">Module 2</span></div><h3>Documents and Data Ingestion</h3><p>Learn how raw enterprise data becomes clean, structured, retrievable knowledge with metadata and repeatable ingestion jobs.</p><ul><li>PDFs</li><li>DOCX</li><li>HTML</li><li>Markdown</li><li>JSON</li><li>APIs</li><li>+ 9 more subtopics</li></ul><a href="../../chapters/module-02-documents-and-data-ingestion/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">✂️</span><span class="module-kicker">Module 3</span></div><h3>Chunking Deep Dive</h3><p>Choose chunking strategies based on accuracy, latency, memory, and the shape of the source documents.</p><ul><li>Fixed-size chunking</li><li>Recursive chunking</li><li>Sentence chunking</li><li>Paragraph chunking</li><li>Semantic chunking</li><li>Sliding window chunking</li><li>+ 4 more subtopics</li></ul><a href="../../chapters/module-03-chunking-deep-dive/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🧭</span><span class="module-kicker">Module 4</span></div><h3>Embeddings</h3><p>Explain vector similarity, compare embedding models, and reason about drift, dimensionality, and re-indexing.</p><ul><li>What embeddings are</li><li>Vector spaces</li><li>Similarity</li><li>Dimensionality</li><li>Distance metrics</li><li>Cosine similarity</li><li>+ 8 more subtopics</li></ul><a href="../../chapters/module-04-embeddings/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🗄️</span><span class="module-kicker">Module 5</span></div><h3>Vector Databases</h3><p>Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.</p><ul><li>ANN vs Exact Search</li><li>HNSW</li><li>IVF</li><li>PQ</li><li>OPQ</li><li>DiskANN</li><li>+ 8 more subtopics</li></ul><a href="../../chapters/module-05-vector-databases/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🔎</span><span class="module-kicker">Module 6</span></div><h3>Retrieval</h3><p>Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.</p><ul><li>Similarity search</li><li>Hybrid search</li><li>BM25</li><li>Sparse retrieval</li><li>Dense retrieval</li><li>Reciprocal Rank Fusion (RRF)</li><li>+ 8 more subtopics</li></ul><a href="../../chapters/module-06-retrieval/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🏁</span><span class="module-kicker">Module 7</span></div><h3>Re-ranking</h3><p>Explain why rerankers improve relevance and how to balance speed, cost, and accuracy.</p><ul><li>Cross-encoders</li><li>Bi-encoders</li><li>Late interaction</li><li>Why re-ranking improves quality</li><li>Trade-offs between speed and accuracy</li></ul><a href="../../chapters/module-07-re-ranking/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">📝</span><span class="module-kicker">Module 8</span></div><h3>Prompt Engineering for RAG</h3><p>Write grounded prompts that force citation behavior, structure outputs, and reduce hallucinations.</p><ul><li>Context injection</li><li>System prompts</li><li>Citation prompts</li><li>Grounding</li><li>Structured output</li><li>Guardrails</li><li>+ 1 more subtopics</li></ul><a href="../../chapters/module-08-prompt-engineering-for-rag/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">📏</span><span class="module-kicker">Module 9</span></div><h3>Evaluation</h3><p>Measure retrieval quality, answer faithfulness, latency, and cost using practical metrics and frameworks.</p><ul><li>Recall@K</li><li>Precision@K</li><li>MRR</li><li>NDCG</li><li>Faithfulness</li><li>Context Precision</li><li>+ 5 more subtopics</li></ul><a href="../../chapters/module-09-evaluation/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🏭</span><span class="module-kicker">Module 10</span></div><h3>Production RAG</h3><p>Reason about reliability, observability, security, and cost control in a real production deployment.</p><ul><li>Caching</li><li>Streaming</li><li>Observability</li><li>Logging</li><li>Versioning</li><li>Security</li><li>+ 6 more subtopics</li></ul><a href="../../chapters/module-10-production-rag/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🚀</span><span class="module-kicker">Module 11</span></div><h3>Advanced RAG</h3><p>Compare advanced RAG patterns and explain when added complexity is actually justified.</p><ul><li>Agentic RAG</li><li>Graph RAG</li><li>Knowledge Graph RAG</li><li>Multi-modal RAG</li><li>SQL RAG</li><li>Code RAG</li><li>+ 4 more subtopics</li></ul><a href="../../chapters/module-11-advanced-rag/lesson.html">Open module →</a></article>
+      <article class="module-card"><div class="module-card-header"><span class="module-icon">🛠️</span><span class="module-kicker">Module 12</span></div><h3>Hands-on Projects</h3><p>Turn the earlier modules into a portfolio of RAG builds you can explain, defend, and iterate on publicly.</p><ul><li>Basic RAG</li><li>Production-ready RAG</li><li>Hybrid Search RAG</li><li>Parent-Child RAG</li><li>Multi-query RAG</li><li>Agentic RAG</li><li>+ 7 more subtopics</li></ul><a href="../../chapters/module-12-hands-on-projects/lesson.html">Open module →</a></article>
+    </div>
+  </section>
 </main>
 <footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Roadmap</span></div></footer>
+</div>
+<script src="../../assets/document-linker.js"></script>
+<script src="../../assets/modules-data.js"></script>
+<script src="../../assets/sidebar.js"></script>
 </body>
 </html>
