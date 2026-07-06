@@ -17,6 +17,8 @@ Last episode, we established *why* vector databases exist: to search by meaning,
 
 Today: **why they can't just brute-force it.**
 
+> 💡 **Brute force**, in plain terms: checking every single option one by one, with no shortcuts — the computational equivalent of finding your car in a parking lot by walking down every row instead of remembering where you parked.
+
 ---
 
 **🔍 The naive approach**
