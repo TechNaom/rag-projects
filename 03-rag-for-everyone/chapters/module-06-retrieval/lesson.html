@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Retrieval — RAG for Everyone</title>
+    <meta name="description" content="Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.">
+    <link rel="stylesheet" href="../../assets/style.css">
+    </head>
+    <body data-active-module="module-06">
+    <aside id="module-sidebar" class="sidebar" data-root="../../"></aside>
+    <div class="with-sidebar">
+    <header class="top-bar"><div class="page"><a class="brand" href="../../index.html">🧠 RAG for Everyone</a><nav><a href="../../index.html">All modules</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+    <main class="page">
+      <p><a href="../../index.html">← Back to all modules</a></p>
+      <div class="page-meta"><span>Module 6 of 12</span><span>Intermediate</span><span>24 min read</span></div>
+      <h1>Retrieval</h1>
+      <div class="hook">Retrieval is where most interview discussions become serious because this is where architecture choices visibly change answer quality.</div>
+      <div class="what-is"><span class="label">Outcome</span>Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.</div>
+      <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#topic-1">1. Similarity search</a>
+<a href="#topic-2">2. Hybrid search</a>
+<a href="#topic-3">3. BM25</a>
+<a href="#topic-4">4. Sparse retrieval</a>
+<a href="#topic-5">5. Dense retrieval</a>
+<a href="#topic-6">6. Reciprocal Rank Fusion (RRF)</a>
+<a href="#topic-7">7. Multi-query retrieval</a>
+<a href="#topic-8">8. Multi-vector retrieval</a></nav>
+      
+        <section id="topic-1" class="lesson-section">
+          <h2>1. Similarity search</h2>
+          <p>Similarity search matters because If you are building retriever fusion lab, similarity search changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Similarity search determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of similarity search?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Similarity search is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-2" class="lesson-section">
+          <h2>2. Hybrid search</h2>
+          <p>Hybrid search matters because If you are building retriever fusion lab, hybrid search changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Hybrid search determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of hybrid search?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Hybrid search is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-3" class="lesson-section">
+          <h2>3. BM25</h2>
+          <p>BM25 matters because If you are building retriever fusion lab, bm25 changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. BM25 determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of bm25?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> BM25 is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-4" class="lesson-section">
+          <h2>4. Sparse retrieval</h2>
+          <p>Sparse retrieval matters because If you are building retriever fusion lab, sparse retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Sparse retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of sparse retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Sparse retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-5" class="lesson-section">
+          <h2>5. Dense retrieval</h2>
+          <p>Dense retrieval matters because If you are building retriever fusion lab, dense retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Dense retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of dense retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Dense retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-6" class="lesson-section">
+          <h2>6. Reciprocal Rank Fusion (RRF)</h2>
+          <p>Reciprocal Rank Fusion (RRF) matters because If you are building retriever fusion lab, reciprocal rank fusion (rrf) changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Reciprocal Rank Fusion (RRF) determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of reciprocal rank fusion (rrf)?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Reciprocal Rank Fusion (RRF) is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-7" class="lesson-section">
+          <h2>7. Multi-query retrieval</h2>
+          <p>Multi-query retrieval matters because If you are building retriever fusion lab, multi-query retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Multi-query retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of multi-query retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Multi-query retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-8" class="lesson-section">
+          <h2>8. Multi-vector retrieval</h2>
+          <p>Multi-vector retrieval matters because If you are building retriever fusion lab, multi-vector retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Multi-vector retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of multi-vector retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Multi-vector retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-9" class="lesson-section">
+          <h2>9. Parent-document retrieval</h2>
+          <p>Parent-document retrieval matters because If you are building retriever fusion lab, parent-document retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Parent-document retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of parent-document retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Parent-document retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-10" class="lesson-section">
+          <h2>10. Self-query retrieval</h2>
+          <p>Self-query retrieval matters because If you are building retriever fusion lab, self-query retrieval changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Self-query retrieval determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of self-query retrieval?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Self-query retrieval is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-11" class="lesson-section">
+          <h2>11. Metadata filtering</h2>
+          <p>Metadata filtering matters because If you are building retriever fusion lab, metadata filtering changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Metadata filtering determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of metadata filtering?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Metadata filtering is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-12" class="lesson-section">
+          <h2>12. Context compression</h2>
+          <p>Context compression matters because If you are building retriever fusion lab, context compression changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Context compression determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of context compression?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Context compression is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-13" class="lesson-section">
+          <h2>13. Query rewriting</h2>
+          <p>Query rewriting matters because If you are building retriever fusion lab, query rewriting changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Query rewriting determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of query rewriting?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Query rewriting is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-14" class="lesson-section">
+          <h2>14. Query expansion</h2>
+          <p>Query expansion matters because If you are building retriever fusion lab, query expansion changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Retrieval is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Query expansion determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of query expansion?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Query expansion is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+      
+      <h2>Content bundle</h2>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Study</h3><ul><li><a href="quiz.html">Quiz</a></li><li><a href="interview-questions.html">Interview questions</a></li><li><a href="practice/index.html">Practice bank</a></li><li><a href="notebook/">Notebook folder</a></li></ul></article>
+        <article class="resource-card"><h3>Build</h3><ul><li><a href="hands-on-lab/README.md">Hands-on lab</a></li><li><a href="exercises/index.html">Exercises</a></li><li><a href="project/index.html">Project</a></li><li><a href="diagrams/architecture.svg">Architecture diagram</a></li></ul></article>
+        <article class="resource-card"><h3>Publish</h3><ul><li><a href="content/master-chapter.md">Master chapter</a></li><li><a href="content/blog-post.md">Blog post</a></li><li><a href="content/newsletter.md">Newsletter</a></li><li><a href="content/cheat-sheet.md">Cheat sheet</a></li></ul></article>
+        <article class="resource-card"><h3>Present</h3><ul><li><a href="content/speaker-notes.md">Speaker notes</a></li><li><a href="content/slides.md">Slide outline</a></li><li><a href="content/youtube-script.md">YouTube script</a></li><li><a href="content/linkedin-carousel.md">LinkedIn carousel</a></li><li><a href="content/flashcards.md">Flashcards</a></li><li><a href="content/workshop-material.md">Workshop material</a></li></ul></article>
+      </div>
+      <div class="points-to-remember"><h2>Points to Remember</h2><ul><li>Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.</li><li>Be able to define each term plainly.</li><li>Be able to connect each term to a system decision and trade-off.</li><li>Practice explaining at least one example out loud.</li></ul></div>
+      <div class="chapter-nav"><a href="quiz.html">Take the quiz →</a><a href="interview-questions.html">Interview prep →</a><a href="project/index.html">Project →</a></div>
+    </main>
+    <footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Module 6: Retrieval</span></div></footer>
+    </div>
+    <script src="../../assets/modules-data.js"></script>
+    <script src="../../assets/sidebar.js"></script>
+    </body>
+    </html>

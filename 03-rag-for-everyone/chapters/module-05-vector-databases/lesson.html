@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Vector Databases — RAG for Everyone</title>
+    <meta name="description" content="Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.">
+    <link rel="stylesheet" href="../../assets/style.css">
+    </head>
+    <body data-active-module="module-05">
+    <aside id="module-sidebar" class="sidebar" data-root="../../"></aside>
+    <div class="with-sidebar">
+    <header class="top-bar"><div class="page"><a class="brand" href="../../index.html">🧠 RAG for Everyone</a><nav><a href="../../index.html">All modules</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+    <main class="page">
+      <p><a href="../../index.html">← Back to all modules</a></p>
+      <div class="page-meta"><span>Module 5 of 12</span><span>Intermediate</span><span>24 min read</span></div>
+      <h1>Vector Databases</h1>
+      <div class="hook">Vector search feels magical until the corpus reaches production scale. Then index structures, filtering, and replication start deciding your latency bill.</div>
+      <div class="what-is"><span class="label">Outcome</span>Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.</div>
+      <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#topic-1">1. ANN vs Exact Search</a>
+<a href="#topic-2">2. HNSW</a>
+<a href="#topic-3">3. IVF</a>
+<a href="#topic-4">4. PQ</a>
+<a href="#topic-5">5. OPQ</a>
+<a href="#topic-6">6. DiskANN</a>
+<a href="#topic-7">7. ScaNN</a>
+<a href="#topic-8">8. Filtering</a></nav>
+      
+        <section id="topic-1" class="lesson-section">
+          <h2>1. ANN vs Exact Search</h2>
+          <p>ANN vs Exact Search matters because If you are building mini vector index, ann vs exact search changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. ANN vs Exact Search determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of ann vs exact search?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> ANN vs Exact Search is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-2" class="lesson-section">
+          <h2>2. HNSW</h2>
+          <p>HNSW matters because If you are building mini vector index, hnsw changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. HNSW determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of hnsw?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> HNSW is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-3" class="lesson-section">
+          <h2>3. IVF</h2>
+          <p>IVF matters because If you are building mini vector index, ivf changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. IVF determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of ivf?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> IVF is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-4" class="lesson-section">
+          <h2>4. PQ</h2>
+          <p>PQ matters because If you are building mini vector index, pq changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. PQ determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of pq?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> PQ is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-5" class="lesson-section">
+          <h2>5. OPQ</h2>
+          <p>OPQ matters because If you are building mini vector index, opq changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. OPQ determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of opq?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> OPQ is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-6" class="lesson-section">
+          <h2>6. DiskANN</h2>
+          <p>DiskANN matters because If you are building mini vector index, diskann changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. DiskANN determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of diskann?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> DiskANN is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-7" class="lesson-section">
+          <h2>7. ScaNN</h2>
+          <p>ScaNN matters because If you are building mini vector index, scann changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. ScaNN determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of scann?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> ScaNN is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-8" class="lesson-section">
+          <h2>8. Filtering</h2>
+          <p>Filtering matters because If you are building mini vector index, filtering changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Filtering determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of filtering?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Filtering is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-9" class="lesson-section">
+          <h2>9. Metadata search</h2>
+          <p>Metadata search matters because If you are building mini vector index, metadata search changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Metadata search determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of metadata search?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Metadata search is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-10" class="lesson-section">
+          <h2>10. Hybrid search</h2>
+          <p>Hybrid search matters because If you are building mini vector index, hybrid search changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Hybrid search determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of hybrid search?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Hybrid search is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-11" class="lesson-section">
+          <h2>11. Distributed vector databases</h2>
+          <p>Distributed vector databases matters because If you are building mini vector index, distributed vector databases changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Distributed vector databases determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of distributed vector databases?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Distributed vector databases is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-12" class="lesson-section">
+          <h2>12. Sharding</h2>
+          <p>Sharding matters because If you are building mini vector index, sharding changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Sharding determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of sharding?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Sharding is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-13" class="lesson-section">
+          <h2>13. Replication</h2>
+          <p>Replication matters because If you are building mini vector index, replication changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Replication determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of replication?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Replication is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-14" class="lesson-section">
+          <h2>14. Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma</h2>
+          <p>Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma matters because If you are building mini vector index, database comparisons: pinecone, weaviate, qdrant, milvus, and chroma changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Vector Databases is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of database comparisons: pinecone, weaviate, qdrant, milvus, and chroma?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+      
+      <h2>Content bundle</h2>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Study</h3><ul><li><a href="quiz.html">Quiz</a></li><li><a href="interview-questions.html">Interview questions</a></li><li><a href="practice/index.html">Practice bank</a></li><li><a href="notebook/">Notebook folder</a></li></ul></article>
+        <article class="resource-card"><h3>Build</h3><ul><li><a href="hands-on-lab/README.md">Hands-on lab</a></li><li><a href="exercises/index.html">Exercises</a></li><li><a href="project/index.html">Project</a></li><li><a href="diagrams/architecture.svg">Architecture diagram</a></li></ul></article>
+        <article class="resource-card"><h3>Publish</h3><ul><li><a href="content/master-chapter.md">Master chapter</a></li><li><a href="content/blog-post.md">Blog post</a></li><li><a href="content/newsletter.md">Newsletter</a></li><li><a href="content/cheat-sheet.md">Cheat sheet</a></li></ul></article>
+        <article class="resource-card"><h3>Present</h3><ul><li><a href="content/speaker-notes.md">Speaker notes</a></li><li><a href="content/slides.md">Slide outline</a></li><li><a href="content/youtube-script.md">YouTube script</a></li><li><a href="content/linkedin-carousel.md">LinkedIn carousel</a></li><li><a href="content/flashcards.md">Flashcards</a></li><li><a href="content/workshop-material.md">Workshop material</a></li></ul></article>
+      </div>
+      <div class="points-to-remember"><h2>Points to Remember</h2><ul><li>Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.</li><li>Be able to define each term plainly.</li><li>Be able to connect each term to a system decision and trade-off.</li><li>Practice explaining at least one example out loud.</li></ul></div>
+      <div class="chapter-nav"><a href="quiz.html">Take the quiz →</a><a href="interview-questions.html">Interview prep →</a><a href="project/index.html">Project →</a></div>
+    </main>
+    <footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Module 5: Vector Databases</span></div></footer>
+    </div>
+    <script src="../../assets/modules-data.js"></script>
+    <script src="../../assets/sidebar.js"></script>
+    </body>
+    </html>

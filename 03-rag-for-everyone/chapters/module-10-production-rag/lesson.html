@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 10: Production RAG — RAG for Everyone</title>
+    <meta name="description" content="Reason about reliability, observability, security, and cost control in a real production deployment.">
+    <link rel="stylesheet" href="../../assets/style.css">
+    </head>
+    <body data-active-module="module-10">
+    <aside id="module-sidebar" class="sidebar" data-root="../../"></aside>
+    <div class="with-sidebar">
+    <header class="top-bar"><div class="page"><a class="brand" href="../../index.html">🧠 RAG for Everyone</a><nav><a href="../../index.html">All modules</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+    <main class="page">
+      <p><a href="../../index.html">← Back to all modules</a></p>
+      <div class="page-meta"><span>Module 10 of 12</span><span>Advanced</span><span>24 min read</span></div>
+      <h1>Production RAG</h1>
+      <div class="hook">The hard part of production RAG is not generating an answer once. It is doing it safely, cheaply, and observably thousands of times a day.</div>
+      <div class="what-is"><span class="label">Outcome</span>Reason about reliability, observability, security, and cost control in a real production deployment.</div>
+      <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#topic-1">1. Caching</a>
+<a href="#topic-2">2. Streaming</a>
+<a href="#topic-3">3. Observability</a>
+<a href="#topic-4">4. Logging</a>
+<a href="#topic-5">5. Versioning</a>
+<a href="#topic-6">6. Security</a>
+<a href="#topic-7">7. Authentication</a>
+<a href="#topic-8">8. Rate limiting</a></nav>
+      
+        <section id="topic-1" class="lesson-section">
+          <h2>1. Caching</h2>
+          <p>Caching matters because If you are building production checklist service, caching changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Caching determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of caching?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Caching is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-2" class="lesson-section">
+          <h2>2. Streaming</h2>
+          <p>Streaming matters because If you are building production checklist service, streaming changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Streaming determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of streaming?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Streaming is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-3" class="lesson-section">
+          <h2>3. Observability</h2>
+          <p>Observability matters because If you are building production checklist service, observability changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Observability determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of observability?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Observability is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-4" class="lesson-section">
+          <h2>4. Logging</h2>
+          <p>Logging matters because If you are building production checklist service, logging changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Logging determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of logging?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Logging is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-5" class="lesson-section">
+          <h2>5. Versioning</h2>
+          <p>Versioning matters because If you are building production checklist service, versioning changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Versioning determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of versioning?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Versioning is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-6" class="lesson-section">
+          <h2>6. Security</h2>
+          <p>Security matters because If you are building production checklist service, security changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Security determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of security?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Security is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-7" class="lesson-section">
+          <h2>7. Authentication</h2>
+          <p>Authentication matters because If you are building production checklist service, authentication changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Authentication determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of authentication?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Authentication is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-8" class="lesson-section">
+          <h2>8. Rate limiting</h2>
+          <p>Rate limiting matters because If you are building production checklist service, rate limiting changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Rate limiting determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of rate limiting?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Rate limiting is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-9" class="lesson-section">
+          <h2>9. Cost optimization</h2>
+          <p>Cost optimization matters because If you are building production checklist service, cost optimization changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Cost optimization determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of cost optimization?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Cost optimization is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-10" class="lesson-section">
+          <h2>10. Monitoring</h2>
+          <p>Monitoring matters because If you are building production checklist service, monitoring changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Monitoring determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of monitoring?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Monitoring is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-11" class="lesson-section">
+          <h2>11. CI/CD</h2>
+          <p>CI/CD matters because If you are building production checklist service, ci/cd changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. CI/CD determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of ci/cd?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> CI/CD is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-12" class="lesson-section">
+          <h2>12. Failure handling</h2>
+          <p>Failure handling matters because If you are building production checklist service, failure handling changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Production RAG is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Failure handling determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of failure handling?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Failure handling is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+      
+      <h2>Content bundle</h2>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Study</h3><ul><li><a href="quiz.html">Quiz</a></li><li><a href="interview-questions.html">Interview questions</a></li><li><a href="practice/index.html">Practice bank</a></li><li><a href="notebook/">Notebook folder</a></li></ul></article>
+        <article class="resource-card"><h3>Build</h3><ul><li><a href="hands-on-lab/README.md">Hands-on lab</a></li><li><a href="exercises/index.html">Exercises</a></li><li><a href="project/index.html">Project</a></li><li><a href="diagrams/architecture.svg">Architecture diagram</a></li></ul></article>
+        <article class="resource-card"><h3>Publish</h3><ul><li><a href="content/master-chapter.md">Master chapter</a></li><li><a href="content/blog-post.md">Blog post</a></li><li><a href="content/newsletter.md">Newsletter</a></li><li><a href="content/cheat-sheet.md">Cheat sheet</a></li></ul></article>
+        <article class="resource-card"><h3>Present</h3><ul><li><a href="content/speaker-notes.md">Speaker notes</a></li><li><a href="content/slides.md">Slide outline</a></li><li><a href="content/youtube-script.md">YouTube script</a></li><li><a href="content/linkedin-carousel.md">LinkedIn carousel</a></li><li><a href="content/flashcards.md">Flashcards</a></li><li><a href="content/workshop-material.md">Workshop material</a></li></ul></article>
+      </div>
+      <div class="points-to-remember"><h2>Points to Remember</h2><ul><li>Reason about reliability, observability, security, and cost control in a real production deployment.</li><li>Be able to define each term plainly.</li><li>Be able to connect each term to a system decision and trade-off.</li><li>Practice explaining at least one example out loud.</li></ul></div>
+      <div class="chapter-nav"><a href="quiz.html">Take the quiz →</a><a href="interview-questions.html">Interview prep →</a><a href="project/index.html">Project →</a></div>
+    </main>
+    <footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Module 10: Production RAG</span></div></footer>
+    </div>
+    <script src="../../assets/modules-data.js"></script>
+    <script src="../../assets/sidebar.js"></script>
+    </body>
+    </html>

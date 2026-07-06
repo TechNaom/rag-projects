@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Chunking Deep Dive — RAG for Everyone</title>
+    <meta name="description" content="Choose chunking strategies based on accuracy, latency, memory, and the shape of the source documents.">
+    <link rel="stylesheet" href="../../assets/style.css">
+    </head>
+    <body data-active-module="module-03">
+    <aside id="module-sidebar" class="sidebar" data-root="../../"></aside>
+    <div class="with-sidebar">
+    <header class="top-bar"><div class="page"><a class="brand" href="../../index.html">🧠 RAG for Everyone</a><nav><a href="../../index.html">All modules</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+    <main class="page">
+      <p><a href="../../index.html">← Back to all modules</a></p>
+      <div class="page-meta"><span>Module 3 of 12</span><span>Beginner</span><span>24 min read</span></div>
+      <h1>Chunking Deep Dive</h1>
+      <div class="hook">Chunking looks simple until retrieval quality collapses. This module shows why chunk boundaries are one of the highest-leverage decisions in RAG.</div>
+      <div class="what-is"><span class="label">Outcome</span>Choose chunking strategies based on accuracy, latency, memory, and the shape of the source documents.</div>
+      <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#topic-1">1. Fixed-size chunking</a>
+<a href="#topic-2">2. Recursive chunking</a>
+<a href="#topic-3">3. Sentence chunking</a>
+<a href="#topic-4">4. Paragraph chunking</a>
+<a href="#topic-5">5. Semantic chunking</a>
+<a href="#topic-6">6. Sliding window chunking</a>
+<a href="#topic-7">7. Parent-child chunking</a>
+<a href="#topic-8">8. Hierarchical chunking</a></nav>
+      
+        <section id="topic-1" class="lesson-section">
+          <h2>1. Fixed-size chunking</h2>
+          <p>Fixed-size chunking matters because If you are building chunk strategy workbench, fixed-size chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Fixed-size chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of fixed-size chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Fixed-size chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-2" class="lesson-section">
+          <h2>2. Recursive chunking</h2>
+          <p>Recursive chunking matters because If you are building chunk strategy workbench, recursive chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Recursive chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of recursive chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Recursive chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-3" class="lesson-section">
+          <h2>3. Sentence chunking</h2>
+          <p>Sentence chunking matters because If you are building chunk strategy workbench, sentence chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Sentence chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of sentence chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Sentence chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-4" class="lesson-section">
+          <h2>4. Paragraph chunking</h2>
+          <p>Paragraph chunking matters because If you are building chunk strategy workbench, paragraph chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Paragraph chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of paragraph chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Paragraph chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-5" class="lesson-section">
+          <h2>5. Semantic chunking</h2>
+          <p>Semantic chunking matters because If you are building chunk strategy workbench, semantic chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Semantic chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of semantic chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Semantic chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-6" class="lesson-section">
+          <h2>6. Sliding window chunking</h2>
+          <p>Sliding window chunking matters because If you are building chunk strategy workbench, sliding window chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Sliding window chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of sliding window chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Sliding window chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-7" class="lesson-section">
+          <h2>7. Parent-child chunking</h2>
+          <p>Parent-child chunking matters because If you are building chunk strategy workbench, parent-child chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Parent-child chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of parent-child chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Parent-child chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-8" class="lesson-section">
+          <h2>8. Hierarchical chunking</h2>
+          <p>Hierarchical chunking matters because If you are building chunk strategy workbench, hierarchical chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Hierarchical chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of hierarchical chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Hierarchical chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-9" class="lesson-section">
+          <h2>9. Agentic chunking</h2>
+          <p>Agentic chunking matters because If you are building chunk strategy workbench, agentic chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. Agentic chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of agentic chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> Agentic chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+
+        <section id="topic-10" class="lesson-section">
+          <h2>10. LLM-based chunking</h2>
+          <p>LLM-based chunking matters because If you are building chunk strategy workbench, llm-based chunking changes what you store, retrieve, or trust before answer generation.</p>
+          <div class="what-is"><span class="label">Why it matters</span>Chunking Deep Dive is easier to learn when you tie each concept to one concrete product behavior instead of memorizing jargon.</div>
+          <div class="example-card">
+            <h3>Example-driven view</h3>
+            <p><strong>Scenario:</strong> A banking policy assistant receives a user question. LLM-based chunking determines how the system narrows evidence and how confidently it should answer.</p>
+            <ul>
+              <li><strong>Decision:</strong> What changes in the pipeline because of llm-based chunking?</li>
+              <li><strong>Trade-off:</strong> How does it affect latency, quality, and maintenance?</li>
+              <li><strong>Interview angle:</strong> When would you choose this over a simpler default?</li>
+            </ul>
+          </div>
+          <div class="quick-recap"><strong>Quick recap:</strong> LLM-based chunking is not just a term to memorize; it is a design choice you should be able to explain with a system example.</div>
+        </section>
+        
+      
+      <h2>Content bundle</h2>
+      <div class="resource-grid">
+        <article class="resource-card"><h3>Study</h3><ul><li><a href="quiz.html">Quiz</a></li><li><a href="interview-questions.html">Interview questions</a></li><li><a href="practice/index.html">Practice bank</a></li><li><a href="notebook/">Notebook folder</a></li></ul></article>
+        <article class="resource-card"><h3>Build</h3><ul><li><a href="hands-on-lab/README.md">Hands-on lab</a></li><li><a href="exercises/index.html">Exercises</a></li><li><a href="project/index.html">Project</a></li><li><a href="diagrams/architecture.svg">Architecture diagram</a></li></ul></article>
+        <article class="resource-card"><h3>Publish</h3><ul><li><a href="content/master-chapter.md">Master chapter</a></li><li><a href="content/blog-post.md">Blog post</a></li><li><a href="content/newsletter.md">Newsletter</a></li><li><a href="content/cheat-sheet.md">Cheat sheet</a></li></ul></article>
+        <article class="resource-card"><h3>Present</h3><ul><li><a href="content/speaker-notes.md">Speaker notes</a></li><li><a href="content/slides.md">Slide outline</a></li><li><a href="content/youtube-script.md">YouTube script</a></li><li><a href="content/linkedin-carousel.md">LinkedIn carousel</a></li><li><a href="content/flashcards.md">Flashcards</a></li><li><a href="content/workshop-material.md">Workshop material</a></li></ul></article>
+      </div>
+      <div class="points-to-remember"><h2>Points to Remember</h2><ul><li>Choose chunking strategies based on accuracy, latency, memory, and the shape of the source documents.</li><li>Be able to define each term plainly.</li><li>Be able to connect each term to a system decision and trade-off.</li><li>Practice explaining at least one example out loud.</li></ul></div>
+      <div class="chapter-nav"><a href="quiz.html">Take the quiz →</a><a href="interview-questions.html">Interview prep →</a><a href="project/index.html">Project →</a></div>
+    </main>
+    <footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Module 3: Chunking Deep Dive</span></div></footer>
+    </div>
+    <script src="../../assets/modules-data.js"></script>
+    <script src="../../assets/sidebar.js"></script>
+    </body>
+    </html>
