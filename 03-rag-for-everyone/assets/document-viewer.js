@@ -33,6 +33,7 @@
 
   function sanitizeLinkUrl(rawUrl, label = '') {
     try {
+      if (rawUrl.startsWith('#')) return rawUrl;
       const base = currentSourceUrl || new URL(window.location.href);
       const resolved = new URL(rawUrl, base);
       if (resolved.protocol === 'mailto:') return resolved.toString();
