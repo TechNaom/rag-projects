@@ -42,6 +42,7 @@ Posts in this series are mirrored from real, working projects:
 | 06 | Why I Built This for Banking | Domain framing | 01-policy-rag-poc | 🔜 Upcoming |
 | 07 | [Python for Everyone: 11 Chapters, 2 Modules](posts/07-python-for-everyone-milestone.md) | Build-in-public milestone — proof of depth | python-for-everyone | ✅ Ready |
 | 08 | [GenAI Deep R&D Journal, Ep. 01: Why Vector Databases?](posts/08-genai-rd-journal-ep01-vector-databases.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
+| 09 | [GenAI Deep R&D Journal, Ep. 02: Why Brute-Force Search Doesn't Scale](posts/09-genai-rd-journal-ep02-vector-search-at-scale.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
 
 ## Posting Schedule (Suggested)
 
@@ -55,3 +56,4 @@ Posts in this series are mirrored from real, working projects:
 | 6 | 06 — Why I Built This for Banking |
 | 7 | 07 — Python for Everyone Milestone (flexible timing — not tied to the RAG series) |
 | 8 | 08 — GenAI Deep R&D Journal Ep. 01 (flexible timing — first entry in a new recurring series) |
+| 9 | 09 — GenAI Deep R&D Journal Ep. 02 (post after Ep. 01's comments have had time to land — this episode explicitly builds on reader engagement from it) |
