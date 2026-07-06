@@ -91,6 +91,9 @@ The AI industry didn't invent vector databases to store vectors. **It invented t
 
 🔜 **Episode #02:** What exactly *is* an embedding, and why is it called "the language of AI"?
 
+🔗 The actual RAG system this lesson comes from, fully open source:
+github.com/TechNaom/rag-projects
+
 ---
 
 *#GenAI #RAG #VectorDatabases #LLM #SoftwareArchitecture #AIEngineering #MachineLearning*

@@ -67,6 +67,9 @@ You have **100 million** document embeddings. If you compare a query vector agai
 
 Take a minute. Answer in the comments. Your answer is the exact on-ramp into next episode's topic: why HNSW and similar indexing strategies exist, and how they cut that number down dramatically.
 
+🔗 The actual RAG system this lesson comes from, fully open source:
+github.com/TechNaom/rag-projects
+
 ---
 
 *#GenAI #RAG #VectorDatabases #HNSW #LLM #SoftwareArchitecture #AIEngineering #MachineLearning*
