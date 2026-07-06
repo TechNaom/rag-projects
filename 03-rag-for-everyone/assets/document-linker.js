@@ -1,4 +1,8 @@
 (() => {
+  function shouldUseViewer() {
+    return window.location.protocol !== 'file:';
+  }
+
   function isMarkdownHref(href) {
     return href && /\.md(?:[#?].*)?$/i.test(href);
   }
@@ -18,6 +22,7 @@
   }
 
   function enhanceDocumentLinks(scope = document, options = {}) {
+    if (!shouldUseViewer()) return;
     const baseRoot = options.baseRoot ?? document.body.dataset.root ?? '';
     scope.querySelectorAll('a[href]').forEach((anchor) => {
       const rawHref = anchor.getAttribute('href');

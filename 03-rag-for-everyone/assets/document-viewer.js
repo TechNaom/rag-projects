@@ -211,9 +211,10 @@
 
   function resolveSourceUrl(file) {
     try {
-      const resolved = new URL(file, window.location.origin);
-      if (resolved.origin !== window.location.origin) return null;
-      if (!['http:', 'https:'].includes(resolved.protocol)) return null;
+      const base = window.location.href;
+      const resolved = new URL(file, base);
+      if (window.location.protocol !== 'file:' && resolved.origin !== window.location.origin) return null;
+      if (!['http:', 'https:', 'file:'].includes(resolved.protocol)) return null;
       if (!/\.md$/i.test(resolved.pathname)) return null;
       return resolved;
     } catch (error) {
@@ -260,7 +261,7 @@
       viewerContent.innerHTML = `
         <div class="viewer-empty">
           <p>We could not render this file from the current environment.</p>
-          <p>If you are opening the site directly from the filesystem, serve the course over HTTP so the viewer can fetch the source file.</p>
+          <p>If you are opening the site directly from the filesystem, use the source-file link above or serve the course over HTTP so the viewer can fetch the markdown file.</p>
         </div>
       `;
       renderToc([]);

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('module-sidebar');
   if (!sidebar || !window.RAG_MODULES) return;
+  const useViewer = window.location.protocol !== 'file:';
   const root = sidebar.dataset.root || '';
   const active = document.body.dataset.activeModule;
   const activePage = document.body.dataset.activePage || 'lesson';
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return viewerUrl.toString();
   };
 
-  const renderHref = (item, href) => item.path.endsWith('.md') ? toViewerHref(href, item.label) : href;
+  const renderHref = (item, href) => (useViewer && item.path.endsWith('.md')) ? toViewerHref(href, item.label) : href;
   const sections = [];
 
   if (currentModule) {
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sidebar.innerHTML = sections.join('');
 
   sidebar.closest('body').querySelectorAll('a[href]').forEach((anchor) => {
+    if (!useViewer) return;
     const href = anchor.getAttribute('href');
     if (!href || !/\.md(?:[#?].*)?$/i.test(href) || anchor.dataset.viewerLinked === 'true') return;
     anchor.href = toViewerHref(href, anchor.textContent.trim());
