@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 Notebook Walkthrough — Vector Databases</title>
+<link rel="stylesheet" href="../../../assets/style.css">
+</head>
+<body data-active-module="module-05" data-active-page="notebook">
+<aside id="module-sidebar" class="sidebar" data-root="../../../"></aside>
+<div class="with-sidebar">
+<header class="top-bar"><div class="page"><a class="brand" href="../../../index.html">🧠 RAG for Everyone</a><nav><a href="../lesson.html">Lesson</a><a href="../flashcards/index.html">Flashcards</a><a href="module-05-vector-databases.ipynb">Raw notebook</a></nav></div></header>
+<main class="page">
+  <p><a href="../lesson.html">← Back to lesson</a></p>
+  <div class="page-meta"><span>Notebook walkthrough</span><span>Jupyter-style overview</span><span>Module 5</span></div>
+  <h1>Notebook Walkthrough — Vector Databases</h1>
+  <div class="what-is"><span class="label">Goal</span>Understand ANN indexing, filtering, distributed design, and practical trade-offs across popular vector databases.</div>
+  <div class="resource-grid">
+    <article class="resource-card">
+      <h2>Notebook outline</h2>
+      <ul>
+        <li>ANN vs Exact Search</li>
+        <li>HNSW</li>
+        <li>IVF</li>
+        <li>PQ</li>
+        <li>OPQ</li>
+        <li>DiskANN</li>
+        <li>ScaNN</li>
+        <li>Filtering</li>
+        <li>Metadata search</li>
+        <li>Hybrid search</li>
+        <li>Distributed vector databases</li>
+        <li>Sharding</li>
+        <li>Replication</li>
+        <li>Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma</li>
+      </ul>
+    </article>
+    <article class="resource-card">
+      <h2>Open the source notebook</h2>
+      <p>If you want the raw Jupyter artifact, open the notebook file directly.</p>
+      <div class="file-links">
+        <a class="btn-secondary" href="module-05-vector-databases.ipynb">module-05-vector-databases.ipynb</a>
+      </div>
+    </article>
+  </div>
+  <div class="project-card">
+    <h2>Notebook code cell</h2>
+    <pre class="code-window"><code>topics = [
+    'ANN vs Exact Search',
+    'HNSW',
+    'IVF',
+    'PQ',
+    'OPQ',
+    'DiskANN',
+    'ScaNN',
+    'Filtering',
+    'Metadata search',
+    'Hybrid search',
+    'Distributed vector databases',
+    'Sharding',
+    'Replication',
+    'Database comparisons: Pinecone, Weaviate, Qdrant, Milvus, and Chroma',
+]
+
+print("Module 5: Vector Databases")
+for index, topic in enumerate(topics, start=1):
+    print(f"{index}. {topic}")</code></pre>
+  </div>
+  <div class="chapter-nav"><a href="../flashcards/index.html">← Flashcards</a><a href="../hands-on-lab/index.html">Hands-on lab →</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Notebook walkthrough</span></div></footer>
+</div>
+<script src="../../../assets/modules-data.js"></script>
+<script src="../../../assets/sidebar.js"></script>
+</body>
+</html>

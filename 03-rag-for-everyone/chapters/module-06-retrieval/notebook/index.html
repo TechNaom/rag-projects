@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 Notebook Walkthrough — Retrieval</title>
+<link rel="stylesheet" href="../../../assets/style.css">
+</head>
+<body data-active-module="module-06" data-active-page="notebook">
+<aside id="module-sidebar" class="sidebar" data-root="../../../"></aside>
+<div class="with-sidebar">
+<header class="top-bar"><div class="page"><a class="brand" href="../../../index.html">🧠 RAG for Everyone</a><nav><a href="../lesson.html">Lesson</a><a href="../flashcards/index.html">Flashcards</a><a href="module-06-retrieval.ipynb">Raw notebook</a></nav></div></header>
+<main class="page">
+  <p><a href="../lesson.html">← Back to lesson</a></p>
+  <div class="page-meta"><span>Notebook walkthrough</span><span>Jupyter-style overview</span><span>Module 6</span></div>
+  <h1>Notebook Walkthrough — Retrieval</h1>
+  <div class="what-is"><span class="label">Goal</span>Design retrieval stacks that combine dense, sparse, metadata-aware, and query-rewriting strategies.</div>
+  <div class="resource-grid">
+    <article class="resource-card">
+      <h2>Notebook outline</h2>
+      <ul>
+        <li>Similarity search</li>
+        <li>Hybrid search</li>
+        <li>BM25</li>
+        <li>Sparse retrieval</li>
+        <li>Dense retrieval</li>
+        <li>Reciprocal Rank Fusion (RRF)</li>
+        <li>Multi-query retrieval</li>
+        <li>Multi-vector retrieval</li>
+        <li>Parent-document retrieval</li>
+        <li>Self-query retrieval</li>
+        <li>Metadata filtering</li>
+        <li>Context compression</li>
+        <li>Query rewriting</li>
+        <li>Query expansion</li>
+      </ul>
+    </article>
+    <article class="resource-card">
+      <h2>Open the source notebook</h2>
+      <p>If you want the raw Jupyter artifact, open the notebook file directly.</p>
+      <div class="file-links">
+        <a class="btn-secondary" href="module-06-retrieval.ipynb">module-06-retrieval.ipynb</a>
+      </div>
+    </article>
+  </div>
+  <div class="project-card">
+    <h2>Notebook code cell</h2>
+    <pre class="code-window"><code>topics = [
+    'Similarity search',
+    'Hybrid search',
+    'BM25',
+    'Sparse retrieval',
+    'Dense retrieval',
+    'Reciprocal Rank Fusion (RRF)',
+    'Multi-query retrieval',
+    'Multi-vector retrieval',
+    'Parent-document retrieval',
+    'Self-query retrieval',
+    'Metadata filtering',
+    'Context compression',
+    'Query rewriting',
+    'Query expansion',
+]
+
+print("Module 6: Retrieval")
+for index, topic in enumerate(topics, start=1):
+    print(f"{index}. {topic}")</code></pre>
+  </div>
+  <div class="chapter-nav"><a href="../flashcards/index.html">← Flashcards</a><a href="../hands-on-lab/index.html">Hands-on lab →</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone</span><span>Notebook walkthrough</span></div></footer>
+</div>
+<script src="../../../assets/modules-data.js"></script>
+<script src="../../../assets/sidebar.js"></script>
+</body>
+</html>
