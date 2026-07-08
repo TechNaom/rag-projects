@@ -22,13 +22,15 @@
     modules.forEach((mod, index) => {
       const containsActive = mod.chapters.some((c) => c.id === activeChapter);
       const isOpen = containsActive || index === 0 ? "open" : "";
-      html += `<details class="sidebar-module" ${isOpen}><summary>${escapeHtml(mod.title)}</summary>`;
+      const liveCount = mod.chapters.filter((c) => c.path).length;
+      const totalCount = mod.chapters.length;
+      html += `<details class="sidebar-module" ${isOpen}><summary><span>${escapeHtml(mod.title)}</span><em>${liveCount}/${totalCount}</em></summary>`;
       html += `<ul class="sidebar-chapter-list">`;
       mod.chapters.forEach((ch) => {
         const activeClass = ch.id === activeChapter ? "active" : "";
         if (ch.path) {
           const check = isComplete(ch.id) ? `<span class="sidebar-check">✓</span>` : `<span>${ch.num}.</span>`;
-          html += `<li class="${activeClass}"><a href="${root}${ch.path}">${check} ${escapeHtml(ch.title)}</a>`;
+          html += `<li class="${activeClass} live"><a href="${root}${ch.path}">${check} <span>${escapeHtml(ch.title)}</span><em>Live</em></a>`;
           if (ch.subtopics && ch.subtopics.length) {
             html += `<ul class="sidebar-subtopic-list">`;
             ch.subtopics.forEach((sub) => {
@@ -38,7 +40,7 @@
           }
           html += `</li>`;
         } else {
-          html += `<li><span class="soon">${ch.num}. ${escapeHtml(ch.title)} <em>(soon)</em></span></li>`;
+          html += `<li class="planned"><span class="soon"><span>${ch.num}. ${escapeHtml(ch.title)}</span><em>Soon</em></span></li>`;
         }
       });
       html += `</ul>`;
@@ -90,4 +92,3 @@
     init();
   }
 })();
-

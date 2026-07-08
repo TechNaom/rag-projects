@@ -7,6 +7,7 @@
 window.RFE_MODULES = [
   {
     title: "Module 1 — RAG Foundations",
+    summary: "Build the mental model: why RAG exists, how a query moves through the system, and how to read the architecture.",
     examPath: "assessments/written-exams/module-1-exam.md",
     chapters: [
       {
@@ -14,6 +15,7 @@ window.RFE_MODULES = [
         num: 1,
         title: "Why RAG Exists",
         path: "chapters/chapter-01-why-rag-exists/lesson.html",
+        description: "Hallucinations, private knowledge, trusted context, citations, refusal behavior, and the builder mindset.",
         subtopics: [
           { id: "problem", title: "The problem RAG solves" },
           { id: "memory-vs-context", title: "Model memory vs. trusted context" },
@@ -29,6 +31,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 2 — Documents and Ingestion",
+    summary: "Turn messy real-world documents into governed, searchable knowledge that a RAG system can trust.",
     examPath: null,
     chapters: [
       { id: "chapter-05", num: 5, title: "Source Documents", path: null },
@@ -39,6 +42,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 3 — Chunking",
+    summary: "Learn how document slices shape retrieval quality, context noise, latency, and answer grounding.",
     examPath: null,
     chapters: [
       { id: "chapter-09", num: 9, title: "Fixed and Recursive Chunking", path: null },
@@ -48,6 +52,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 4 — Embeddings and Similarity",
+    summary: "Make meaning searchable by understanding embeddings, similarity, and the limits of vector matching.",
     examPath: null,
     chapters: [
       { id: "chapter-12", num: 12, title: "What Embeddings Are", path: null },
@@ -57,6 +62,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 5 — Vector Stores and Retrieval",
+    summary: "Build retrieval judgment: indexes, top-k, hybrid search, reranking, and why the first results matter.",
     examPath: null,
     chapters: [
       { id: "chapter-15", num: 15, title: "Vector Stores", path: null },
@@ -67,6 +73,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 6 — Prompting for RAG",
+    summary: "Teach the model how to use retrieved evidence clearly, safely, and testably.",
     examPath: null,
     chapters: [
       { id: "chapter-19", num: 19, title: "Context Injection", path: null },
@@ -76,6 +83,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 7 — Evaluation",
+    summary: "Move beyond vibes with retrieval metrics, answer quality checks, and failure-analysis habits.",
     examPath: null,
     chapters: [
       { id: "chapter-22", num: 22, title: "Retrieval Metrics", path: null },
@@ -85,6 +93,7 @@ window.RFE_MODULES = [
   },
   {
     title: "Module 8 — Production RAG",
+    summary: "Ship RAG like a real product: access control, observability, cost, deployment, and portfolio polish.",
     examPath: null,
     chapters: [
       { id: "chapter-25", num: 25, title: "Access Control and Safety", path: null },
@@ -94,4 +103,3 @@ window.RFE_MODULES = [
     ]
   }
 ];
-

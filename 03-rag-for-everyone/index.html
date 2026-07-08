@@ -19,8 +19,8 @@
   <div class="page">
     <a href="index.html" class="brand">RAG for Everyone</a>
     <nav>
+      <a href="#chapters">All Chapters</a>
       <a href="docs/curriculum/index.html">Roadmap</a>
-      <a href="https://github.com/TechNaom/rag-projects">GitHub</a>
     </nav>
   </div>
 </header>
@@ -42,7 +42,7 @@
     </div>
     <div class="action-row">
       <a href="chapters/chapter-01-why-rag-exists/lesson.html" class="btn-primary">Start Chapter 1</a>
-      <a href="docs/curriculum/index.html" class="btn-secondary">View roadmap</a>
+      <a href="#chapters" class="btn-secondary">Browse chapters</a>
     </div>
     <div class="hero-stats">
       <div><strong>28</strong><span>chapters planned</span></div>
@@ -70,30 +70,26 @@
     </div>
   </div>
 
-  <h2>Chapters</h2>
-  <div class="chapter-grid">
-    <a class="chapter-card" data-chapter-link="chapter-01" href="chapters/chapter-01-why-rag-exists/lesson.html">
-      <span class="chapter-card-num">Chapter 1</span>
-      <h3>Why RAG Exists</h3>
-      <p>Hallucinations, private knowledge, trusted context, and the builder mindset.</p>
-      <span class="chapter-card-cta">Start learning</span>
-    </a>
-    <a class="chapter-card" data-chapter-link="chapter-02" href="docs/curriculum/index.html">
-      <span class="chapter-card-num">Chapter 2</span>
-      <h3>The RAG Query Lifecycle</h3>
-      <p>Coming next: question, retrieval, context, prompt, generation, evaluation.</p>
-    </a>
-    <a class="chapter-card" data-chapter-link="chapter-03" href="docs/curriculum/index.html">
-      <span class="chapter-card-num">Chapter 3</span>
-      <h3>Types of RAG</h3>
-      <p>Coming next: naive, advanced, agentic, graph, corrective, and adaptive RAG.</p>
-    </a>
-  </div>
+  <section id="chapters" class="course-map" aria-labelledby="chapters-title">
+    <div class="section-heading-row">
+      <div>
+        <span class="section-kicker">Complete learning path</span>
+        <h2 id="chapters-title">All Chapters</h2>
+      </div>
+      <a href="docs/curriculum/index.html" class="section-link">Open roadmap</a>
+    </div>
+    <p class="section-intro">
+      The sidebar and this chapter map are connected to the same course data.
+      As each chapter is built, it becomes a live lesson with quiz, exercises,
+      practice bank, interview prep, and project work connected at the bottom.
+    </p>
+    <div id="chapter-map" class="module-list" aria-live="polite"></div>
+  </section>
 </main>
 
 <script src="assets/chapters-data.js"></script>
 <script src="assets/progress.js"></script>
 <script src="assets/sidebar.js"></script>
+<script src="assets/home.js"></script>
 </body>
 </html>
-
