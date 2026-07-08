@@ -4,7 +4,7 @@ This roadmap mirrors the `python-for-everyone` teaching model: chapters grouped
 into modules, each chapter ending with exercises, practice, interview prep, and
 a project increment.
 
-RAG for Everyone Live UI: <https://technaom.github.io/rag-projects/>
+RAG for Everyone Live UI: <https://technaom.github.io/rag-projects/rag-for-everyone/>
 
 Each chapter also includes a GenAI thought-process journal. Learners practice
 how to frame problems, write prompts, test assumptions, critique model answers,

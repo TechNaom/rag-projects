@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG for Everyone — Free, Interactive RAG Course</title>
+<meta name="description" content="A free, visual, engineering-first RAG course with prompt testing, retrieval labs, evaluation practice, and portfolio projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="./" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="#chapters">All Chapters</a>
+      <a href="../docs/curriculum/index.html">Roadmap</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="page">
+    <span class="hero-eyebrow">Free · visual · engineering-first</span>
+    <h1>Learn RAG like a modern AI builder.</h1>
+    <p class="lede">
+      Build intuition by inspecting documents, chunks, retrieval results,
+      grounded prompts, eval failures, and GenAI decision journals tied to a
+      real working RAG project.
+    </p>
+    <div class="hero-badges">
+      <span>Plain-language first</span>
+      <span>Prompt-testing labs</span>
+      <span>Retrieval evaluation</span>
+      <span>Portfolio projects</span>
+    </div>
+    <div class="action-row">
+      <a href="../chapters/chapter-01-why-rag-exists/lesson.html" class="btn-primary">Start Chapter 1</a>
+      <a href="#chapters" class="btn-secondary">Browse chapters</a>
+    </div>
+    <div class="hero-stats">
+      <div><strong>28</strong><span>chapters planned</span></div>
+      <div><strong>8</strong><span>modules</span></div>
+      <div><strong>1</strong><span>working RAG engine</span></div>
+      <div><strong>0</strong><span>signup required</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="page">
+  <h2>Why This Course Is Different</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>Built From A Real System</h3>
+      <p>The course is anchored in the Northkeep policy assistant, not detached slides.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Thought Process Included</h3>
+      <p>Learners practice framing, prompting, testing, critique, and decision logs.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Evaluation Over Vibes</h3>
+      <p>Retrieval misses become learning material through Recall@K, MRR, and failure analysis.</p>
+    </div>
+  </div>
+
+  <section id="chapters" class="course-map" aria-labelledby="chapters-title">
+    <div class="section-heading-row">
+      <div>
+        <span class="section-kicker">Complete learning path</span>
+        <h2 id="chapters-title">All Chapters</h2>
+      </div>
+      <a href="../docs/curriculum/index.html" class="section-link">Open roadmap</a>
+    </div>
+    <p class="section-intro">
+      The sidebar and this chapter map are connected to the same course data.
+      As each chapter is built, it becomes a live lesson with quiz, exercises,
+      practice bank, interview prep, and project work connected at the bottom.
+    </p>
+    <div id="chapter-map" class="module-list" aria-live="polite"></div>
+  </section>
+</main>
+
+<script src="../assets/chapters-data.js"></script>
+<script src="../assets/progress.js"></script>
+<script src="../assets/sidebar.js"></script>
+<script>window.RFE_HOME_ROOT = "../";</script>
+<script src="../assets/home.js"></script>
+</body>
+</html>

@@ -43,7 +43,8 @@
   }
 
   function renderChapter(chapter, moduleTitle, accentClass) {
-    const href = chapter.path || "docs/curriculum/index.html";
+    const root = window.RFE_HOME_ROOT || "";
+    const href = chapter.path ? `${root}${chapter.path}` : `${root}docs/curriculum/index.html`;
     const status = chapter.path ? "Live" : "Planned";
     const completeClass = isComplete(chapter.id) ? " chapter-complete" : "";
     const soonClass = chapter.path ? "" : " chapter-card-planned";

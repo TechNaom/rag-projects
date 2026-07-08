@@ -4,7 +4,7 @@ Free, interactive RAG course and build-in-public engineering track for
 new-age learners: visual lessons, prompt-testing labs, retrieval experiments,
 evaluation practice, interview prep, and portfolio projects.
 
-🔗 **RAG for Everyone Live UI:** <https://technaom.github.io/rag-projects/>
+🔗 **RAG for Everyone Live UI:** <https://technaom.github.io/rag-projects/rag-for-everyone/>
 
 This course should follow the same philosophy as `python-for-everyone`:
 
@@ -95,7 +95,7 @@ evals, and architecture decisions.
 
 This course is in design foundation state.
 
-- RAG for Everyone Live UI: <https://technaom.github.io/rag-projects/>
+- RAG for Everyone Live UI: <https://technaom.github.io/rag-projects/rag-for-everyone/>
 - Existing engine: `../01-policy-rag-poc`
 - Existing content channel: `../02-linkedin-content`
 - Course architecture: `docs/course-architecture.md`
