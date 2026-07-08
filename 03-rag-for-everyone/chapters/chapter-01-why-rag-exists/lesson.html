@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 — Why RAG Exists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="has-sidebar" data-active-chapter="chapter-01">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="../../docs/curriculum/index.html">Roadmap</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="thinking-journal.md">Thought journal</a>
+    </nav>
+  </div>
+</header>
+
+<main class="content-layout">
+  <article class="lesson-main">
+    <p class="hero-eyebrow">Chapter 1</p>
+    <h1>Why RAG Exists</h1>
+    <p class="lede">
+      Imagine asking an AI assistant, "Can I report fraud directly to the SEC
+      under our company policy?" A smooth answer is not enough. You need the
+      right answer, from the right document, with a source you can verify.
+    </p>
+
+    <section id="problem" class="subtopic">
+      <h2>The Problem RAG Solves</h2>
+      <p>
+        In the early days of using large language models, many people treated
+        them like magical encyclopedias. Ask a question, get a confident answer.
+        That felt amazing until the answer sounded right but was quietly wrong,
+        outdated, or completely unrelated to the private documents the user
+        actually cared about.
+      </p>
+      <p>
+        That is the doorway into RAG. A language model can write fluently, but
+        fluency is not the same as evidence. If an employee asks, "How many
+        vacation days do I get after five years?", the assistant should not
+        guess from general HR knowledge. It should read the company's policy and
+        cite the source.
+      </p>
+      <div class="lesson-card">
+        <h3>Plain-language definition</h3>
+        <p>
+          Retrieval-Augmented Generation means: retrieve trusted information
+          first, then generate an answer using that retrieved context.
+        </p>
+      </div>
+      <div class="lesson-card">
+        <h3>A tiny history</h3>
+        <p>
+          First, teams tried prompting models harder. Then they tried pasting
+          longer and longer documents into the chat. Eventually the pattern
+          became clear: serious systems need a retrieval step. Find the right
+          evidence first. Ask the model to answer second.
+        </p>
+      </div>
+    </section>
+
+    <section id="memory-vs-context" class="subtopic">
+      <h2>Model Memory vs. Trusted Context</h2>
+      <p>
+        Model memory is what the model learned during training. Trusted context
+        is what your system provides at answer time. RAG is the discipline of
+        choosing, formatting, and testing that context.
+      </p>
+      <p>
+        Think of the model as a brilliant colleague who writes well, reasons
+        quickly, and sometimes speaks too confidently. RAG is how we hand that
+        colleague the exact binder, page, and paragraph before asking them to
+        respond.
+      </p>
+      <pre><code>User question
+  -> retrieve policy chunks
+  -> build grounded prompt
+  -> generate answer with citations
+  -> evaluate retrieval and answer quality</code></pre>
+      <figure class="diagram-figure">
+        <img src="diagrams/architecture.svg" alt="Northkeep Policy Assistant RAG architecture diagram showing policy corpus, chunking, embeddings, vector store, retrieval, prompt, answer, and evaluation.">
+        <figcaption>
+          The core RAG move: retrieve trusted evidence before asking the model to
+          write the answer.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="northkeep" class="subtopic">
+      <h2>The Northkeep Policy Assistant</h2>
+      <p>
+        This repository already has a working RAG engine in
+        <code>01-policy-rag-poc</code>. It uses synthetic banking HR and
+        compliance policies, local TF-IDF + SVD embeddings, ChromaDB retrieval,
+        Groq or Ollama generation, and a golden retrieval eval set.
+      </p>
+      <p>
+        We will use that project like our training ground. Not a toy that only
+        works in a demo, and not a giant enterprise system that hides every
+        moving part. It is small enough to understand and real enough to expose
+        the decisions that matter.
+      </p>
+      <div class="lesson-card">
+        <h3>Current eval baseline</h3>
+        <p>
+          Recall@3 is 86.7% and MRR is 0.789. Two training-policy misses are
+          preserved as learning material because real systems improve through
+          failure analysis.
+        </p>
+      </div>
+      <div class="diagram-card">
+        <h3>Text diagram: where the evidence enters</h3>
+        <pre><code>Employee question
+  -> retrieve top policy chunks
+  -> build trusted context block
+  -> prompt model with rules + context
+  -> answer with citations
+  -> evaluate retrieval and answer quality</code></pre>
+        <p>
+          This text version matters because architecture should be explainable
+          even without a rendered image. If you can draw it in plain text, you
+          probably understand it.
+        </p>
+      </div>
+    </section>
+
+    <section id="thought-process" class="subtopic">
+      <h2>GenAI Builder Thought Process</h2>
+      <div class="thinking-box">
+        <p>
+          New-age builders do not just ask AI for an answer. They frame the
+          problem, state assumptions, test outputs against evidence, critique
+          failures, and record engineering decisions.
+        </p>
+      </div>
+      <p>
+        In this chapter, your thought process is simple: when would model memory
+        be risky, and what evidence should the assistant retrieve before it
+        answers?
+      </p>
+      <p>
+        This is the new learning style we want to model. We are not just asking
+        GenAI to finish tasks. We are learning how to think with it: frame the
+        question, test the answer, challenge the result, and record the decision
+        so someone else can learn from it later.
+      </p>
+    </section>
+
+    <section id="recap" class="subtopic">
+      <h2>Points To Remember</h2>
+      <ul>
+        <li>RAG is for grounded answers from trusted context.</li>
+        <li>Good prompts do not rescue bad retrieval.</li>
+        <li>Evaluation turns failures into engineering tasks.</li>
+        <li>The builder owns the judgment, even when AI helps.</li>
+      </ul>
+      <div class="action-row">
+        <a class="btn-primary" href="quiz.html">Take the quiz</a>
+        <a class="btn-secondary" href="thinking-journal.md">Open the thought journal</a>
+      </div>
+    </section>
+  </article>
+</main>
+
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>

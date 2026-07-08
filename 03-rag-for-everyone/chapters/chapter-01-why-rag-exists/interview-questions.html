@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Questions — Why RAG Exists</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="has-sidebar" data-active-chapter="chapter-01">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<main class="content-layout">
+  <article class="lesson-main">
+    <h1>Interview Questions: Why RAG Exists</h1>
+    <div class="lesson-card">
+      <h2>What problem does RAG solve?</h2>
+      <p><strong>Strong answer:</strong> RAG lets an AI system answer from trusted external context instead of relying only on model memory.</p>
+      <p><strong>Red flag:</strong> "RAG just makes the model smarter."</p>
+      <p><strong>Follow-up:</strong> When would long context be enough?</p>
+    </div>
+    <div class="lesson-card">
+      <h2>Why are citations important?</h2>
+      <p><strong>Strong answer:</strong> Citations let users verify that an answer came from approved policy sources.</p>
+      <p><strong>Red flag:</strong> "The model is usually right."</p>
+      <p><strong>Follow-up:</strong> What should the assistant do when context is insufficient?</p>
+    </div>
+    <div class="lesson-card">
+      <h2>Why can a good prompt still produce a bad RAG answer?</h2>
+      <p><strong>Strong answer:</strong> Bad retrieval gives the prompt irrelevant or missing evidence.</p>
+      <p><strong>Red flag:</strong> "Just tell the model not to hallucinate."</p>
+      <p><strong>Follow-up:</strong> Which retrieval metrics would you use?</p>
+    </div>
+  </article>
+</main>
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>
+

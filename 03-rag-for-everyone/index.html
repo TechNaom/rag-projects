@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG for Everyone — Free, Interactive RAG Course</title>
+<meta name="description" content="A free, visual, engineering-first RAG course with prompt testing, retrieval labs, evaluation practice, and portfolio projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="index.html" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="docs/curriculum/index.html">Roadmap</a>
+      <a href="https://github.com/TechNaom/rag-projects">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="page">
+    <span class="hero-eyebrow">Free · visual · engineering-first</span>
+    <h1>Learn RAG like a modern AI builder.</h1>
+    <p class="lede">
+      Build intuition by inspecting documents, chunks, retrieval results,
+      grounded prompts, eval failures, and GenAI decision journals tied to a
+      real working RAG project.
+    </p>
+    <div class="hero-badges">
+      <span>Plain-language first</span>
+      <span>Prompt-testing labs</span>
+      <span>Retrieval evaluation</span>
+      <span>Portfolio projects</span>
+    </div>
+    <div class="action-row">
+      <a href="chapters/chapter-01-why-rag-exists/lesson.html" class="btn-primary">Start Chapter 1</a>
+      <a href="docs/curriculum/index.html" class="btn-secondary">View roadmap</a>
+    </div>
+    <div class="hero-stats">
+      <div><strong>28</strong><span>chapters planned</span></div>
+      <div><strong>8</strong><span>modules</span></div>
+      <div><strong>1</strong><span>working RAG engine</span></div>
+      <div><strong>0</strong><span>signup required</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="page">
+  <h2>Why This Course Is Different</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>Built From A Real System</h3>
+      <p>The course is anchored in the Northkeep policy assistant, not detached slides.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Thought Process Included</h3>
+      <p>Learners practice framing, prompting, testing, critique, and decision logs.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Evaluation Over Vibes</h3>
+      <p>Retrieval misses become learning material through Recall@K, MRR, and failure analysis.</p>
+    </div>
+  </div>
+
+  <h2>Chapters</h2>
+  <div class="chapter-grid">
+    <a class="chapter-card" data-chapter-link="chapter-01" href="chapters/chapter-01-why-rag-exists/lesson.html">
+      <span class="chapter-card-num">Chapter 1</span>
+      <h3>Why RAG Exists</h3>
+      <p>Hallucinations, private knowledge, trusted context, and the builder mindset.</p>
+      <span class="chapter-card-cta">Start learning</span>
+    </a>
+    <a class="chapter-card" data-chapter-link="chapter-02" href="docs/curriculum/index.html">
+      <span class="chapter-card-num">Chapter 2</span>
+      <h3>The RAG Query Lifecycle</h3>
+      <p>Coming next: question, retrieval, context, prompt, generation, evaluation.</p>
+    </a>
+    <a class="chapter-card" data-chapter-link="chapter-03" href="docs/curriculum/index.html">
+      <span class="chapter-card-num">Chapter 3</span>
+      <h3>Types of RAG</h3>
+      <p>Coming next: naive, advanced, agentic, graph, corrective, and adaptive RAG.</p>
+    </a>
+  </div>
+</main>
+
+<script src="assets/chapters-data.js"></script>
+<script src="assets/progress.js"></script>
+<script src="assets/sidebar.js"></script>
+</body>
+</html>
+

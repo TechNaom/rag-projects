@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# Python environments
+.venv/
+venv/
+
+# Local configuration and secrets
+.env
+config/config.ini
+config/*.local.ini
+
+# Generated RAG artifacts
+data/chroma_db/
+data/embedder.pkl
+

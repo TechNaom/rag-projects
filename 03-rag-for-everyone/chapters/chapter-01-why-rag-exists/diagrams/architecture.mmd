@@ -1,0 +1,16 @@
+flowchart TD
+    A[Employee Question] --> B[Retrieve Top Chunks]
+    B --> C[Trusted Context: policy excerpts]
+    C --> D[Grounded Prompt: rules + context]
+    D --> E[Generated Answer: cites sources]
+    E --> F[Evaluation: Recall@K + MRR]
+
+    G[(Policy Corpus)] --> H[Chunking]
+    H --> I[Embeddings]
+    I --> J[(ChromaDB Vector Store)]
+    J --> B
+
+    B -. failure point .-> K[Wrong source retrieved]
+    D -. failure point .-> L[Weak grounding instruction]
+    E -. failure point .-> M[Unsupported answer]
+

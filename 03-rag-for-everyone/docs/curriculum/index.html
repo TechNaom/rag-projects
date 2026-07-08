@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG for Everyone Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="CURRICULUM_MAP.md">Markdown roadmap</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <h1>Roadmap</h1>
+  <p class="lede">
+    The course mirrors the Python for Everyone architecture: chapters grouped
+    into modules, each chapter ending with exercises, practice, interview prep,
+    a project increment, and a GenAI thought-process journal.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>Module 1: RAG Foundations</h3>
+      <p>Why RAG exists, the query lifecycle, RAG architecture families, and how to read system diagrams.</p>
+      <p><strong>Outcome:</strong> explain a RAG system end to end.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 2: Documents and Ingestion</h3>
+      <p>Source documents, parsing, cleaning, metadata, and repeatable ingestion pipelines.</p>
+      <p><strong>Outcome:</strong> turn messy source material into traceable knowledge units.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 3: Chunking</h3>
+      <p>Fixed, recursive, semantic, and hierarchical chunking, plus failure analysis.</p>
+      <p><strong>Outcome:</strong> choose chunking strategies based on retrieval behavior.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 4: Embeddings and Similarity</h3>
+      <p>Vectors, cosine similarity, local TF-IDF + SVD, neural embeddings, drift, and reindexing.</p>
+      <p><strong>Outcome:</strong> reason about embedding choices and limitations.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 5: Vector Stores and Retrieval</h3>
+      <p>ChromaDB, top-k retrieval, hybrid search, BM25, reranking, and retrieval trade-offs.</p>
+      <p><strong>Outcome:</strong> design and debug retrieval stacks.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 6: Prompting for RAG</h3>
+      <p>Context injection, grounded system prompts, citations, refusal behavior, and prompt testing.</p>
+      <p><strong>Outcome:</strong> write prompts that are grounded and testable.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 7: Evaluation</h3>
+      <p>Recall@K, MRR, faithfulness, groundedness, answer relevance, and failure analysis.</p>
+      <p><strong>Outcome:</strong> measure RAG behavior instead of demoing by vibes.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Module 8: Production RAG</h3>
+      <p>Access control, auditability, observability, cost, deployment patterns, and capstone design.</p>
+      <p><strong>Outcome:</strong> defend a production RAG architecture and portfolio project.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Every Chapter Includes</h3>
+      <p>Lesson, quiz, exercises, practice, interview prep, project, and GenAI thought-process journal.</p>
+      <p><strong>Outcome:</strong> learn like a responsible new-age AI builder.</p>
+    </div>
+  </div>
+
+  <h2>Chapter Path</h2>
+  <div class="chapter-grid">
+    <a class="chapter-card" data-chapter-link="chapter-01" href="../../chapters/chapter-01-why-rag-exists/lesson.html">
+      <span class="chapter-card-num">Chapter 1</span>
+      <h3>Why RAG Exists</h3>
+      <p>Hallucinations, private knowledge, trusted context, and citations.</p>
+    </a>
+    <div class="chapter-card"><span class="chapter-card-num">Chapter 2</span><h3>The RAG Query Lifecycle</h3><p>Question, retrieval, context, prompt, answer, evaluation.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapter 3</span><h3>Types of RAG</h3><p>Naive, advanced, agentic, graph, corrective, adaptive.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapter 4</span><h3>Architecture Diagrams</h3><p>Components, flows, failure points, and trade-offs.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 5-8</span><h3>Documents and Ingestion</h3><p>Source formats, parsing, metadata, and pipelines.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 9-11</span><h3>Chunking</h3><p>Chunk strategies and failure analysis.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 12-14</span><h3>Embeddings</h3><p>Vector intuition, local embeddings, neural embeddings.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 15-18</span><h3>Retrieval</h3><p>Vector stores, top-k, hybrid search, reranking.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 19-21</span><h3>Prompting</h3><p>Grounding, citations, refusals, prompt tests.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 22-24</span><h3>Evaluation</h3><p>Retrieval metrics, answer quality, failure analysis.</p></div>
+    <div class="chapter-card"><span class="chapter-card-num">Chapters 25-28</span><h3>Production and Capstone</h3><p>Safety, observability, deployment, portfolio build.</p></div>
+  </div>
+
+  <h2>Canonical Source</h2>
+  <p>
+    The editable roadmap lives in
+    <a href="CURRICULUM_MAP.md">CURRICULUM_MAP.md</a>. Keep this page and
+    <code>assets/chapters-data.js</code> aligned as chapters are built.
+  </p>
+</main>
+
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>

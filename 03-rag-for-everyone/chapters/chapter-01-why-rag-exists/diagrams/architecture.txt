@@ -1,0 +1,40 @@
+Northkeep Policy Assistant: RAG Flow
+
++-------------------+       +---------------------+
+| Employee Question | ----> | Retrieve Top Chunks |
++-------------------+       +---------------------+
+                                  |
+                                  v
+                         +------------------+
+                         | Trusted Context  |
+                         | policy excerpts  |
+                         +------------------+
+                                  |
+                                  v
+                         +------------------+
+                         | Grounded Prompt  |
+                         | rules + context  |
+                         +------------------+
+                                  |
+                                  v
+                         +------------------+
+                         | Generated Answer |
+                         | cites sources    |
+                         +------------------+
+                                  |
+                                  v
+                         +------------------+
+                         | Evaluation       |
+                         | Recall@K + MRR   |
+                         +------------------+
+
+Key idea:
+The model does not answer first. The system retrieves evidence first.
+
+Failure points to inspect:
+- Wrong document retrieved.
+- Useful context split across chunks.
+- Prompt does not force citation.
+- Answer contains facts not found in context.
+- Evaluation misses an important real-world question.
+

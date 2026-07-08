@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Why RAG Exists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body class="has-sidebar" data-active-chapter="chapter-01" data-chapter-id="chapter-01">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="lesson.html">Lesson</a>
+      <a href="../../docs/curriculum/index.html">Roadmap</a>
+    </nav>
+  </div>
+</header>
+
+<main class="content-layout">
+  <article class="lesson-main">
+    <p class="hero-eyebrow">Chapter 1 Quiz</p>
+    <h1>Why RAG Exists</h1>
+    <p id="quiz-score">Score: 0 / 5</p>
+    <div class="quiz-progress"><span id="quiz-progress-fill"></span></div>
+
+    <section class="quiz-question">
+      <p>1. RAG stands for Retrieval-Augmented <span class="fib-row"><input id="q1" class="fib-blank" data-answers="generation" aria-label="Answer 1"><button class="check-btn" data-check-for="q1">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
+    </section>
+
+    <section class="quiz-question mcq-question">
+      <p id="q2-label">2. Why is RAG useful for internal company policy questions?</p>
+      <div class="mcq-options" role="group" aria-labelledby="q2-label">
+        <button type="button" class="mcq-option" data-correct="false">Because it makes the model creative</button>
+        <button type="button" class="mcq-option" data-correct="true">Because it grounds answers in trusted documents</button>
+        <button type="button" class="mcq-option" data-correct="false">Because it removes the need for evaluation</button>
+      </div>
+      <span class="mcq-feedback" aria-live="polite"></span>
+    </section>
+
+    <section class="quiz-question">
+      <p>3. The RAG assistant should cite the source <span class="fib-row"><input id="q3" class="fib-blank" data-answers="document,policy,policy document" aria-label="Answer 3"><button class="check-btn" data-check-for="q3">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
+    </section>
+
+    <section class="quiz-question mcq-question">
+      <p id="q4-label">4. If retrieval finds the wrong chunks, what should we improve first?</p>
+      <div class="mcq-options" role="group" aria-labelledby="q4-label">
+        <button type="button" class="mcq-option" data-correct="true">Retrieval, chunking, embeddings, or reranking</button>
+        <button type="button" class="mcq-option" data-correct="false">Only the final writing style</button>
+        <button type="button" class="mcq-option" data-correct="false">The page colors</button>
+      </div>
+      <span class="mcq-feedback" aria-live="polite"></span>
+    </section>
+
+    <section class="quiz-question">
+      <p>5. A strong GenAI builder turns failures into <span class="fib-row"><input id="q5" class="fib-blank" data-answers="evals,evaluation cases,test cases,tests" aria-label="Answer 5"><button class="check-btn" data-check-for="q5">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
+    </section>
+
+    <button id="check-all-btn">Check all fill-in answers</button>
+    <p id="quiz-celebration">Perfect score. Chapter marked complete.</p>
+  </article>
+</main>
+
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+<script src="../../assets/quiz-engine.js"></script>
+</body>
+</html>
+

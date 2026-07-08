@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Northkeep Policy Assistant RAG Architecture</title>
+  <desc id="desc">A RAG flow diagram showing policy corpus, chunking, embeddings, vector store, retrieval, trusted context, grounded prompt, answer, and evaluation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7c86"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #0e7c86; stroke-width: 2; rx: 10; }
+      .store { fill: #eefafa; stroke: #095b63; stroke-width: 2; rx: 10; }
+      .eval { fill: #fff8df; stroke: #c28a00; stroke-width: 2; rx: 10; }
+      .label { font: 700 18px Inter, Arial, sans-serif; fill: #172326; }
+      .small { font: 500 13px Inter, Arial, sans-serif; fill: #5d7075; }
+      .arrow { stroke: #0e7c86; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="960" height="520" fill="#f7fbfb"/>
+  <text x="40" y="44" class="label">Northkeep Policy Assistant: RAG Flow</text>
+  <text x="40" y="68" class="small">Retrieve trusted evidence first. Generate the answer second.</text>
+
+  <rect class="store" x="40" y="110" width="180" height="76"/>
+  <text class="label" x="62" y="142">Policy Corpus</text>
+  <text class="small" x="62" y="164">Markdown HR and</text>
+  <text class="small" x="62" y="181">compliance docs</text>
+
+  <rect class="box" x="270" y="110" width="150" height="76"/>
+  <text class="label" x="307" y="142">Chunk</text>
+  <text class="small" x="292" y="164">preserve source</text>
+  <text class="small" x="292" y="181">and section</text>
+
+  <rect class="box" x="470" y="110" width="160" height="76"/>
+  <text class="label" x="503" y="142">Embed</text>
+  <text class="small" x="493" y="164">TF-IDF + SVD</text>
+  <text class="small" x="493" y="181">dense vectors</text>
+
+  <rect class="store" x="680" y="110" width="200" height="76"/>
+  <text class="label" x="721" y="142">Vector Store</text>
+  <text class="small" x="724" y="164">ChromaDB collection</text>
+
+  <rect class="box" x="40" y="286" width="190" height="76"/>
+  <text class="label" x="64" y="318">Employee Question</text>
+  <text class="small" x="69" y="340">"Can I report fraud?"</text>
+
+  <rect class="box" x="280" y="286" width="160" height="76"/>
+  <text class="label" x="313" y="318">Retrieve</text>
+  <text class="small" x="308" y="340">top-k chunks</text>
+
+  <rect class="box" x="490" y="286" width="170" height="76"/>
+  <text class="label" x="518" y="318">Prompt</text>
+  <text class="small" x="514" y="340">rules + context</text>
+
+  <rect class="box" x="710" y="286" width="180" height="76"/>
+  <text class="label" x="748" y="318">Answer</text>
+  <text class="small" x="745" y="340">grounded + cited</text>
+
+  <rect class="eval" x="385" y="420" width="210" height="70"/>
+  <text class="label" x="423" y="452">Evaluation</text>
+  <text class="small" x="424" y="474">Recall@K, MRR, misses</text>
+
+  <path class="arrow" d="M220 148 H270"/>
+  <path class="arrow" d="M420 148 H470"/>
+  <path class="arrow" d="M630 148 H680"/>
+  <path class="arrow" d="M780 186 V245 H360 V286"/>
+  <path class="arrow" d="M230 324 H280"/>
+  <path class="arrow" d="M440 324 H490"/>
+  <path class="arrow" d="M660 324 H710"/>
+  <path class="arrow" d="M800 362 V455 H595"/>
+</svg>
