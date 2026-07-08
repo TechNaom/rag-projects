@@ -57,6 +57,49 @@ This section should show professional reasoning without pretending the model's
 private internal reasoning is visible. We teach the learner's thought process:
 clear assumptions, careful tests, and evidence-backed decisions.
 
+## Production Depth Standard
+
+This course is for senior professionals and serious builders as much as it is
+for new learners. Keep the language approachable, but make the substance
+production-grade.
+
+Every chapter should include:
+
+- At least 10 meaningful examples, checks, or scenario prompts for core concepts.
+- Two layers of assessment when useful: a concept check and a production judgment
+  check.
+- Practice-bank problems grounded in real product, platform, compliance,
+  latency, cost, support, and evaluation situations.
+- At least five realistic project or scenario options for portfolio thinking.
+- Explicit failure modes and what the learner would inspect first.
+- Trade-offs that a senior engineer or architect would care about.
+
+Avoid generic "what is X" content by itself. Every explanation should connect to
+how a real GenAI system behaves, fails, improves, or gets shipped.
+
+## Conversational Clarity Standard
+
+The course should read like a strong ChatGPT learning conversation: warm,
+direct, practical, and easy to follow. The learner should feel guided, not
+lectured.
+
+Use this voice:
+
+- Start with the situation before the definition.
+- Explain the idea in plain language first.
+- Add the professional term after the intuition lands.
+- Use "you" and "we" naturally.
+- Keep examples close to real work.
+- Make diagrams do teaching work, not decoration.
+- Give senior trade-offs without sounding academic.
+
+Avoid this voice:
+
+- Dense textbook paragraphs.
+- Bullet lists with no story or context.
+- Generic tutorial examples that do not resemble production.
+- Jargon without a plain-language bridge.
+
 ## Content Contract
 
 Every chapter should include:

@@ -21,6 +21,36 @@ not for lesson content. All examples, stories, exercises, projects, and
 thought-process journals in this course must be original to RAG, GenAI systems,
 prompt testing, retrieval, evaluation, and production AI engineering.
 
+## Production depth standard
+
+This is not a shallow intro course. It must be useful for senior professionals
+who work in production environments while still being readable for motivated
+learners. Every chapter should give people material they cannot easily find in
+generic tutorials:
+
+- Real production scenarios, not toy examples.
+- At least 10 meaningful examples or checks when a chapter introduces a core
+  concept.
+- Practice banks with operational, product, compliance, latency, cost, and eval
+  angles.
+- Projects with multiple realistic scenario options.
+- Clear trade-offs, failure modes, and architecture decisions.
+- GenAI thought-process journals that show how strong builders frame, test,
+  critique, and decide.
+
+## Conversational clarity standard
+
+Depth should not make the course hard to read. The voice should feel like a
+helpful expert sitting beside the learner:
+
+- Explain like a real conversation, not a textbook.
+- Use simple sentences before advanced terms.
+- Introduce jargon only when the learner needs it.
+- Say why the concept matters before asking learners to memorize it.
+- Use stories, scenarios, diagrams, and examples to carry the idea.
+- Keep senior-level trade-offs, but unpack them patiently.
+- Make beginners feel invited and senior engineers feel respected.
+
 ## What this is
 
 `RAG for Everyone` is the learning layer on top of the existing

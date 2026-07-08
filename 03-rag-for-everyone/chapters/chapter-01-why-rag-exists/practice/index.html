@@ -15,14 +15,27 @@
 <p><a href="../exercises/index.html">&larr; Back to exercises</a></p>
 <div class="page-meta"><span class="chapter-badge">Chapter 1 Practice Bank</span><span class="reading-time">25 min practice</span></div>
 <h1>Practice Bank: Why RAG Exists</h1>
-<p>Practice turning RAG failure risks into testable eval cases.</p>
-<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#questions">1. RAG questions</a><a href="#eval-cases">2. Eval cases</a></nav>
+<p>
+  This practice bank is built for production judgment. Each scenario asks you
+  to decide whether RAG is appropriate, what evidence should be retrieved, and
+  what failure should become an eval case.
+</p>
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#product">1. Product scenarios</a><a href="#platform">2. Platform scenarios</a><a href="#eval-cases">3. Eval cases</a></nav>
 <div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py (reference)</a></div>
-<h2 id="questions">RAG Questions</h2>
-<div class="task-card"><h3><span class="task-num">1</span> Five RAG-worthy questions</h3><p>List five questions that should use trusted context instead of model memory.</p></div>
-<div class="scenario-card"><span class="scenario-tag">Scenario</span><h3>Unsupported answer risk</h3><p>Write one question where a fluent answer could be dangerous if it is not grounded in a source.</p></div>
+<h2 id="product">Product Scenarios</h2>
+<div class="scenario-card"><span class="scenario-tag">Scenario 1</span><h3>HR Policy Assistant</h3><p>An employee asks about parental leave. Decide the source policy, citation requirement, and failure risk.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 2</span><h3>Customer Support Refund Bot</h3><p>A refund answer depends on country, product tier, and policy version. Define the metadata needed.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 3</span><h3>Sales Enablement Assistant</h3><p>A salesperson asks if they can promise a restricted discount. Identify the approval source and escalation rule.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 4</span><h3>Legal Contract Assistant</h3><p>A PM asks whether model-output logging is allowed. Identify what the assistant can answer and what legal must review.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 5</span><h3>Healthcare Data Assistant</h3><p>A clinician asks about patient data in a demo. Identify access, compliance, and human-review constraints.</p></div>
+<h2 id="platform">Platform Scenarios</h2>
+<div class="scenario-card"><span class="scenario-tag">Scenario 6</span><h3>Security Runbook Assistant</h3><p>An engineer asks what to do after a production API key leak. Decide source, priority, and audit log needs.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 7</span><h3>Engineering Design Assistant</h3><p>A platform engineer asks about latency targets. Identify whether this needs docs, metrics, or both.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 8</span><h3>Finance Compliance Assistant</h3><p>An analyst asks about account identifiers in a report. Define citation and refusal behavior.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 9</span><h3>Developer Documentation Assistant</h3><p>A deploy failed after an environment variable changed. Decide when RAG is enough and when tool use is needed.</p></div>
 <h2 id="eval-cases">Eval Cases</h2>
-<div class="task-card"><h3><span class="task-num">2</span> Turn a risk into a test</h3><p>Write one eval case with a question, expected source, expected behavior, and failure condition.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 10</span><h3>Wrong-Policy Retrieval</h3><p>The assistant retrieves three chunks from the wrong policy but gives a confident answer. Write the eval case and the first engineering experiment you would run.</p></div>
+<div class="task-card"><h3><span class="task-num">1</span> Your production judgment task</h3><p>Pick any three scenarios above. For each one, write: source to retrieve, answer rule, refusal rule, eval case, and first metric to inspect.</p></div>
 <div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div>
 </main>
 <footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>

@@ -1,18 +1,23 @@
-architecture_explainer = """
-Northkeep Policy Assistant
+architecture_brief = """
+Production RAG Architecture Brief
 
-Documents:
+Scenario:
 
-Chunking:
+User and risk profile:
 
-Retrieval:
+Trusted source documents:
 
-Prompting:
+Metadata and access control:
 
-Evaluation:
+Retrieval flow:
+
+Prompt rules and refusal behavior:
+
+Evaluation cases and metrics:
+
+Human escalation path:
 
 Next engineering decision:
 """
 
-print(architecture_explainer)
-
+print(architecture_brief)

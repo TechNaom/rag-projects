@@ -34,12 +34,14 @@
     </div>
     <h1>Why RAG Exists</h1>
     <p>
-      Fill in the blanks or choose the best answer. The goal is not speed; the
-      goal is to make sure the core RAG mental model is sticking.
+      This quiz has two layers: a concept check and a production judgment check.
+      The goal is not speed; the goal is to prove you can recognize where RAG
+      belongs in real systems.
     </p>
     <div class="quiz-progress-wrap" aria-hidden="true"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
 
     <form onsubmit="return false;">
+      <h2>Quiz A: Core Concepts</h2>
       <div class="quiz-question">
         <label for="q1"><span class="q-num">1</span> RAG stands for Retrieval-Augmented <code>____</code>.</label>
         <div class="fib-row"><input id="q1" class="fib-blank" data-answers="generation" aria-label="Answer 1"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
@@ -73,6 +75,47 @@
     <div class="quiz-question">
       <label for="q5"><span class="q-num">5</span> A strong GenAI builder turns failures into <code>____</code>.</label>
       <div class="fib-row"><input id="q5" class="fib-blank" data-answers="evals,evaluation cases,test cases,tests" aria-label="Answer 5"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+    </div>
+
+    <h2>Quiz B: Production Judgment</h2>
+    <div class="quiz-question mcq-question">
+      <p id="q6-label">6. A support bot answers refund questions from a policy that changes every month. What is the strongest reason to use RAG?</p>
+      <div class="mcq-options" role="group" aria-labelledby="q6-label">
+        <button type="button" class="mcq-option" data-correct="false">The bot will sound more friendly</button>
+        <button type="button" class="mcq-option" data-correct="true">The answer must come from the latest approved policy</button>
+        <button type="button" class="mcq-option" data-correct="false">It removes the need for human review forever</button>
+      </div>
+      <span class="mcq-feedback" aria-live="polite"></span>
+    </div>
+
+    <div class="quiz-question">
+      <label for="q7"><span class="q-num">7</span> In production, retrieved chunks should include metadata like source file, section, and access <code>____</code>.</label>
+      <div class="fib-row"><input id="q7" class="fib-blank" data-answers="control,controls,permissions,permission" aria-label="Answer 7"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+    </div>
+
+    <div class="quiz-question mcq-question">
+      <p id="q8-label">8. A model gives a polished answer, but the retrieved context does not support it. What is the best label for the issue?</p>
+      <div class="mcq-options" role="group" aria-labelledby="q8-label">
+        <button type="button" class="mcq-option" data-correct="false">A UI bug</button>
+        <button type="button" class="mcq-option" data-correct="true">An unsupported or ungrounded answer</button>
+        <button type="button" class="mcq-option" data-correct="false">A successful RAG response</button>
+      </div>
+      <span class="mcq-feedback" aria-live="polite"></span>
+    </div>
+
+    <div class="quiz-question">
+      <label for="q9"><span class="q-num">9</span> The metric MRR rewards the expected source appearing higher in the retrieval <code>____</code>.</label>
+      <div class="fib-row"><input id="q9" class="fib-blank" data-answers="ranking,rank,results,result list" aria-label="Answer 9"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+    </div>
+
+    <div class="quiz-question mcq-question">
+      <p id="q10-label">10. Which question is most clearly a RAG question?</p>
+      <div class="mcq-options" role="group" aria-labelledby="q10-label">
+        <button type="button" class="mcq-option" data-correct="false">What is a vector?</button>
+        <button type="button" class="mcq-option" data-correct="false">What is the capital of France?</button>
+        <button type="button" class="mcq-option" data-correct="true">What does our internal policy say about reporting fraud?</button>
+      </div>
+      <span class="mcq-feedback" aria-live="polite"></span>
     </div>
 
     <div id="check-all-wrap">
