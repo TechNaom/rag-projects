@@ -85,6 +85,24 @@ Every chapter should include:
 For non-code chapters, replace Python scripts with datasets, prompt files, or
 evaluation fixtures, but keep the same folder names.
 
+## Template Contract
+
+Reusable templates live in `templates/`. For future chapters, start from these
+templates and only replace the content placeholders. Do not rebuild each page
+from scratch.
+
+- `lesson.template.html`
+- `quiz.template.html`
+- `exercises-index.template.html`
+- `practice-index.template.html`
+- `interview-questions.template.html`
+- `project-index.template.html`
+- `thinking-journal.template.md`
+- `diagram-readme.template.md`
+
+This keeps the course aligned with the `python-for-everyone` standard while
+preserving original RAG/GenAI content.
+
 ## Visual Learning Contract
 
 Architecture-heavy content must include visual support. Learners should be able

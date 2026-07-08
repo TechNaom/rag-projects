@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/style.css">
 </head>
-<body class="has-sidebar" data-active-chapter="chapter-01" data-chapter-id="chapter-01">
+<body data-active-chapter="chapter-01" data-chapter-id="chapter-01">
 <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
 <aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
 <div class="sidebar-scrim" id="sidebar-scrim"></div>
@@ -18,24 +18,34 @@
   <div class="page">
     <a href="../../index.html" class="brand">RAG for Everyone</a>
     <nav>
-      <a href="lesson.html">Lesson</a>
+      <a href="../../index.html">All Chapters</a>
       <a href="../../docs/curriculum/index.html">Roadmap</a>
+      <a href="lesson.html">Lesson</a>
     </nav>
   </div>
 </header>
 
-<main class="content-layout">
-  <article class="lesson-main">
-    <p class="hero-eyebrow">Chapter 1 Quiz</p>
+<main class="page">
+    <p><a href="lesson.html">&larr; Back to the lesson</a></p>
+
+    <div class="page-meta">
+      <span class="chapter-badge">Chapter 1 Quiz</span>
+      <span class="reading-time">5 min check</span>
+    </div>
     <h1>Why RAG Exists</h1>
-    <p id="quiz-score">Score: 0 / 5</p>
-    <div class="quiz-progress"><span id="quiz-progress-fill"></span></div>
+    <p>
+      Fill in the blanks or choose the best answer. The goal is not speed; the
+      goal is to make sure the core RAG mental model is sticking.
+    </p>
+    <div class="quiz-progress-wrap" aria-hidden="true"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
 
-    <section class="quiz-question">
-      <p>1. RAG stands for Retrieval-Augmented <span class="fib-row"><input id="q1" class="fib-blank" data-answers="generation" aria-label="Answer 1"><button class="check-btn" data-check-for="q1">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
-    </section>
+    <form onsubmit="return false;">
+      <div class="quiz-question">
+        <label for="q1"><span class="q-num">1</span> RAG stands for Retrieval-Augmented <code>____</code>.</label>
+        <div class="fib-row"><input id="q1" class="fib-blank" data-answers="generation" aria-label="Answer 1"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+      </div>
 
-    <section class="quiz-question mcq-question">
+    <div class="quiz-question mcq-question">
       <p id="q2-label">2. Why is RAG useful for internal company policy questions?</p>
       <div class="mcq-options" role="group" aria-labelledby="q2-label">
         <button type="button" class="mcq-option" data-correct="false">Because it makes the model creative</button>
@@ -43,13 +53,14 @@
         <button type="button" class="mcq-option" data-correct="false">Because it removes the need for evaluation</button>
       </div>
       <span class="mcq-feedback" aria-live="polite"></span>
-    </section>
+    </div>
 
-    <section class="quiz-question">
-      <p>3. The RAG assistant should cite the source <span class="fib-row"><input id="q3" class="fib-blank" data-answers="document,policy,policy document" aria-label="Answer 3"><button class="check-btn" data-check-for="q3">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
-    </section>
+    <div class="quiz-question">
+      <label for="q3"><span class="q-num">3</span> The assistant should cite the source <code>____</code>.</label>
+      <div class="fib-row"><input id="q3" class="fib-blank" data-answers="document,policy,policy document" aria-label="Answer 3"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+    </div>
 
-    <section class="quiz-question mcq-question">
+    <div class="quiz-question mcq-question">
       <p id="q4-label">4. If retrieval finds the wrong chunks, what should we improve first?</p>
       <div class="mcq-options" role="group" aria-labelledby="q4-label">
         <button type="button" class="mcq-option" data-correct="true">Retrieval, chunking, embeddings, or reranking</button>
@@ -57,16 +68,27 @@
         <button type="button" class="mcq-option" data-correct="false">The page colors</button>
       </div>
       <span class="mcq-feedback" aria-live="polite"></span>
-    </section>
+    </div>
 
-    <section class="quiz-question">
-      <p>5. A strong GenAI builder turns failures into <span class="fib-row"><input id="q5" class="fib-blank" data-answers="evals,evaluation cases,test cases,tests" aria-label="Answer 5"><button class="check-btn" data-check-for="q5">Check</button><span class="fib-feedback" aria-live="polite"></span></span>.</p>
-    </section>
+    <div class="quiz-question">
+      <label for="q5"><span class="q-num">5</span> A strong GenAI builder turns failures into <code>____</code>.</label>
+      <div class="fib-row"><input id="q5" class="fib-blank" data-answers="evals,evaluation cases,test cases,tests" aria-label="Answer 5"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div>
+    </div>
 
-    <button id="check-all-btn">Check all fill-in answers</button>
-    <p id="quiz-celebration">Perfect score. Chapter marked complete.</p>
-  </article>
+    <div id="check-all-wrap">
+      <button type="button" id="check-all-btn" class="check-btn">Check All Answers</button>
+      <span id="quiz-score"></span>
+    </div>
+    <div class="quiz-celebration" id="quiz-celebration" aria-live="polite">Perfect score. Chapter complete.</div>
+  </form>
+
+  <div class="chapter-nav">
+    <a href="lesson.html">&larr; Back to Lesson</a>
+    <a href="exercises/index.html">Exercises &rarr;</a>
+  </div>
 </main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
 
 <script src="../../assets/chapters-data.js"></script>
 <script src="../../assets/progress.js"></script>
@@ -74,4 +96,3 @@
 <script src="../../assets/quiz-engine.js"></script>
 </body>
 </html>
-

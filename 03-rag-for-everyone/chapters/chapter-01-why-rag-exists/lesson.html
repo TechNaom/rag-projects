@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/style.css">
 </head>
-<body class="has-sidebar" data-active-chapter="chapter-01">
+<body data-active-chapter="chapter-01">
 <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
 <aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
 <div class="sidebar-scrim" id="sidebar-scrim"></div>
@@ -18,6 +18,7 @@
   <div class="page">
     <a href="../../index.html" class="brand">RAG for Everyone</a>
     <nav>
+      <a href="../../index.html">All Chapters</a>
       <a href="../../docs/curriculum/index.html">Roadmap</a>
       <a href="quiz.html">Quiz</a>
       <a href="thinking-journal.md">Thought journal</a>
@@ -25,15 +26,36 @@
   </div>
 </header>
 
-<main class="content-layout">
-  <article class="lesson-main">
-    <p class="hero-eyebrow">Chapter 1</p>
+<main class="page">
+  <p><a href="../../index.html">&larr; Back to all chapters</a></p>
+
+  <div class="page-meta">
+    <span class="chapter-badge">Chapter 1 of 28</span>
+    <span class="badge-difficulty">Beginner</span>
+    <span class="reading-time">15 min read</span>
+  </div>
+
     <h1>Why RAG Exists</h1>
     <p class="lede">
       Imagine asking an AI assistant, "Can I report fraud directly to the SEC
       under our company policy?" A smooth answer is not enough. You need the
       right answer, from the right document, with a source you can verify.
     </p>
+
+    <nav class="page-toc" aria-label="On this page">
+      <span class="toc-label">On this page</span>
+      <a href="#problem">1. The problem</a>
+      <a href="#memory-vs-context">2. Memory vs context</a>
+      <a href="#northkeep">3. Northkeep assistant</a>
+      <a href="#thought-process">4. Builder thought process</a>
+      <a href="#recap">5. Points to remember</a>
+    </nav>
+
+    <div class="hook">
+      This chapter is not trying to impress you with architecture words. It is
+      trying to give you the first mental switch: a GenAI system becomes more
+      trustworthy when it knows where its evidence came from.
+    </div>
 
     <section id="problem" class="subtopic">
       <h2>The Problem RAG Solves</h2>
@@ -57,6 +79,12 @@
           Retrieval-Augmented Generation means: retrieve trusted information
           first, then generate an answer using that retrieved context.
         </p>
+      </div>
+      <div class="what-is">
+        <span class="label">What is... retrieval?</span>
+        Retrieval means searching a trusted source and bringing back the most
+        relevant pieces before the model writes an answer. In RAG, retrieval is
+        the evidence-gathering step.
       </div>
       <div class="lesson-card">
         <h3>A tiny history</h3>
@@ -118,6 +146,16 @@
           failure analysis.
         </p>
       </div>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="filename">northkeep_rag_flow.txt</span>
+        </div>
+        <pre><code>question = "Can I report fraud directly to the SEC?"
+retrieved_context = retrieve(question)
+answer = generate_answer(question, retrieved_context)
+evaluate(question, expected_source="10_whistleblower_policy.md")</code></pre>
+      </div>
       <div class="diagram-card">
         <h3>Text diagram: where the evidence enters</h3>
         <pre><code>Employee question
@@ -154,23 +192,46 @@
         question, test the answer, challenge the result, and record the decision
         so someone else can learn from it later.
       </p>
+      <div class="real-world">
+        <span class="label">In the real world</span>
+        <ul>
+          <li>Support assistants need product docs, not guesses.</li>
+          <li>Policy assistants need approved internal documents, not generic HR advice.</li>
+          <li>Research assistants need citations, not confident summaries with missing sources.</li>
+        </ul>
+      </div>
     </section>
 
     <section id="recap" class="subtopic">
-      <h2>Points To Remember</h2>
-      <ul>
-        <li>RAG is for grounded answers from trusted context.</li>
-        <li>Good prompts do not rescue bad retrieval.</li>
-        <li>Evaluation turns failures into engineering tasks.</li>
-        <li>The builder owns the judgment, even when AI helps.</li>
-      </ul>
-      <div class="action-row">
-        <a class="btn-primary" href="quiz.html">Take the quiz</a>
-        <a class="btn-secondary" href="thinking-journal.md">Open the thought journal</a>
+      <div class="points-to-remember">
+        <h2>Points To Remember</h2>
+        <ul>
+          <li>RAG is for grounded answers from trusted context.</li>
+          <li>Retrieval is the evidence-gathering step.</li>
+          <li>Good prompts do not rescue bad retrieval.</li>
+          <li>Evaluation turns failures into engineering tasks.</li>
+          <li>The builder owns the judgment, even when AI helps.</li>
+        </ul>
       </div>
     </section>
-  </article>
+
+  <p>
+    Ready to check what stuck? Head to the interactive quiz next. The flow after
+    that is exercises, practice bank, interview questions, and then the project.
+  </p>
+
+  <div class="chapter-nav">
+    <a href="../../index.html">&larr; All Chapters</a>
+    <a href="quiz.html">Take the Quiz &rarr;</a>
+  </div>
 </main>
+
+<footer class="site-footer">
+  <div class="page">
+    <span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span>
+    <span><a href="https://github.com/TechNaom/rag-projects">github.com/TechNaom/rag-projects</a></span>
+  </div>
+</footer>
 
 <script src="../../assets/chapters-data.js"></script>
 <script src="../../assets/progress.js"></script>
