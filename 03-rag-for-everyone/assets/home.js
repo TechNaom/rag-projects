@@ -50,7 +50,10 @@
 
     return `
       <a class="chapter-card ${accentClass}${completeClass}${soonClass}" data-chapter-link="${escapeHtml(chapter.id)}" href="${href}">
-        <span class="chapter-card-status">${status}</span>
+        <div class="chapter-card-top">
+          <span class="chapter-number-orb">${chapter.num}</span>
+          <span class="chapter-card-status">${status}</span>
+        </div>
         <span class="chapter-card-num">Chapter ${chapter.num}</span>
         <h3>${escapeHtml(chapter.title)}</h3>
         <p>${escapeHtml(chapterDescription(chapter, moduleTitle))}</p>
@@ -68,7 +71,7 @@
       <section class="module-section ${accentClass}">
         <div class="module-section-header">
           <div>
-            <span class="module-kicker">Module ${index + 1}</span>
+            <span class="module-kicker"><span class="module-dot"></span>Module ${index + 1}</span>
             <h3>${escapeHtml(mod.title.replace(/^Module \d+ — /, ""))}</h3>
             <p>${escapeHtml(mod.summary || "A focused path in the RAG engineering journey.")}</p>
           </div>

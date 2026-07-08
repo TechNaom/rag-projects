@@ -927,14 +927,11 @@ button.check-btn:focus-visible,
 }
 
 /* ---------- Landing page chapter list ---------- */
-.chapter-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: 22px;
-}
-
 .course-map {
   margin-top: 56px;
+  width: min(1120px, calc(100vw - var(--sidebar-width) - 64px));
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .section-heading-row,
@@ -947,7 +944,9 @@ button.check-btn:focus-visible,
 
 .section-kicker,
 .module-kicker {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-display);
   font-size: 12px;
   font-weight: 700;
@@ -955,6 +954,14 @@ button.check-btn:focus-visible,
   text-transform: uppercase;
   color: var(--color-teal);
   margin-bottom: 6px;
+}
+
+.module-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--module-accent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--module-accent) 14%, transparent);
 }
 
 .section-link {
@@ -976,16 +983,40 @@ button.check-btn:focus-visible,
 
 .module-list {
   display: grid;
-  gap: 28px;
+  gap: 34px;
 }
 
 .module-section {
   --module-accent: var(--color-blue);
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid rgba(46, 107, 184, 0.13);
+  position: relative;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--module-accent) 11%, transparent), rgba(255, 255, 255, 0.64) 38%),
+    rgba(255, 255, 255, 0.58);
+  border: 1px solid color-mix(in srgb, var(--module-accent) 20%, rgba(16, 27, 51, 0.10));
   border-radius: var(--radius);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  box-shadow: 0 18px 48px rgba(16, 27, 51, 0.10);
+  overflow: hidden;
+}
+
+.module-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--module-accent), color-mix(in srgb, var(--module-accent) 20%, transparent));
+}
+
+.module-section::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  top: -110px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--module-accent) 18%, transparent), transparent 68%);
+  pointer-events: none;
 }
 
 .module-section.module-2,
@@ -1004,14 +1035,17 @@ button.check-btn:focus-visible,
 .chapter-card.module-8 { --module-accent: var(--color-navy); --card-accent: var(--color-navy); }
 
 .module-section-header {
+  position: relative;
+  z-index: 1;
   align-items: flex-start;
   margin-bottom: 18px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(46, 107, 184, 0.12);
+  border-bottom: 1px solid color-mix(in srgb, var(--module-accent) 18%, rgba(16, 27, 51, 0.08));
 }
 
 .module-section-header h3 {
   margin: 0 0 6px;
+  color: color-mix(in srgb, var(--module-accent) 34%, var(--color-navy));
 }
 
 .module-section-header p {
@@ -1032,19 +1066,30 @@ button.check-btn:focus-visible,
   border-radius: 999px;
 }
 
+.chapter-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 18px;
+}
+
 .chapter-card {
   --card-accent: var(--color-blue);
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 26px 24px 22px;
+  gap: 8px;
+  min-height: 228px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.58)),
+    var(--color-card-bg);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 18%, rgba(16, 27, 51, 0.09));
+  border-radius: 12px;
+  padding: 18px 18px 16px;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 28px rgba(16, 27, 51, 0.08);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -1054,29 +1099,52 @@ button.check-btn:focus-visible,
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--card-accent), transparent);
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 15%, transparent));
 }
 
 .chapter-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
   border-color: var(--card-accent);
 }
 
 .chapter-card-planned {
-  background: rgba(255, 255, 255, 0.42);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42)),
+    rgba(255, 255, 255, 0.42);
 }
 
 .chapter-card-planned:hover {
   transform: translateY(-2px);
 }
 
+.chapter-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.chapter-number-orb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--card-accent) 92%, #fff), color-mix(in srgb, var(--card-accent) 52%, var(--color-navy)));
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--card-accent) 24%, transparent);
+}
+
 .chapter-card-status {
-  position: absolute;
-  top: 14px;
-  right: 16px;
   background: color-mix(in srgb, var(--card-accent) 10%, #fff);
   border: 1px solid color-mix(in srgb, var(--card-accent) 26%, #fff);
   color: var(--card-accent);
@@ -1100,20 +1168,22 @@ button.check-btn:focus-visible,
   font-weight: 700;
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--card-accent);
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--card-accent) 78%, var(--color-navy));
 }
 
 .chapter-card h3 {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 21px;
+  line-height: 1.15;
   margin: 2px 0 2px;
-  color: var(--color-navy);
+  color: color-mix(in srgb, var(--card-accent) 28%, var(--color-navy));
 }
 
 .chapter-card p {
   font-size: 14px;
-  color: var(--color-text-soft);
+  line-height: 1.55;
+  color: #3E4554;
   margin: 0 0 14px;
   flex-grow: 1;
 }
@@ -2078,6 +2148,23 @@ table {
   h1 { font-size: 28px; }
   h2 { font-size: 22px; }
   .btn-secondary { margin-left: 0; margin-top: 10px; }
+  .course-map {
+    width: calc(100vw - 32px);
+  }
+  .section-heading-row,
+  .module-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .module-section {
+    padding: 18px;
+  }
+  .chapter-grid {
+    grid-template-columns: 1fr;
+  }
+  .chapter-card {
+    min-height: 0;
+  }
 
   .quiz-question { padding: 18px 18px; }
   .quiz-question label { font-size: 15px; gap: 10px; }
@@ -2099,6 +2186,9 @@ table {
 
 @media (max-width: 900px) {
   body { padding-left: 0; }
+  .course-map {
+    width: min(1120px, calc(100vw - 40px));
+  }
   .sidebar {
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
