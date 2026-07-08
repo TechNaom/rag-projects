@@ -77,6 +77,49 @@ Every chapter should include:
 Avoid generic "what is X" content by itself. Every explanation should connect to
 how a real GenAI system behaves, fails, improves, or gets shipped.
 
+## TechNaom Content Experience Standard
+
+Do not write dry textbook content. The course should feel like a personal mentor
+is explaining the concept clearly, simply, and practically.
+
+For every major topic, follow this teaching flow:
+
+1. Start with the problem.
+2. Explain why the concept exists.
+3. Use a real-life analogy.
+4. Explain the mental model.
+5. Introduce the technical term.
+6. Show where it fits in real engineering.
+7. Give a simple example.
+8. Give a production-level example.
+9. Explain trade-offs.
+10. Mention common mistakes.
+11. Add interview-level understanding.
+12. End with a crisp summary.
+
+Each topic should include these blocks when the page type allows it:
+
+- Title.
+- Why this topic matters.
+- Simple explanation.
+- Real-life analogy.
+- Technical explanation.
+- Architecture view.
+- Code or practical example.
+- Production considerations.
+- Common mistakes.
+- Interview questions.
+- Mini assignment.
+- Summary.
+
+Use analogies that help the learner feel the idea: pizza slices for chunking,
+library shelves for indexing, Google Maps for routing/search, a receptionist for
+query routing, a chef preparing ingredients for pipelines, a security guard for
+guardrails, a manager assigning work for agents, a warehouse for vector
+databases, and a spotlight for attention.
+
+Simple outside. Production-grade inside.
+
 ## Conversational Clarity Standard
 
 The course should read like a strong ChatGPT learning conversation: warm,
@@ -127,6 +170,17 @@ Every chapter should include:
 
 For non-code chapters, replace Python scripts with datasets, prompt files, or
 evaluation fixtures, but keep the same folder names.
+
+## Exercise and Interview Minimums
+
+Every chapter must give the learner enough reps to build production instinct:
+
+- Exercises: at least 8 hands-on tasks, with at least 5 production-gear tasks.
+- Practice bank: at least 10 realistic scenarios.
+- Interview questions: at least 15 questions, grouped by concept, production
+  judgment, evaluation, and architecture.
+- Each interview question should include a strong answer, a red flag answer, a
+  follow-up, and what the question proves about the learner.
 
 ## Template Contract
 

@@ -13,14 +13,22 @@
 <header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
 <main class="page">
 <p><a href="../quiz.html">&larr; Back to the quiz</a></p>
-<div class="page-meta"><span class="chapter-badge">Chapter 1 Exercises</span><span class="reading-time">15 min hands-on</span></div>
+<div class="page-meta"><span class="chapter-badge">Chapter 1 Exercises</span><span class="reading-time">35 min hands-on</span></div>
 <h1>Exercises: Why RAG Exists</h1>
-<p>Use <code>starter.py</code> to classify questions as model memory, web search, or RAG.</p>
+<p>Use <code>starter.py</code> to classify questions as model memory, web search, or RAG. Then push the answer toward production: sources, citations, metadata, refusal behavior, and evals.</p>
+<div class="what-is"><span class="label">Mentor note</span>Start simple, then add pressure. A real RAG builder does not only ask, "Can the model answer?" We ask, "Can the system prove where the answer came from, and can it behave safely when it does not know?"</div>
 <div class="what-is"><span class="label">How to run these</span>Download <code>starter.py</code>, fill the TODOs, and compare with <code>solution.py</code>.</div>
 <div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py (reference)</a></div>
 <div class="task-card"><h3><span class="task-num">1</span> Classify the question</h3><p>Decide whether each question should use model memory, web search, or RAG.</p></div>
 <div class="task-card"><h3><span class="task-num">2</span> Explain your reasoning</h3><p>For each RAG question, write why trusted context is needed.</p></div>
-<div class="task-card"><h3><span class="task-num">3</span> Add one policy question</h3><p>Add one Northkeep-style question that should be answered from the policy corpus.</p></div>
+<div class="task-card"><h3><span class="task-num">3</span> Add two policy questions</h3><p>Add one low-risk and one high-risk Northkeep question so you can feel how risk changes the answer design.</p></div>
+<div class="task-card"><h3><span class="task-num">4</span> Add source requirements</h3><p>For each RAG question, name the document, runbook, contract, or policy that should be retrieved.</p></div>
+<div class="task-card"><h3><span class="task-num">5</span> Add citation behavior</h3><p>Decide whether the assistant should cite section, page, paragraph, version, approval owner, or all of them.</p></div>
+<div class="task-card"><h3><span class="task-num">6</span> Add refusal behavior</h3><p>Pick two weak-context situations and write a helpful refusal instead of a confident guess.</p></div>
+<div class="task-card"><h3><span class="task-num">7</span> Add metadata filters</h3><p>Choose country, department, role, policy version, product tier, or classification filters for three RAG questions.</p></div>
+<div class="task-card"><h3><span class="task-num">8</span> Add a production failure</h3><p>Create a wrong-document retrieval case and write what you would inspect first.</p></div>
+<div class="task-card"><h3><span class="task-num">9</span> Create a golden eval</h3><p>Write expected source, expected behavior, bad answer to catch, and the first metric you would inspect.</p></div>
+<div class="task-card"><h3><span class="task-num">10</span> Explain it to a product manager</h3><p>Write five simple sentences explaining why this product needs RAG instead of only a better prompt.</p></div>
 <div class="chapter-nav"><a href="../quiz.html">&larr; Back to Quiz</a><a href="../practice/index.html">Practice Bank &rarr;</a></div>
 </main>
 <footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>

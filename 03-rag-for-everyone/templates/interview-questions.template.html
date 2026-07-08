@@ -31,12 +31,19 @@
   </div>
   <h1>Interview Questions: {{CHAPTER_TITLE}}</h1>
   <p>{{INTERVIEW_INTRO}}</p>
+  <div class="what-is">
+    <span class="label">Interview standard</span>
+    Include at least 15 questions grouped by concept, production judgment,
+    evaluation, and architecture. Each question should include strong answer,
+    red flag, follow-up, and what this proves.
+  </div>
 
   <div class="lesson-card">
-    <h2>{{QUESTION_TITLE}}</h2>
+    <h2>{{QUESTION_NUMBER}}. {{QUESTION_TITLE}}</h2>
     <p><strong>Strong answer:</strong> {{STRONG_ANSWER}}</p>
     <p><strong>Red flag:</strong> {{RED_FLAG}}</p>
     <p><strong>Follow-up:</strong> {{FOLLOW_UP}}</p>
+    <p><strong>What this proves:</strong> {{WHAT_THIS_PROVES}}</p>
   </div>
 
   <div class="chapter-nav">
@@ -56,4 +63,3 @@
 <script src="../../assets/sidebar.js"></script>
 </body>
 </html>
-

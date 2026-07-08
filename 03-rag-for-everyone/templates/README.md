@@ -56,6 +56,39 @@ Every learner-facing page should have:
 - Clear next-step chapter navigation.
 - Footer.
 
+## Content Experience Pattern
+
+Each topic should feel like a guided mentor conversation, not documentation.
+Use this structure when building lessons, exercises, practice banks, and
+interview preparation:
+
+1. Title.
+2. Why this topic matters.
+3. Simple explanation.
+4. Real-life analogy.
+5. Technical explanation.
+6. Architecture view.
+7. Code or practical example.
+8. Production considerations.
+9. Common mistakes.
+10. Interview questions.
+11. Mini assignment.
+12. Summary.
+
+Keep the surface simple and the engineering depth strong. The learner should be
+able to read comfortably, but a senior engineer should still see production
+judgment, trade-offs, evaluation thinking, and failure-mode awareness.
+
+## Exercise and Interview Minimums
+
+- Exercises: at least 8 tasks per chapter.
+- Practice bank: at least 10 real scenarios per chapter.
+- Interview questions: at least 15 per chapter.
+- Each interview question should include strong answer, red flag, follow-up, and
+  what the question proves.
+- At least 5 exercises or scenarios must be production-gear problems involving
+  risk, access, evaluation, latency, cost, compliance, operations, or rollout.
+
 ## Relative Paths
 
 For files directly under a chapter folder:
@@ -68,4 +101,3 @@ For files inside nested folders such as `exercises/`, `practice/`, and
 
 - CSS/assets root: `../../../assets/...`
 - Course root: `../../../index.html`
-
