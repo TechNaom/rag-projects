@@ -46,10 +46,12 @@
     <a href="#analogy">2. Receptionist analogy</a>
     <a href="#technical">3. Technical lifecycle</a>
     <a href="#architecture">4. Architecture view</a>
-    <a href="#production">5. Production considerations</a>
-    <a href="#mistakes">6. Common mistakes</a>
-    <a href="#assignment">7. Mini assignment</a>
-    <a href="#summary">8. Summary</a>
+    <a href="#execution">5. Execution pipeline</a>
+    <a href="#retrieval">6. Retrieval decisions</a>
+    <a href="#production">7. Production considerations</a>
+    <a href="#mistakes">8. Common mistakes</a>
+    <a href="#assignment">9. Mini assignment</a>
+    <a href="#summary">10. Summary</a>
   </nav>
 
   <div class="hook">
@@ -118,6 +120,29 @@
   -> citations, refusal, or escalation
   -> logs, evals, and improvement loop</code></pre>
     </div>
+    <p>
+      Notice something important: the lifecycle is not only the online request.
+      A serious RAG product has two connected pipelines. The offline pipeline
+      prepares knowledge; the online pipeline answers user questions.
+    </p>
+    <div class="diagram-card">
+      <h3>Two-pipeline view</h3>
+      <pre><code>Offline indexing pipeline
+  source docs -> parse -> clean -> chunk -> enrich metadata
+  -> embed / index -> validate freshness -> publish index version
+
+Online query pipeline
+  user question -> intent -> filters -> retrieve -> rerank
+  -> assemble context -> grounded prompt -> answer/refuse
+  -> citations -> trace logs -> eval feedback</code></pre>
+    </div>
+    <p>
+      This is where many beginner explanations become too small. They say
+      "retrieve then generate," but production engineers ask sharper questions:
+      Which index version did we search? Which retrieval strategy did we use?
+      Which filters were applied? Did reranking help or hurt? Did the final
+      citation actually support the answer?
+    </p>
     <div class="feature-grid">
       <div class="feature-card">
         <h3>Question</h3>
@@ -135,6 +160,17 @@
         <h3>Grounded Answer</h3>
         <p>The model response, shaped by instructions, context, citations, and refusal rules.</p>
       </div>
+    </div>
+    <div class="lesson-card">
+      <h3>Production-level example</h3>
+      <p>
+        User asks: "Can a contractor in Germany access customer logs during a
+        Sev1 incident?" A production lifecycle should not simply search for
+        "contractor logs." It should infer the risky intent, apply region and
+        role filters, retrieve both the access policy and incident runbook,
+        check whether the user is allowed to see those sources, and return an
+        answer that cites the rule or escalates to the incident commander.
+      </p>
     </div>
   </section>
 
@@ -155,6 +191,86 @@
     </p>
   </section>
 
+  <section id="execution" class="subtopic">
+    <h2>Execution Pipeline: What Actually Runs</h2>
+    <p>
+      In a production application, the lifecycle becomes an execution pipeline.
+      That means every step has an owner, input, output, failure mode, and
+      telemetry. This is the difference between a demo and a system you can
+      operate.
+    </p>
+    <div class="lesson-card">
+      <h3>Pipeline contract</h3>
+      <p>
+        Each stage should produce a small artifact: intent label, filters,
+        candidate source ids, reranked source ids, context block, prompt version,
+        answer status, citation ids, refusal reason, latency, and cost.
+      </p>
+    </div>
+    <div class="diagram-card">
+      <h3>Traceable execution contract</h3>
+      <pre><code>{
+  "request_id": "req_042",
+  "intent": "security_access",
+  "filters": {"region": "EU", "role": "contractor"},
+  "retrieved": ["access_policy", "sev1_runbook"],
+  "reranked": ["sev1_runbook", "access_policy"],
+  "answer_status": "escalated",
+  "citations": ["access_policy", "sev1_runbook"],
+  "latency_ms": 842,
+  "first_metric_to_check": "paired_source_recall"
+}</code></pre>
+    </div>
+    <p>
+      When something goes wrong, this trace tells the team where to look. If the
+      right source is absent, retrieval or indexing failed. If the right source
+      is present but the answer ignores it, prompt grounding or generation
+      failed. If the answer cites a source that was not retrieved, citation
+      control failed.
+    </p>
+  </section>
+
+  <section id="retrieval" class="subtopic">
+    <h2>Retrieval Decisions Inside the Lifecycle</h2>
+    <p>
+      Retrieval is not one decision. It is a bundle of engineering decisions
+      that shape the whole product.
+    </p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Indexing Strategy</h3>
+        <p>How documents are chunked, embedded, versioned, and published into an index.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Retrieval Strategy</h3>
+        <p>Vector search, keyword search, hybrid search, query routing, or multi-query retrieval.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Reranking Strategy</h3>
+        <p>Retrieve more candidates, then reorder them so the strongest evidence reaches the model.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Context Strategy</h3>
+        <p>Choose how much evidence to send, in what order, with which source labels.</p>
+      </div>
+    </div>
+    <div class="real-world">
+      <span class="label">Senior trade-off</span>
+      <ul>
+        <li>Vector search catches meaning, but can miss exact policy terms.</li>
+        <li>Keyword search catches exact terms, but can miss paraphrases.</li>
+        <li>Hybrid search improves coverage, but adds tuning complexity.</li>
+        <li>Reranking improves precision, but adds latency and cost.</li>
+        <li>More context improves recall, but can distract the model.</li>
+      </ul>
+    </div>
+    <p>
+      Later chapters go deep into indexing and retrieval strategies. Here, the
+      key point is placement: indexing prepares the searchable knowledge, and
+      retrieval chooses what evidence enters the online lifecycle.
+    </p>
+  </section>
+
   <section id="production" class="subtopic">
     <h2>Production Considerations</h2>
     <div class="real-world">
@@ -166,7 +282,17 @@
         <li><strong>Freshness:</strong> stale indexes can produce outdated answers.</li>
         <li><strong>Observability:</strong> log the question, retrieved source ids, rank, answer status, and refusal reason.</li>
         <li><strong>Evaluation:</strong> test retrieval and answer quality separately.</li>
+        <li><strong>Pipeline ownership:</strong> define who owns ingestion, retrieval, prompt behavior, evals, and release gates.</li>
       </ul>
+    </div>
+    <div class="lesson-card">
+      <h3>Production adoption checklist</h3>
+      <p>
+        Before a RAG lifecycle is ready for real users, you should be able to
+        answer: What documents are approved? How fresh is the index? What access
+        controls are enforced? What happens when retrieval is weak? Which evals
+        block release? What logs prove the answer was grounded?
+      </p>
     </div>
     <div class="thinking-box">
       <p>
@@ -194,6 +320,14 @@
     <div class="lesson-card">
       <h3>4. Evaluating only the answer</h3>
       <p>A beautiful answer can hide a retrieval failure. Evaluate both.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>5. Treating indexing as a one-time setup</h3>
+      <p>Indexes need refresh rules, versioning, validation, and rollback just like application releases.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>6. Hiding the trace</h3>
+      <p>If the product team cannot inspect source ids, scores, filters, and answer status, failures become guesswork.</p>
     </div>
   </section>
 
