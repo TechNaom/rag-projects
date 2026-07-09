@@ -1,0 +1,8 @@
+Simple source Q&A -> Naive RAG
+Need better retrieval -> Advanced RAG
+Need clean modules -> Modular RAG
+Weak evidence is dangerous -> Corrective RAG
+Different query paths -> Adaptive RAG
+Needs tools/actions -> Agentic RAG
+Needs relationships -> Graph RAG
+Needs images/tables/audio/video -> Multimodal RAG

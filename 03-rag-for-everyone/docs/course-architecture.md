@@ -162,6 +162,7 @@ Every chapter should include:
 - `project/solution.py`: reference implementation.
 - `thinking-journal.md`: prompts, assumptions, tests, critique notes, and
   architecture decisions for the chapter.
+- `quality-audit.md`: chapter-level content quality checkpoint before review.
 - `diagrams/`: visual learning assets for the chapter.
   - `architecture.txt`: plain-text diagram that works in Markdown, terminals,
     and low-bandwidth contexts.
@@ -170,6 +171,29 @@ Every chapter should include:
 
 For non-code chapters, replace Python scripts with datasets, prompt files, or
 evaluation fixtures, but keep the same folder names.
+
+## Quality Audit Checkpoint
+
+Every chapter must include a `quality-audit.md` file before it is considered
+ready for review. Use `quality-audits/chapter-audit.template.md`.
+
+The audit must score:
+
+- Conversational clarity.
+- Production depth.
+- Real-time adoption usefulness.
+- Architecture and diagrams.
+- Exercises.
+- Practice bank.
+- Interview preparation.
+- Project implementation.
+- GenAI thought-process layer.
+- Navigation/template consistency.
+- Accessibility/readability.
+- Public artifact readiness.
+
+Any score below 4 should create a follow-up task before the chapter is promoted
+as review-ready.
 
 ## Exercise and Interview Minimums
 

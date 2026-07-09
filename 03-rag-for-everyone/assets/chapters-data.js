@@ -41,7 +41,24 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-03", num: 3, title: "Types of RAG", path: null },
+      {
+        id: "chapter-03",
+        num: 3,
+        title: "Types of RAG",
+        path: "chapters/chapter-03-types-of-rag/lesson.html",
+        description: "Naive, advanced, modular, corrective, adaptive, agentic, graph, and multimodal RAG as production architecture choices.",
+        subtopics: [
+          { id: "problem", title: "Why types matter" },
+          { id: "analogy", title: "Real-life analogy" },
+          { id: "patterns", title: "Pattern map" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "decision", title: "Decision framework" },
+          { id: "production", title: "Production trade-offs" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-04", num: 4, title: "RAG Execution Pipelines", path: null }
     ]
   },

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+<title id="title">Types of RAG decision map</title><desc id="desc">A decision map for choosing naive, advanced, corrective, adaptive, agentic, graph, or multimodal RAG.</desc>
+<rect width="1120" height="560" rx="28" fill="#f4f8fa"/><rect x="34" y="34" width="1052" height="492" rx="24" fill="#fff" opacity=".82" stroke="#b9dfe4"/>
+<text x="70" y="88" font-family="Inter,Arial" font-size="30" font-weight="800" fill="#101b33">Types of RAG: Architecture Selection</text>
+<text x="70" y="120" font-family="Inter,Arial" font-size="15" fill="#536a70">Choose by product risk, corpus shape, workflow, and eval needs.</text>
+<g font-family="Inter,Arial" font-size="14" fill="#172326">
+<rect x="70" y="170" width="210" height="70" rx="14" fill="#e8f7f9" stroke="#13a7b5"/><text x="92" y="212" font-weight="800">Naive RAG</text>
+<rect x="330" y="170" width="210" height="70" rx="14" fill="#e8f7f9" stroke="#13a7b5"/><text x="352" y="212" font-weight="800">Advanced RAG</text>
+<rect x="590" y="170" width="210" height="70" rx="14" fill="#fff7df" stroke="#ffc93c"/><text x="612" y="212" font-weight="800">Corrective RAG</text>
+<rect x="850" y="170" width="210" height="70" rx="14" fill="#fff7df" stroke="#ffc93c"/><text x="872" y="212" font-weight="800">Adaptive RAG</text>
+<rect x="200" y="330" width="210" height="70" rx="14" fill="#eef0ff" stroke="#8a5cf6"/><text x="222" y="372" font-weight="800">Agentic RAG</text>
+<rect x="460" y="330" width="210" height="70" rx="14" fill="#eef0ff" stroke="#8a5cf6"/><text x="482" y="372" font-weight="800">Graph RAG</text>
+<rect x="720" y="330" width="210" height="70" rx="14" fill="#eef0ff" stroke="#8a5cf6"/><text x="742" y="372" font-weight="800">Multimodal RAG</text>
+</g>
+<g stroke="#0e7c86" stroke-width="3" fill="none" opacity=".8"><path d="M280 205h50"/><path d="M540 205h50"/><path d="M800 205h50"/><path d="M435 240l-105 90"/><path d="M695 240l-105 90"/><path d="M955 240l-105 90"/></g>
+</svg>

@@ -1,0 +1,10 @@
+flowchart TD
+  A[Product scenario] --> B{Simple source Q&A?}
+  B -->|Yes| C[Naive RAG]
+  B -->|No| D{Need better retrieval?}
+  D -->|Yes| E[Advanced RAG]
+  D -->|Risky evidence| F[Corrective RAG]
+  D -->|Varied query paths| G[Adaptive RAG]
+  D -->|Tools/actions| H[Agentic RAG]
+  D -->|Relationships| I[Graph RAG]
+  D -->|Non-text sources| J[Multimodal RAG]
