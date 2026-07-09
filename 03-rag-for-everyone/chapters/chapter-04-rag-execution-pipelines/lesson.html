@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4 — RAG Execution Pipelines</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-04">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 4 of 28</span><span class="badge-difficulty">Foundation</span><span class="reading-time">45 min read</span></div>
+<h1>RAG Execution Pipelines</h1>
+<p class="lede">A RAG system is not one prompt and one search call. It is an execution pipeline: a sequence of controlled steps that prepare knowledge, answer users, handle weak evidence, and leave traces engineers can debug.</p>
+
+<div class="lesson-hero">
+<h2>How to read this chapter</h2>
+<ul>
+<li><strong>Read it as a production runbook:</strong> each pipeline stage has an input, output, owner, failure mode, metric, and rollback plan.</li>
+<li><strong>Separate offline and online pipelines:</strong> ingestion prepares the knowledge; query execution answers the user.</li>
+<li><strong>Watch the handoffs:</strong> most RAG failures happen when metadata, permissions, source ids, scores, or answer status disappear between stages.</li>
+<li><strong>Think like an operator:</strong> the system is not production-ready until you can explain what happened for any answer after the fact.</li>
+</ul>
+</div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why pipelines matter</a><a href="#analogy">2. Kitchen analogy</a><a href="#offline">3. Offline indexing pipeline</a><a href="#online">4. Online query pipeline</a><a href="#contracts">5. Pipeline contracts</a><a href="#fallbacks">6. Fallbacks and gates</a><a href="#architecture">7. Architecture view</a><a href="#production">8. Production operations</a><a href="#mistakes">9. Common mistakes</a><a href="#assignment">10. Mini assignment</a><a href="#summary">11. Summary</a></nav>
+
+<div class="hook">The difference between a RAG demo and a RAG product is not only model quality. It is whether the execution path is repeatable, observable, testable, and safe under messy real-world inputs.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 11</span>
+<h2>Why Execution Pipelines Matter</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>A pipeline turns a RAG idea into an operating system.</li><li>Every stage should produce an artifact that can be logged, tested, and debugged.</li><li>Pipeline thinking prevents teams from blaming the model when ingestion, retrieval, routing, permissions, or context assembly failed first.</li></ul></div>
+<div class="lesson-note"><strong>Why this matters:</strong> a smooth answer is not enough. Production teams need to know which index was searched, which route was chosen, which filters ran, which evidence entered the prompt, and why the final answer was allowed, refused, or escalated.</div>
+<p>A beginner RAG explanation often says: retrieve, then generate. That is useful as a first mental model, but it is too small for production. Real systems ingest documents, parse files, clean text, chunk content, enrich metadata, build indexes, validate freshness, route queries, retrieve candidates, rerank evidence, assemble context, generate answers, attach citations, apply safety rules, log traces, and run evals.</p>
+<p>Execution pipelines are how we stop treating those steps as magic. A pipeline names the stages and makes each stage accountable.</p>
+<div class="quick-recap"><span class="label">Quick recap</span><ul><li>Pipeline stages make RAG debuggable.</li><li>Artifacts make stages testable.</li><li>Traces make production behavior explainable.</li></ul></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 11</span>
+<h2>Real-Life Analogy: A Professional Kitchen</h2>
+<p>A restaurant does not start cooking only when the customer orders. Ingredients are selected, washed, chopped, labeled, stored, and checked before service begins. Then, during service, the chef reads the order, chooses the station, cooks, plates, checks quality, and sends the dish out.</p>
+<p>RAG works the same way. The offline pipeline prepares the knowledge ingredients. The online pipeline handles the live user order. If the ingredients are stale or mislabeled, the chef cannot fix everything at the plating step.</p>
+<div class="diagram-card"><h3>Kitchen-to-RAG map</h3><pre><code>Prep kitchen     -> Offline indexing pipeline
+Clean ingredients -> Parse, clean, chunk, enrich metadata
+Service order    -> Online user query
+Chef station     -> Router / retrieval strategy
+Quality check    -> Grounding, citation, refusal, eval
+Service log      -> Trace, metrics, feedback loop</code></pre></div>
+</section>
+
+<section id="offline" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 11</span>
+<h2>Offline Indexing Pipeline</h2>
+<p>The offline pipeline prepares knowledge before any user asks a question. This is where production quality often starts or fails.</p>
+<div class="rag-flow">Source docs <span>-></span> parse <span>-></span> clean <span>-></span> chunk <span>-></span> enrich metadata <span>-></span> embed/index <span>-></span> validate <span>-></span> publish</div>
+<div class="field-depth"><div><h4>Production failure mode</h4><p>A document is updated, but the index still serves the old version. The assistant cites a real source, but the source is stale.</p></div><div><h4>Engineering checklist</h4><ul><li>Store document id, owner, version, source URI, effective date, and access labels.</li><li>Run parse and chunk validation before publishing a new index.</li><li>Keep index versions and support rollback.</li></ul></div><div><h4>Metrics to watch</h4><p>Parse failure rate, chunk coverage, stale-source rate, embedding/index build time, and validation pass rate.</p></div></div>
+<details class="go-deeper"><summary>Go Deeper: why indexing is a release pipeline</summary><p>A bad index can break answers without any application code changing. That is why production RAG treats indexing like a release: build, validate, compare, publish, monitor, and roll back if quality drops.</p></details>
+</section>
+
+<section id="online" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 11</span>
+<h2>Online Query Pipeline</h2>
+<p>The online pipeline runs when a user asks a question. It should be fast, safe, and traceable.</p>
+<div class="rag-flow">Question <span>-></span> intent/risk <span>-></span> permissions <span>-></span> retrieve <span>-></span> rerank <span>-></span> assemble context <span>-></span> answer/refuse <span>-></span> trace</div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Query understanding</span><h3>Turn user words into system decisions</h3><p>Detect intent, missing details, risk level, domain, route, and whether clarification is needed before retrieval.</p></div><div class="depth-panel"><span>Evidence assembly</span><h3>Build context with discipline</h3><p>Choose source order, trim noise, preserve citations, and separate trusted evidence from user instructions.</p></div><div class="depth-panel"><span>Answer policy</span><h3>Answer, refuse, or escalate</h3><p>The model should not always answer. Some requests need clarification, escalation, or refusal when evidence is weak.</p></div><div class="depth-panel"><span>Trace</span><h3>Leave an engineering footprint</h3><p>Record route, filters, sources, scores, prompt version, answer status, latency, cost, and feedback.</p></div></div>
+</section>
+
+<section id="contracts" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 11</span>
+<h2>Pipeline Contracts</h2>
+<p>A pipeline contract defines what each stage accepts, returns, and guarantees. Without contracts, every stage becomes informal glue code.</p>
+<div class="code-window"><div class="code-window-bar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="filename">rag_execution_trace.json</span></div><pre><code>{
+  "request_id": "req_1042",
+  "index_version": "policies_2026_07_09",
+  "route": "corrective_policy_rag",
+  "risk": "high",
+  "filters": {"region": "EU", "role": "contractor"},
+  "retrieved_sources": ["access_policy_v4", "sev1_runbook_v2"],
+  "reranked_sources": ["sev1_runbook_v2", "access_policy_v4"],
+  "answer_status": "escalated",
+  "refusal_reason": null,
+  "latency_ms": 914,
+  "cost_estimate": 0.0062
+}</code></pre></div>
+<div class="lesson-note"><strong>Senior habit:</strong> if a field matters during an incident review, it should be captured during normal execution. Do not wait for failure to wish you had better traces.</div>
+</section>
+
+<section id="fallbacks" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 11</span>
+<h2>Fallbacks and Release Gates</h2>
+<p>Production pipelines need planned behavior for weak evidence, missing sources, bad permissions, slow retrieval, model timeout, and low confidence. A fallback is not an apology after failure. It is part of the design.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Pipeline gate</span><strong>Do not let weak evidence become a confident answer.</strong><p>The system should choose answer, ask clarification, retry retrieval, refuse, escalate, or open a human-review path.</p></div><div class="decision-upgrades"><div><span>Weak retrieval?</span><strong>Retry or clarify</strong><p>Rewrite the query, broaden search, ask for missing details, or escalate if the risk is high.</p></div><div><span>Access denied?</span><strong>Refuse safely</strong><p>Do not retrieve or summarize unauthorized documents. Explain the access issue without leaking content.</p></div></div></div>
+<div class="field-depth"><div><h4>Release gate</h4><p>Block launch if retrieval recall, citation support, refusal accuracy, or route accuracy falls below threshold.</p></div><div><h4>Runtime gate</h4><p>Block final answers when retrieved evidence is missing, stale, unauthorized, contradictory, or below confidence threshold.</p></div><div><h4>Human gate</h4><p>Escalate high-risk decisions such as security, legal, healthcare, finance, or customer-impacting actions.</p></div></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 11</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/execution-pipeline.svg" alt="RAG execution pipeline diagram with offline indexing and online query execution flows"><figcaption>Production RAG has two connected pipelines: knowledge preparation and live query execution.</figcaption></figure>
+<div class="diagram-card"><h3>Text diagram</h3><pre><code>Offline:
+  documents -> parser -> cleaner -> chunker -> metadata -> index -> validation -> published version
+
+Online:
+  user -> router -> permissions -> retriever -> reranker -> context builder -> model -> answer policy -> trace
+
+Feedback:
+  logs -> evals -> failure analysis -> pipeline improvement</code></pre></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 11</span>
+<h2>Production Operations</h2>
+<div class="case-study-card"><span class="decision-label">Case study</span><h3>Security runbook assistant</h3><p>A security engineer asks, "Can a contractor access EU customer logs during Sev1?" The pipeline must apply role and region filters, retrieve both the access policy and incident runbook, verify permissions, and escalate if evidence is incomplete.</p><ul><li><strong>Offline risk:</strong> the runbook was updated but not reindexed.</li><li><strong>Online risk:</strong> retrieval finds the runbook but misses the access policy.</li><li><strong>Answer risk:</strong> the model answers from only one source and sounds confident.</li><li><strong>Operational fix:</strong> paired-source recall, stale-source alerts, and escalation when required source families are missing.</li></ul></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Cache lookup</span><h3>Cache only safe things</h3><p>Cache stable low-risk answers, retrieval candidates, or embeddings carefully. Do not reuse answers across users when permissions, role, region, or source freshness can change the result.</p></div><div class="depth-panel"><span>Sync vs async</span><h3>Choose execution style by latency and reliability</h3><p>Online query execution is usually synchronous because the user is waiting. Ingestion, index validation, eval runs, and feedback analysis are usually asynchronous jobs.</p></div><div class="depth-panel"><span>Query rewriting</span><h3>Rewrite with traceability</h3><p>Query rewriting can improve recall, but log both the original and rewritten query so failures can be debugged and evals can compare win/loss behavior.</p></div><div class="depth-panel"><span>Cost control</span><h3>Spend quality budget where risk demands it</h3><p>Use cheaper paths for simple questions and stronger paths for high-risk requests. Track cost by route, not only total model spend.</p></div></div>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Ownership:</strong> assign owners for ingestion, retrieval, routing, prompts, evals, and observability.</li><li><strong>Versioning:</strong> version indexes, prompts, routing rules, and eval sets.</li><li><strong>Monitoring:</strong> watch retrieval recall, route accuracy, latency, cost, refusal rate, and user feedback.</li><li><strong>Incident response:</strong> keep traces searchable by request id, user intent, source id, and answer status.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 11</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">01</span><h3>Treating ingestion as a one-time script</h3><div><strong>Symptom:</strong> the product silently serves old or partially parsed content.</div><div><strong>Better move:</strong> treat indexing as a versioned release pipeline with validation and rollback.</div></article><article class="mistake-card"><span class="mistake-id">02</span><h3>Losing metadata between stages</h3><div><strong>Symptom:</strong> answers cannot be traced back to source version, owner, access policy, or effective date.</div><div><strong>Better move:</strong> preserve metadata from source document to final citation.</div></article><article class="mistake-card"><span class="mistake-id">03</span><h3>No fallback for weak retrieval</h3><div><strong>Symptom:</strong> the assistant answers even when evidence is missing or low confidence.</div><div><strong>Better move:</strong> define retry, clarification, refusal, and escalation paths.</div></article><article class="mistake-card"><span class="mistake-id">04</span><h3>Logging only final answers</h3><div><strong>Symptom:</strong> incident reviews cannot explain why the answer happened.</div><div><strong>Better move:</strong> log route, filters, sources, scores, context, prompt version, answer status, latency, and cost.</div></article><article class="mistake-card"><span class="mistake-id">05</span><h3>Mixing trusted context and user text</h3><div><strong>Symptom:</strong> user instructions can pollute the evidence block.</div><div><strong>Better move:</strong> clearly separate system instructions, retrieved evidence, and user question.</div></article><article class="mistake-card"><span class="mistake-id">06</span><h3>No release gate for eval failures</h3><div><strong>Symptom:</strong> a pipeline update ships because the UI still works.</div><div><strong>Better move:</strong> block release on retrieval, routing, citation, refusal, and latency thresholds.</div></article></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 11</span>
+<h2>Mini Assignment</h2>
+<p>Choose one assistant: HR policy, security runbook, customer support, developer docs, or sales enablement. Write its offline pipeline, online pipeline, required trace fields, fallback rules, and three release gates.</p>
+</section>
+
+<section id="summary" class="subtopic"><span class="subtopic-label">Sub-topic 11 of 11</span><div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Production RAG has offline and online execution pipelines.</li><li>Each stage needs inputs, outputs, owners, metrics, and failure handling.</li><li>Metadata and permissions must survive the whole pipeline.</li><li>Weak evidence should trigger retry, clarification, refusal, or escalation.</li><li>Traces turn mysterious answers into debuggable engineering events.</li></ul></div></section>
+<p>Next, test the pipeline concepts in the quiz, then build a pipeline trace simulator in the exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-03-types-of-rag/project/index.html">&larr; Chapter 3 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

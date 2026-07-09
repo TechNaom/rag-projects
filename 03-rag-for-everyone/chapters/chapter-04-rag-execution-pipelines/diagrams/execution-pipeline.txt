@@ -1,0 +1,28 @@
+RAG Execution Pipeline
+
+Offline indexing pipeline:
+  Source documents
+    -> Parser
+    -> Cleaner
+    -> Chunker
+    -> Metadata enricher
+    -> Embed / index
+    -> Validation gates
+    -> Published index version
+
+Online query pipeline:
+  User question
+    -> Intent and risk router
+    -> Permission filter
+    -> Retriever
+    -> Reranker
+    -> Context builder
+    -> Grounded prompt
+    -> Answer / refusal / escalation
+    -> Trace and feedback
+
+Improvement loop:
+  Logs + evals + user feedback
+    -> Failure analysis
+    -> Pipeline changes
+    -> New release gates

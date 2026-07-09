@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph Offline["Offline indexing pipeline"]
+    A[Source documents] --> B[Parse]
+    B --> C[Clean]
+    C --> D[Chunk]
+    D --> E[Enrich metadata]
+    E --> F[Embed and index]
+    F --> G[Validate]
+    G --> H[Publish index version]
+  end
+
+  subgraph Online["Online query pipeline"]
+    I[User question] --> J[Intent and risk router]
+    J --> K[Permission filter]
+    K --> L[Retrieve]
+    L --> M[Rerank]
+    M --> N[Build context]
+    N --> O[Grounded prompt]
+    O --> P[Answer / refuse / escalate]
+    P --> Q[Trace]
+  end
+
+  H --> L
+  Q --> R[Evals and feedback]
+  R --> B

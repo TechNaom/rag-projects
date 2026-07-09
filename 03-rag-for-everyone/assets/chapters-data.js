@@ -59,7 +59,26 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-04", num: 4, title: "RAG Execution Pipelines", path: null }
+      {
+        id: "chapter-04",
+        num: 4,
+        title: "RAG Execution Pipelines",
+        path: "chapters/chapter-04-rag-execution-pipelines/lesson.html",
+        description: "Offline indexing, online query execution, pipeline contracts, gates, fallbacks, traces, and production operations.",
+        subtopics: [
+          { id: "problem", title: "Why pipelines matter" },
+          { id: "analogy", title: "Kitchen analogy" },
+          { id: "offline", title: "Offline indexing pipeline" },
+          { id: "online", title: "Online query pipeline" },
+          { id: "contracts", title: "Pipeline contracts" },
+          { id: "fallbacks", title: "Fallbacks and gates" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production operations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {
