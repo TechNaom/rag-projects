@@ -91,6 +91,35 @@
     <div class="lesson-note">
       <strong>Why this matters:</strong> teams that cannot inspect the lifecycle usually cannot improve RAG reliably. They tweak prompts, switch models, or add context without knowing which stage actually failed.
     </div>
+    <div class="decision-board">
+      <div class="decision-north-star">
+        <span class="decision-label">Lifecycle north star</span>
+        <strong>Do not debug the answer first. Debug the journey that produced the answer.</strong>
+        <p>
+          A final response is only the receipt. The real engineering truth lives
+          in the route, filters, retrieved sources, reranking order, context
+          packing, prompt contract, answer status, and evaluation result.
+        </p>
+      </div>
+      <div class="decision-path">
+        <div class="decision-step">
+          <span>01</span>
+          <div><strong>Did we understand the question?</strong><p>Check intent, missing details, risk level, user role, and whether the system should ask a clarification question.</p></div>
+        </div>
+        <div class="decision-step">
+          <span>02</span>
+          <div><strong>Did we retrieve the right evidence?</strong><p>Inspect source ids, metadata filters, scores, rank order, index version, and whether the required document family appeared.</p></div>
+        </div>
+        <div class="decision-step">
+          <span>03</span>
+          <div><strong>Did the prompt use evidence correctly?</strong><p>Verify context boundaries, citation instructions, refusal rules, source priority, and whether user text was separated from trusted source text.</p></div>
+        </div>
+        <div class="decision-step">
+          <span>04</span>
+          <div><strong>Did the system produce an accountable outcome?</strong><p>Look for answer status, citations, unsupported claims, latency, cost, and feedback signals for the next improvement loop.</p></div>
+        </div>
+      </div>
+    </div>
     <p>
       When a RAG assistant gives a wrong answer, many teams jump straight to
       "the model hallucinated." Sometimes that is true. Very often, the real
@@ -228,6 +257,13 @@ Online query pipeline
       <div><h4>Engineering checklist</h4><ul><li>Carry source metadata through every stage.</li><li>Separate source text from user text in the prompt.</li><li>Log answer status: answered, refused, escalated, or needs clarification.</li></ul></div>
       <div><h4>Metrics to watch</h4><p>Context utilization, citation support rate, source-id preservation, unsupported-answer rate, and end-to-end p95 latency.</p></div>
     </div>
+    <div class="mentor-note">
+      Think of the lifecycle as a chain of custody for knowledge. If a source
+      enters the system, you should know where it came from, why it was selected,
+      how it was shortened, how it was shown to the model, and whether the final
+      answer actually used it. That is the difference between a nice demo and a
+      system a production team can defend.
+    </div>
   </section>
 
   <section id="architecture" class="subtopic">
@@ -246,6 +282,12 @@ Online query pipeline
       the core idea stays the same: retrieve reliable evidence before generating
       a grounded answer.
     </p>
+    <div class="production-depth-grid">
+      <div class="depth-panel"><span>Offline plane</span><h3>Prepare knowledge before traffic arrives</h3><p>Parsing, cleaning, chunking, metadata enrichment, embedding, indexing, and freshness validation happen before the user asks. Weak offline work creates weak online answers.</p></div>
+      <div class="depth-panel"><span>Online plane</span><h3>Answer with controls at request time</h3><p>Routing, access control, retrieval, reranking, context packing, generation, citation checks, and telemetry happen while the user waits. This plane must balance accuracy, latency, cost, and safety.</p></div>
+      <div class="depth-panel"><span>Evaluation plane</span><h3>Learn from every failure pattern</h3><p>Golden questions, retrieval recall, answer faithfulness, citation support, refusal quality, and drift reports tell the team what to improve next.</p></div>
+      <div class="depth-panel"><span>Governance plane</span><h3>Protect users and sensitive data</h3><p>Document permissions, source approval, PII handling, prompt injection controls, audit logs, and rollback plans turn RAG from a prototype into a responsible product.</p></div>
+    </div>
   </section>
 
   <section id="execution" class="subtopic">
@@ -264,6 +306,11 @@ Online query pipeline
         candidate source ids, reranked source ids, context block, prompt version,
         answer status, citation ids, refusal reason, latency, and cost.
       </p>
+    </div>
+    <div class="field-depth">
+      <div><h4>Input contract</h4><p>Normalize the user question, session state, role, tenant, locale, feature flags, and request risk before any retrieval happens.</p></div>
+      <div><h4>Retrieval contract</h4><p>Return source ids, scores, rank, index version, document permissions, chunk ids, parent document ids, and the reason each filter was applied.</p></div>
+      <div><h4>Answer contract</h4><p>Return answer status, citations, unsupported-claim checks, refusal reason, confidence signals, latency by stage, token usage, and follow-up action.</p></div>
     </div>
     <div class="diagram-card">
       <h3>Traceable execution contract</h3>
@@ -308,20 +355,26 @@ Online query pipeline
     <div class="feature-grid">
       <div class="feature-card">
         <h3>Indexing Strategy</h3>
-        <p>How documents are chunked, embedded, versioned, and published into an index.</p>
+        <p>How documents are parsed, cleaned, chunked, embedded, versioned, permissioned, validated, and published into an index.</p>
       </div>
       <div class="feature-card">
         <h3>Retrieval Strategy</h3>
-        <p>Vector search, keyword search, hybrid search, query routing, or multi-query retrieval.</p>
+        <p>Vector search, keyword search, hybrid search, query routing, metadata filtering, multi-query retrieval, or multi-hop retrieval.</p>
       </div>
       <div class="feature-card">
         <h3>Reranking Strategy</h3>
-        <p>Retrieve more candidates, then reorder them so the strongest evidence reaches the model.</p>
+        <p>Retrieve a wider candidate set, then reorder it so the strongest, most policy-relevant evidence reaches the model first.</p>
       </div>
       <div class="feature-card">
         <h3>Context Strategy</h3>
-        <p>Choose how much evidence to send, in what order, with which source labels.</p>
+        <p>Choose how much evidence to send, in what order, with which source labels, quote boundaries, and conflict-handling rules.</p>
       </div>
+    </div>
+    <div class="production-depth-grid">
+      <div class="depth-panel"><span>Accuracy</span><h3>Recall first, precision second, faithfulness always</h3><p>If the right source never appears, the answer cannot be grounded. If too many weak sources appear, the model may blend facts. The lifecycle must measure both retrieval recall and answer faithfulness.</p></div>
+      <div class="depth-panel"><span>Consistency</span><h3>Same question should not become a new adventure</h3><p>Use prompt versions, index versions, deterministic filters, stable reranking rules, and scenario tests so repeated business questions behave consistently.</p></div>
+      <div class="depth-panel"><span>Scale</span><h3>High traffic exposes hidden lifecycle costs</h3><p>Embedding refreshes, top-k retrieval, reranker calls, long context windows, and generation tokens all scale differently. Track cost and latency by stage, not only total request cost.</p></div>
+      <div class="depth-panel"><span>Safety</span><h3>Retrieval must respect permissions before intelligence</h3><p>A brilliant answer from a forbidden source is still a product failure. Enforce tenant, role, region, document status, and source approval before context reaches the model.</p></div>
     </div>
     <div class="real-world">
       <span class="label">Senior trade-off</span>
@@ -386,35 +439,32 @@ Online query pipeline
     <div class="production-depth-grid">
       <div class="depth-panel"><span>Release gate</span><h3>Separate retrieval and answer evals</h3><p>Do not ship only because final answers look good. Track whether the correct evidence was retrieved before measuring whether the generated answer was acceptable.</p></div>
       <div class="depth-panel"><span>Operations gate</span><h3>Watch drift after launch</h3><p>Policy updates, new documents, changed terminology, and user behavior can all degrade retrieval quality even when code has not changed.</p></div>
+      <div class="depth-panel"><span>Incident gate</span><h3>Design for graceful failure</h3><p>When retrieval confidence is weak, the system should ask a clarifying question, refuse, escalate, or show the exact evidence gap instead of guessing with confidence.</p></div>
+      <div class="depth-panel"><span>Product gate</span><h3>Make the trace usable for humans</h3><p>Engineers need detailed traces, but product reviewers need readable evidence views: question, selected sources, answer, citations, and why the system trusted or rejected the result.</p></div>
     </div>
   </section>
 
   <section id="mistakes" class="subtopic">
     <span class="subtopic-label">Sub-topic 8 of 10</span>
     <h2>Common Mistakes</h2>
-    <div class="lesson-card">
-      <h3>1. Treating the lifecycle as one black box</h3>
-      <p>If you cannot see retrieval results, you cannot debug grounding.</p>
-    </div>
-    <div class="lesson-card">
-      <h3>2. Retrieving too much context</h3>
-      <p>More chunks can improve recall, but they can also add noise and cost.</p>
-    </div>
-    <div class="lesson-card">
-      <h3>3. Forgetting metadata</h3>
-      <p>Region, role, version, and document status often matter as much as semantic similarity.</p>
-    </div>
-    <div class="lesson-card">
-      <h3>4. Evaluating only the answer</h3>
-      <p>A beautiful answer can hide a retrieval failure. Evaluate both.</p>
-    </div>
-    <div class="lesson-card">
-      <h3>5. Treating indexing as a one-time setup</h3>
-      <p>Indexes need refresh rules, versioning, validation, and rollback just like application releases.</p>
-    </div>
-    <div class="lesson-card">
-      <h3>6. Hiding the trace</h3>
-      <p>If the product team cannot inspect source ids, scores, filters, and answer status, failures become guesswork.</p>
+    <p>
+      These are the mistakes that quietly break real RAG systems. They are not
+      just syntax problems. They are engineering, product, and operating-model
+      problems.
+    </p>
+    <div class="mistake-catalog">
+      <div class="mistake-card"><span class="mistake-id">M01</span><h3>Treating the lifecycle as one black box</h3><div><strong>Symptom:</strong> every failed answer becomes "the model is bad."</div><div><strong>Better move:</strong> log intent, filters, retrieved ids, reranked ids, prompt version, citations, and answer status separately.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M02</span><h3>Retrieving too much context</h3><div><strong>Symptom:</strong> the right source is present, but buried under noisy chunks.</div><div><strong>Better move:</strong> tune top-k, reranking, deduplication, and context packing instead of blindly increasing context size.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M03</span><h3>Forgetting metadata filters</h3><div><strong>Symptom:</strong> answers mix regions, roles, product versions, or policy states.</div><div><strong>Better move:</strong> treat metadata as first-class retrieval logic, not decoration after search.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M04</span><h3>Evaluating only the final answer</h3><div><strong>Symptom:</strong> a polished answer hides poor evidence selection.</div><div><strong>Better move:</strong> measure retrieval recall, citation support, faithfulness, refusal quality, and answer usefulness as separate gates.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M05</span><h3>Treating indexing as a one-time setup</h3><div><strong>Symptom:</strong> the assistant becomes stale while the product, policy, and documents keep changing.</div><div><strong>Better move:</strong> version indexes, validate freshness, run regression questions, and keep rollback paths.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M06</span><h3>Hiding the trace from reviewers</h3><div><strong>Symptom:</strong> QA, product, and engineering argue from screenshots instead of evidence.</div><div><strong>Better move:</strong> build a readable trace view showing selected sources, scores, filters, answer status, and unsupported claims.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M07</span><h3>Mixing user text with trusted source text</h3><div><strong>Symptom:</strong> prompt injection or user wording influences the model like an internal policy.</div><div><strong>Better move:</strong> separate user input, system rules, retrieved evidence, and tool outputs with strict prompt boundaries.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M08</span><h3>Ignoring access control inside retrieval</h3><div><strong>Symptom:</strong> the model answers from documents the user should never see.</div><div><strong>Better move:</strong> enforce authorization before retrieval results enter the context window.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M09</span><h3>No fallback state for weak evidence</h3><div><strong>Symptom:</strong> the assistant guesses when the index does not contain enough support.</div><div><strong>Better move:</strong> define answered, clarify, refuse, escalate, and no-source states with clear user-facing behavior.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M10</span><h3>Optimizing latency without knowing the slow stage</h3><div><strong>Symptom:</strong> teams cut context or switch models while the real bottleneck is reranking or search.</div><div><strong>Better move:</strong> capture latency and cost by query understanding, retrieval, reranking, generation, and post-processing.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M11</span><h3>Letting citations become decorative</h3><div><strong>Symptom:</strong> citations appear, but they do not actually support the claim.</div><div><strong>Better move:</strong> connect claims to source spans and test citation support as a release gate.</div></div>
+      <div class="mistake-card"><span class="mistake-id">M12</span><h3>Skipping scenario-based regression tests</h3><div><strong>Symptom:</strong> a prompt or index change silently breaks contractor, regional, or incident workflows.</div><div><strong>Better move:</strong> keep golden scenarios across roles, regions, product versions, risky questions, and missing-evidence cases.</div></div>
     </div>
   </section>
 
