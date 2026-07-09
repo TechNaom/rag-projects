@@ -21,11 +21,11 @@
 | Project implementation | 5 | Architecture selector creates richer production decision records with client fit, advantages, disadvantages, engineering profile, evals, and observability. |
 | GenAI thought-process layer | 4 | Includes prompt and critique checklist. |
 | Navigation/template consistency | 5 | Follows standard chapter flow and now includes a Python-for-Everyone-style reading guide, subtopic labels, at-a-glance stack, and richer architecture sections. |
-| Accessibility/readability | 5 | Deep comparison, production-depth panels, and decision framework are scan-friendly with cards, chips, short sections, field notes, metrics, and mobile-responsive layout. |
+| Accessibility/readability | 5 | Deep comparison, production-depth panels, decision framework, and expanded mistake catalog are scan-friendly with cards, chips, short sections, field notes, metrics, and mobile-responsive layout. |
 | Public artifact readiness | 4 | Ready for review after push. |
 
 ## Follow-Up Tasks
 
-- After review, apply the same production-depth pattern to future architecture-heavy chapters.
+- After review, apply the same production-depth and mistake-catalog pattern to future architecture-heavy chapters.
 - Later, add richer HTML rendering for all 20 interview questions.
 - Later, connect project selector to a JSON scenario bank.

@@ -2588,6 +2588,71 @@ body::before {
   padding-left: 20px;
 }
 
+.mistake-catalog {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.mistake-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(16, 27, 51, 0.10);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mistake-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, var(--color-red), var(--color-yellow));
+}
+
+.mistake-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 30px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: rgba(197, 34, 31, 0.10);
+  color: var(--color-red);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mistake-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.mistake-card div {
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(16, 27, 51, 0.08);
+  color: var(--color-text-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.mistake-card div:first-of-type {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.mistake-card strong {
+  color: var(--color-navy);
+}
+
 /* Premium decision framework board */
 .decision-board {
   position: relative;
@@ -2830,7 +2895,8 @@ body::before {
   }
 
   .decision-step,
-  .decision-upgrades {
+  .decision-upgrades,
+  .mistake-catalog {
     grid-template-columns: 1fr;
   }
 }
