@@ -26,12 +26,15 @@ the system.
 ### Chapter 2: The RAG Query Lifecycle
 
 - User question.
+- Intent classification.
 - Retrieval query.
-- Chunks and metadata.
-- Context block.
-- Prompt.
-- Generated answer with citations.
-- Evaluation loop.
+- Metadata filters.
+- Retrieval strategy.
+- Reranking.
+- Context assembly.
+- Grounded prompt.
+- Generated answer, refusal, or escalation.
+- Citations, trace logs, and evaluation loop.
 
 ### Chapter 3: Types of RAG
 
@@ -42,13 +45,16 @@ the system.
 - Corrective and adaptive RAG.
 - How to choose the simplest useful architecture.
 
-### Chapter 4: Reading a RAG Architecture Diagram
+### Chapter 4: RAG Execution Pipelines
 
-- Components.
-- Data flow.
-- Failure points.
-- Latency and cost paths.
-- What changes from prototype to production.
+- Runtime pipeline stages.
+- Access checks.
+- Cache lookup.
+- Query rewriting.
+- Retrieval and reranking.
+- Safety checks.
+- Sync vs async execution.
+- Latency, cost, and failure paths.
 
 ### Module 1 Exam
 
@@ -147,33 +153,43 @@ Goal: Explain vector search clearly enough to debug it.
 
 Goal: Build retrieval systems that can be reasoned about and improved.
 
-### Chapter 15: Vector Stores
+### Chapter 15: Vector Stores and Indexing Strategies
 
 - ChromaDB.
 - Collections.
 - Persistence.
 - IDs, documents, metadata, embeddings.
+- Flat indexes vs approximate indexes.
+- Refresh, rebuild, and versioning strategies.
+- How indexing decisions affect retrieval quality.
 
-### Chapter 16: Top-K Retrieval
+### Chapter 16: Retrieval Strategies and Top-K
 
 - Similarity search.
 - Ranking.
 - Scores.
 - How `k` changes answer quality.
+- Query rewriting.
+- Metadata filtering.
+- Multi-query retrieval.
 
-### Chapter 17: Hybrid Search
+### Chapter 17: Hybrid Search and Query Routing
 
 - BM25.
 - Dense retrieval.
 - Sparse retrieval.
 - Reciprocal Rank Fusion.
+- Routing by intent, domain, and risk.
+- When to combine search strategies.
 
-### Chapter 18: Reranking
+### Chapter 18: Reranking and Retrieval Optimization
 
 - Retrieve many, return few.
 - Cross-encoder rerankers.
 - Cost and latency trade-offs.
 - When reranking fixes real misses.
+- Retrieval eval loops.
+- Production tuning playbooks.
 
 ## Module 6: Prompting for RAG
 
@@ -256,14 +272,19 @@ Goal: Move from working demo to responsible system design.
 - Hosted frontend.
 - Vector DB choices.
 
-### Chapter 28: Capstone Portfolio Project
+### Chapter 28: End-to-End Production RAG Capstone
 
 - Choose a domain.
 - Build the corpus.
 - Design metadata.
+- Implement indexing.
 - Implement retrieval.
+- Add execution pipeline.
+- Add citations and refusal behavior.
 - Test prompts.
 - Run evals.
+- Add observability.
+- Package the project for public review.
 - Explain production trade-offs.
 
 ## Content Tracks

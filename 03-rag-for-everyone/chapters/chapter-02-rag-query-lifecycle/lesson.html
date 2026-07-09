@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 — The RAG Query Lifecycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-02">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav>
+      <a href="../../index.html">All Chapters</a>
+      <a href="../../docs/curriculum/index.html">Roadmap</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <p><a href="../../index.html">&larr; Back to all chapters</a></p>
+
+  <div class="page-meta">
+    <span class="chapter-badge">Chapter 2 of 28</span>
+    <span class="badge-difficulty">Foundation</span>
+    <span class="reading-time">22 min read</span>
+  </div>
+
+  <h1>The RAG Query Lifecycle</h1>
+  <p class="lede">
+    A RAG answer does not appear in one magical jump. It travels through a
+    pipeline: understand the question, retrieve evidence, build context, prompt
+    the model, answer with citations, and then evaluate what happened.
+  </p>
+
+  <nav class="page-toc" aria-label="On this page">
+    <span class="toc-label">On this page</span>
+    <a href="#problem">1. Why the lifecycle matters</a>
+    <a href="#analogy">2. Receptionist analogy</a>
+    <a href="#technical">3. Technical lifecycle</a>
+    <a href="#architecture">4. Architecture view</a>
+    <a href="#production">5. Production considerations</a>
+    <a href="#mistakes">6. Common mistakes</a>
+    <a href="#assignment">7. Mini assignment</a>
+    <a href="#summary">8. Summary</a>
+  </nav>
+
+  <div class="hook">
+    If Chapter 1 taught why RAG exists, Chapter 2 teaches how a RAG request
+    actually moves. This is the mental model that makes debugging possible.
+  </div>
+
+  <section id="problem" class="subtopic">
+    <h2>Why This Topic Matters</h2>
+    <p>
+      When a RAG assistant gives a wrong answer, many teams jump straight to
+      "the model hallucinated." Sometimes that is true. Very often, the real
+      failure happened earlier: the query was vague, metadata was missing, the
+      wrong chunks were retrieved, or the prompt did not clearly separate
+      evidence from instructions.
+    </p>
+    <p>
+      The lifecycle gives us a map. Instead of blaming the whole system, we can
+      ask: where did the request go wrong?
+    </p>
+    <div class="lesson-card">
+      <h3>Simple explanation</h3>
+      <p>
+        The RAG query lifecycle is the journey from user question to grounded
+        answer. Each step changes the quality, cost, latency, and safety of the
+        final response.
+      </p>
+    </div>
+  </section>
+
+  <section id="analogy" class="subtopic">
+    <h2>Real-Life Analogy: A Receptionist Routing a Request</h2>
+    <p>
+      Imagine walking into a large company and asking, "Can I access customer
+      logs during an incident?" A good receptionist does not answer from memory.
+      They ask what team you are on, what incident level it is, which customer
+      region applies, and who can approve the request. Then they route you to
+      the correct policy owner or document.
+    </p>
+    <p>
+      That is the RAG lifecycle. The assistant is not just writing. It is
+      routing, filtering, gathering evidence, and deciding whether the answer is
+      safe enough to give.
+    </p>
+    <div class="what-is">
+      <span class="label">Mental model</span>
+      The lifecycle is a chain of decisions. A weak decision early in the chain
+      creates a weak answer later.
+    </div>
+  </section>
+
+  <section id="technical" class="subtopic">
+    <h2>Technical Explanation</h2>
+    <p>
+      A production RAG request usually moves through these stages:
+    </p>
+    <div class="diagram-card">
+      <h3>Text diagram: lifecycle in one screen</h3>
+      <pre><code>User question
+  -> query understanding
+  -> retrieval query + metadata filters
+  -> vector / keyword / hybrid retrieval
+  -> reranking and context assembly
+  -> grounded prompt
+  -> model answer
+  -> citations, refusal, or escalation
+  -> logs, evals, and improvement loop</code></pre>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Question</h3>
+        <p>The raw user request. It may be clear, vague, risky, or missing key details.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Retrieval Query</h3>
+        <p>The search-ready form of the question, often enriched with filters and intent.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Context</h3>
+        <p>The retrieved evidence that the model is allowed to use for the answer.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Grounded Answer</h3>
+        <p>The model response, shaped by instructions, context, citations, and refusal rules.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture" class="subtopic">
+    <h2>Architecture View</h2>
+    <figure class="diagram-figure">
+      <img src="diagrams/lifecycle.svg" alt="RAG query lifecycle diagram showing user question, query router, retrieval, reranking, prompt, answer, citations, and evaluation loop.">
+      <figcaption>
+        The lifecycle is both a user-facing flow and an engineering debugging
+        map. Each box can be logged, tested, and improved.
+      </figcaption>
+    </figure>
+    <p>
+      In real systems, the lifecycle may include query rewriting, access checks,
+      hybrid search, reranking, cache lookup, safety checks, and telemetry. But
+      the core idea stays the same: retrieve reliable evidence before generating
+      a grounded answer.
+    </p>
+  </section>
+
+  <section id="production" class="subtopic">
+    <h2>Production Considerations</h2>
+    <div class="real-world">
+      <span class="label">Production gear</span>
+      <ul>
+        <li><strong>Latency:</strong> retrieval, reranking, and generation all add time.</li>
+        <li><strong>Cost:</strong> larger context windows and more model calls increase spend.</li>
+        <li><strong>Access control:</strong> retrieval must not fetch documents the user cannot see.</li>
+        <li><strong>Freshness:</strong> stale indexes can produce outdated answers.</li>
+        <li><strong>Observability:</strong> log the question, retrieved source ids, rank, answer status, and refusal reason.</li>
+        <li><strong>Evaluation:</strong> test retrieval and answer quality separately.</li>
+      </ul>
+    </div>
+    <div class="thinking-box">
+      <p>
+        Senior builder habit: never debug the final answer alone. First inspect
+        what the system retrieved. Then inspect the prompt. Then inspect the
+        model output.
+      </p>
+    </div>
+  </section>
+
+  <section id="mistakes" class="subtopic">
+    <h2>Common Mistakes</h2>
+    <div class="lesson-card">
+      <h3>1. Treating the lifecycle as one black box</h3>
+      <p>If you cannot see retrieval results, you cannot debug grounding.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>2. Retrieving too much context</h3>
+      <p>More chunks can improve recall, but they can also add noise and cost.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>3. Forgetting metadata</h3>
+      <p>Region, role, version, and document status often matter as much as semantic similarity.</p>
+    </div>
+    <div class="lesson-card">
+      <h3>4. Evaluating only the answer</h3>
+      <p>A beautiful answer can hide a retrieval failure. Evaluate both.</p>
+    </div>
+  </section>
+
+  <section id="assignment" class="subtopic">
+    <h2>Mini Assignment</h2>
+    <p>
+      Pick one real product scenario: HR policy, customer support, security
+      runbook, developer docs, or sales enablement. Write the lifecycle for one
+      user question. Include the retrieval query, metadata filters, expected
+      source, citation rule, refusal rule, and first metric you would inspect.
+    </p>
+  </section>
+
+  <section id="summary" class="subtopic">
+    <div class="points-to-remember">
+      <h2>Points To Remember</h2>
+      <ul>
+        <li>The lifecycle is the RAG request journey from question to evaluated answer.</li>
+        <li>Retrieval quality shapes answer quality.</li>
+        <li>Metadata filters make retrieval safer and more precise.</li>
+        <li>Refusal and escalation are part of the lifecycle.</li>
+        <li>Production RAG needs observability at every stage.</li>
+      </ul>
+    </div>
+  </section>
+
+  <p>
+    Next, test the lifecycle vocabulary and production decisions in the quiz.
+    After that, you will map real scenarios through the full flow.
+  </p>
+
+  <div class="chapter-nav">
+    <a href="../chapter-01-why-rag-exists/project/index.html">&larr; Chapter 1 Project</a>
+    <a href="quiz.html">Take the Quiz &rarr;</a>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>

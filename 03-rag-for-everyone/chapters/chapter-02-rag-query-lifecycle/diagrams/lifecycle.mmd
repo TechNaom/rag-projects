@@ -1,0 +1,11 @@
+flowchart LR
+  A[User Question] --> B[Query Understanding]
+  B --> C[Retrieval Query + Metadata Filters]
+  C --> D[Retrieval Strategy]
+  D --> E[Reranking]
+  E --> F[Context Assembly]
+  F --> G[Grounded Prompt]
+  G --> H[Answer / Refusal / Escalation]
+  H --> I[Citations]
+  I --> J[Trace Logs + Evals]
+  J --> B

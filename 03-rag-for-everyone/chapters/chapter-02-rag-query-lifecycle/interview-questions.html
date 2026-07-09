@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Interview Questions — The RAG Query Lifecycle</title><link rel="stylesheet" href="../../assets/style.css"></head>
+<body data-active-chapter="chapter-02">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page">
+<p><a href="practice/index.html">&larr; Back to practice bank</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 2 Interview Questions</span><span class="reading-time">45 min prep</span></div>
+<h1>Interview Questions: The RAG Query Lifecycle</h1>
+<p>Practice answering like a builder who can explain, debug, and ship a RAG execution pipeline.</p>
+<div class="what-is"><span class="label">Interview standard</span>Answer with lifecycle stage, production risk, metric, and trade-off.</div>
+<div class="lesson-card"><h2>1. What is the RAG query lifecycle?</h2><p><strong>Strong answer:</strong> The journey from user question to retrieved evidence, grounded prompt, answer, citations, and evaluation.</p><p><strong>Red flag:</strong> "It is just retrieval."</p><p><strong>Follow-up:</strong> Which stage would you inspect first when an answer is wrong?</p><p><strong>What this proves:</strong> You see RAG as a pipeline.</p></div>
+<div class="lesson-card"><h2>2. Why evaluate retrieval separately?</h2><p><strong>Strong answer:</strong> The model cannot use evidence that retrieval fails to provide.</p><p><strong>Red flag:</strong> "Only the final answer matters."</p><p><strong>Follow-up:</strong> What retrieval metric would you start with?</p><p><strong>What this proves:</strong> You can debug stages independently.</p></div>
+<div class="lesson-card"><h2>3. Why do metadata filters matter?</h2><p><strong>Strong answer:</strong> They prevent semantically similar but wrong documents from being retrieved.</p><p><strong>Red flag:</strong> "Embeddings handle everything."</p><p><strong>Follow-up:</strong> Give one metadata filter for a refund bot.</p><p><strong>What this proves:</strong> You understand governed retrieval.</p></div>
+<div class="lesson-card"><h2>4. What should be logged in a RAG trace?</h2><p><strong>Strong answer:</strong> Question, filters, source ids, scores, prompt version, answer status, citations, refusal reason, latency, and cost.</p><p><strong>Red flag:</strong> "Only log the final answer."</p><p><strong>Follow-up:</strong> Which logs are sensitive?</p><p><strong>What this proves:</strong> You think about observability.</p></div>
+<div class="lesson-card"><h2>5. What is an execution pipeline?</h2><p><strong>Strong answer:</strong> The ordered runtime path: auth, cache, query rewrite, retrieval, rerank, prompt, safety, answer, logging.</p><p><strong>Red flag:</strong> "It is just a script."</p><p><strong>Follow-up:</strong> Which step can be asynchronous?</p><p><strong>What this proves:</strong> You can design a shippable system.</p></div>
+<div class="lesson-card"><h2>6. Where do indexing and retrieval strategies fit?</h2><p><strong>Strong answer:</strong> Indexing is mostly offline, retrieval is online, and both shape answer quality.</p><p><strong>Red flag:</strong> "There is only vector search."</p><p><strong>Follow-up:</strong> When is hybrid search better?</p><p><strong>What this proves:</strong> You connect offline and online RAG systems.</p></div>
+<div class="lesson-card"><h2>Production prep</h2><p>The full source file includes 20 questions grouped by foundations, production judgment, evaluation, and architecture. Use the Markdown version for deeper written practice.</p><p><a href="interview-questions.md">Open full Markdown interview bank</a></p></div>
+<div class="chapter-nav"><a href="practice/index.html">&larr; Practice Bank</a><a href="project/index.html">Build the Project &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

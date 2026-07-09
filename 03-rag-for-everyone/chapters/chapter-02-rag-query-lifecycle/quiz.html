@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — The RAG Query Lifecycle</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-02" data-chapter-id="chapter-02">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a><a href="lesson.html">Lesson</a></nav></div></header>
+<main class="page">
+<p><a href="lesson.html">&larr; Back to the lesson</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 2 Quiz</span><span class="reading-time">8 min check</span></div>
+<h1>The RAG Query Lifecycle</h1>
+<p>This quiz checks both vocabulary and production judgment. Try to answer like a builder who will later debug the system.</p>
+<div class="quiz-progress-wrap" aria-hidden="true"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+<form onsubmit="return false;">
+<h2>Quiz A: Lifecycle Concepts</h2>
+<div class="quiz-question"><label for="q1"><span class="q-num">1</span> The raw user request is the user <code>____</code>.</label><div class="fib-row"><input id="q1" class="fib-blank" data-answers="question,query" aria-label="Answer 1"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div></div>
+<div class="quiz-question mcq-question"><p id="q2-label">2. What should happen before generation in a RAG system?</p><div class="mcq-options" role="group" aria-labelledby="q2-label"><button type="button" class="mcq-option" data-correct="false">Only style formatting</button><button type="button" class="mcq-option" data-correct="true">Retrieve trusted evidence</button><button type="button" class="mcq-option" data-correct="false">Delete citations</button></div><span class="mcq-feedback" aria-live="polite"></span></div>
+<div class="quiz-question"><label for="q3"><span class="q-num">3</span> Metadata filters can include region, role, policy version, and access <code>____</code>.</label><div class="fib-row"><input id="q3" class="fib-blank" data-answers="control,controls,permission,permissions" aria-label="Answer 3"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div></div>
+<div class="quiz-question mcq-question"><p id="q4-label">4. If the right document never appears in top-k results, which stage failed first?</p><div class="mcq-options" role="group" aria-labelledby="q4-label"><button type="button" class="mcq-option" data-correct="true">Retrieval</button><button type="button" class="mcq-option" data-correct="false">Final answer formatting</button><button type="button" class="mcq-option" data-correct="false">The footer</button></div><span class="mcq-feedback" aria-live="polite"></span></div>
+<div class="quiz-question"><label for="q5"><span class="q-num">5</span> The retrieved evidence becomes the model's trusted <code>____</code>.</label><div class="fib-row"><input id="q5" class="fib-blank" data-answers="context" aria-label="Answer 5"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div></div>
+<h2>Quiz B: Production Judgment</h2>
+<div class="quiz-question mcq-question"><p id="q6-label">6. A user asks a vague policy question without location. What should the assistant do?</p><div class="mcq-options" role="group" aria-labelledby="q6-label"><button type="button" class="mcq-option" data-correct="false">Guess a region</button><button type="button" class="mcq-option" data-correct="true">Ask for missing context or use safe filters</button><button type="button" class="mcq-option" data-correct="false">Ignore metadata</button></div><span class="mcq-feedback" aria-live="polite"></span></div>
+<div class="quiz-question"><label for="q7"><span class="q-num">7</span> Production systems should log retrieved source ids for observability and <code>____</code>.</label><div class="fib-row"><input id="q7" class="fib-blank" data-answers="audit,auditing,debugging,traceability" aria-label="Answer 7"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div></div>
+<div class="quiz-question mcq-question"><p id="q8-label">8. Which lifecycle change most directly improves stale-policy answers?</p><div class="mcq-options" role="group" aria-labelledby="q8-label"><button type="button" class="mcq-option" data-correct="true">Versioned ingestion and freshness checks</button><button type="button" class="mcq-option" data-correct="false">A more excited tone</button><button type="button" class="mcq-option" data-correct="false">Removing evals</button></div><span class="mcq-feedback" aria-live="polite"></span></div>
+<div class="quiz-question"><label for="q9"><span class="q-num">9</span> A grounded prompt should separate instructions from retrieved <code>____</code>.</label><div class="fib-row"><input id="q9" class="fib-blank" data-answers="context,evidence,sources" aria-label="Answer 9"><button type="button" class="check-btn">Check</button><span class="fib-feedback" aria-live="polite"></span></div></div>
+<div class="quiz-question mcq-question"><p id="q10-label">10. What is the strongest lifecycle habit for production adoption?</p><div class="mcq-options" role="group" aria-labelledby="q10-label"><button type="button" class="mcq-option" data-correct="false">Trust the final answer if it sounds polished</button><button type="button" class="mcq-option" data-correct="true">Log, evaluate, and improve each stage separately</button><button type="button" class="mcq-option" data-correct="false">Skip citations for speed</button></div><span class="mcq-feedback" aria-live="polite"></span></div>
+<div id="check-all-wrap"><button type="button" id="check-all-btn" class="check-btn">Check All Answers</button><span id="quiz-score"></span></div>
+<div class="quiz-celebration" id="quiz-celebration" aria-live="polite">Perfect score. Chapter complete.</div>
+</form>
+<div class="chapter-nav"><a href="lesson.html">&larr; Back to Lesson</a><a href="exercises/index.html">Exercises &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script><script src="../../assets/quiz-engine.js"></script>
+</body>
+</html>

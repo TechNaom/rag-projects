@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Practice — The RAG Query Lifecycle</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body data-active-chapter="chapter-02">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page">
+<p><a href="../exercises/index.html">&larr; Back to exercises</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 2 Practice Bank</span><span class="reading-time">35 min practice</span></div>
+<h1>Practice Bank: The RAG Query Lifecycle</h1>
+<p>Each scenario asks you to map the lifecycle like a production engineer: route the request, retrieve the right evidence, protect access, generate safely, and log enough to debug.</p>
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#product">Product</a><a href="#platform">Platform</a><a href="#failure">Failure cases</a></nav>
+<h2 id="product">Product Scenarios</h2>
+<div class="scenario-card"><span class="scenario-tag">Scenario 1</span><h3>HR Leave Policy</h3><p>An employee asks about parental leave after moving from the US to Germany.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 2</span><h3>Customer Refund Bot</h3><p>Refund eligibility depends on product tier, country, purchase date, and policy version.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 3</span><h3>Contract Assistant</h3><p>A PM asks whether a customer contract allows model-output logging.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 4</span><h3>Sales Enablement</h3><p>A seller asks if they can promise a restricted enterprise discount.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 5</span><h3>Healthcare Demo</h3><p>A clinician asks whether real patient data can be used in a product demo.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 6</span><h3>Finance Compliance</h3><p>An analyst asks whether account identifiers can be included in a report.</p></div>
+<h2 id="platform">Platform Scenarios</h2>
+<div class="scenario-card"><span class="scenario-tag">Scenario 7</span><h3>Security Runbook</h3><p>An engineer asks what to do when a production API key is leaked.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 8</span><h3>Developer Docs</h3><p>A developer asks why a deployment failed after a new environment variable.</p></div>
+<h2 id="failure">Failure Cases</h2>
+<div class="scenario-card"><span class="scenario-tag">Scenario 9</span><h3>Stale Policy</h3><p>The assistant answers from last quarter's policy after the index missed a new upload.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 10</span><h3>Wrong Reranking</h3><p>Hybrid search retrieves the right document, but reranking pushes it below the context cutoff.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 11</span><h3>Access-Control Leak</h3><p>Retrieved context includes a confidential clause the user should not see.</p></div>
+<div class="scenario-card"><span class="scenario-tag">Scenario 12</span><h3>Multi-Hop Question</h3><p>The answer needs both the incident runbook and customer communication template.</p></div>
+<div class="task-card"><h3><span class="task-num">1</span> Production judgment task</h3><p>Pick four scenarios. For each, write lifecycle map, logs, metric, refusal rule, and first engineering experiment.</p></div>
+<div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script>
+</body>
+</html>

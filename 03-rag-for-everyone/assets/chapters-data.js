@@ -24,9 +24,25 @@ window.RFE_MODULES = [
           { id: "recap", title: "Points to remember" }
         ]
       },
-      { id: "chapter-02", num: 2, title: "The RAG Query Lifecycle", path: null },
+      {
+        id: "chapter-02",
+        num: 2,
+        title: "The RAG Query Lifecycle",
+        path: "chapters/chapter-02-rag-query-lifecycle/lesson.html",
+        description: "Question understanding, retrieval query, metadata filters, context assembly, grounded prompts, citations, traces, and eval loops.",
+        subtopics: [
+          { id: "problem", title: "Why the lifecycle matters" },
+          { id: "analogy", title: "Receptionist analogy" },
+          { id: "technical", title: "Technical lifecycle" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production considerations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-03", num: 3, title: "Types of RAG", path: null },
-      { id: "chapter-04", num: 4, title: "Reading a RAG Architecture Diagram", path: null }
+      { id: "chapter-04", num: 4, title: "RAG Execution Pipelines", path: null }
     ]
   },
   {
@@ -37,7 +53,7 @@ window.RFE_MODULES = [
       { id: "chapter-05", num: 5, title: "Source Documents", path: null },
       { id: "chapter-06", num: 6, title: "Parsing and Cleaning", path: null },
       { id: "chapter-07", num: 7, title: "Metadata Design", path: null },
-      { id: "chapter-08", num: 8, title: "Ingestion Pipelines", path: null }
+      { id: "chapter-08", num: 8, title: "Ingestion and Indexing Pipelines", path: null }
     ]
   },
   {
@@ -65,10 +81,10 @@ window.RFE_MODULES = [
     summary: "Build retrieval judgment: indexes, top-k, hybrid search, reranking, and why the first results matter.",
     examPath: null,
     chapters: [
-      { id: "chapter-15", num: 15, title: "Vector Stores", path: null },
-      { id: "chapter-16", num: 16, title: "Top-K Retrieval", path: null },
-      { id: "chapter-17", num: 17, title: "Hybrid Search", path: null },
-      { id: "chapter-18", num: 18, title: "Reranking", path: null }
+      { id: "chapter-15", num: 15, title: "Vector Stores and Indexing Strategies", path: null },
+      { id: "chapter-16", num: 16, title: "Retrieval Strategies and Top-K", path: null },
+      { id: "chapter-17", num: 17, title: "Hybrid Search and Query Routing", path: null },
+      { id: "chapter-18", num: 18, title: "Reranking and Retrieval Optimization", path: null }
     ]
   },
   {
@@ -99,7 +115,7 @@ window.RFE_MODULES = [
       { id: "chapter-25", num: 25, title: "Access Control and Safety", path: null },
       { id: "chapter-26", num: 26, title: "Observability and Cost", path: null },
       { id: "chapter-27", num: 27, title: "Deployment Patterns", path: null },
-      { id: "chapter-28", num: 28, title: "Capstone Portfolio Project", path: null }
+      { id: "chapter-28", num: 28, title: "End-to-End Production RAG Capstone", path: null }
     ]
   }
 ];

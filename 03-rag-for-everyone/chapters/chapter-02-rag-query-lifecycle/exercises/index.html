@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exercises — The RAG Query Lifecycle</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body data-active-chapter="chapter-02">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page">
+<p><a href="../quiz.html">&larr; Back to the quiz</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 2 Exercises</span><span class="reading-time">40 min hands-on</span></div>
+<h1>Exercises: Map the RAG Query Lifecycle</h1>
+<p>Use these exercises to turn a user question into a production-aware execution path: intent, retrieval, metadata, context, answer rules, refusal, and evaluation.</p>
+<div class="what-is"><span class="label">Production lens</span>A lifecycle map is useful only if it helps someone debug and improve the system later.</div>
+<div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py (reference)</a></div>
+<div class="task-card"><h3><span class="task-num">1</span> Map lifecycle stages</h3><p>Fill intent, retrieval query, filters, expected source, context rule, answer rule, refusal rule, and metric.</p></div>
+<div class="task-card"><h3><span class="task-num">2</span> Add metadata filters</h3><p>Add region, role, version, severity, confidentiality, or product-tier filters where needed.</p></div>
+<div class="task-card"><h3><span class="task-num">3</span> Identify first failure point</h3><p>Separate retrieval, filtering, prompt grounding, generation, citation, and evaluation failures.</p></div>
+<div class="task-card"><h3><span class="task-num">4</span> Create trace logs</h3><p>Define the fields you would capture for audit, debugging, latency, and cost review.</p></div>
+<div class="task-card"><h3><span class="task-num">5</span> Add execution pipeline steps</h3><p>Add access checks, cache lookup, reranking, safety checks, or escalation where needed.</p></div>
+<div class="task-card"><h3><span class="task-num">6</span> Write refusal behavior</h3><p>Write calm, useful refusal messages when the right evidence is missing.</p></div>
+<div class="task-card"><h3><span class="task-num">7</span> Add a golden eval</h3><p>Create expected source, expected behavior, bad answer to catch, and metric.</p></div>
+<div class="task-card"><h3><span class="task-num">8</span> Explain to a teammate</h3><p>Write the lifecycle in simple language for PM, QA, frontend, and platform teammates.</p></div>
+<div class="chapter-nav"><a href="../quiz.html">&larr; Back to Quiz</a><a href="../practice/index.html">Practice Bank &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script>
+</body>
+</html>

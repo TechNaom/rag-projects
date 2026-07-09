@@ -1,0 +1,11 @@
+User Question
+  -> Query Understanding
+  -> Metadata Filters + Retrieval Query
+  -> Retrieval Strategy
+  -> Reranking
+  -> Context Assembly
+  -> Grounded Prompt
+  -> Answer / Refusal / Escalation
+  -> Citations
+  -> Trace Logs + Evals
+  -> Improvement Loop
