@@ -2295,3 +2295,203 @@ body::before {
   margin: 22px 0;
   box-shadow: var(--shadow-sm);
 }
+
+/* Rich architecture pattern cards for comparison-heavy lessons */
+.rag-type-stack {
+  display: grid;
+  gap: 22px;
+  margin: 26px 0;
+}
+
+.rag-type-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(234, 241, 252, 0.68)),
+    var(--color-card-bg);
+  border: 1px solid rgba(16, 27, 51, 0.10);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 14px 34px rgba(16, 27, 51, 0.10);
+}
+
+.rag-type-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-yellow));
+}
+
+.rag-type-top {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.type-number {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--color-navy);
+  color: var(--color-yellow);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+
+.rag-type-top h3 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.rag-type-top p {
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.rag-flow {
+  background: #101B33;
+  color: #EEF4FF;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.rag-flow span {
+  color: var(--color-yellow);
+  font-weight: 800;
+  padding: 0 4px;
+}
+
+.rag-fit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.rag-fit span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(46, 107, 184, 0.10);
+  border: 1px solid rgba(46, 107, 184, 0.20);
+  color: var(--color-blue-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rag-type-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.75fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.rag-type-card h4 {
+  margin: 0 0 6px;
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rag-type-card p {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.quality-panel {
+  background: rgba(255, 248, 230, 0.72);
+  border: 1px solid rgba(230, 168, 0, 0.22);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.quality-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(16, 27, 51, 0.08);
+  font-size: 14px;
+}
+
+.quality-row:first-of-type {
+  border-top: 0;
+}
+
+.quality-row span {
+  color: var(--color-text-soft);
+}
+
+.quality-row strong {
+  text-align: right;
+  color: var(--color-navy);
+}
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.pros-cons > div {
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(16, 27, 51, 0.08);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.pros-cons ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.pros-cons li {
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.architect-note {
+  border-left: 4px solid var(--color-blue);
+  background: rgba(234, 241, 252, 0.72);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 16px 0 0;
+}
+
+@media (max-width: 760px) {
+  .rag-type-card {
+    padding: 18px;
+  }
+
+  .rag-type-top,
+  .rag-type-grid,
+  .pros-cons {
+    grid-template-columns: 1fr;
+  }
+
+  .type-number {
+    width: 38px;
+    height: 38px;
+  }
+}
