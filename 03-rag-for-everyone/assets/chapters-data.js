@@ -106,7 +106,26 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-06", num: 6, title: "Parsing and Cleaning", path: null },
+      {
+        id: "chapter-06",
+        num: 6,
+        title: "Parsing and Cleaning",
+        path: "chapters/chapter-06-parsing-and-cleaning/lesson.html",
+        description: "Format-aware parsing, cleaning without losing meaning, parser contracts, quality gates, OCR/table risks, and parser regression tests.",
+        subtopics: [
+          { id: "problem", title: "Why parsing matters" },
+          { id: "analogy", title: "Chef analogy" },
+          { id: "pipeline", title: "Parsing pipeline" },
+          { id: "formats", title: "Format-specific risks" },
+          { id: "cleaning", title: "Cleaning strategy" },
+          { id: "contracts", title: "Parser contracts" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-07", num: 7, title: "Metadata Design", path: null },
       { id: "chapter-08", num: 8, title: "Ingestion and Indexing Pipelines", path: null }
     ]

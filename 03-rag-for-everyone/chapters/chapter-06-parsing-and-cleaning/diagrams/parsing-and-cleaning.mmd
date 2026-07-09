@@ -1,0 +1,9 @@
+flowchart LR
+  A[Approved source] --> B[Parser selection]
+  B --> C[Raw extraction]
+  C --> D[Structure preservation]
+  D --> E[Cleaning and normalization]
+  E --> F[Quality gates]
+  F -->|ready| G[Ready for chunking]
+  F -->|warnings| H[Human review]
+  F -->|reject| I[Quarantine or reject]

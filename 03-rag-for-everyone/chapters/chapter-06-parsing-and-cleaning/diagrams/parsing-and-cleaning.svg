@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">Parsing and cleaning architecture</title>
+  <desc id="desc">Approved source flows into parser selection, extraction, cleaning, quality gates, and chunking readiness.</desc>
+  <rect width="1100" height="520" fill="#f6f8fc"/>
+  <rect x="50" y="70" width="180" height="95" rx="16" fill="#101b33"/>
+  <text x="140" y="112" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="700">Approved</text>
+  <text x="140" y="137" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">source</text>
+  <rect x="280" y="70" width="180" height="95" rx="16" fill="#2e6bb8"/>
+  <text x="370" y="112" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="700">Parser</text>
+  <text x="370" y="137" text-anchor="middle" fill="#eaf1fc" font-family="Inter, Arial" font-size="15">selection</text>
+  <rect x="510" y="70" width="180" height="95" rx="16" fill="#3a7f5f"/>
+  <text x="600" y="112" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="700">Extract</text>
+  <text x="600" y="137" text-anchor="middle" fill="#e7f4ed" font-family="Inter, Arial" font-size="15">text + structure</text>
+  <rect x="740" y="70" width="180" height="95" rx="16" fill="#ffc93c"/>
+  <text x="830" y="112" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="700">Clean</text>
+  <text x="830" y="137" text-anchor="middle" fill="#2e2410" font-family="Inter, Arial" font-size="15">remove noise</text>
+  <path d="M230 118 H280 M460 118 H510 M690 118 H740" stroke="#101b33" stroke-width="4" stroke-linecap="round"/>
+  <rect x="195" y="245" width="250" height="120" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="320" y="285" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Parser Contract</text>
+  <text x="320" y="315" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">text blocks, tables, metadata</text>
+  <text x="320" y="340" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">positions, warnings, quality</text>
+  <rect x="515" y="245" width="250" height="120" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="640" y="285" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Quality Gates</text>
+  <text x="640" y="315" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">OCR, tables, metadata</text>
+  <text x="640" y="340" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">permissions, completeness</text>
+  <rect x="835" y="245" width="210" height="120" rx="18" fill="#101b33"/>
+  <text x="940" y="285" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Ready for</text>
+  <text x="940" y="315" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="16">chunking</text>
+  <path d="M830 165 V215 H320 V245 M830 165 V215 H640 V245 M765 305 H835" stroke="#2e6bb8" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="70" y="425" width="960" height="52" rx="14" fill="#eaf1fc" stroke="#cdd7ea"/>
+  <text x="550" y="457" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="17" font-weight="700">Every transformation must be traceable, measurable, and reversible enough for review.</text>
+</svg>

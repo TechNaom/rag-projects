@@ -1,0 +1,7 @@
+Approved source
+  -> parser selection
+  -> raw extraction
+  -> structure preservation
+  -> cleaning and normalization
+  -> quality gates
+  -> ready for chunking / review / reject
