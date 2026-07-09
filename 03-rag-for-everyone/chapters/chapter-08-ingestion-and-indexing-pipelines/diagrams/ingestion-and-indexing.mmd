@@ -1,0 +1,11 @@
+flowchart LR
+  A[Source registry] --> B[Change detection]
+  B --> C[Parse and clean]
+  C --> D[Validate metadata]
+  D --> E[Chunk]
+  E --> F[Embed]
+  F --> G[Candidate index]
+  G --> H[Quality gates]
+  H -->|pass| I[Publish index version]
+  H -->|fail| J[Hold or rollback]
+  I --> K[Monitor online behavior]

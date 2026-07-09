@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 8 — Ingestion and Indexing Pipelines</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-08">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 8 of 28</span><span class="badge-difficulty">Ingestion</span><span class="reading-time">60 min read</span></div>
+<h1>Ingestion and Indexing Pipelines</h1>
+<p class="lede">A production RAG system needs a repeatable way to move approved sources into searchable indexes. Ingestion and indexing pipelines turn source governance, parsing, cleaning, metadata, chunking, embedding, validation, and publishing into an operated system.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Read it as release engineering for knowledge:</strong> an index is not a random database dump; it is a versioned artifact that can pass gates, publish, roll back, and be monitored.</li><li><strong>Separate batch and incremental ingestion:</strong> first builds and daily updates need different controls.</li><li><strong>Track every run:</strong> pipeline logs, run ids, source counts, failure reasons, index versions, and quality metrics are production essentials.</li><li><strong>Design for recovery:</strong> retries, dead-letter queues, quarantine lanes, rollback, and re-indexing are not advanced extras. They are how real systems survive messy data.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why pipelines matter</a><a href="#analogy">2. Assembly line analogy</a><a href="#pipeline">3. Pipeline stages</a><a href="#batch">4. Batch vs incremental</a><a href="#indexing">5. Indexing and re-indexing</a><a href="#observability">6. Logs and recovery</a><a href="#architecture">7. Architecture view</a><a href="#production">8. Production controls</a><a href="#mistakes">9. Common mistakes</a><a href="#assignment">10. Mini assignment</a><a href="#summary">11. Summary</a></nav>
+
+<div class="hook">If Chapter 5 chose the sources, Chapter 6 prepared the text, and Chapter 7 designed the metadata, Chapter 8 asks the production question: how do we run this safely again and again?</div>
+<div class="what-is"><span class="label">Core idea</span>An ingestion pipeline is the controlled journey from approved source to published searchable index. An indexing pipeline creates the retrieval artifact that online RAG will search.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 11</span>
+<h2>Why Ingestion Pipelines Matter</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Production corpora change: policies update, pages move, PDFs break, schemas drift, and permissions change.</li><li>A pipeline makes ingestion repeatable, observable, recoverable, and safe to release.</li><li>Index versions should be treated like software releases, with validation and rollback.</li></ul></div>
+<div class="lesson-note"><strong>Why this matters:</strong> many RAG demos work once because someone manually curated documents. Production RAG must work every day as documents change, teams add sources, and users depend on current answers.</div>
+<p>An ingestion pipeline gives the team a controlled path: discover changed sources, validate approval, parse, clean, attach metadata, chunk, embed, validate retrieval behavior, publish a new index version, and monitor the result.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Pipeline north star</span><strong>Never publish knowledge you cannot trace, validate, monitor, or roll back.</strong><p>A good pipeline does not just produce vectors. It produces a reliable, explainable index artifact that the online RAG system can trust.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Can we trust the source?</strong><p>Check approval, ownership, access, freshness, retirement status, and source registry rules.</p></div></div><div class="decision-step"><span>02</span><div><strong>Can we transform it safely?</strong><p>Parse, clean, preserve structure, validate metadata, chunk, embed, and keep lineage at every stage.</p></div></div><div class="decision-step"><span>03</span><div><strong>Can we validate the new index?</strong><p>Run golden queries, metadata completeness checks, freshness checks, retrieval recall tests, and access-control tests.</p></div></div><div class="decision-step"><span>04</span><div><strong>Can we recover if it fails?</strong><p>Use retries, quarantine, dead-letter records, rollback, old index retention, and human review lanes.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 11</span>
+<h2>Real-Life Analogy: A Factory Assembly Line</h2>
+<p>A factory does not build a product by throwing parts into a room and hoping a finished item appears. It has stations: intake, inspection, assembly, quality control, packaging, release, and support.</p>
+<p>A RAG ingestion pipeline is the same. Sources move through stations. Each station has a contract. If a station fails, the item is repaired, quarantined, rejected, or retried. That is how knowledge becomes reliable enough for users.</p>
+<div class="quick-recap"><span class="label">Quick recap</span><ul><li>Ingestion is the manufacturing line for knowledge.</li><li>Indexing creates the searchable release artifact.</li><li>Quality gates protect the online assistant.</li></ul></div>
+</section>
+
+<section id="pipeline" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 11</span>
+<h2>Technical Explanation: Pipeline Stages</h2>
+<div class="diagram-card"><h3>Text diagram: production ingestion flow</h3><pre><code>source registry
+  -> change detection
+  -> approval and access checks
+  -> parsing and cleaning
+  -> metadata validation
+  -> chunking
+  -> embedding
+  -> index write
+  -> quality gates
+  -> publish index version
+  -> monitor online behavior</code></pre></div>
+<div class="field-depth"><div><h4>Input contract</h4><p>Every run should know source ids, source versions, owners, access labels, changed files, ingestion reason, and expected output index version.</p></div><div><h4>Output contract</h4><p>The pipeline should produce chunk records, embeddings, metadata, index version, validation report, failed records, and publish decision.</p></div><div><h4>Failure contract</h4><p>Every failure should have a stage, source id, error class, retryability, owner, and next action.</p></div></div>
+<div class="mentor-note"><strong>Mentor note:</strong> do not think "run a script to embed files." Think "ship a knowledge release with checks, logs, and rollback."</div>
+</section>
+
+<section id="batch" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 11</span>
+<h2>Batch Ingestion vs Incremental Updates</h2>
+<p>Not all ingestion runs are the same. A first build, nightly sync, urgent policy fix, and full re-index have different risk profiles.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Batch ingestion</span><h3>Build or rebuild a whole corpus</h3><p>Useful for first launch, major schema changes, embedding model changes, or full quality resets. It is slower but easier to validate as a full release.</p></div><div class="depth-panel"><span>Incremental ingestion</span><h3>Update only changed sources</h3><p>Useful for daily updates, small source changes, and lower-cost freshness. It needs careful delete/update logic so stale chunks do not survive.</p></div><div class="depth-panel"><span>Hotfix ingestion</span><h3>Patch urgent knowledge quickly</h3><p>Useful when a policy or runbook must be fixed immediately. It needs strict approval and post-release validation.</p></div><div class="depth-panel"><span>Re-indexing</span><h3>Regenerate retrieval artifacts</h3><p>Needed when chunking, metadata schema, embedding model, parser, or vector-store settings change.</p></div></div>
+<div class="case-study-card"><span class="decision-label">Production case study</span><h3>New refund policy published at midnight</h3><p>The support assistant must stop using yesterday's policy and start using the new approved policy.</p><ul><li><strong>Change detection:</strong> identify the new source version and retired old version.</li><li><strong>Incremental update:</strong> parse, clean, metadata-validate, chunk, embed only affected documents.</li><li><strong>Freshness gate:</strong> golden refund questions must retrieve the new version.</li><li><strong>Rollback:</strong> if the index fails validation, keep serving the previous known-good index and escalate.</li></ul></div>
+</section>
+
+<section id="indexing" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 11</span>
+<h2>Indexing and Re-Indexing Strategy</h2>
+<p>Indexing writes chunks, embeddings, and metadata into a retrieval system. Re-indexing rebuilds those artifacts when something upstream changes.</p>
+<div class="diagram-card"><h3>When to re-index</h3><pre><code>Re-index when:
+  parser output changes
+  cleaning rules change
+  chunking strategy changes
+  metadata schema changes
+  embedding model changes
+  vector-store index settings change
+  source authority or access labels change</code></pre></div>
+<div class="field-depth"><div><h4>Production failure mode</h4><p>A team updates metadata rules but does not re-index old chunks. The online system now has a mixed index where old and new records behave differently.</p></div><div><h4>Engineering checklist</h4><ul><li>Version parser, cleaner, chunker, embedding model, metadata schema, and index config.</li><li>Keep blue/green or previous-index rollback.</li><li>Run golden retrieval tests before publish.</li></ul></div><div><h4>Metrics to watch</h4><p>index publish success rate, golden query pass rate, stale chunk count, failed source count, embedding cost, and p95 indexing duration.</p></div></div>
+</section>
+
+<section id="observability" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 11</span>
+<h2>Pipeline Logs and Failure Recovery</h2>
+<p>Ingestion logs should answer: what ran, what changed, what passed, what failed, what was published, and what must be fixed next.</p>
+<div class="diagram-card"><h3>Example ingestion run record</h3><pre><code>{
+  "run_id": "ingest_2026_07_09_001",
+  "mode": "incremental",
+  "sources_seen": 1240,
+  "sources_changed": 18,
+  "chunks_written": 412,
+  "failed_sources": 2,
+  "index_version": "support-index-2026-07-09.1",
+  "golden_query_pass_rate": 0.97,
+  "publish_decision": "publish",
+  "rollback_index": "support-index-2026-07-08.4"
+}</code></pre></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Retry</span><h3>Transient failures should retry safely</h3><p>Network timeouts, temporary API failures, and rate limits should retry with backoff and idempotent writes.</p></div><div class="depth-panel"><span>Quarantine</span><h3>Bad records should not block everything</h3><p>Malformed PDFs, missing metadata, and unsupported formats should move to review while safe records continue.</p></div><div class="depth-panel"><span>Dead-letter</span><h3>Failures need owner-visible queues</h3><p>Repeated failures should land in a dead-letter lane with source id, stage, reason, owner, and next action.</p></div><div class="depth-panel"><span>Rollback</span><h3>Bad indexes need a fast escape route</h3><p>Keep previous known-good indexes and switch back when quality gates fail or online metrics regress.</p></div></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 11</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/ingestion-and-indexing.svg" alt="Ingestion and indexing pipeline architecture showing registry, parser, metadata validation, chunking, embedding, index publish, and monitoring"><figcaption>The ingestion pipeline produces a versioned index artifact, not just a pile of embeddings.</figcaption></figure>
+<div class="diagram-card"><h3>Release view</h3><pre><code>candidate index
+  -> validation report
+  -> golden query test
+  -> access-control test
+  -> freshness test
+  -> publish / hold / rollback</code></pre></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 11</span>
+<h2>Production Controls</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Run ids:</strong> every source, chunk, and embedding should trace to an ingestion run.</li><li><strong>Idempotency:</strong> rerunning a pipeline should not create duplicate chunks or orphan stale records.</li><li><strong>Quality gates:</strong> block publish on metadata failures, low parse confidence, stale sources, failed golden queries, or access-control regressions.</li><li><strong>Blue/green indexing:</strong> build a candidate index, validate it, then switch traffic when safe.</li><li><strong>Rollback:</strong> keep previous known-good index versions and a documented rollback path.</li><li><strong>Cost controls:</strong> track embedding calls, changed-source counts, skipped-source counts, and indexing duration.</li></ul></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Accuracy</span><h3>Golden queries protect retrieval quality</h3><p>Run representative questions after every index build to catch missing sources, stale sources, bad chunking, or broken metadata filters.</p></div><div class="depth-panel"><span>Consistency</span><h3>Idempotency protects repeatability</h3><p>A failed run should be safely repeatable without duplicate chunks, mixed versions, or partial publish states.</p></div><div class="depth-panel"><span>Scale</span><h3>Incremental updates protect cost</h3><p>Only changed sources should be re-parsed, re-chunked, re-embedded, and re-indexed unless a full rebuild is required.</p></div><div class="depth-panel"><span>Safety</span><h3>Access tests must run before publish</h3><p>A new index should prove that restricted content is filtered correctly for different user roles.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 11</span>
+<h2>Common Mistakes</h2>
+<p>Pipeline mistakes usually appear later as stale answers, missing citations, duplicate chunks, expensive runs, or retrieval regressions.</p>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Embedding files directly without pipeline gates</h3><div><strong>Symptom:</strong> bad documents enter the index because no source, parser, or metadata validation ran.</div><div><strong>Better move:</strong> enforce source, parser, metadata, chunking, and retrieval gates before publish.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>No index versioning</h3><div><strong>Symptom:</strong> teams cannot explain which index produced a bad answer.</div><div><strong>Better move:</strong> stamp every index with version, run id, schema version, and embedding model.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Incremental updates leave stale chunks behind</h3><div><strong>Symptom:</strong> old policy chunks still answer after a new version is published.</div><div><strong>Better move:</strong> handle deletes, replacements, retired sources, and parent-document version changes explicitly.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>No rollback path</h3><div><strong>Symptom:</strong> a bad index ships and the team has to repair live traffic manually.</div><div><strong>Better move:</strong> keep previous known-good indexes and practice rollback.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Ignoring failed records</h3><div><strong>Symptom:</strong> ingestion shows "mostly successful" while critical documents are missing.</div><div><strong>Better move:</strong> track failed source count, failed source priority, owner, and next action.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Publishing without golden query tests</h3><div><strong>Symptom:</strong> the index is technically built but retrieves the wrong evidence.</div><div><strong>Better move:</strong> run golden retrieval, citation, freshness, and access-control tests before publish.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Re-indexing everything for every small change</h3><div><strong>Symptom:</strong> costs explode and freshness slows down.</div><div><strong>Better move:</strong> use change detection and dependency-aware re-indexing.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Not recording pipeline lineage</h3><div><strong>Symptom:</strong> nobody knows which parser, cleaner, chunker, or embedding model created a chunk.</div><div><strong>Better move:</strong> store run id, stage versions, and source lineage on every record.</div></article>
+<article class="mistake-card"><span class="mistake-id">M09</span><h3>No dead-letter lane</h3><div><strong>Symptom:</strong> repeatedly failing documents disappear into logs.</div><div><strong>Better move:</strong> create owner-visible failure queues with stage, reason, and retry state.</div></article>
+<article class="mistake-card"><span class="mistake-id">M10</span><h3>Monitoring only online answers</h3><div><strong>Symptom:</strong> ingestion quality degrades for days before users notice answer failures.</div><div><strong>Better move:</strong> monitor pipeline quality, freshness, failures, source coverage, and golden query pass rate.</div></article>
+</div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 11</span>
+<h2>Mini Assignment</h2>
+<p>Design an ingestion pipeline for one domain: HR policy, customer support, security runbooks, developer docs, or finance. Include stages, quality gates, run logs, retry rules, dead-letter behavior, publish criteria, and rollback plan.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 11</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Ingestion turns approved sources into retrieval-ready records.</li><li>Indexing produces a versioned searchable artifact.</li><li>Batch, incremental, hotfix, and re-indexing runs need different controls.</li><li>Pipeline logs, quality gates, retries, quarantine, dead-letter queues, and rollback are production requirements.</li><li>A RAG index should be released with the same seriousness as application code.</li></ul></div>
+</section>
+
+<p>Next, test pipeline judgment in the quiz, then build an ingestion run auditor in the exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-07-metadata-design/project/index.html">&larr; Chapter 7 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

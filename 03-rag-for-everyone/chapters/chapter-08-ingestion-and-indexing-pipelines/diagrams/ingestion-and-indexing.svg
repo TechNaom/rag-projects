@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 540" role="img" aria-labelledby="title desc">
+  <title id="title">Ingestion and indexing pipeline architecture</title>
+  <desc id="desc">A source registry flows through parsing, metadata validation, chunking, embedding, indexing, validation, publishing, and monitoring.</desc>
+  <rect width="1120" height="540" fill="#f6f8fc"/>
+  <rect x="40" y="70" width="155" height="84" rx="16" fill="#101b33"/>
+  <text x="118" y="106" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="16" font-weight="800">Source</text>
+  <text x="118" y="130" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="14">registry</text>
+  <rect x="235" y="70" width="155" height="84" rx="16" fill="#2e6bb8"/>
+  <text x="312" y="106" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="16" font-weight="800">Parse +</text>
+  <text x="312" y="130" text-anchor="middle" fill="#eaf1fc" font-family="Inter, Arial" font-size="14">clean</text>
+  <rect x="430" y="70" width="155" height="84" rx="16" fill="#3a7f5f"/>
+  <text x="508" y="106" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="16" font-weight="800">Metadata</text>
+  <text x="508" y="130" text-anchor="middle" fill="#e7f4ed" font-family="Inter, Arial" font-size="14">validate</text>
+  <rect x="625" y="70" width="155" height="84" rx="16" fill="#ffc93c"/>
+  <text x="702" y="106" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="16" font-weight="800">Chunk +</text>
+  <text x="702" y="130" text-anchor="middle" fill="#2e2410" font-family="Inter, Arial" font-size="14">embed</text>
+  <rect x="820" y="70" width="155" height="84" rx="16" fill="#101b33"/>
+  <text x="898" y="106" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="16" font-weight="800">Candidate</text>
+  <text x="898" y="130" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="14">index</text>
+  <path d="M195 112 H235 M390 112 H430 M585 112 H625 M780 112 H820" stroke="#101b33" stroke-width="4" stroke-linecap="round"/>
+  <rect x="210" y="250" width="210" height="110" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="315" y="288" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Quality Gates</text>
+  <text x="315" y="317" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">golden queries</text>
+  <text x="315" y="341" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">access + freshness</text>
+  <rect x="475" y="250" width="210" height="110" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="580" y="288" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Publish</text>
+  <text x="580" y="317" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">switch traffic</text>
+  <text x="580" y="341" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">or hold release</text>
+  <rect x="740" y="250" width="210" height="110" rx="18" fill="#101b33"/>
+  <text x="845" y="288" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Monitor</text>
+  <text x="845" y="317" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">freshness, failures</text>
+  <text x="845" y="341" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">retrieval quality</text>
+  <path d="M898 154 V205 H315 V250 M898 154 V205 H580 V250 M685 305 H740" stroke="#2e6bb8" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="95" y="430" width="930" height="54" rx="14" fill="#eaf1fc" stroke="#cdd7ea"/>
+  <text x="560" y="463" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="17" font-weight="700">A production RAG index is a versioned release artifact with validation, monitoring, and rollback.</text>
+</svg>

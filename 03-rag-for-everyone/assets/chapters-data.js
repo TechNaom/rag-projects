@@ -146,7 +146,26 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-08", num: 8, title: "Ingestion and Indexing Pipelines", path: null }
+      {
+        id: "chapter-08",
+        num: 8,
+        title: "Ingestion and Indexing Pipelines",
+        path: "chapters/chapter-08-ingestion-and-indexing-pipelines/lesson.html",
+        description: "Batch ingestion, incremental updates, re-indexing, pipeline logs, quality gates, failure recovery, rollback, and index release operations.",
+        subtopics: [
+          { id: "problem", title: "Why pipelines matter" },
+          { id: "analogy", title: "Assembly line analogy" },
+          { id: "pipeline", title: "Pipeline stages" },
+          { id: "batch", title: "Batch vs incremental" },
+          { id: "indexing", title: "Indexing and re-indexing" },
+          { id: "observability", title: "Logs and recovery" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {

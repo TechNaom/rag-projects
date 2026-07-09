@@ -1,0 +1,10 @@
+Source registry
+  -> change detection
+  -> parse and clean
+  -> validate metadata
+  -> chunk
+  -> embed
+  -> candidate index
+  -> quality gates
+  -> publish / hold / rollback
+  -> monitor online behavior
