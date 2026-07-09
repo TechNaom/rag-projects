@@ -20,7 +20,7 @@
 | Interview preparation | 4 | 20 questions with strong answer, red flag, follow-up, proof. |
 | Project implementation | 5 | Architecture selector creates richer production decision records with client fit, advantages, disadvantages, engineering profile, evals, and observability. |
 | GenAI thought-process layer | 4 | Includes prompt and critique checklist. |
-| Navigation/template consistency | 4 | Follows standard chapter flow. |
+| Navigation/template consistency | 5 | Follows standard chapter flow and now includes a Python-for-Everyone-style reading guide, subtopic labels, at-a-glance stack, and richer architecture sections. |
 | Accessibility/readability | 5 | Deep comparison, production-depth panels, and decision framework are scan-friendly with cards, chips, short sections, field notes, metrics, and mobile-responsive layout. |
 | Public artifact readiness | 4 | Ready for review after push. |
 

@@ -40,6 +40,16 @@
     the model, answer with citations, and then evaluate what happened.
   </p>
 
+  <div class="lesson-hero">
+    <h2>How to read this chapter</h2>
+    <ul>
+      <li><strong>Read it as a debugging map:</strong> every lifecycle stage is a place where quality can improve or fail.</li>
+      <li><strong>Separate offline and online work:</strong> indexing prepares knowledge; query execution answers users.</li>
+      <li><strong>Track artifacts:</strong> intent, filters, retrieved sources, reranked sources, context, prompt version, answer status, citations, latency, and cost.</li>
+      <li><strong>Keep production in view:</strong> a lifecycle is only useful when it can be logged, tested, operated, and improved after launch.</li>
+    </ul>
+  </div>
+
   <nav class="page-toc" aria-label="On this page">
     <span class="toc-label">On this page</span>
     <a href="#problem">1. Why the lifecycle matters</a>
@@ -68,7 +78,19 @@
   </div>
 
   <section id="problem" class="subtopic">
+    <span class="subtopic-label">Sub-topic 1 of 10</span>
     <h2>Why This Topic Matters</h2>
+    <div class="lesson-stack">
+      <div class="lesson-pill">At a glance</div>
+      <ul class="lesson-bullets">
+        <li>The final answer is only the last visible step of a longer system.</li>
+        <li>Bad retrieval, weak metadata, stale indexes, or poor context assembly can all look like "model hallucination."</li>
+        <li>A production team debugs the lifecycle stage by stage, not by guessing.</li>
+      </ul>
+    </div>
+    <div class="lesson-note">
+      <strong>Why this matters:</strong> teams that cannot inspect the lifecycle usually cannot improve RAG reliably. They tweak prompts, switch models, or add context without knowing which stage actually failed.
+    </div>
     <p>
       When a RAG assistant gives a wrong answer, many teams jump straight to
       "the model hallucinated." Sometimes that is true. Very often, the real
@@ -88,9 +110,21 @@
         final response.
       </p>
     </div>
+    <details class="go-deeper">
+      <summary>Go Deeper: why "the model hallucinated" is often the wrong diagnosis</summary>
+      <p>
+        If the retriever never fetched the right document, the model may still
+        produce a fluent answer from weak evidence. If the prompt mixed user text
+        and source text unclearly, the model may follow the wrong instruction. If
+        citations were generated after the answer instead of tied to retrieved
+        chunks, the answer may look grounded but not be grounded. The lifecycle
+        helps you isolate the real failure.
+      </p>
+    </details>
   </section>
 
   <section id="analogy" class="subtopic">
+    <span class="subtopic-label">Sub-topic 2 of 10</span>
     <h2>Real-Life Analogy: A Receptionist Routing a Request</h2>
     <p>
       Imagine walking into a large company and asking, "Can I access customer
@@ -109,9 +143,18 @@
       The lifecycle is a chain of decisions. A weak decision early in the chain
       creates a weak answer later.
     </div>
+    <div class="quick-recap">
+      <span class="label">Quick recap</span>
+      <ul>
+        <li>The assistant should route and gather evidence before answering.</li>
+        <li>User role, region, incident severity, and approval state can all change the correct answer.</li>
+        <li>A good lifecycle turns vague user input into traceable system decisions.</li>
+      </ul>
+    </div>
   </section>
 
   <section id="technical" class="subtopic">
+    <span class="subtopic-label">Sub-topic 3 of 10</span>
     <h2>Technical Explanation</h2>
     <p>
       A production RAG request usually moves through these stages:
@@ -180,9 +223,15 @@ Online query pipeline
         answer that cites the rule or escalates to the incident commander.
       </p>
     </div>
+    <div class="field-depth">
+      <div><h4>Production failure mode</h4><p>The online pipeline retrieves a good source but loses the source id during context assembly, so the final answer cannot cite it correctly.</p></div>
+      <div><h4>Engineering checklist</h4><ul><li>Carry source metadata through every stage.</li><li>Separate source text from user text in the prompt.</li><li>Log answer status: answered, refused, escalated, or needs clarification.</li></ul></div>
+      <div><h4>Metrics to watch</h4><p>Context utilization, citation support rate, source-id preservation, unsupported-answer rate, and end-to-end p95 latency.</p></div>
+    </div>
   </section>
 
   <section id="architecture" class="subtopic">
+    <span class="subtopic-label">Sub-topic 4 of 10</span>
     <h2>Architecture View</h2>
     <figure class="diagram-figure">
       <img src="diagrams/lifecycle.svg" alt="RAG query lifecycle diagram showing user question, query router, retrieval, reranking, prompt, answer, citations, and evaluation loop.">
@@ -200,6 +249,7 @@ Online query pipeline
   </section>
 
   <section id="execution" class="subtopic">
+    <span class="subtopic-label">Sub-topic 5 of 10</span>
     <h2>Execution Pipeline: What Actually Runs</h2>
     <p>
       In a production application, the lifecycle becomes an execution pipeline.
@@ -236,9 +286,20 @@ Online query pipeline
       failed. If the answer cites a source that was not retrieved, citation
       control failed.
     </p>
+    <details class="go-deeper">
+      <summary>Go Deeper: what a good RAG trace should let you answer</summary>
+      <p>
+        A useful trace should answer five questions quickly: what did the user
+        ask, what route did the system choose, which sources entered the prompt,
+        what answer policy was applied, and what evidence supports the final
+        response. If your trace cannot answer those questions, production
+        debugging becomes slow and subjective.
+      </p>
+    </details>
   </section>
 
   <section id="retrieval" class="subtopic">
+    <span class="subtopic-label">Sub-topic 6 of 10</span>
     <h2>Retrieval Decisions Inside the Lifecycle</h2>
     <p>
       Retrieval is not one decision. It is a bundle of engineering decisions
@@ -277,9 +338,22 @@ Online query pipeline
       key point is placement: indexing prepares the searchable knowledge, and
       retrieval chooses what evidence enters the online lifecycle.
     </p>
+    <div class="case-study-card">
+      <span class="decision-label">Production case study</span>
+      <h3>One access question, four retrieval decisions</h3>
+      <p><strong>Question:</strong> "Can a contractor access EU customer logs during Sev1?"</p>
+      <ul>
+        <li><strong>Metadata:</strong> region is EU, role is contractor, incident level is Sev1.</li>
+        <li><strong>Sources:</strong> access policy and incident runbook are both required.</li>
+        <li><strong>Retrieval:</strong> hybrid search may be needed because "Sev1" is an exact operational term.</li>
+        <li><strong>Reranking:</strong> policy and runbook should outrank generic logging docs.</li>
+      </ul>
+      <p>The lesson: retrieval is not only "find similar text." It is applying business constraints before the model sees evidence.</p>
+    </div>
   </section>
 
   <section id="production" class="subtopic">
+    <span class="subtopic-label">Sub-topic 7 of 10</span>
     <h2>Production Considerations</h2>
     <div class="real-world">
       <span class="label">Production gear</span>
@@ -309,9 +383,14 @@ Online query pipeline
         model output.
       </p>
     </div>
+    <div class="production-depth-grid">
+      <div class="depth-panel"><span>Release gate</span><h3>Separate retrieval and answer evals</h3><p>Do not ship only because final answers look good. Track whether the correct evidence was retrieved before measuring whether the generated answer was acceptable.</p></div>
+      <div class="depth-panel"><span>Operations gate</span><h3>Watch drift after launch</h3><p>Policy updates, new documents, changed terminology, and user behavior can all degrade retrieval quality even when code has not changed.</p></div>
+    </div>
   </section>
 
   <section id="mistakes" class="subtopic">
+    <span class="subtopic-label">Sub-topic 8 of 10</span>
     <h2>Common Mistakes</h2>
     <div class="lesson-card">
       <h3>1. Treating the lifecycle as one black box</h3>
@@ -340,6 +419,7 @@ Online query pipeline
   </section>
 
   <section id="assignment" class="subtopic">
+    <span class="subtopic-label">Sub-topic 9 of 10</span>
     <h2>Mini Assignment</h2>
     <p>
       Pick one real product scenario: HR policy, customer support, security
@@ -350,6 +430,7 @@ Online query pipeline
   </section>
 
   <section id="summary" class="subtopic">
+    <span class="subtopic-label">Sub-topic 10 of 10</span>
     <div class="points-to-remember">
       <h2>Points To Remember</h2>
       <ul>

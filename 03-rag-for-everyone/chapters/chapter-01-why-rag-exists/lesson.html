@@ -40,6 +40,16 @@
       right answer, from the right document, with a source you can verify.
     </p>
 
+    <div class="lesson-hero">
+      <h2>How to read this chapter</h2>
+      <ul>
+        <li><strong>Start with the product pain:</strong> fluent AI answers can still be wrong, outdated, or unsupported by your private sources.</li>
+        <li><strong>Follow the evidence path:</strong> user question, trusted source, retrieved context, grounded answer, citation, evaluation.</li>
+        <li><strong>Think like a builder:</strong> every RAG system is a set of engineering decisions about trust, freshness, access, latency, cost, and failure handling.</li>
+        <li><strong>Do not rush the acronym:</strong> RAG matters because it changes the product contract from "the model said so" to "the answer is supported by this evidence."</li>
+      </ul>
+    </div>
+
     <nav class="page-toc" aria-label="On this page">
       <span class="toc-label">On this page</span>
       <a href="#problem">1. The problem</a>
@@ -56,7 +66,7 @@
     </div>
 
     <div class="what-is">
-      <span class="label">How to read this chapter</span>
+      <span class="label">Production lens</span>
       We will keep the language friendly, but the thinking is real production
       thinking. If you are new, follow the story first. If you are senior, look
       for the trade-offs: source trust, access control, retrieval failure,
@@ -64,7 +74,19 @@
     </div>
 
     <section id="problem" class="subtopic">
+      <span class="subtopic-label">Sub-topic 1 of 5</span>
       <h2>The Problem RAG Solves</h2>
+      <div class="lesson-stack">
+        <div class="lesson-pill">At a glance</div>
+        <ul class="lesson-bullets">
+          <li>Large language models are strong at language, but they do not automatically know your latest private documents.</li>
+          <li>A grounded assistant must retrieve approved evidence before writing the answer.</li>
+          <li>The first production question is not "Can the model answer?" It is "Can the system prove where the answer came from?"</li>
+        </ul>
+      </div>
+      <div class="lesson-note">
+        <strong>Why this matters:</strong> most failed GenAI pilots do not fail because the model cannot write. They fail because the product cannot prove accuracy, freshness, access control, or source authority.
+      </div>
       <p>
         In the early days of using large language models, many people treated
         them like magical encyclopedias. Ask a question, get a confident answer.
@@ -101,9 +123,28 @@
           evidence first. Ask the model to answer second.
         </p>
       </div>
+      <details class="go-deeper">
+        <summary>Go Deeper: why prompting harder is not enough</summary>
+        <p>
+          Prompting can ask the model to be careful, cite sources, or avoid guessing.
+          But if the right source never reaches the model, the prompt has nothing
+          reliable to ground on. In production, good prompting and good retrieval
+          work together: retrieval supplies evidence, and prompting tells the model
+          how to use that evidence safely.
+        </p>
+      </details>
+      <div class="quick-recap">
+        <span class="label">Quick recap</span>
+        <ul>
+          <li>RAG exists because fluent answers are not the same as verified answers.</li>
+          <li>Retrieval supplies trusted evidence before generation.</li>
+          <li>Every grounded answer should be traceable back to sources.</li>
+        </ul>
+      </div>
     </section>
 
     <section id="memory-vs-context" class="subtopic">
+      <span class="subtopic-label">Sub-topic 2 of 5</span>
       <h2>Model Memory vs. Trusted Context</h2>
       <p>
         Model memory is what the model learned during training. Trusted context
@@ -128,9 +169,23 @@
           write the answer.
         </figcaption>
       </figure>
+      <div class="production-depth-grid">
+        <div class="depth-panel"><span>Model memory</span><h3>Good for language and patterns</h3><p>The model can explain, summarize, reason, and write clearly. But its training knowledge may be outdated, incomplete, or unrelated to your private corpus.</p></div>
+        <div class="depth-panel"><span>Trusted context</span><h3>Good for source-grounded truth</h3><p>Your system provides current approved evidence: policy pages, runbooks, tickets, contracts, product docs, or database records.</p></div>
+      </div>
+      <details class="go-deeper">
+        <summary>Go Deeper: the real contract of a grounded answer</summary>
+        <p>
+          A grounded answer should satisfy three checks: the cited source exists,
+          the cited source actually supports the claim, and the user is allowed to
+          see that source. Missing any one of these turns a polished answer into a
+          product risk.
+        </p>
+      </details>
     </section>
 
     <section id="northkeep" class="subtopic">
+      <span class="subtopic-label">Sub-topic 3 of 5</span>
       <h2>The Northkeep Policy Assistant</h2>
       <p>
         This repository already has a working RAG engine in
@@ -151,6 +206,17 @@
           preserved as learning material because real systems improve through
           failure analysis.
         </p>
+      </div>
+      <div class="case-study-card">
+        <span class="decision-label">Production case study</span>
+        <h3>Why this is not just a demo</h3>
+        <p>Northkeep gives us a controlled production-like surface: private policies, retrieval misses, citation expectations, and measurable evals. That matters because learners can see where RAG breaks instead of only seeing the happy path.</p>
+        <ul>
+          <li><strong>Source authority:</strong> which policy is the approved source?</li>
+          <li><strong>Retrieval quality:</strong> did the system fetch the right policy chunk?</li>
+          <li><strong>Answer grounding:</strong> did the final answer stay inside the retrieved evidence?</li>
+          <li><strong>Failure analysis:</strong> what do the two misses teach us about chunking, query wording, or source coverage?</li>
+        </ul>
       </div>
       <div class="code-window">
         <div class="code-window-bar">
@@ -179,6 +245,7 @@ evaluate(question, expected_source="10_whistleblower_policy.md")</code></pre>
     </section>
 
     <section id="thought-process" class="subtopic">
+      <span class="subtopic-label">Sub-topic 4 of 5</span>
       <h2>GenAI Builder Thought Process</h2>
       <div class="thinking-box">
         <p>
@@ -206,9 +273,15 @@ evaluate(question, expected_source="10_whistleblower_policy.md")</code></pre>
           <li>Research assistants need citations, not confident summaries with missing sources.</li>
         </ul>
       </div>
+      <div class="field-depth">
+        <div><h4>Production failure mode</h4><p>The assistant answers from general model knowledge even though the organization has a stricter internal policy.</p></div>
+        <div><h4>Engineering checklist</h4><ul><li>Define approved sources.</li><li>Require citations for policy claims.</li><li>Log retrieved source ids and answer status.</li></ul></div>
+        <div><h4>Metrics to watch</h4><p>Recall@k, citation precision, unsupported-answer rate, stale-source rate, and escalation correctness.</p></div>
+      </div>
     </section>
 
     <section id="recap" class="subtopic">
+      <span class="subtopic-label">Sub-topic 5 of 5</span>
       <div class="points-to-remember">
         <h2>Points To Remember</h2>
         <ul>

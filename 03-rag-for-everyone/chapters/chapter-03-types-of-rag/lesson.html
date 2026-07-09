@@ -16,24 +16,37 @@
 <div class="page-meta"><span class="chapter-badge">Chapter 3 of 28</span><span class="badge-difficulty">Architecture</span><span class="reading-time">28 min read</span></div>
 <h1>Types of RAG</h1>
 <p class="lede">RAG is not one design. It is a family of architectures. The real skill is choosing the simplest pattern that can safely solve the product problem.</p>
+<div class="lesson-hero">
+<h2>How to read this chapter</h2>
+<ul>
+<li><strong>Read it as an architecture selection guide:</strong> each RAG type exists because a specific product failure or product requirement appears.</li>
+<li><strong>Do not memorize names:</strong> learn the trade-off behind each pattern: accuracy, consistency, latency, cost, safety, scale, and operability.</li>
+<li><strong>Use the production profiles:</strong> every card tells you what can fail, what to build, and what to measure after launch.</li>
+<li><strong>Think like a reviewer:</strong> by the end, you should be able to defend why a system should stay simple or why it deserves a stronger RAG architecture.</li>
+</ul>
+</div>
 <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why types matter</a><a href="#analogy">2. Real-life analogy</a><a href="#patterns">3. Pattern map</a><a href="#deep-dive">4. Deep comparison</a><a href="#production-depth">5. Production depth</a><a href="#architecture">6. Architecture view</a><a href="#decision">7. Decision framework</a><a href="#production">8. Production trade-offs</a><a href="#mistakes">9. Common mistakes</a><a href="#assignment">10. Mini assignment</a><a href="#summary">11. Summary</a></nav>
 <div class="hook">A strong builder does not ask, "Can we use RAG?" They ask, "Which RAG pattern fits this risk, corpus, latency, cost, and user workflow?"</div>
 <div class="what-is"><span class="label">Architecture mindset</span>This chapter is about selection. Naive RAG is not bad. Agentic RAG is not automatically better. The best architecture is the one that solves the real problem with the fewest moving parts and enough safety.</div>
 
 <section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 11</span>
 <h2>Why This Topic Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Every RAG type is a response to a specific failure mode.</li><li>Architecture should grow only when risk, corpus complexity, workflow, or evaluation demands it.</li><li>The wrong RAG type can make the product slower, costlier, and harder to debug without improving trust.</li></ul></div>
 <p>Many teams overbuild RAG. They hear about graph RAG, agentic RAG, corrective RAG, and adaptive RAG, then try to use everything at once. The result is often slower, harder to debug, and less reliable than a simple retrieval pipeline.</p>
 <p>Other teams underbuild. They ship basic top-k retrieval for questions that need multi-hop reasoning, freshness checks, access control, or correction loops.</p>
 <div class="lesson-card"><h3>Simple explanation</h3><p>Types of RAG are architecture patterns. Each pattern adds a capability, but each capability also adds complexity.</p></div>
 </section>
 
 <section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 11</span>
 <h2>Real-Life Analogy: Choosing a Transportation System</h2>
 <p>If you need to cross the street, you walk. If you need to deliver food across town, you use a bike or car. If you need to move thousands of people every morning, you need a train system. The smartest choice depends on distance, risk, speed, cost, and scale.</p>
 <p>RAG works the same way. A simple FAQ assistant may only need naive RAG. A compliance assistant may need corrective checks. A research assistant may need multi-hop or graph RAG. A support operations assistant may need agentic RAG with tools.</p>
 </section>
 
 <section id="patterns" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 11</span>
 <h2>Technical Explanation: RAG Pattern Map</h2>
 <div class="feature-grid">
 <div class="feature-card"><h3>Naive RAG</h3><p>Retrieve top-k chunks and generate an answer. Best for simple, low-risk document Q&A.</p></div>
@@ -54,6 +67,7 @@
 </section>
 
 <section id="deep-dive" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 11</span>
 <h2>Deep Comparison: What Each RAG Type Really Means</h2>
 <p>This is the section to slow down on. A production architect should be able to explain each RAG type not only by name, but by behavior, client fit, accuracy profile, consistency risk, scale impact, and operational cost.</p>
 <div class="mentor-note"><strong>Read this like a production design review.</strong> For every RAG type, ask: What failure does this architecture prevent? What new failure does it introduce? What metric proves it is working? What operational habit keeps it healthy after launch?</div>
@@ -176,6 +190,7 @@ Multimodal     Format-based   Harder          High              Images/tables/sl
 </section>
 
 <section id="production-depth" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 11</span>
 <h2>Production Depth: What Makes This More Than a Demo?</h2>
 <p>A demo RAG system is judged by whether it gives one impressive answer. A production RAG system is judged by whether it gives grounded answers repeatedly, under messy data, changing policies, unclear user questions, latency limits, cost pressure, and audit requirements.</p>
 <div class="production-depth-grid">
@@ -188,11 +203,13 @@ Multimodal     Format-based   Harder          High              Images/tables/sl
 </section>
 
 <section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 11</span>
 <h2>Architecture View</h2>
 <figure class="diagram-figure"><img src="diagrams/types-of-rag.svg" alt="Types of RAG architecture selection diagram"><figcaption>Choose the architecture by problem shape, not by hype. Each extra capability should pay rent.</figcaption></figure>
 </section>
 
 <section id="decision" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 11</span>
 <h2>Decision Framework</h2>
 <p>Use this like an architecture review board. Do not choose a RAG pattern because it sounds modern. Choose it because the product risk, corpus shape, and workflow demand it.</p>
 <div class="decision-board">
@@ -227,12 +244,14 @@ Multimodal     Format-based   Harder          High              Images/tables/sl
 </section>
 
 <section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 11</span>
 <h2>Production Trade-Offs</h2>
 <div class="real-world"><span class="label">Production gear</span><ul><li><strong>Simplicity:</strong> Naive RAG is easier to debug and cheaper to run.</li><li><strong>Accuracy:</strong> Advanced retrieval and reranking can improve grounding.</li><li><strong>Safety:</strong> Corrective RAG helps avoid unsupported answers.</li><li><strong>Flexibility:</strong> Adaptive RAG avoids one-size-fits-all pipelines.</li><li><strong>Workflow power:</strong> Agentic RAG can act, but it must be constrained and logged.</li><li><strong>Knowledge structure:</strong> Graph RAG helps when relationships matter more than isolated chunks.</li></ul></div>
 <div class="thinking-box"><p>Senior builder habit: add architecture only when a failure mode or product requirement justifies it.</p></div>
 </section>
 
 <section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 11</span>
 <h2>Common Mistakes</h2>
 <div class="lesson-card"><h3>1. Using agentic RAG too early</h3><p>If simple retrieval solves the task, agents may add cost and unpredictability.</p></div>
 <div class="lesson-card"><h3>2. Calling every retrieval system "advanced"</h3><p>Advanced RAG should mean specific improvements: metadata, hybrid search, reranking, compression, evals, or correction loops.</p></div>
@@ -241,11 +260,12 @@ Multimodal     Format-based   Harder          High              Images/tables/sl
 </section>
 
 <section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 11</span>
 <h2>Mini Assignment</h2>
 <p>Choose three products: an HR assistant, a developer docs assistant, and a security runbook assistant. Pick the RAG type for each. Explain why the simplest option is enough or why a stronger pattern is justified.</p>
 </section>
 
-<section id="summary" class="subtopic"><div class="points-to-remember"><h2>Points To Remember</h2><ul><li>RAG is a family of architecture patterns.</li><li>Naive RAG is valid when the problem is simple and low risk.</li><li>Advanced RAG improves retrieval, context, grounding, and evaluation.</li><li>Corrective and adaptive RAG are useful when risk or query complexity varies.</li><li>Agentic, graph, and multimodal RAG should be justified by product needs.</li></ul></div></section>
+<section id="summary" class="subtopic"><span class="subtopic-label">Sub-topic 11 of 11</span><div class="points-to-remember"><h2>Points To Remember</h2><ul><li>RAG is a family of architecture patterns.</li><li>Naive RAG is valid when the problem is simple and low risk.</li><li>Advanced RAG improves retrieval, context, grounding, and evaluation.</li><li>Corrective and adaptive RAG are useful when risk or query complexity varies.</li><li>Agentic, graph, and multimodal RAG should be justified by product needs.</li></ul></div></section>
 <p>Next, test architecture selection in the quiz, then practice choosing RAG patterns for production scenarios.</p>
 <div class="chapter-nav"><a href="../chapter-02-rag-query-lifecycle/project/index.html">&larr; Chapter 2 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
 </main>
