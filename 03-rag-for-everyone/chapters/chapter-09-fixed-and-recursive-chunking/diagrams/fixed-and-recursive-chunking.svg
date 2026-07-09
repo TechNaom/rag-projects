@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" role="img" aria-labelledby="title desc">
+  <title id="title">Fixed and recursive chunking architecture</title>
+  <desc id="desc">Parsed documents flow into fixed and recursive splitters, quality gates, and retrieval-ready chunk records.</desc>
+  <rect width="1120" height="520" fill="#f6f8fc"/>
+  <rect x="60" y="80" width="180" height="90" rx="16" fill="#101b33"/>
+  <text x="150" y="118" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Parsed</text>
+  <text x="150" y="143" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">document</text>
+  <rect x="320" y="55" width="210" height="85" rx="16" fill="#2e6bb8"/>
+  <text x="425" y="92" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Fixed splitter</text>
+  <text x="425" y="116" text-anchor="middle" fill="#eaf1fc" font-family="Inter, Arial" font-size="14">size + overlap</text>
+  <rect x="320" y="175" width="210" height="85" rx="16" fill="#3a7f5f"/>
+  <text x="425" y="212" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Recursive splitter</text>
+  <text x="425" y="236" text-anchor="middle" fill="#e7f4ed" font-family="Inter, Arial" font-size="14">headings to sentences</text>
+  <path d="M240 125 H290 V98 H320 M290 125 V218 H320" stroke="#101b33" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="620" y="100" width="220" height="120" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="730" y="140" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Chunk quality gates</text>
+  <text x="730" y="170" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">size, boundaries</text>
+  <text x="730" y="194" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">overlap, metadata</text>
+  <path d="M530 98 H575 V160 H620 M530 218 H575 V160" stroke="#2e6bb8" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="910" y="100" width="170" height="120" rx="18" fill="#101b33"/>
+  <text x="995" y="143" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Index-ready</text>
+  <text x="995" y="173" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">chunk records</text>
+  <path d="M840 160 H910" stroke="#101b33" stroke-width="4" stroke-linecap="round"/>
+  <rect x="130" y="340" width="860" height="58" rx="14" fill="#eaf1fc" stroke="#cdd7ea"/>
+  <text x="560" y="375" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="17" font-weight="700">Good chunks preserve meaning, control noise, carry metadata, and retrieve well for real questions.</text>
+</svg>

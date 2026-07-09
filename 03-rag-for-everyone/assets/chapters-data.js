@@ -173,7 +173,26 @@ window.RFE_MODULES = [
     summary: "Learn how document slices shape retrieval quality, context noise, latency, and answer grounding.",
     examPath: null,
     chapters: [
-      { id: "chapter-09", num: 9, title: "Fixed and Recursive Chunking", path: null },
+      {
+        id: "chapter-09",
+        num: 9,
+        title: "Fixed and Recursive Chunking",
+        path: "chapters/chapter-09-fixed-and-recursive-chunking/lesson.html",
+        description: "Token size, overlap, separators, fixed splitting, recursive splitting, chunk count, context size, citations, and retrieval-quality trade-offs.",
+        subtopics: [
+          { id: "problem", title: "Why chunking matters" },
+          { id: "analogy", title: "Pizza slice analogy" },
+          { id: "fixed", title: "Fixed chunking" },
+          { id: "recursive", title: "Recursive chunking" },
+          { id: "overlap", title: "Overlap and separators" },
+          { id: "tradeoffs", title: "Production trade-offs" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "evaluation", title: "Chunk evaluation" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-10", num: 10, title: "Semantic and Hierarchical Chunking", path: null },
       { id: "chapter-11", num: 11, title: "Chunking Failure Analysis", path: null }
     ]

@@ -1,0 +1,6 @@
+Parsed document
+  -> choose fixed or recursive chunking
+  -> split with size, overlap, and separators
+  -> preserve metadata and source positions
+  -> validate chunk boundaries
+  -> index-ready chunk records

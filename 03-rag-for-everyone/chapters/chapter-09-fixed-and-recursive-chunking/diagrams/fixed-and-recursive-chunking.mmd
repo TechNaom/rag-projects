@@ -1,0 +1,7 @@
+flowchart LR
+  A[Parsed document] --> B{Choose chunker}
+  B --> C[Fixed splitter: size + overlap]
+  B --> D[Recursive splitter: headings, paragraphs, sentences]
+  C --> E[Chunk quality gates]
+  D --> E
+  E --> F[Index-ready chunk records]
