@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7 — Metadata Design</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-07">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 7 of 28</span><span class="badge-difficulty">Ingestion</span><span class="reading-time">55 min read</span></div>
+<h1>Metadata Design</h1>
+<p class="lede">Metadata is the control plane of RAG. It tells the system what a chunk is, where it came from, who can see it, which version it belongs to, when it expires, and whether it is authoritative enough to answer from.</p>
+
+<div class="lesson-hero">
+<h2>How to read this chapter</h2>
+<ul>
+<li><strong>Read it as product control:</strong> metadata is not decoration; it decides retrieval filters, citations, access control, freshness, and evaluation slices.</li>
+<li><strong>Design before indexing:</strong> retrofitting metadata after a corpus is already embedded is painful and expensive.</li>
+<li><strong>Think schema and governance:</strong> every field needs a purpose, owner, allowed values, default behavior, and failure rule.</li>
+<li><strong>Keep production in view:</strong> wrong metadata can hide the right answer or expose the wrong source.</li>
+</ul>
+</div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why metadata matters</a><a href="#analogy">2. Passport analogy</a><a href="#schema">3. Metadata schema</a><a href="#fields">4. Field families</a><a href="#access">5. Access and safety</a><a href="#versioning">6. Versioning and freshness</a><a href="#architecture">7. Architecture view</a><a href="#production">8. Production controls</a><a href="#mistakes">9. Common mistakes</a><a href="#assignment">10. Mini assignment</a><a href="#summary">11. Summary</a></nav>
+
+<div class="hook">A vector can tell you what text is similar. Metadata tells you whether that similar text is allowed, current, authoritative, relevant, and safe for this user.</div>
+<div class="what-is"><span class="label">Core idea</span>Metadata is structured context attached to sources, chunks, rows, pages, and answers. It helps retrieval choose the right evidence before the model starts writing.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 11</span>
+<h2>Why Metadata Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Metadata controls filtering, ranking, citations, permissions, freshness, and debugging.</li><li>Without metadata, retrieval becomes similarity-only, which is not enough for production decisions.</li><li>Metadata schema design should happen before chunking and indexing.</li></ul></div>
+<div class="lesson-note"><strong>Why this matters:</strong> two chunks can be semantically similar, but one may be retired, restricted, regional, draft, or tied to an older product version. The embedding will not reliably know that. Metadata must carry it.</div>
+<p>Imagine a user asks, "Can a contractor access customer logs during a Sev1 incident in Germany?" The answer depends on role, region, incident severity, document authority, policy version, approval owner, and access boundary. Those are metadata questions before they are language questions.</p>
+<p>If metadata is weak, the system may retrieve a similar but wrong document. If metadata is strong, the system can filter, rank, cite, and refuse with much better control.</p>
+<div class="decision-board">
+<div class="decision-north-star"><span class="decision-label">Metadata north star</span><strong>Every field should help the system choose, protect, explain, or improve evidence.</strong><p>If a field does not improve retrieval, safety, freshness, citations, evaluation, or operations, it may be noise. If a field controls user trust, it must be required and validated.</p></div>
+<div class="decision-path">
+<div class="decision-step"><span>01</span><div><strong>What must retrieval filter on?</strong><p>Region, role, product, policy status, source authority, customer tier, document type, language, or time period.</p></div></div>
+<div class="decision-step"><span>02</span><div><strong>What must citations explain?</strong><p>Source URI, section, page, row, table, heading path, version, timestamp, and owner.</p></div></div>
+<div class="decision-step"><span>03</span><div><strong>What must security enforce?</strong><p>Tenant, access level, sensitivity, role, entitlement, allowed audience, and redaction status.</p></div></div>
+<div class="decision-step"><span>04</span><div><strong>What must operations monitor?</strong><p>Freshness, parser version, index version, schema version, approval status, retired status, and metadata completeness.</p></div></div>
+</div>
+</div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 11</span>
+<h2>Real-Life Analogy: A Passport for Every Chunk</h2>
+<p>A passport does not contain your whole life story. It contains structured facts that let systems make decisions: name, country, date of birth, document number, issue date, expiry date, and authority.</p>
+<p>Metadata is the passport for a chunk. It tells the retrieval system: where this chunk came from, what it belongs to, who can use it, whether it is expired, and how to cite it.</p>
+<div class="quick-recap"><span class="label">Quick recap</span><ul><li>Text carries meaning.</li><li>Metadata carries control.</li><li>Production RAG needs both.</li></ul></div>
+</section>
+
+<section id="schema" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 11</span>
+<h2>Technical Explanation: Metadata Schema</h2>
+<p>A metadata schema defines the fields every source or chunk must carry. The schema should be boring, explicit, and tested. Boring is good here. Boring means the system behaves predictably.</p>
+<div class="diagram-card"><h3>Example chunk metadata contract</h3><pre><code>{
+  "source_id": "customer_data_access_policy",
+  "chunk_id": "customer_data_access_policy:p4:s2:c3",
+  "source_uri": "policies/customer-data-access.md",
+  "document_type": "policy",
+  "section": "Emergency access",
+  "heading_path": ["Security", "Customer data", "Emergency access"],
+  "authority": "approved",
+  "owner": "Security Governance",
+  "access_level": "restricted",
+  "allowed_roles": ["security", "incident_commander"],
+  "region": "EU",
+  "policy_id": "SEC-CUST-042",
+  "version": "2026.1",
+  "effective_from": "2026-01-15",
+  "expires_at": "2027-01-15",
+  "parser_version": "pdf-parser-3.2",
+  "schema_version": "rag-metadata-v1"
+}</code></pre></div>
+<div class="field-depth"><div><h4>Identity fields</h4><p>Source id, chunk id, parent id, source URI, section, page, row, and heading path let the system trace evidence.</p></div><div><h4>Control fields</h4><p>Access level, allowed roles, tenant, region, authority, status, sensitivity, and redaction state protect users and data.</p></div><div><h4>Lifecycle fields</h4><p>Version, effective date, expiry date, parser version, index version, owner, and refresh rule keep answers current.</p></div></div>
+<div class="mentor-note"><strong>Mentor note:</strong> metadata should be easy for humans to read and strict enough for systems to enforce. If the values are inconsistent, retrieval filters become unreliable.</div>
+</section>
+
+<section id="fields" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 11</span>
+<h2>Metadata Field Families</h2>
+<p>Do not design fields randomly. Group them by the job they perform.</p>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">ID</span><h3>Identity and traceability</h3><div><strong>Fields:</strong> source_id, chunk_id, parent_id, source_uri, page, row_id, heading_path.</div><div><strong>Use:</strong> citations, debugging, deduplication, lineage, and evidence review.</div><div><strong>Failure:</strong> answers cite documents vaguely but cannot prove the exact source span.</div></article>
+<article class="mistake-card"><span class="mistake-id">AUTH</span><h3>Authority and status</h3><div><strong>Fields:</strong> authority, approval_status, owner, document_type, retired, source_priority.</div><div><strong>Use:</strong> decide which source wins when two sources disagree.</div><div><strong>Failure:</strong> draft notes compete with approved policies.</div></article>
+<article class="mistake-card"><span class="mistake-id">SEC</span><h3>Access and sensitivity</h3><div><strong>Fields:</strong> tenant_id, access_level, allowed_roles, sensitivity, pii_flag, redaction_state.</div><div><strong>Use:</strong> enforce permissions before context reaches the model.</div><div><strong>Failure:</strong> retrieval fetches restricted content for the wrong user.</div></article>
+<article class="mistake-card"><span class="mistake-id">TIME</span><h3>Version and time</h3><div><strong>Fields:</strong> version, effective_from, expires_at, last_reviewed_at, indexed_at.</div><div><strong>Use:</strong> avoid stale answers and support time-aware policy reasoning.</div><div><strong>Failure:</strong> old policies answer new questions.</div></article>
+<article class="mistake-card"><span class="mistake-id">DOMAIN</span><h3>Business context</h3><div><strong>Fields:</strong> product, region, customer_tier, policy_id, incident_severity, language.</div><div><strong>Use:</strong> route and filter by real product constraints.</div><div><strong>Failure:</strong> generic similarity ignores region, tier, or severity.</div></article>
+<article class="mistake-card"><span class="mistake-id">PIPE</span><h3>Pipeline lineage</h3><div><strong>Fields:</strong> parser_version, cleaner_version, schema_version, index_version, ingestion_run_id.</div><div><strong>Use:</strong> reproduce failures and compare releases.</div><div><strong>Failure:</strong> nobody knows which pipeline produced a bad chunk.</div></article>
+</div>
+</section>
+
+<section id="access" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 11</span>
+<h2>Access and Safety Metadata</h2>
+<p>Access metadata is not optional. It decides whether content is allowed to enter retrieval results for a specific user.</p>
+<div class="case-study-card"><span class="decision-label">Production case study</span><h3>Security access question</h3><p><strong>User:</strong> support contractor in Germany. <strong>Question:</strong> "Can I view customer logs during Sev1?"</p><ul><li><strong>Needed filters:</strong> role=contractor, region=EU, incident_severity=sev1, source_authority=approved.</li><li><strong>Needed permissions:</strong> only retrieve policies visible to support contractors.</li><li><strong>Needed refusal:</strong> if restricted security policy is required but not visible, explain that escalation is needed instead of leaking details.</li></ul><p>The lesson: access control must happen before generation, not after the answer is written.</p></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Accuracy</span><h3>Permissions can change the correct answer</h3><p>The right answer for a security engineer may not be the right answer for a contractor because source visibility and allowed actions differ.</p></div><div class="depth-panel"><span>Consistency</span><h3>Roles need stable vocabulary</h3><p>If one source says "contractor" and another says "vendor," filters may miss unless the schema normalizes roles.</p></div><div class="depth-panel"><span>Safety</span><h3>Do not retrieve what the user cannot see</h3><p>UI hiding is not enough. Permission filters must apply at retrieval time.</p></div><div class="depth-panel"><span>Audit</span><h3>Record why a source was blocked</h3><p>Blocked source ids and reasons help teams debug refusals without exposing restricted content.</p></div></div>
+</section>
+
+<section id="versioning" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 11</span>
+<h2>Versioning, Freshness, and Time-Aware Retrieval</h2>
+<p>Many production questions are time-sensitive. "What is the policy?" often really means "What is the approved policy for this user, region, product, and date?"</p>
+<div class="diagram-card"><h3>Freshness decision flow</h3><pre><code>Question has time constraint?
+  -> apply effective_from / expires_at filters
+  -> prefer approved current version
+  -> include historical source only if user asks for history
+  -> refuse or escalate when current source is missing</code></pre></div>
+<div class="field-depth"><div><h4>Production failure mode</h4><p>A policy changed last month, but old chunks still outrank new chunks because both are semantically similar and the old version has more links.</p></div><div><h4>Engineering checklist</h4><ul><li>Store version and effective dates.</li><li>Mark retired content clearly.</li><li>Keep index version and ingestion run id.</li><li>Test historical and current questions separately.</li></ul></div><div><h4>Metrics to watch</h4><p>stale-source rate, current-version recall, retired-source retrieval rate, metadata completeness, and freshness SLA violations.</p></div></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 11</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/metadata-design.svg" alt="Metadata design architecture showing parsed documents, schema validation, metadata enrichment, permission filters, and retrieval"><figcaption>Metadata is attached before indexing and used later for filtering, ranking, citations, access control, and evaluation.</figcaption></figure>
+<div class="diagram-card"><h3>Metadata in the RAG pipeline</h3><pre><code>Parsed document
+  -> metadata extraction
+  -> schema validation
+  -> enrichment and normalization
+  -> permission classification
+  -> index with metadata
+  -> filter retrieval by user and question
+  -> cite with source metadata</code></pre></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 11</span>
+<h2>Production Controls</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Metadata dictionary:</strong> define each field, type, allowed values, owner, default, and whether it is required.</li><li><strong>Schema validation:</strong> block indexing when required fields are missing or malformed.</li><li><strong>Controlled vocabularies:</strong> normalize roles, regions, document types, authority, and access levels.</li><li><strong>Permission filters:</strong> enforce tenant, role, region, and sensitivity before context assembly.</li><li><strong>Freshness rules:</strong> expire, review, or downgrade stale sources.</li><li><strong>Evaluation slices:</strong> measure answer quality by region, role, source type, policy version, and metadata completeness.</li></ul></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Release gate</span><h3>Metadata completeness before indexing</h3><p>Do not let chunks enter the index without required identity, access, authority, and lifecycle fields.</p></div><div class="depth-panel"><span>Operations gate</span><h3>Track filter effectiveness</h3><p>Watch how often filters remove sources, hide all results, or route users to refusal. These are product signals, not just logs.</p></div><div class="depth-panel"><span>Quality gate</span><h3>Test metadata-specific questions</h3><p>Create golden questions that differ only by role, region, date, or product version. These catch filter mistakes quickly.</p></div><div class="depth-panel"><span>Governance gate</span><h3>Metadata fields need owners</h3><p>If no team owns a field, its values will drift. Metadata quality is an operating responsibility.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 11</span>
+<h2>Common Mistakes</h2>
+<p>Metadata mistakes are dangerous because the system may still retrieve fluent, plausible evidence while ignoring real-world constraints.</p>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Treating metadata as optional labels</h3><div><strong>Symptom:</strong> chunks enter the index with missing owner, version, access, or source position.</div><div><strong>Better move:</strong> validate required fields before indexing.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Using free-text values for controlled fields</h3><div><strong>Symptom:</strong> "EU", "Europe", "EMEA", and "Germany" get mixed unpredictably.</div><div><strong>Better move:</strong> use controlled vocabularies and normalization rules.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Forgetting source authority</h3><div><strong>Symptom:</strong> draft notes outrank approved policies.</div><div><strong>Better move:</strong> store authority and approval status, then use them in ranking and filters.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Ignoring access metadata</h3><div><strong>Symptom:</strong> retrieval fetches restricted chunks for users who cannot see them.</div><div><strong>Better move:</strong> enforce permission-aware retrieval before prompt assembly.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Not versioning metadata schemas</h3><div><strong>Symptom:</strong> old and new chunks carry different field names or meanings.</div><div><strong>Better move:</strong> store schema_version and migrate old records deliberately.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Dropping section and page information</h3><div><strong>Symptom:</strong> citations point to a document but not the exact evidence location.</div><div><strong>Better move:</strong> preserve page, section, row, anchor, timestamp, or bounding box.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Using timestamps without semantics</h3><div><strong>Symptom:</strong> indexed_at is confused with effective_from or last_reviewed_at.</div><div><strong>Better move:</strong> define what each timestamp means and how retrieval should use it.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Overloading one field with many meanings</h3><div><strong>Symptom:</strong> document_type contains "approved internal HR EU policy 2026."</div><div><strong>Better move:</strong> split document type, authority, access, domain, region, and version into separate fields.</div></article>
+<article class="mistake-card"><span class="mistake-id">M09</span><h3>Not measuring metadata quality</h3><div><strong>Symptom:</strong> nobody knows how many chunks are missing required fields.</div><div><strong>Better move:</strong> track completeness, validity, stale rate, unknown-value rate, and filter miss rate.</div></article>
+<article class="mistake-card"><span class="mistake-id">M10</span><h3>Letting metadata drift after launch</h3><div><strong>Symptom:</strong> new teams add values that filters and evals do not understand.</div><div><strong>Better move:</strong> govern schema changes with review, migration, and regression tests.</div></article>
+</div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 11</span>
+<h2>Mini Assignment</h2>
+<p>Design metadata for one assistant domain: HR policy, security runbook, customer support, developer docs, or finance policy. Include identity fields, access fields, lifecycle fields, business-context fields, required/optional status, allowed values, and one validation rule for each required field.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 11</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Metadata is the control plane for RAG retrieval.</li><li>Similarity is not enough; filters need structured fields.</li><li>Access, authority, version, region, and source position should be designed before indexing.</li><li>Metadata schemas need validation, controlled values, owners, and versioning.</li><li>Good metadata improves retrieval, citations, safety, evaluation, and operations.</li></ul></div>
+</section>
+
+<p>Next, test metadata judgment in the quiz, then build a metadata schema validator in exercises and the project.</p>
+<div class="chapter-nav"><a href="../chapter-06-parsing-and-cleaning/project/index.html">&larr; Chapter 6 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

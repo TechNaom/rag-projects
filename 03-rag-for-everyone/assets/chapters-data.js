@@ -126,7 +126,26 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-07", num: 7, title: "Metadata Design", path: null },
+      {
+        id: "chapter-07",
+        num: 7,
+        title: "Metadata Design",
+        path: "chapters/chapter-07-metadata-design/lesson.html",
+        description: "Source, section, policy id, role, access, version, timestamp, authority, freshness, schema validation, and metadata-driven retrieval behavior.",
+        subtopics: [
+          { id: "problem", title: "Why metadata matters" },
+          { id: "analogy", title: "Passport analogy" },
+          { id: "schema", title: "Metadata schema" },
+          { id: "fields", title: "Field families" },
+          { id: "access", title: "Access and safety" },
+          { id: "versioning", title: "Versioning and freshness" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-08", num: 8, title: "Ingestion and Indexing Pipelines", path: null }
     ]
   },

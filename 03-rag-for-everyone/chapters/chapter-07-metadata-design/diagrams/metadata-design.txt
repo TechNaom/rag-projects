@@ -1,0 +1,8 @@
+Parsed document
+  -> metadata extraction
+  -> schema validation
+  -> normalize values
+  -> permission classification
+  -> index with metadata
+  -> filtered retrieval
+  -> citations and evaluation slices

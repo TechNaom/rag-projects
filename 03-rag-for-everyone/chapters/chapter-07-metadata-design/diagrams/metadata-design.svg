@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">Metadata design architecture</title>
+  <desc id="desc">Parsed documents flow through metadata extraction, schema validation, enrichment, indexing, filtered retrieval, and citations.</desc>
+  <rect width="1100" height="520" fill="#f6f8fc"/>
+  <rect x="55" y="80" width="165" height="90" rx="16" fill="#101b33"/>
+  <text x="137" y="120" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Parsed</text>
+  <text x="137" y="145" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">document</text>
+  <rect x="270" y="80" width="165" height="90" rx="16" fill="#2e6bb8"/>
+  <text x="352" y="120" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Metadata</text>
+  <text x="352" y="145" text-anchor="middle" fill="#eaf1fc" font-family="Inter, Arial" font-size="15">extraction</text>
+  <rect x="485" y="80" width="165" height="90" rx="16" fill="#3a7f5f"/>
+  <text x="567" y="120" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Schema</text>
+  <text x="567" y="145" text-anchor="middle" fill="#e7f4ed" font-family="Inter, Arial" font-size="15">validation</text>
+  <rect x="700" y="80" width="165" height="90" rx="16" fill="#ffc93c"/>
+  <text x="782" y="120" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Index with</text>
+  <text x="782" y="145" text-anchor="middle" fill="#2e2410" font-family="Inter, Arial" font-size="15">metadata</text>
+  <path d="M220 125 H270 M435 125 H485 M650 125 H700" stroke="#101b33" stroke-width="4" stroke-linecap="round"/>
+  <rect x="180" y="250" width="210" height="115" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="285" y="288" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Filter</text>
+  <text x="285" y="318" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">role, region, access</text>
+  <text x="285" y="342" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">version, authority</text>
+  <rect x="445" y="250" width="210" height="115" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="550" y="288" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Rank</text>
+  <text x="550" y="318" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">prefer approved</text>
+  <text x="550" y="342" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">current sources</text>
+  <rect x="710" y="250" width="210" height="115" rx="18" fill="#101b33"/>
+  <text x="815" y="288" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Cite</text>
+  <text x="815" y="318" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">page, row, section</text>
+  <text x="815" y="342" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">source version</text>
+  <path d="M782 170 V215 H285 V250 M782 170 V215 H550 V250 M655 307 H710" stroke="#2e6bb8" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="95" y="425" width="910" height="52" rx="14" fill="#eaf1fc" stroke="#cdd7ea"/>
+  <text x="550" y="457" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="17" font-weight="700">Metadata turns similar text into governed, filtered, current, citeable evidence.</text>
+</svg>

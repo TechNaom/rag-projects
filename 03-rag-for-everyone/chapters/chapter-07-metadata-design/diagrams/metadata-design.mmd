@@ -1,0 +1,8 @@
+flowchart LR
+  A[Parsed document] --> B[Metadata extraction]
+  B --> C[Schema validation]
+  C --> D[Normalize values]
+  D --> E[Permission classification]
+  E --> F[Index with metadata]
+  F --> G[Filtered retrieval]
+  G --> H[Citations and evaluation slices]
