@@ -173,12 +173,36 @@ Multimodal     Format-based   Harder          High              Images/tables/sl
 
 <section id="decision" class="subtopic">
 <h2>Decision Framework</h2>
-<p>Use this decision flow before choosing a RAG type:</p>
-<div class="lesson-card"><h3>1. Is the question simple and source-grounded?</h3><p>Start with naive or advanced RAG.</p></div>
-<div class="lesson-card"><h3>2. Does the answer need multiple documents or policies?</h3><p>Use advanced retrieval, reranking, or multi-hop behavior.</p></div>
-<div class="lesson-card"><h3>3. Can retrieval fail dangerously?</h3><p>Add corrective RAG with confidence checks, refusal, or escalation.</p></div>
-<div class="lesson-card"><h3>4. Do queries vary by risk and complexity?</h3><p>Use adaptive routing so simple questions stay simple and risky questions get more checks.</p></div>
-<div class="lesson-card"><h3>5. Does the task require actions or tools?</h3><p>Consider agentic RAG, but only with strong guardrails and observability.</p></div>
+<p>Use this like an architecture review board. Do not choose a RAG pattern because it sounds modern. Choose it because the product risk, corpus shape, and workflow demand it.</p>
+<div class="decision-board">
+<div class="decision-north-star"><span class="decision-label">North star</span><strong>Smallest architecture that can answer safely, consistently, and observably.</strong><p>If a simpler path passes evals and handles the risk, keep it simple. If it fails, upgrade with a reason.</p></div>
+<div class="decision-path">
+<article class="decision-step">
+<span class="decision-step-num">01</span>
+<div><h3>Is the question simple and source-grounded?</h3><p class="decision-if">If the answer usually lives in one clear document or one clean knowledge area.</p><div class="decision-choice"><span>Choose</span><strong>Naive RAG or Advanced RAG</strong></div><p class="decision-proof">Prove it with citation precision, Recall@5, and simple unsupported-answer checks.</p></div>
+</article>
+<article class="decision-step">
+<span class="decision-step-num">02</span>
+<div><h3>Does the answer need multiple documents, policies, or metadata?</h3><p class="decision-if">If country, role, product tier, date, contract type, or policy version changes the answer.</p><div class="decision-choice"><span>Choose</span><strong>Advanced RAG</strong></div><p class="decision-proof">Prove it with metadata-filter tests, reranker evals, source coverage, and stale-policy checks.</p></div>
+</article>
+<article class="decision-step risk-step">
+<span class="decision-step-num">03</span>
+<div><h3>Can retrieval fail dangerously?</h3><p class="decision-if">If a wrong confident answer can create security, legal, financial, health, or compliance risk.</p><div class="decision-choice"><span>Choose</span><strong>Corrective RAG</strong></div><p class="decision-proof">Prove it with refusal accuracy, escalation correctness, confidence-threshold tests, and evidence-support checks.</p></div>
+</article>
+<article class="decision-step">
+<span class="decision-step-num">04</span>
+<div><h3>Do queries vary by risk and complexity?</h3><p class="decision-if">If some questions are cheap FAQ lookups while others require strict policy reasoning.</p><div class="decision-choice"><span>Choose</span><strong>Adaptive RAG</strong></div><p class="decision-proof">Prove it with route accuracy, route-level latency, fallback rate, and consistency across similar questions.</p></div>
+</article>
+<article class="decision-step action-step">
+<span class="decision-step-num">05</span>
+<div><h3>Does the product need controlled action?</h3><p class="decision-if">If the assistant must create tickets, call tools, update records, ask follow-ups, or execute workflows.</p><div class="decision-choice"><span>Choose</span><strong>Agentic RAG with approval gates</strong></div><p class="decision-proof">Prove it with tool-call precision, approval-gate coverage, audit logs, rollback tests, and human-in-loop checks.</p></div>
+</article>
+</div>
+<div class="decision-upgrades">
+<div><span>Relationship-heavy domain?</span><strong>Upgrade to Graph RAG</strong><p>When entities, links, dependencies, and multi-hop relationships are the actual product value.</p></div>
+<div><span>Knowledge outside text?</span><strong>Upgrade to Multimodal RAG</strong><p>When the evidence lives in screenshots, diagrams, tables, slides, PDFs, audio, or video.</p></div>
+</div>
+</div>
 </section>
 
 <section id="production" class="subtopic">
