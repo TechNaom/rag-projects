@@ -1,0 +1,9 @@
+flowchart LR
+  A[Raw sources] --> B[Format detection]
+  B --> C[Authority check]
+  C --> D[Access classification]
+  D --> E[Version and freshness]
+  E --> F[Metadata contract]
+  F --> G[Ready for ingestion]
+  C --> H[Reject draft / retired / unknown]
+  D --> I[Restricted source handling]

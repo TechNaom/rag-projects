@@ -86,7 +86,26 @@ window.RFE_MODULES = [
     summary: "Turn messy real-world documents into governed, searchable knowledge that a RAG system can trust.",
     examPath: null,
     chapters: [
-      { id: "chapter-05", num: 5, title: "Source Documents", path: null },
+      {
+        id: "chapter-05",
+        num: 5,
+        title: "Source Documents",
+        path: "chapters/chapter-05-source-documents/lesson.html",
+        description: "Markdown, PDF, HTML, DOCX, CSV, JSON, APIs, databases, structured vs unstructured sources, domain corpora, and synthetic data.",
+        subtopics: [
+          { id: "problem", title: "Why sources matter" },
+          { id: "analogy", title: "Library analogy" },
+          { id: "formats", title: "Source formats" },
+          { id: "structured", title: "Structured vs unstructured" },
+          { id: "domain", title: "Domain corpora" },
+          { id: "synthetic", title: "Synthetic data" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-06", num: 6, title: "Parsing and Cleaning", path: null },
       { id: "chapter-07", num: 7, title: "Metadata Design", path: null },
       { id: "chapter-08", num: 8, title: "Ingestion and Indexing Pipelines", path: null }

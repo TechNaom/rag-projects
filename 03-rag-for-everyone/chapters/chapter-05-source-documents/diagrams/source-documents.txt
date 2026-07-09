@@ -1,0 +1,16 @@
+Source Document Governance
+
+Raw sources:
+  Markdown, PDF, HTML, DOCX, CSV, JSON, APIs, databases
+
+Governance checks:
+  format detection
+  authority status
+  owner
+  access level
+  version and effective date
+  freshness rule
+  retirement status
+
+Ready for ingestion:
+  only approved, traceable, permission-aware sources enter the corpus

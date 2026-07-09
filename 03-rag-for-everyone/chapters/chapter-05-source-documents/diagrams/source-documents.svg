@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 430" role="img" aria-labelledby="title desc">
+  <title id="title">Source document governance</title>
+  <desc id="desc">Raw source formats pass through authority, access, freshness, and metadata checks before ingestion.</desc>
+  <rect width="1050" height="430" rx="24" fill="#f6f7fb"/>
+  <text x="44" y="56" font-family="Inter, Arial" font-size="26" font-weight="800" fill="#101b33">Source documents are a governed supply chain</text>
+  <g font-family="Inter, Arial" font-size="14" font-weight="700">
+    <rect x="45" y="105" width="145" height="70" rx="14" fill="#fff" stroke="#2e6bb8" stroke-opacity=".25"/>
+    <text x="74" y="135" fill="#101b33">Raw sources</text><text x="65" y="158" fill="#4b5160" font-size="12">PDF, HTML, API...</text>
+    <rect x="220" y="105" width="145" height="70" rx="14" fill="#fff"/>
+    <text x="250" y="145" fill="#101b33">Format check</text>
+    <rect x="395" y="105" width="145" height="70" rx="14" fill="#fff"/>
+    <text x="424" y="145" fill="#101b33">Authority</text>
+    <rect x="570" y="105" width="145" height="70" rx="14" fill="#fff"/>
+    <text x="604" y="145" fill="#101b33">Access</text>
+    <rect x="745" y="105" width="145" height="70" rx="14" fill="#fff"/>
+    <text x="770" y="145" fill="#101b33">Freshness</text>
+    <rect x="430" y="250" width="190" height="76" rx="16" fill="#101b33"/>
+    <text x="466" y="282" fill="#ffc93c">Ready for ingestion</text>
+    <text x="465" y="306" fill="#e8ecf4" font-size="12">traceable, approved, governed</text>
+  </g>
+  <g stroke="#2e6bb8" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M190 140h30M365 140h30M540 140h30M715 140h30"/>
+    <path d="M817 175c0 82-104 113-197 113"/>
+  </g>
+  <rect x="95" y="245" width="215" height="92" rx="16" fill="#fff8e6" stroke="#e6a800" stroke-opacity=".35"/>
+  <text x="123" y="278" font-family="Inter, Arial" font-size="16" font-weight="800" fill="#101b33">Reject or quarantine</text>
+  <text x="123" y="304" font-family="Inter, Arial" font-size="13" fill="#4b5160">draft, retired, unknown,</text>
+  <text x="123" y="322" font-family="Inter, Arial" font-size="13" fill="#4b5160">unauthorized, low quality</text>
+  <rect x="720" y="245" width="235" height="92" rx="16" fill="#eaf1fc" stroke="#2e6bb8" stroke-opacity=".25"/>
+  <text x="750" y="278" font-family="Inter, Arial" font-size="16" font-weight="800" fill="#101b33">Metadata contract</text>
+  <text x="750" y="304" font-family="Inter, Arial" font-size="13" fill="#4b5160">owner, version, section,</text>
+  <text x="750" y="322" font-family="Inter, Arial" font-size="13" fill="#4b5160">access, source URI</text>
+</svg>

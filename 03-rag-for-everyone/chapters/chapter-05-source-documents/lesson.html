@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5 — Source Documents</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-05">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 5 of 28</span><span class="badge-difficulty">Ingestion</span><span class="reading-time">50 min read</span></div>
+<h1>Source Documents</h1>
+<p class="lede">RAG quality starts before retrieval. It starts with the source material: what you allow into the corpus, how trustworthy it is, who owns it, how fresh it is, and whether the system can trace every answer back to it.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Read it as corpus design:</strong> source documents are not just files; they are the knowledge supply chain for your RAG product.</li><li><strong>Compare formats:</strong> markdown, PDF, HTML, DOCX, CSV, JSON, APIs, and databases each create different ingestion risks.</li><li><strong>Think governance:</strong> approved source, owner, version, timestamp, access level, and retirement status matter as much as text content.</li><li><strong>Learn the public-course trick:</strong> synthetic data lets us teach realistic production patterns without exposing private customer or company data.</li></ul></div>
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why sources matter</a><a href="#analogy">2. Library analogy</a><a href="#formats">3. Source formats</a><a href="#structured">4. Structured vs unstructured</a><a href="#domain">5. Domain corpora</a><a href="#synthetic">6. Synthetic data</a><a href="#architecture">7. Architecture view</a><a href="#production">8. Production controls</a><a href="#mistakes">9. Common mistakes</a><a href="#assignment">10. Mini assignment</a><a href="#summary">11. Summary</a></nav>
+<div class="hook">A RAG system cannot be more trustworthy than the sources it is allowed to retrieve. If the corpus is stale, noisy, unauthorized, or contradictory, the model will inherit that mess.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 11</span>
+<h2>Why Source Documents Matter</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Sources define what the assistant is allowed to know.</li><li>Document quality shapes retrieval quality before embeddings or prompts enter the picture.</li><li>Production RAG needs source governance: owner, authority, version, access, and retirement rules.</li></ul></div>
+<div class="lesson-note"><strong>Why this matters:</strong> many teams tune embeddings and prompts while ignoring the real issue: the corpus includes duplicate, outdated, conflicting, or unauthorized documents.</div>
+<p>Think of source documents as the raw ingredients for your RAG system. If the ingredients are expired, mislabeled, or mixed with unsafe items, even a skilled chef cannot produce a reliable dish. In RAG, source documents are those ingredients: policies, runbooks, product docs, tickets, knowledge-base articles, PDFs, tables, APIs, and database records.</p>
+<p>The first engineering question is not "Which vector database should we use?" It is: "Which sources are approved, current, accessible, parseable, and useful for the user problem?"</p>
+<div class="quick-recap"><span class="label">Quick recap</span><ul><li>Good RAG starts with source selection.</li><li>Source authority matters before retrieval ranking.</li><li>Every source should be traceable and governable.</li></ul></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 11</span>
+<h2>Real-Life Analogy: A Library With Trusted Shelves</h2>
+<p>Imagine a library where official legal books, old draft notes, student summaries, and random photocopies are all placed on the same shelf without labels. A librarian may retrieve something quickly, but speed does not mean trust.</p>
+<p>A production RAG corpus needs labeled shelves. Which documents are official? Which are drafts? Which are retired? Which are restricted? Which are only useful for historical context? Retrieval should not treat all text as equal.</p>
+<div class="diagram-card"><h3>Source trust ladder</h3><pre><code>Approved primary source
+  -> Approved supporting source
+  -> Historical source
+  -> Draft source
+  -> User-generated note
+  -> Unknown / untrusted source</code></pre></div>
+</section>
+
+<section id="formats" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 11</span>
+<h2>Source Formats and Their Risks</h2>
+<p>Different source types create different ingestion and retrieval problems. A senior RAG builder knows the format risk before designing the parser.</p>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">MD</span><h3>Markdown</h3><div><strong>Best for:</strong> docs, runbooks, tutorials, policy repositories.</div><div><strong>Risk:</strong> headings and links may be meaningful but lost during naive parsing.</div><div><strong>Control:</strong> preserve heading path, file path, anchors, and version.</div></article>
+<article class="mistake-card"><span class="mistake-id">PDF</span><h3>PDF</h3><div><strong>Best for:</strong> contracts, reports, policy handbooks, manuals.</div><div><strong>Risk:</strong> reading order, headers, footers, tables, and scanned pages can break extraction.</div><div><strong>Control:</strong> capture page number, section, OCR confidence, and table boundaries.</div></article>
+<article class="mistake-card"><span class="mistake-id">HTML</span><h3>HTML</h3><div><strong>Best for:</strong> web docs, public knowledge bases, product docs.</div><div><strong>Risk:</strong> navigation menus, cookie banners, duplicate layout text, and hidden content pollute chunks.</div><div><strong>Control:</strong> extract main content, canonical URL, heading hierarchy, and crawl timestamp.</div></article>
+<article class="mistake-card"><span class="mistake-id">DOCX</span><h3>DOCX</h3><div><strong>Best for:</strong> internal policies, drafts, operating procedures.</div><div><strong>Risk:</strong> comments, tracked changes, tables, and embedded images can be missed.</div><div><strong>Control:</strong> decide whether comments and revisions are source material or noise.</div></article>
+<article class="mistake-card"><span class="mistake-id">CSV</span><h3>CSV</h3><div><strong>Best for:</strong> tabular facts, inventories, exported records.</div><div><strong>Risk:</strong> row meaning depends on column names, units, and data dictionary.</div><div><strong>Control:</strong> keep schema, column descriptions, units, and row-level source ids.</div></article>
+<article class="mistake-card"><span class="mistake-id">JSON</span><h3>JSON</h3><div><strong>Best for:</strong> API records, product configs, nested business objects.</div><div><strong>Risk:</strong> flattening nested objects can destroy relationships.</div><div><strong>Control:</strong> preserve keys, hierarchy, object ids, and parent-child relationships.</div></article>
+<article class="mistake-card"><span class="mistake-id">API</span><h3>APIs</h3><div><strong>Best for:</strong> live systems, tickets, CRM, inventory, status, customer data.</div><div><strong>Risk:</strong> freshness, rate limits, permissions, and partial failures.</div><div><strong>Control:</strong> record fetch time, endpoint version, auth scope, and sync status.</div></article>
+<article class="mistake-card"><span class="mistake-id">DB</span><h3>Databases</h3><div><strong>Best for:</strong> structured operational data.</div><div><strong>Risk:</strong> joins, row permissions, schema changes, and transactional truth.</div><div><strong>Control:</strong> avoid dumping tables blindly; design query views and row-level security.</div></article>
+</div>
+</section>
+
+<section id="structured" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 11</span>
+<h2>Structured, Semi-Structured, and Unstructured Sources</h2>
+<p>RAG source design changes depending on how much structure the content already has.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Structured</span><h3>Tables and databases</h3><p>Rows, columns, ids, and types are explicit. The challenge is preserving schema, joins, permissions, and exact values.</p></div><div class="depth-panel"><span>Semi-structured</span><h3>JSON, HTML, markdown</h3><p>There is hierarchy, but extraction choices matter. Headings, keys, anchors, and nesting often carry meaning.</p></div><div class="depth-panel"><span>Unstructured</span><h3>PDFs, DOCX, notes</h3><p>Text may be long, messy, scanned, or layout-heavy. The challenge is extracting clean text without losing context.</p></div><div class="depth-panel"><span>Multimodal</span><h3>Images, slides, audio, video</h3><p>Evidence may live in screenshots, charts, diagrams, and transcripts. Source-region citation becomes critical.</p></div></div>
+<div class="field-depth"><div><h4>Production failure mode</h4><p>A CSV row is chunked as plain text without column meanings, so "limit: 1000" appears without knowing the unit, customer tier, or effective date.</p></div><div><h4>Engineering checklist</h4><ul><li>Preserve schema and source hierarchy.</li><li>Attach units, ids, owners, and timestamps.</li><li>Keep access labels at row, page, or section level.</li></ul></div><div><h4>Metrics to watch</h4><p>Parse success rate, schema coverage, source traceability, missing metadata rate, and unsupported-answer rate by format.</p></div></div>
+</section>
+
+<section id="domain" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 11</span>
+<h2>Domain-Specific Corpora</h2>
+<p>A corpus is not just a folder of documents. It is a product boundary. HR, legal, healthcare, security, finance, support, developer docs, and sales enablement all need different source rules.</p>
+<div class="case-study-card"><span class="decision-label">Case study</span><h3>Security runbook corpus</h3><p>A security assistant should not retrieve every internal note that mentions incidents. It should prioritize approved runbooks, access policies, escalation procedures, incident severity definitions, and audit requirements.</p><ul><li><strong>Approved:</strong> runbooks, access policies, incident response procedures.</li><li><strong>Restricted:</strong> customer-specific logs and private incident notes.</li><li><strong>Historical:</strong> postmortems useful for context, but not always policy.</li><li><strong>Excluded:</strong> draft notes, random chat summaries, unapproved snippets.</li></ul></div>
+</section>
+
+<section id="synthetic" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 11</span>
+<h2>Why Synthetic Data Is Useful for Public Learning</h2>
+<p>Public RAG courses cannot safely expose real company policies, customer records, contracts, or incident logs. Synthetic data solves that teaching problem when it is designed carefully.</p>
+<div class="lesson-note"><strong>Important:</strong> synthetic does not mean fake-quality. Good synthetic corpora should have realistic structure, conflicts, policy versions, access labels, edge cases, and retrieval failure opportunities.</div>
+<div class="field-depth"><div><h4>Good synthetic data includes</h4><ul><li>Realistic document families.</li><li>Versioned policies.</li><li>Conflicting or retired sources.</li><li>Access labels and metadata.</li></ul></div><div><h4>Bad synthetic data looks like</h4><ul><li>One clean paragraph per answer.</li><li>No ambiguity.</li><li>No stale sources.</li><li>No permission boundaries.</li></ul></div><div><h4>Learning value</h4><p>It lets learners debug realistic RAG behavior without violating privacy, compliance, or customer trust.</p></div></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 11</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/source-documents.svg" alt="Source document governance diagram showing formats, trust checks, metadata, and ingestion readiness"><figcaption>Source documents pass through trust and governance checks before entering the ingestion pipeline.</figcaption></figure>
+<div class="diagram-card"><h3>Text diagram</h3><pre><code>Raw source
+  -> format detection
+  -> authority check
+  -> access classification
+  -> freshness/version check
+  -> metadata contract
+  -> ingestion readiness decision</code></pre></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 11</span>
+<h2>Production Controls</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Source registry:</strong> catalog each source with owner, authority, format, access level, and refresh rule.</li><li><strong>Approval workflow:</strong> separate approved sources from drafts, retired content, and user notes.</li><li><strong>Access labels:</strong> enforce permissions before content enters retrieval or prompt context.</li><li><strong>Freshness policy:</strong> define when sources expire, reindex, or require review.</li><li><strong>Contradiction handling:</strong> decide which source wins when policies disagree.</li><li><strong>Auditability:</strong> every answer should trace back to source id, version, and section.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 11</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">01</span><h3>Indexing every available file</h3><div><strong>Symptom:</strong> drafts, retired files, and random notes compete with approved sources.</div><div><strong>Better move:</strong> build a source registry and approval status before ingestion.</div></article><article class="mistake-card"><span class="mistake-id">02</span><h3>Losing document hierarchy</h3><div><strong>Symptom:</strong> chunks lose section headings, page numbers, and parent context.</div><div><strong>Better move:</strong> preserve heading path, page, section, and source URI.</div></article><article class="mistake-card"><span class="mistake-id">03</span><h3>Treating PDFs as simple text</h3><div><strong>Symptom:</strong> tables, footnotes, headers, and scanned pages break answer quality.</div><div><strong>Better move:</strong> validate extraction by layout type and capture OCR/table confidence.</div></article><article class="mistake-card"><span class="mistake-id">04</span><h3>Ignoring source ownership</h3><div><strong>Symptom:</strong> nobody knows who can approve, retire, or fix a source.</div><div><strong>Better move:</strong> every source needs an owner and refresh rule.</div></article><article class="mistake-card"><span class="mistake-id">05</span><h3>Mixing public and restricted content</h3><div><strong>Symptom:</strong> retrieval fetches content the user should not see.</div><div><strong>Better move:</strong> classify access before indexing or enforce permission-aware retrieval.</div></article><article class="mistake-card"><span class="mistake-id">06</span><h3>Using synthetic data that is too clean</h3><div><strong>Symptom:</strong> learners never see stale, conflicting, missing, or restricted sources.</div><div><strong>Better move:</strong> design synthetic corpora with realistic production mess.</div></article></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 11</span>
+<h2>Mini Assignment</h2>
+<p>Pick one assistant domain: HR, security, legal, customer support, or developer docs. List five source types you would include, three you would exclude, the metadata every source must carry, and one freshness rule.</p>
+</section>
+
+<section id="summary" class="subtopic"><span class="subtopic-label">Sub-topic 11 of 11</span><div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Source documents are the knowledge supply chain for RAG.</li><li>Format affects parsing, metadata, and retrieval reliability.</li><li>Structured and unstructured sources need different controls.</li><li>Domain corpora need approval, access, freshness, and ownership rules.</li><li>Synthetic data is valuable when it preserves realistic production complexity.</li></ul></div></section>
+<p>Next, test source-format judgment in the quiz, then build a source registry in the exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-04-rag-execution-pipelines/project/index.html">&larr; Chapter 4 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>
