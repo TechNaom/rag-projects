@@ -1,0 +1,4 @@
+Ingestion -> chunks -> embeddings -> staging vector index
+Staging index -> retrieval eval gate -> production index
+Query -> embedding + metadata filters -> vector/hybrid search -> context + citations
+Bad release -> rollback to previous index version

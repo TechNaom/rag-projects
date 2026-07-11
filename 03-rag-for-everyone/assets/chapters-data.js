@@ -317,7 +317,29 @@ window.RFE_MODULES = [
     summary: "Build retrieval judgment: indexes, top-k, hybrid search, reranking, and why the first results matter.",
     examPath: null,
     chapters: [
-      { id: "chapter-15", num: 15, title: "Vector Stores and Indexing Strategies", path: null },
+      {
+        id: "chapter-15",
+        num: 15,
+        title: "Vector Stores and Indexing Strategies",
+        path: "chapters/chapter-15-vector-stores-and-indexing-strategies/lesson.html",
+        description: "Collections, ids, metadata, embeddings, flat vs approximate indexes, persistence, deletes, rebuilds, blue-green releases, and vector-store operations.",
+        subtopics: [
+          { id: "problem", title: "Why vector stores matter" },
+          { id: "analogy", title: "Warehouse analogy" },
+          { id: "concepts", title: "Core concepts" },
+          { id: "collections", title: "Collections and schemas" },
+          { id: "indexes", title: "Index strategies" },
+          { id: "lifecycle", title: "Index lifecycle" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "operations", title: "Production operations" },
+          { id: "release", title: "Release strategies" },
+          { id: "metrics", title: "Metrics" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-16", num: 16, title: "Retrieval Strategies and Top-K", path: null },
       { id: "chapter-17", num: 17, title: "Hybrid Search and Query Routing", path: null },
       { id: "chapter-18", num: 18, title: "Reranking and Retrieval Optimization", path: null }

@@ -1,0 +1,11 @@
+flowchart LR
+  A[Source documents] --> B[Chunks + metadata]
+  B --> C[Embeddings]
+  C --> D[(Staging vector index)]
+  D --> E[Retrieval eval gate]
+  E --> F[(Production index)]
+  G[User query] --> H[Query embedding]
+  H --> I[Filters + vector search]
+  F --> I
+  I --> J[Context + citations]
+  E --> K[Rollback / keep old index]

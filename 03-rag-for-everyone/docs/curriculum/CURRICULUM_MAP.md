@@ -177,6 +177,9 @@ Goal: Build retrieval systems that can be reasoned about and improved.
 - Flat indexes vs approximate indexes.
 - Refresh, rebuild, and versioning strategies.
 - How indexing decisions affect retrieval quality.
+- Metadata filters for tenant, access, freshness, and source status.
+- Blue-green index releases, shadow testing, canary rollout, and rollback.
+- Deletes, stale-content audits, dimension checks, and retrieval traces.
 
 ### Chapter 16: Retrieval Strategies and Top-K
 
