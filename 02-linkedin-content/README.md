@@ -36,10 +36,10 @@ Posts in this series are mirrored from real, working projects:
 |---|-------|-------|--------|--------|
 | 01 | [What is RAG?](posts/01-what-is-rag.md) | Education — core concept | 01-policy-rag-poc | ✅ Ready |
 | 02 | [GenAI for Everyone (Course Launch)](posts/02-genai-for-everyone-launch.md) | Personal journey — giving away free education | genai-for-everyone | ✅ Ready |
-| 03 | The Honest Build | Credibility — showing failures | 01-policy-rag-poc | 🔜 Upcoming |
-| 04 | The Orchestrator Mindset | Mindset — AI + human collaboration | 01-policy-rag-poc | 🔜 Upcoming |
-| 05 | The API Key Mistake | Security — practical lesson | 01-policy-rag-poc | 🔜 Upcoming |
-| 06 | Why I Built This for Banking | Domain framing | 01-policy-rag-poc | 🔜 Upcoming |
+| 03 | [The Honest Build](posts/03-the-honest-build.md) | Credibility — showing failures | 01-policy-rag-poc | ✅ Ready |
+| 04 | [The Orchestrator Mindset](posts/04-the-orchestrator-mindset.md) | Mindset — AI + human collaboration | 01-policy-rag-poc | ✅ Ready |
+| 05 | [The API Key Mistake](posts/05-the-api-key-mistake.md) | Security — practical lesson | 01-policy-rag-poc | ✅ Ready |
+| 06 | [Why I Built This for Banking](posts/06-why-i-built-this-for-banking.md) | Domain framing | 01-policy-rag-poc | ✅ Ready |
 | 07 | [Python for Everyone: 11 Chapters, 2 Modules](posts/07-python-for-everyone-milestone.md) | Build-in-public milestone — proof of depth | python-for-everyone | ✅ Ready |
 | 08 | [GenAI Deep R&D Journal, Ep. 01: Why Vector Databases?](posts/08-genai-rd-journal-ep01-vector-databases.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
 | 09 | [GenAI Deep R&D Journal, Ep. 02: Why Brute-Force Search Doesn't Scale](posts/09-genai-rd-journal-ep02-vector-search-at-scale.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
