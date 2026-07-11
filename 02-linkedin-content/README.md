@@ -48,6 +48,43 @@ Posts in this series are mirrored from real, working projects:
 | 12 | [GenAI Deep R&D Journal, Ep. 05: Dense vs. Sparse Retrieval](posts/12-genai-rd-journal-ep05-dense-vs-sparse.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
 | 13 | [GenAI Deep R&D Journal, Ep. 06: Why Chunking Breaks RAG](posts/13-genai-rd-journal-ep06-chunking.md) | Technical deep-dive — recurring R&D journal series (closes the 6-episode arc) | 01-policy-rag-poc | ✅ Ready |
 
+## RAG for Everyone — 30-Day Series (Posts 14–42)
+
+A daily companion series to the [`03-rag-for-everyone`](../03-rag-for-everyone/) course — one post per day, one chapter per post, `📘 RAG for Everyone | Day X/30`. Day 1 is [Post 01](posts/01-what-is-rag.md) above (Chapter 1). Days 2–30 are drafted and pending review before posting.
+
+| Day | Post | Chapter | Status |
+|---|-------|-------|--------|
+| 1 | [What is RAG?](posts/01-what-is-rag.md) | chapter-01-why-rag-exists | ✅ Ready |
+| 2 | [The RAG Query Lifecycle](posts/14-day02-rag-query-lifecycle.md) | chapter-02-rag-query-lifecycle | 📝 Draft |
+| 3 | [Types of RAG](posts/15-day03-types-of-rag.md) | chapter-03-types-of-rag | 📝 Draft |
+| 4 | [RAG Execution Pipelines](posts/16-day04-rag-execution-pipelines.md) | chapter-04-rag-execution-pipelines | 📝 Draft |
+| 5 | [Source Documents](posts/17-day05-source-documents.md) | chapter-05-source-documents | 📝 Draft |
+| 6 | [Parsing & Cleaning](posts/18-day06-parsing-and-cleaning.md) | chapter-06-parsing-and-cleaning | 📝 Draft |
+| 7 | [Metadata Design](posts/19-day07-metadata-design.md) | chapter-07-metadata-design | 📝 Draft |
+| 8 | [Ingestion & Indexing Pipelines](posts/20-day08-ingestion-and-indexing-pipelines.md) | chapter-08-ingestion-and-indexing-pipelines | 📝 Draft |
+| 9 | [Fixed & Recursive Chunking](posts/21-day09-fixed-and-recursive-chunking.md) | chapter-09-fixed-and-recursive-chunking | 📝 Draft |
+| 10 | [Semantic & Hierarchical Chunking](posts/22-day10-semantic-and-hierarchical-chunking.md) | chapter-10-semantic-and-hierarchical-chunking | 📝 Draft |
+| 11 | [Chunking Failure Analysis](posts/23-day11-chunking-failure-analysis.md) | chapter-11-chunking-failure-analysis | 📝 Draft |
+| 12 | [What Embeddings Are](posts/24-day12-what-embeddings-are.md) | chapter-12-what-embeddings-are | 📝 Draft |
+| 13 | [Local TF-IDF/SVD Embeddings](posts/25-day13-local-tfidf-svd-embeddings.md) | chapter-13-local-tfidf-svd-embeddings | 📝 Draft |
+| 14 | [Neural Embeddings](posts/26-day14-neural-embeddings.md) | chapter-14-neural-embeddings | 📝 Draft |
+| 15 | [Vector Stores & Indexing Strategies](posts/27-day15-vector-stores-and-indexing-strategies.md) | chapter-15-vector-stores-and-indexing-strategies | 📝 Draft |
+| 16 | [Retrieval Strategies & Top-K](posts/28-day16-retrieval-strategies-and-top-k.md) | chapter-16-retrieval-strategies-and-top-k | 📝 Draft |
+| 17 | [Hybrid Search & Query Routing](posts/29-day17-hybrid-search-and-query-routing.md) | chapter-17-hybrid-search-and-query-routing | 📝 Draft |
+| 18 | [Reranking & Retrieval Optimization](posts/30-day18-reranking-and-retrieval-optimization.md) | chapter-18-reranking-and-retrieval-optimization | 📝 Draft |
+| 19 | [Context Injection](posts/31-day19-context-injection.md) | chapter-19-context-injection | 📝 Draft |
+| 20 | [Grounded System Prompts](posts/32-day20-grounded-system-prompts.md) | chapter-20-grounded-system-prompts | 📝 Draft |
+| 21 | [Prompt Testing](posts/33-day21-prompt-testing.md) | chapter-21-prompt-testing | 📝 Draft |
+| 22 | [Retrieval Metrics](posts/34-day22-retrieval-metrics.md) | chapter-22-retrieval-metrics | 📝 Draft |
+| 23 | [Answer Quality Metrics](posts/35-day23-answer-quality-metrics.md) | chapter-23-answer-quality-metrics | 📝 Draft |
+| 24 | [Failure Analysis](posts/36-day24-failure-analysis.md) | chapter-24-failure-analysis | 📝 Draft |
+| 25 | [Access Control & Safety](posts/37-day25-access-control-and-safety.md) | chapter-25-access-control-and-safety | 📝 Draft |
+| 26 | [Observability & Cost](posts/38-day26-observability-and-cost.md) | chapter-26-observability-and-cost | 📝 Draft |
+| 27 | [Deployment Patterns](posts/39-day27-deployment-patterns.md) | chapter-27-deployment-patterns | 📝 Draft |
+| 28 | [Capstone: End-to-End Production RAG](posts/40-day28-end-to-end-production-rag-capstone.md) | chapter-28-end-to-end-production-rag-capstone | 📝 Draft |
+| 29 | [What Building This Actually Taught Me](posts/41-day29-what-building-this-actually-taught-me.md) | bonus — honest recap | 📝 Draft |
+| 30 | [Series Finale](posts/42-day30-series-finale.md) | bonus — series close | 📝 Draft |
+
 ## Posting Schedule (Suggested)
 
 | Week | Post |
