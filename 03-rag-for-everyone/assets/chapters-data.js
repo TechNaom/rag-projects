@@ -340,7 +340,29 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-16", num: 16, title: "Retrieval Strategies and Top-K", path: null },
+      {
+        id: "chapter-16",
+        num: 16,
+        title: "Retrieval Strategies and Top-K",
+        path: "chapters/chapter-16-retrieval-strategies-and-top-k/lesson.html",
+        description: "Similarity search, top-k tuning, score calibration, metadata filters, query rewriting, multi-query retrieval, dedupe, traces, and retrieval policies.",
+        subtopics: [
+          { id: "problem", title: "Why retrieval strategy matters" },
+          { id: "analogy", title: "Receptionist analogy" },
+          { id: "similarity", title: "Similarity search" },
+          { id: "topk", title: "Top-k" },
+          { id: "scores", title: "Scores and thresholds" },
+          { id: "filters", title: "Metadata filters" },
+          { id: "query-rewriting", title: "Query rewriting" },
+          { id: "multi-query", title: "Multi-query retrieval" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production considerations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-17", num: 17, title: "Hybrid Search and Query Routing", path: null },
       { id: "chapter-18", num: 18, title: "Reranking and Retrieval Optimization", path: null }
     ]

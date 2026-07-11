@@ -1,0 +1,11 @@
+flowchart LR
+  A[User query] --> B[Intent + filters]
+  B --> C[Rewrite or multi-query]
+  C --> D[Similarity search]
+  D --> E[Top-k candidates]
+  E --> F[Dedupe]
+  F --> G[Rerank / expand]
+  G --> H[Context assembly]
+  H --> I[Citations + trace]
+  I --> J[Eval loop]
+  J --> B

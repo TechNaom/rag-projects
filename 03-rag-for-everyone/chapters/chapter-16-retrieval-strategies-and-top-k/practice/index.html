@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Practice — Retrieval Strategies and Top-K</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body data-active-chapter="chapter-16"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page"><p><a href="../exercises/index.html">&larr; Back to exercises</a></p><div class="page-meta"><span class="chapter-badge">Chapter 16 Practice Bank</span><span class="reading-time">75 min practice</span></div><h1>Practice Bank: Retrieval Tuning Scenarios</h1><p>Use <code>starter.py</code> to diagnose retrieval misses and recommend tuning moves.</p><div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a></div>
+<div class="feature-grid">
+<div class="feature-card"><h3>Scenario 1: Gold chunk at rank 7</h3><p>Top-k 5 misses evidence.</p></div>
+<div class="feature-card"><h3>Scenario 2: Duplicate chunks dominate</h3><p>Dedupe is needed before context assembly.</p></div>
+<div class="feature-card"><h3>Scenario 3: Wrong region policy</h3><p>Metadata filters are missing.</p></div>
+<div class="feature-card"><h3>Scenario 4: Conversational query</h3><p>Query rewrite can improve retrieval.</p></div>
+<div class="feature-card"><h3>Scenario 5: Complex policy exception</h3><p>Multi-query plus reranking improves recall.</p></div>
+<div class="feature-card"><h3>Scenario 6: Low top score</h3><p>System may need refusal or clarification.</p></div>
+<div class="feature-card"><h3>Scenario 7: High k causes noise</h3><p>Context budget is crowded.</p></div>
+<div class="feature-card"><h3>Scenario 8: Filtered-out gold</h3><p>Metadata quality must be audited.</p></div>
+<div class="feature-card"><h3>Scenario 9: Runbook steps out of order</h3><p>Context assembly must preserve sequence.</p></div>
+<div class="feature-card"><h3>Scenario 10: Same score distribution changed</h3><p>Embedding/index release needs threshold recalibration.</p></div>
+</div>
+<div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div></main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script></body></html>

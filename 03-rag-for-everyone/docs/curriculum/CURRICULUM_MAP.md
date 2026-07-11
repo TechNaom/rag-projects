@@ -190,6 +190,10 @@ Goal: Build retrieval systems that can be reasoned about and improved.
 - Query rewriting.
 - Metadata filtering.
 - Multi-query retrieval.
+- Score calibration and thresholds.
+- Dedupe, parent expansion, reranking, and context budget control.
+- Retrieval traces with filters, ranks, selected chunks, and gold evidence.
+- Dynamic top-k by intent, risk, and evaluation metrics.
 
 ### Chapter 17: Hybrid Search and Query Routing
 

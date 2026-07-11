@@ -1,0 +1,4 @@
+User query -> intent + filters -> optional rewrite / multi-query
+Search -> top-k candidates -> dedupe -> rerank / expand context
+Context assembly -> citations + trace -> grounded answer
+Eval loop -> adjust k, filters, rewrite, or strategy

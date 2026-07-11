@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 16 — Retrieval Strategies and Top-K</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-16">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 16 of 28</span><span class="badge-difficulty">Retrieval Control</span><span class="reading-time">80 min read</span></div>
+<h1>Retrieval Strategies and Top-K</h1>
+<p class="lede">Retrieval is where RAG decides what evidence the model is allowed to see. Top-k, scores, filters, query rewriting, and multi-query retrieval are not tiny tuning knobs; they shape answer quality, latency, cost, and trust.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Think evidence selection:</strong> retrieval is not about returning many chunks; it is about returning the right chunks.</li><li><strong>Treat top-k as a product decision:</strong> too low can miss evidence; too high can flood the prompt with noise.</li><li><strong>Use filters before trust:</strong> tenant, access, active status, source type, and freshness must shape candidate results.</li><li><strong>Debug with traces:</strong> scores, ranks, filters, and gold chunk positions tell you what actually happened.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why retrieval strategy matters</a><a href="#analogy">2. Receptionist analogy</a><a href="#similarity">3. Similarity search</a><a href="#topk">4. Top-k</a><a href="#scores">5. Scores and thresholds</a><a href="#filters">6. Metadata filters</a><a href="#query-rewriting">7. Query rewriting</a><a href="#multi-query">8. Multi-query retrieval</a><a href="#architecture">9. Architecture view</a><a href="#production">10. Production considerations</a><a href="#mistakes">11. Common mistakes</a><a href="#interview">12. Interview understanding</a><a href="#assignment">13. Mini assignment</a><a href="#summary">14. Summary</a></nav>
+
+<div class="hook">If the right chunk never enters the context window, even the best prompt cannot answer faithfully.</div>
+<div class="what-is"><span class="label">Core idea</span>Retrieval strategy controls how candidates are found, filtered, ranked, expanded, and passed to the model. Top-k controls how many candidates move forward.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 14</span>
+<h2>Why Retrieval Strategy Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Retrieval quality determines whether the model receives enough evidence.</li><li>Top-k changes recall, noise, latency, and token cost.</li><li>Scores are ranking signals, not absolute truth.</li><li>Filters, rewriting, and multi-query retrieval help when simple similarity search is not enough.</li></ul></div>
+<p>A user asks, "Can an EU annual customer get a refund after renewal?" The answer depends on the right policy chunk, the EU region filter, active document status, and maybe a parent section with exceptions. If retrieval returns generic refund chunks but misses the renewal exception, the answer will be incomplete.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Retrieval north star</span><strong>Retrieve enough relevant, allowed, current evidence for the model to answer without guessing.</strong><p>Do not maximize top-k blindly. Maximize useful evidence inside the context budget.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Understand query intent</strong><p>Is the user asking for a definition, policy, comparison, troubleshooting step, or decision?</p></div></div><div class="decision-step"><span>02</span><div><strong>Apply filters</strong><p>Restrict by access, tenant, status, region, source type, and effective date.</p></div></div><div class="decision-step"><span>03</span><div><strong>Retrieve candidates</strong><p>Use vector, sparse, hybrid, multi-query, or rewritten query strategies.</p></div></div><div class="decision-step"><span>04</span><div><strong>Assemble context</strong><p>Deduplicate, expand parent context if needed, cap tokens, and cite exact evidence.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 14</span>
+<h2>Real-Life Analogy: A Receptionist Routing Requests</h2>
+<p>A good receptionist does not send every visitor to every department. They ask enough questions, check permissions, route to the right team, and avoid wasting everyone’s time.</p>
+<p>Retrieval does the same job for RAG. The user question arrives. Filters act like permission checks. Search routes to likely evidence. Top-k decides how many people are invited into the room. Context assembly decides who actually gets to speak.</p>
+<div class="quick-recap"><span class="label">Mental picture</span><ul><li>Query: visitor request.</li><li>Filters: security desk.</li><li>Top-k: shortlist size.</li><li>Context: final meeting room.</li></ul></div>
+</section>
+
+<section id="similarity" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 14</span>
+<h2>Similarity Search</h2>
+<p>Similarity search compares the query vector with stored vectors and ranks chunks by closeness. It is often the first retrieval strategy, but not the only one.</p>
+<div class="field-depth"><div><h4>Good for</h4><p>Paraphrases, semantic questions, concept matching, support articles, and natural language queries.</p></div><div><h4>Weak for</h4><p>Exact IDs, rare error codes, stale documents, access rules, and questions needing multiple facts.</p></div><div><h4>Production check</h4><p>Always inspect whether the gold chunk appears in top-k and whether it passes filters.</p></div></div>
+</section>
+
+<section id="topk" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 14</span>
+<h2>Top-K</h2>
+<p>Top-k is the number of candidates returned from retrieval. A top-k of 3 returns the three highest-ranked chunks. A top-k of 20 returns more candidates but can add noise and cost.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Too low</span><h3>Missed evidence</h3><p>The correct chunk may be rank 6, but top-k 3 never lets it reach the model.</p></div><div class="depth-panel"><span>Too high</span><h3>Context noise</h3><p>Unrelated or duplicate chunks crowd the prompt and confuse answer generation.</p></div><div class="depth-panel"><span>Dynamic</span><h3>Intent-aware k</h3><p>Simple FAQ may need k=3; policy comparison may need k=12 plus reranking.</p></div><div class="depth-panel"><span>Evaluated</span><h3>Metric-driven k</h3><p>Choose k using Recall@k, citation support, latency, and token budget.</p></div></div>
+</section>
+
+<section id="scores" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 14</span>
+<h2>Scores and Thresholds</h2>
+<p>Scores help rank chunks, but they are not universal confidence values. A score of 0.82 may be strong in one embedding model and weak in another.</p>
+<div class="case-study-card"><span class="decision-label">Production warning</span><h3>Score thresholds need calibration</h3><p>Do not copy a threshold from another project. Build score distributions from your corpus, inspect false positives and false negatives, and tune thresholds with evals.</p></div>
+<div class="diagram-card"><h3>Threshold thinking</h3><pre><code>if top_score < calibrated_min_score:
+  answer: "I do not have enough evidence"
+
+if gold_chunk_rank > top_k:
+  increase k, rewrite query, hybrid search, or rerank
+
+if top chunks are duplicates:
+  dedupe before context assembly</code></pre></div>
+</section>
+
+<section id="filters" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 14</span>
+<h2>Metadata Filters</h2>
+<p>Filters narrow retrieval to allowed and relevant chunks. They are not optional in production systems.</p>
+<div class="real-world"><span class="label">Common filters</span><ul><li><strong>Access:</strong> role, user group, tenant, confidentiality.</li><li><strong>Freshness:</strong> active status, effective date, expiry date, source version.</li><li><strong>Domain:</strong> product, region, policy family, source type.</li><li><strong>Quality:</strong> approved sources, parser quality, document status.</li></ul></div>
+<p>Filters can also cause failures. If metadata is wrong, the gold chunk may be filtered out. Always log filtered-out gold chunks during evals.</p>
+</section>
+
+<section id="query-rewriting" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 14</span>
+<h2>Query Rewriting</h2>
+<p>Query rewriting transforms the user question into a better retrieval query. It may expand acronyms, remove conversational fluff, add domain terms, or split a complex question.</p>
+<div class="field-depth"><div><h4>Useful when</h4><p>User questions are vague, conversational, multilingual, acronym-heavy, or missing domain terms.</p></div><div><h4>Risk</h4><p>A bad rewrite can change intent and retrieve confidently wrong evidence.</p></div><div><h4>Control</h4><p>Log original query, rewritten query, rewrite reason, and retrieval differences.</p></div></div>
+</section>
+
+<section id="multi-query" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 14</span>
+<h2>Multi-Query Retrieval</h2>
+<p>Multi-query retrieval searches several reformulations of the same user need. It improves recall when one phrasing misses evidence.</p>
+<div class="diagram-card"><h3>Example</h3><pre><code>user: "Can I get money back after annual renewal?"
+queries:
+  1. "annual renewal refund eligibility"
+  2. "refund after subscription renewal"
+  3. "EU annual plan cancellation refund exception"
+
+merge -> dedupe -> rerank -> context</code></pre></div>
+<p>The trade-off is cost and latency. Multi-query retrieval should be used when recall matters enough to justify extra searches.</p>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 14</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/retrieval-strategies-and-top-k.svg" alt="Retrieval architecture showing user query, filters, rewrite, multi-query search, top-k candidates, dedupe, reranking, context assembly, and traces"><figcaption>Production retrieval is a pipeline: understand, filter, search, merge, dedupe, rerank, assemble, and trace.</figcaption></figure>
+<div class="diagram-card"><h3>Retrieval trace</h3><pre><code>{
+  "query": "refund after annual renewal",
+  "rewrite": "EU annual plan renewal refund exception",
+  "filters": {"region": "EU", "status": "active"},
+  "top_k": 8,
+  "gold_rank": 3,
+  "duplicates_removed": 2,
+  "context_chunks": ["refund:v3:c12", "refund:v3:c13"]
+}</code></pre></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 14</span>
+<h2>Production Considerations</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Dynamic top-k:</strong> choose k based on intent, risk, and available token budget.</li><li><strong>Dedupe:</strong> collapse near-duplicate chunks before context assembly.</li><li><strong>Fallback:</strong> if dense retrieval is weak, try sparse, hybrid, or ask for clarification.</li><li><strong>Thresholds:</strong> calibrate score cutoffs on your corpus.</li><li><strong>Latency:</strong> multi-query and high k increase runtime cost.</li><li><strong>Observability:</strong> store query, rewrite, filters, top-k, scores, ranks, and citations.</li><li><strong>Eval loops:</strong> turn misses into golden queries and regression tests.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 14</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Using one top-k for every query</h3><div><strong>Symptom:</strong> simple questions get noisy context while complex questions miss evidence.</div><div><strong>Better move:</strong> use intent-aware or eval-driven k.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Trusting scores as confidence</h3><div><strong>Symptom:</strong> high score chunks are treated as verified truth.</div><div><strong>Better move:</strong> use scores as ranking signals, then check metadata and citations.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Filtering after context assembly</h3><div><strong>Symptom:</strong> restricted chunks can reach the model.</div><div><strong>Better move:</strong> enforce filters before retrieval results become prompt context.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>No deduplication</h3><div><strong>Symptom:</strong> repeated chunks crowd out diverse evidence.</div><div><strong>Better move:</strong> dedupe by source, parent, hash, or semantic similarity.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Bad query rewrite changes intent</h3><div><strong>Symptom:</strong> retrieval looks confident but answers the wrong question.</div><div><strong>Better move:</strong> log original and rewritten query and evaluate rewrites separately.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Ignoring filtered-out gold chunks</h3><div><strong>Symptom:</strong> retrieval seems bad, but metadata filters caused the miss.</div><div><strong>Better move:</strong> track filtered gold count in evals.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Increasing k to hide poor retrieval</h3><div><strong>Symptom:</strong> recall improves slightly but answer quality drops from noise.</div><div><strong>Better move:</strong> improve query strategy, hybrid retrieval, chunking, or reranking.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>No retrieval traces</h3><div><strong>Symptom:</strong> teams cannot explain why an answer used certain evidence.</div><div><strong>Better move:</strong> store ranks, scores, filters, rewrites, and selected chunks.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 14</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Top-k controls how many candidates retrieval returns, but the right value depends on query type, corpus quality, reranking, context budget, and risk. I tune k with Recall@k, citation support, latency, token cost, and answer quality. I also use filters, query rewriting, dedupe, and hybrid retrieval when simple similarity search misses evidence."</p>
+<div class="case-study-card"><span class="decision-label">Senior signal</span><h3>What production reviewers want to hear</h3><p>Do not say "we set k to 5." Say why, what failures you observed, how k changes by intent, how filters are applied, and how traces prove the gold chunk entered context.</p></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 14</span>
+<h2>Mini Assignment</h2>
+<p>Create a retrieval policy for three query types: simple FAQ, policy exception, and troubleshooting runbook. Define top-k, filters, rewrite behavior, multi-query usage, dedupe, and metrics for each.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 14</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Retrieval strategy decides what evidence the model sees.</li><li>Top-k is a trade-off between recall, noise, latency, and token cost.</li><li>Scores need calibration and should not be treated as truth.</li><li>Filters, query rewriting, and multi-query retrieval improve control when used carefully.</li><li>Production retrieval must be traceable and evaluated with golden queries.</li></ul></div>
+</section>
+
+<p>Next, test retrieval judgment in the quiz, then build a top-k policy planner in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-15-vector-stores-and-indexing-strategies/project/index.html">&larr; Chapter 15 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>
