@@ -1,5 +1,42 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Practice — Retrieval Metrics</title><link rel="stylesheet" href="../../../assets/style.css"></head>
-<body data-active-chapter="chapter-22"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
-<main class="page"><p><a href="../exercises/index.html">&larr; Back to exercises</a></p><div class="page-meta"><span class="chapter-badge">Chapter 22 Practice Bank</span><span class="reading-time">70 min drills</span></div><h1>Practice Bank: Retrieval Failure Diagnosis</h1><p>Map metric symptoms to the most likely production fix.</p><div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a><a href="README.md">README</a></div><div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">P01</span><h3>Recall low for exact IDs</h3><p>Consider sparse or hybrid retrieval and exact-term protection.</p></article><article class="mistake-card"><span class="mistake-id">P02</span><h3>Recall high, MRR low</h3><p>Evidence exists but ranks too low; reranking may help.</p></article><article class="mistake-card"><span class="mistake-id">P03</span><h3>Gold filtered out</h3><p>Inspect metadata filters and access/freshness policies.</p></article></div><div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div></main>
-<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice — Retrieval Metrics</title>
+<link rel="stylesheet" href="../../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-22">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../exercises/index.html">&larr; Back to exercises</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 22 Practice Bank</span><span class="reading-time">85 min drills</span></div>
+<h1>Practice Bank: Retrieval Failure Diagnosis</h1>
+<p class="lede">This practice bank teaches the muscle that matters in real teams: when a metric moves, what do you inspect first?</p>
+<div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a><a href="README.md">README</a></div>
+
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">P01</span><h3>Exact IDs have low recall</h3><p><strong>Likely cause:</strong> dense embeddings are smoothing over exact terms. <strong>Next move:</strong> add sparse or hybrid retrieval and track exact-term hit rate.</p></article>
+<article class="mistake-card"><span class="mistake-id">P02</span><h3>Recall is high, MRR is low</h3><p><strong>Likely cause:</strong> the evidence exists but arrives too late. <strong>Next move:</strong> inspect fusion, reranking, dedupe, and final context selection.</p></article>
+<article class="mistake-card"><span class="mistake-id">P03</span><h3>Gold evidence is filtered out</h3><p><strong>Likely cause:</strong> metadata, tenant, access, or freshness rules are wrong or too strict. <strong>Next move:</strong> inspect filter traces before tuning embeddings.</p></article>
+<article class="mistake-card"><span class="mistake-id">P04</span><h3>PDF table queries fail</h3><p><strong>Likely cause:</strong> parsing and chunking lost table structure. <strong>Next move:</strong> improve table extraction, row ids, captions, and metadata.</p></article>
+<article class="mistake-card"><span class="mistake-id">P05</span><h3>Precision drops after increasing K</h3><p><strong>Likely cause:</strong> candidate recall improved but final context became noisy. <strong>Next move:</strong> retrieve broadly, rerank tightly, and compress context carefully.</p></article>
+<article class="mistake-card"><span class="mistake-id">P06</span><h3>Metrics improve overall but legal slice fails</h3><p><strong>Likely cause:</strong> averages are hiding high-risk regressions. <strong>Next move:</strong> ship by route or block release until high-risk slices pass.</p></article>
+</div>
+
+<section class="subtopic">
+<h2>Drill Format</h2>
+<p>For each symptom in the code, return four things: likely root cause, first metric to watch, first engineering action, and release decision. This forces the habit of turning a dashboard into a decision.</p>
+</section>
+
+<div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script>
+</body>
+</html>

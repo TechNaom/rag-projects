@@ -1,5 +1,69 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exercises — Retrieval Metrics</title><link rel="stylesheet" href="../../../assets/style.css"></head>
-<body data-active-chapter="chapter-22"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
-<main class="page"><p><a href="../quiz.html">&larr; Back to quiz</a></p><div class="page-meta"><span class="chapter-badge">Chapter 22 Exercises</span><span class="reading-time">60 min practice</span></div><h1>Exercises: Calculate Retrieval Metrics</h1><p>Implement Recall@K, Precision@K, and reciprocal rank for a small benchmark.</p><div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a><a href="README.md">README</a></div><div class="lesson-hero"><h2>Your tasks</h2><ul><li>Compare retrieved ids against gold evidence.</li><li>Compute recall and precision at K.</li><li>Find the first relevant rank.</li><li>Return a compact metric report.</li></ul></div><div class="chapter-nav"><a href="../quiz.html">&larr; Quiz</a><a href="../practice/index.html">Practice Bank &rarr;</a></div></main>
-<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercises — Retrieval Metrics</title>
+<link rel="stylesheet" href="../../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-22">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../quiz.html">&larr; Back to quiz</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 22 Exercises</span><span class="reading-time">75 min practice</span></div>
+<h1>Exercises: Calculate Retrieval Metrics Like a Release Engineer</h1>
+<p class="lede">In this exercise, you are not calculating metrics for decoration. You are building the small evaluator that decides whether a retrieval change is safe enough to ship.</p>
+<div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a><a href="README.md">README</a></div>
+
+<div class="lesson-hero">
+<h2>Your production task</h2>
+<ul>
+<li>Compare retrieved ids against gold evidence for several realistic query types.</li>
+<li>Compute Recall@K, Precision@K, MRR, first relevant rank, and hit rate.</li>
+<li>Separate candidate discovery failures from ranking failures.</li>
+<li>Flag filtered gold and stale evidence as their own engineering risks.</li>
+</ul>
+</div>
+
+<section class="subtopic">
+<h2>Scenario</h2>
+<p>Your team wants to change the retrieval stack from vector-only search to hybrid search with reranking. Before the change goes live, you need a benchmark report that explains whether the new stack is safer, noisier, or risky for specific slices.</p>
+<div class="diagram-card">
+<h3>Benchmark cases</h3>
+<pre><code>policy lookup      -> must retrieve the exact policy clause
+support error code -> must protect exact terms like ERR_8842
+finance table row  -> must catch table extraction and stale-document failures
+legal access rule  -> must explain filtered gold separately from bad search</code></pre>
+</div>
+</section>
+
+<section class="subtopic">
+<h2>What Good Looks Like</h2>
+<div class="production-depth-grid">
+<div class="depth-panel"><span>Metric correctness</span><h3>Numbers are explainable</h3><p>Each score should be traceable to gold ids, retrieved ids, top-k cutoff, and first relevant rank.</p></div>
+<div class="depth-panel"><span>Engineering diagnosis</span><h3>Failure tells you what to inspect</h3><p>Low recall points to candidate discovery. High recall with low MRR points to ranking. Filtered gold points to metadata and access rules.</p></div>
+<div class="depth-panel"><span>Release readiness</span><h3>High-risk slices get stricter gates</h3><p>A finance or legal failure should not be treated the same as a low-risk FAQ miss.</p></div>
+</div>
+</section>
+
+<section class="subtopic">
+<h2>Minimum Acceptance Criteria</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">A01</span><h3>Metric report</h3><p>Return Recall@K, Precision@K, reciprocal rank, hit rate, and first relevant rank per case.</p></article>
+<article class="mistake-card"><span class="mistake-id">A02</span><h3>Slice summary</h3><p>Summarize results by domain and query type so averages do not hide failures.</p></article>
+<article class="mistake-card"><span class="mistake-id">A03</span><h3>Failure diagnosis</h3><p>Return a clear next action for missing evidence, buried evidence, stale hits, and filtered gold.</p></article>
+<article class="mistake-card"><span class="mistake-id">A04</span><h3>Release signal</h3><p>Block or warn when a high-risk slice fails its retrieval expectation.</p></article>
+</div>
+</section>
+
+<div class="chapter-nav"><a href="../quiz.html">&larr; Quiz</a><a href="../practice/index.html">Practice Bank &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script>
+</body>
+</html>

@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Interview Questions — Retrieval Metrics</title><link rel="stylesheet" href="../../assets/style.css"></head>
-<body data-active-chapter="chapter-22"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
-<main class="page"><p><a href="practice/index.html">&larr; Back to practice</a></p><div class="page-meta"><span class="chapter-badge">Chapter 22 Interview Prep</span><span class="reading-time">50 min review</span></div><h1>Interview Questions: Retrieval Metrics</h1><div class="mistake-catalog">
-<article class="mistake-card"><span class="mistake-id">Q01</span><h3>Why evaluate retrieval separately?</h3><p>To know whether bad answers came from missing evidence or generation behavior.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q02</span><h3>What is Recall@K?</h3><p>The fraction of gold evidence retrieved within the top K results.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q03</span><h3>What is Precision@K?</h3><p>The fraction of top K retrieved results that are relevant.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q04</span><h3>What is MRR?</h3><p>The average reciprocal rank of the first relevant result across queries.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q05</span><h3>When is nDCG useful?</h3><p>When relevance is graded and rank position matters.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q06</span><h3>Why slice metrics?</h3><p>Averages can hide failures by domain, query type, source format, tenant, or risk.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q07</span><h3>What does high recall but low MRR suggest?</h3><p>Gold evidence is present but ranked too low, so reranking or ranking tuning may help.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q08</span><h3>What is filtered-out gold?</h3><p>Relevant evidence removed by metadata, access, freshness, or tenant filters before final ranking.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q09</span><h3>What should a retrieval dashboard include?</h3><p>Quality metrics, latency, empty retrievals, filter drops, stale hits, and version metadata.</p></article>
-<article class="mistake-card"><span class="mistake-id">Q10</span><h3>What is the senior answer?</h3><p>Use retrieval metrics as diagnostic tools tied to concrete tuning actions and release gates.</p></article>
-</div><div class="chapter-nav"><a href="practice/index.html">&larr; Practice Bank</a><a href="project/index.html">Project &rarr;</a></div></main>
-<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Questions — Retrieval Metrics</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-22">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="practice/index.html">&larr; Back to practice</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 22 Interview Prep</span><span class="reading-time">70 min review</span></div>
+<h1>Interview Questions: Retrieval Metrics</h1>
+<p class="lede">Use these questions to practice explaining retrieval evaluation like someone who has operated a RAG system, not only read about one.</p>
+
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">Q01</span><h3>Why evaluate retrieval separately from generation?</h3><p>Because a bad answer may be caused by missing evidence, buried evidence, noisy evidence, stale evidence, or generation behavior. Retrieval metrics isolate the evidence layer before the model writes anything.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q02</span><h3>What is Recall@K?</h3><p>It is the fraction of expected gold evidence retrieved within the top K results. It answers: did the retriever find the evidence early enough to be available?</p></article>
+<article class="mistake-card"><span class="mistake-id">Q03</span><h3>What is Precision@K?</h3><p>It is the fraction of top K retrieved results that are relevant. It helps detect noisy final context that can distract the model or waste tokens.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q04</span><h3>What does MRR tell you that recall does not?</h3><p>MRR tells you how early the first relevant result appears. Recall can look good even when the correct evidence is ranked too low for the final context.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q05</span><h3>When would you use nDCG?</h3><p>Use it when relevance is graded. A direct policy clause should score higher than a background FAQ, and nDCG rewards ranking stronger evidence earlier.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q06</span><h3>What is gold evidence?</h3><p>Gold evidence is the labeled source, chunk, span, or table row expected to support an answer. It turns retrieval evaluation from opinion into measurement.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q07</span><h3>How do you debug low recall?</h3><p>Inspect corpus coverage, parsing, chunking, embeddings, sparse search, query rewriting, metadata filters, and index freshness. Low recall means candidate discovery is weak.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q08</span><h3>How do you debug high recall but low MRR?</h3><p>The system finds the evidence but ranks it too low. Inspect fusion, reranking, dedupe, final-k cutoff, and whether query rewriting is changing intent.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q09</span><h3>Why slice retrieval metrics?</h3><p>Averages hide pain. Exact-term support, PDF tables, legal policies, and finance workflows can fail differently even when overall Recall@10 looks healthy.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q10</span><h3>What is filtered-out gold?</h3><p>It is relevant evidence removed by metadata, access, tenant, freshness, or policy filters. It should be reported separately because the fix may be filter logic, not search quality.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q11</span><h3>What should a retrieval dashboard include?</h3><p>Recall@K, Precision@K, MRR, nDCG where needed, hit rate, latency, empty retrieval rate, filter drop rate, stale hits, source freshness, index version, and route version.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q12</span><h3>How should metrics become release gates?</h3><p>Define thresholds by risk and slice. A high-risk legal or finance regression should block even if the average metric improves.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q13</span><h3>What is the mistake in only measuring Recall@50?</h3><p>It can hide that the evidence is ranked too low for the final prompt. If your answer uses top 5, Recall@50 may give false comfort.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q14</span><h3>How do retrieval metrics connect to answer evaluation?</h3><p>Retrieval metrics explain whether the answer had enough source support. Answer evaluation then checks faithfulness, completeness, tone, refusal behavior, and citation quality.</p></article>
+<article class="mistake-card"><span class="mistake-id">Q15</span><h3>Give a senior-level summary.</h3><p>I would label gold evidence, evaluate retrieval before generation, compute multiple metrics, slice them by workflow and risk, inspect failures through traces, and use the results as release gates tied to concrete engineering actions.</p></article>
+</div>
+
+<div class="chapter-nav"><a href="practice/index.html">&larr; Practice Bank</a><a href="project/index.html">Project &rarr;</a></div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

@@ -14,103 +14,153 @@
 
 <main class="page">
 <p><a href="../../index.html">&larr; Back to all chapters</a></p>
-<div class="page-meta"><span class="chapter-badge">Chapter 22 of 28</span><span class="badge-difficulty">Evaluation</span><span class="reading-time">95 min read</span></div>
+<div class="page-meta"><span class="chapter-badge">Chapter 22 of 28</span><span class="badge-difficulty">Evaluation</span><span class="reading-time">120 min read</span></div>
 <h1>Retrieval Metrics</h1>
-<p class="lede">Retrieval metrics tell you whether the right evidence reached the prompt. If retrieval fails, the generator is forced to guess, refuse, or answer from weak context.</p>
+<p class="lede">Retrieval metrics tell you whether the right evidence reached the prompt early enough to be useful. If retrieval fails, the model is forced to guess, refuse, or answer from weak context.</p>
 
-<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Measure before generation:</strong> answer quality starts with evidence quality.</li><li><strong>Use gold evidence:</strong> metrics need known relevant chunks, documents, or citations.</li><li><strong>Slice failures:</strong> track metrics by domain, query type, risk, tenant, and source format.</li><li><strong>Gate releases:</strong> retrieval changes should not ship if key metrics regress.</li></ul></div>
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Measure evidence before answers:</strong> final answer quality starts with what retrieval brings into the system.</li><li><strong>Do not worship one metric:</strong> Recall@K, Precision@K, MRR, nDCG, and hit rate each reveal a different failure.</li><li><strong>Think like production:</strong> metrics must be sliced by domain, query type, source format, tenant, risk, and index version.</li><li><strong>Use metrics to choose action:</strong> the goal is not a pretty dashboard; the goal is knowing what to fix next.</li></ul></div>
 
 <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why retrieval metrics matter</a><a href="#analogy">2. Search party analogy</a><a href="#gold">3. Gold evidence</a><a href="#recall">4. Recall@K</a><a href="#precision">5. Precision@K</a><a href="#mrr">6. MRR</a><a href="#ndcg">7. nDCG</a><a href="#hit-rate">8. Hit rate</a><a href="#slices">9. Failure slices</a><a href="#architecture">10. Architecture view</a><a href="#dashboards">11. Dashboards</a><a href="#gates">12. Release gates</a><a href="#mistakes">13. Common mistakes</a><a href="#interview">14. Interview understanding</a><a href="#summary">15. Summary</a></nav>
 
-<div class="hook">You cannot fix retrieval by staring only at final answers. You need to know whether the right evidence was retrieved, where it ranked, and what pushed it out.</div>
-<div class="what-is"><span class="label">Core idea</span>Retrieval metrics compare retrieved results against known relevant evidence so teams can tune search, reranking, filters, chunking, and indexing with confidence.</div>
+<div class="hook">A RAG team that only evaluates final answers is debugging with half the lights off. Retrieval metrics turn the lights on before generation happens.</div>
+<div class="what-is"><span class="label">Core idea</span>Retrieval metrics compare retrieved results against known relevant evidence so teams can tune search, filters, chunking, reranking, and index releases with confidence.</div>
 
 <section id="problem" class="subtopic">
 <span class="subtopic-label">Sub-topic 1 of 15</span>
 <h2>Why Retrieval Metrics Matter</h2>
-<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Retrieval determines what facts the model can use.</li><li>Metrics expose missing, low-ranked, duplicate, stale, or filtered-out evidence.</li><li>Different metrics answer different questions.</li><li>Production teams use metrics as release gates and debugging signals.</li></ul></div>
-<p>A RAG answer can be bad for many reasons: the prompt may be weak, the model may ignore evidence, or the retrieved context may be wrong. Retrieval metrics isolate the retrieval step. They answer: did we fetch the source that could answer the question?</p>
-<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Retrieval metric north star</span><strong>Measure whether the right evidence appears early enough to be used.</strong><p>The best metric set tells you both recall and rank quality, then shows which slice is failing.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Label gold evidence</strong><p>Define which chunk, document, or passage should support each query.</p></div></div><div class="decision-step"><span>02</span><div><strong>Run retrieval</strong><p>Capture result ids, rank, score, filters, route, and index version.</p></div></div><div class="decision-step"><span>03</span><div><strong>Compute metrics</strong><p>Use Recall@K, Precision@K, MRR, hit rate, and nDCG where useful.</p></div></div><div class="decision-step"><span>04</span><div><strong>Act on slices</strong><p>Tune chunking, filters, hybrid routing, reranking, or index release by failure type.</p></div></div></div></div>
+<p>Imagine a user asks: "What approval is needed for enterprise refunds after 30 days?" The answer depends on a very specific policy chunk. If retrieval misses that chunk, the model has only bad options: guess, refuse, or answer from a nearby but wrong policy.</p>
+<p>Retrieval metrics isolate this first critical question: <strong>did the system retrieve the evidence that could support a correct answer?</strong> This is different from asking whether the final answer sounded good.</p>
+<div class="lesson-stack"><div class="lesson-pill">Production signals</div><ul class="lesson-bullets"><li><strong>Missing evidence:</strong> gold source never appears in candidates.</li><li><strong>Buried evidence:</strong> gold source appears, but below the context cutoff.</li><li><strong>Noisy evidence:</strong> relevant chunks are surrounded by distracting chunks.</li><li><strong>Filtered evidence:</strong> metadata/access/freshness filters remove gold evidence.</li><li><strong>Stale evidence:</strong> retrieval finds an old version that looks relevant but should not be used.</li></ul></div>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Retrieval metric north star</span><strong>Measure whether the right evidence appears early enough, cleanly enough, and safely enough to be used.</strong><p>A senior RAG engineer does not ask "is search good?" They ask: good for which user, query type, corpus, source version, risk level, and context budget?</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Label gold evidence</strong><p>Define expected chunk ids, document ids, or source spans for each benchmark question.</p></div></div><div class="decision-step"><span>02</span><div><strong>Capture the retrieval trace</strong><p>Log route, filters, query rewrite, candidate ids, scores, ranks, reranker output, and index version.</p></div></div><div class="decision-step"><span>03</span><div><strong>Compute multiple metrics</strong><p>Use Recall@K for candidate presence, MRR for rank, Precision@K for noise, nDCG for graded relevance, and hit rate for health trends.</p></div></div><div class="decision-step"><span>04</span><div><strong>Convert metrics into fixes</strong><p>Metric movement should point to chunking, filters, hybrid search, reranking, index freshness, or release rollback.</p></div></div></div></div>
 </section>
 
 <section id="analogy" class="subtopic">
 <span class="subtopic-label">Sub-topic 2 of 15</span>
 <h2>Real-Life Analogy: Search Party</h2>
-<p>Imagine a search party looking for one important file in a giant archive. Recall asks, "Did the team find the file at all?" MRR asks, "How quickly did they find it?" Precision asks, "How much junk did they bring back with it?"</p>
-<p>A senior engineer does not ask only one question. If the file appears at rank 40, recall may look decent, but the prompt may never see it. Rank matters.</p>
+<p>Think of retrieval as a search party looking for a critical file in a warehouse. Recall asks, "Did they find the file at all?" MRR asks, "How quickly did they find it?" Precision asks, "How much irrelevant material did they bring back?" nDCG asks, "Did the best and most authoritative evidence appear before weaker evidence?"</p>
+<p>This analogy matters because production RAG has the same problem. If the right file is found at position 40, the search party technically found it, but the person answering the question may only inspect the first 5 files. Rank and cutoff matter.</p>
+<div class="mentor-note"><strong>Mentor note:</strong> when a RAG answer fails, first ask: "Was the answerable evidence in the final context?" If no, look at retrieval metrics before blaming the model.</div>
 </section>
 
 <section id="gold" class="subtopic">
 <span class="subtopic-label">Sub-topic 3 of 15</span>
 <h2>Gold Evidence</h2>
-<p>Gold evidence is the expected source support for a query. It may be a document id, chunk id, paragraph span, table row, or citation id. Without gold evidence, retrieval metrics become vague.</p>
-<div class="field-depth"><div><h4>Chunk-level gold</h4><p>Precise and useful for tuning retrieval, but requires careful labeling.</p></div><div><h4>Document-level gold</h4><p>Easier to label, but can hide wrong-section retrieval.</p></div><div><h4>Multi-gold</h4><p>Some questions require several sources, such as policy plus exception addendum.</p></div></div>
+<p>Gold evidence is the expected evidence for a query. It is the answer key for retrieval evaluation. Without gold evidence, teams often argue based on vibes: "These results look okay to me." That does not scale.</p>
+<div class="field-depth"><div><h4>Chunk-level gold</h4><p>Best for tuning retrieval. Example: query must retrieve <code>policy-v4#refunds-enterprise-exception</code>.</p></div><div><h4>Document-level gold</h4><p>Easier to label, but less precise. It may pass even when retrieval finds the wrong section.</p></div><div><h4>Span-level gold</h4><p>Best for high-risk domains. The exact paragraph, table row, or clause must be retrievable.</p></div></div>
+<div class="diagram-card"><h3>Gold dataset example</h3><pre><code>query_id: q_refund_001
+question: "Who approves enterprise refunds after 30 days?"
+gold:
+  - chunk_id: policy-v4:refunds:enterprise-exception
+    relevance: 3
+    reason: "contains VP approval rule"
+  - chunk_id: addendum-v2:enterprise-refunds
+    relevance: 2
+    reason: "contains written reason requirement"
+slice:
+  domain: policy
+  risk: high
+  query_type: exact_policy_lookup</code></pre></div>
+<p>Notice the <code>relevance</code> grade. This lets us evaluate not only whether any source appeared, but whether the best source appeared early.</p>
 </section>
 
 <section id="recall" class="subtopic">
 <span class="subtopic-label">Sub-topic 4 of 15</span>
 <h2>Recall@K</h2>
-<p>Recall@K asks whether the relevant evidence appeared in the top K retrieved results. It is usually the first retrieval metric to track because missing evidence cannot be fixed later by prompting.</p>
-<div class="diagram-card"><h3>Recall@5 intuition</h3><pre><code>gold chunks: S2, S9
+<p>Recall@K asks: "Out of all gold evidence items, how many appeared in the top K retrieved results?" It is usually the first metric to build because evidence that is never retrieved cannot be used by the model.</p>
+<div class="diagram-card"><h3>Recall@5 calculation</h3><pre><code>gold chunks: S2, S9
 retrieved top 5: S1, S2, S4, S8, S9
+hits: S2, S9
 Recall@5 = 2 / 2 = 1.0</code></pre></div>
+<p>Now compare a dangerous case:</p>
+<div class="diagram-card"><h3>High K can hide product failure</h3><pre><code>gold chunks: S2
+retrieved top 50: S1, S3, S4, ... S2 at rank 42
+Recall@50 = 1.0
+Recall@5 = 0.0
+final context uses top 5
+product outcome: answer fails</code></pre></div>
+<div class="real-world"><span class="label">Production interpretation</span><ul><li><strong>Low Recall@50:</strong> candidate discovery is weak. Check corpus, parsing, chunking, query rewrite, embedding model, sparse/hybrid retrieval, and filters.</li><li><strong>High Recall@50 but low Recall@5:</strong> ranking is weak. Check reranking, fusion, scoring, and final-k policy.</li><li><strong>Recall drops after a filter:</strong> inspect metadata and access/freshness rules before blaming search.</li></ul></div>
 </section>
 
 <section id="precision" class="subtopic">
 <span class="subtopic-label">Sub-topic 5 of 15</span>
 <h2>Precision@K</h2>
-<p>Precision@K asks how many of the top K results are relevant. High recall with low precision can still hurt the model because noisy chunks crowd the prompt.</p>
-<div class="field-depth"><div><h4>High recall, low precision</h4><p>The right chunk is present, but surrounded by noise.</p></div><div><h4>Low recall, high precision</h4><p>The system returns clean results, but misses important evidence.</p></div><div><h4>Trade-off</h4><p>Candidate pools may optimize recall, final context should optimize precision.</p></div></div>
+<p>Precision@K asks: "Of the top K results, how many are relevant?" Precision matters because the prompt has limited space. Noisy context can distract the model, crowd out better evidence, and increase cost.</p>
+<div class="field-depth"><div><h4>High recall, low precision</h4><p>The right chunk appears, but the model receives too much noise. Fix reranking, dedupe, metadata filters, or context selection.</p></div><div><h4>Low recall, high precision</h4><p>The returned chunks are clean, but important evidence is missing. Fix candidate discovery.</p></div><div><h4>Good production balance</h4><p>Use broad retrieval for candidate recall, then rerank and select final context for precision.</p></div></div>
+<div class="mentor-note"><strong>Engineering judgment:</strong> candidate pools can tolerate lower precision. Final context cannot. The user never sees your candidate pool; the model does see your final context.</div>
 </section>
 
 <section id="mrr" class="subtopic">
 <span class="subtopic-label">Sub-topic 6 of 15</span>
 <h2>Mean Reciprocal Rank</h2>
-<p>MRR rewards systems that put the first relevant result near the top. If the first relevant chunk appears at rank 1, reciprocal rank is 1.0. At rank 5, it is 0.2.</p>
+<p>MRR rewards systems that put the first relevant result near the top. It is especially useful when one good source is enough to answer the question.</p>
 <div class="diagram-card"><h3>MRR intuition</h3><pre><code>query A first relevant rank = 1 -> 1/1 = 1.0
 query B first relevant rank = 4 -> 1/4 = 0.25
+query C first relevant rank = not found -> 0.0
 MRR = average reciprocal rank across queries</code></pre></div>
+<p>If Recall@10 is stable but MRR drops, the system still retrieves gold evidence, but pushes it lower. This usually means a ranking, fusion, or reranking regression.</p>
+<div class="real-world"><span class="label">When MRR is useful</span><ul><li>FAQ answer lookup where one authoritative chunk is enough.</li><li>Policy lookup where the first correct source should be near the top.</li><li>Regression testing after changing embeddings, reranking, or hybrid fusion.</li></ul></div>
 </section>
 
 <section id="ndcg" class="subtopic">
 <span class="subtopic-label">Sub-topic 7 of 15</span>
 <h2>nDCG</h2>
-<p>nDCG is useful when relevance has grades, such as perfect, partial, weak, and irrelevant. It rewards highly relevant evidence appearing early.</p>
-<div class="real-world"><span class="label">When nDCG helps</span><ul><li>Multiple chunks can partially answer a question.</li><li>Some sources are authoritative and others are only supporting notes.</li><li>Search quality needs graded relevance, not yes/no labels.</li><li>Reranking changes order more than candidate presence.</li></ul></div>
+<p>nDCG helps when relevance is graded. Some evidence is perfect, some is partially useful, and some is weak background. nDCG rewards putting stronger evidence earlier.</p>
+<div class="diagram-card"><h3>Graded relevance example</h3><pre><code>3 = directly answers the question
+2 = supports one condition or exception
+1 = related background
+0 = irrelevant
+
+Question: "What changed in refund policy v4?"
+Best ranking: policy-v4 changelog (3), refund policy v4 (3), enterprise addendum (2), old policy (1)</code></pre></div>
+<p>Use nDCG when your system must compare multiple useful sources, not just find one correct source. Legal, research, policy, and incident runbook systems often benefit from graded relevance.</p>
 </section>
 
 <section id="hit-rate" class="subtopic">
 <span class="subtopic-label">Sub-topic 8 of 15</span>
 <h2>Hit Rate</h2>
-<p>Hit rate asks whether at least one relevant result was retrieved. It is simple and helpful for dashboards, but it can hide rank and completeness problems.</p>
-<div class="field-depth"><div><h4>Good for</h4><p>Fast health checks and broad trend monitoring.</p></div><div><h4>Weakness</h4><p>A hit at rank 50 may not help final answer quality.</p></div><div><h4>Use with</h4><p>MRR, Recall@K, and final context precision.</p></div></div>
+<p>Hit rate asks whether at least one relevant item was retrieved. It is simple and useful for health dashboards, but it hides rank and completeness.</p>
+<div class="field-depth"><div><h4>Good for</h4><p>Broad daily health checks and alerting.</p></div><div><h4>Weakness</h4><p>A hit at rank 50 may not help if the final prompt receives only top 5.</p></div><div><h4>Use with</h4><p>Recall@K, MRR, final context precision, and citation support.</p></div></div>
 </section>
 
 <section id="slices" class="subtopic">
 <span class="subtopic-label">Sub-topic 9 of 15</span>
 <h2>Failure Slices</h2>
-<p>Average metrics can lie. A system may look fine overall while failing legal queries, long documents, PDF tables, exact IDs, or a specific tenant.</p>
-<div class="production-depth-grid"><div class="depth-panel"><span>Domain</span><h3>Policy vs support</h3><p>Different corpora often need different retrieval strategies.</p></div><div class="depth-panel"><span>Query type</span><h3>Exact vs semantic</h3><p>IDs and clauses may need sparse or hybrid search.</p></div><div class="depth-panel"><span>Source</span><h3>PDF vs markdown</h3><p>Parsing quality can drive retrieval quality.</p></div><div class="depth-panel"><span>Risk</span><h3>Low vs high</h3><p>High-risk flows need stricter gates and deeper analysis.</p></div></div>
+<p>Average metrics can lie. A system may show 86% Recall@10 overall while failing 40% of exact policy-id queries. Production teams slice metrics because users do not experience averages; they experience their specific workflow.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Domain</span><h3>Policy vs support</h3><p>Policy questions may need authority and freshness. Support questions may need broad coverage and speed.</p></div><div class="depth-panel"><span>Query type</span><h3>Exact vs semantic</h3><p>Error codes, SKUs, clause IDs, and incident IDs need sparse or hybrid search protection.</p></div><div class="depth-panel"><span>Source format</span><h3>PDF vs markdown</h3><p>Parsing and table extraction failures often show up as source-format retrieval gaps.</p></div><div class="depth-panel"><span>Risk</span><h3>Low vs high</h3><p>High-risk queries deserve stricter gates and smaller tolerance for regression.</p></div></div>
+<div class="diagram-card"><h3>Failure slice report</h3><pre><code>overall Recall@10: 0.86
+policy Recall@10: 0.91
+support Recall@10: 0.88
+exact_terms Recall@10: 0.52  <-- action needed
+pdf_tables Recall@10: 0.43   <-- parsing/indexing issue likely</code></pre></div>
 </section>
 
 <section id="architecture" class="subtopic">
 <span class="subtopic-label">Sub-topic 10 of 15</span>
 <h2>Architecture View</h2>
 <figure class="diagram-figure"><img src="diagrams/retrieval-metrics.svg" alt="Retrieval metrics architecture showing golden query set, retriever, retrieved results, metric calculator, dashboards, failure analysis, and release gate"><figcaption>Retrieval metrics compare retrieved result ids with gold evidence, then feed dashboards, failure analysis, and release gates.</figcaption></figure>
+<div class="diagram-card"><h3>Metric pipeline</h3><pre><code>gold query set
+  -> run retriever against candidate index
+  -> capture retrieved ids, ranks, scores, filters, route
+  -> compute Recall@K, Precision@K, MRR, hit rate, nDCG
+  -> slice by domain/query/source/risk
+  -> compare against baseline
+  -> release, warn, or block</code></pre></div>
 </section>
 
 <section id="dashboards" class="subtopic">
 <span class="subtopic-label">Sub-topic 11 of 15</span>
 <h2>Dashboards</h2>
-<p>A production dashboard should show trends, not just one score. Track metrics by index version, retriever route, embedding model, reranker version, and source freshness.</p>
-<div class="field-depth"><div><h4>Quality</h4><p>Recall@K, MRR, nDCG, citation support after generation.</p></div><div><h4>Operations</h4><p>Latency, timeout rate, empty retrieval rate, filter drop rate.</p></div><div><h4>Freshness</h4><p>Stale hit rate, index lag, deleted-source hit rate.</p></div></div>
+<p>A production dashboard should show trends, not just one score. Track metrics by index version, retriever route, embedding model, reranker version, prompt version, and source freshness.</p>
+<div class="field-depth"><div><h4>Quality tiles</h4><p>Recall@K, MRR, nDCG, final context precision, citation support.</p></div><div><h4>Operations tiles</h4><p>Retrieval latency, timeout rate, empty retrieval rate, filter drop rate.</p></div><div><h4>Freshness tiles</h4><p>Stale hit rate, deleted-source hit rate, index lag, source version correctness.</p></div></div>
+<p>A strong dashboard answers: what changed, where it changed, who is affected, and what engineering action should happen next.</p>
 </section>
 
 <section id="gates" class="subtopic">
 <span class="subtopic-label">Sub-topic 12 of 15</span>
 <h2>Release Gates</h2>
-<p>Retrieval changes should pass gates before production rollout. A new embedding model, chunking strategy, filter, or reranker can improve one slice and break another.</p>
-<div class="real-world"><span class="label">Gate example</span><ul><li>Recall@10 must not drop on high-risk policy queries.</li><li>MRR must improve or remain stable for common support questions.</li><li>Exact-id query hit rate must stay above threshold.</li><li>Stale-source hit rate must not increase.</li><li>Latency must stay within product budget.</li></ul></div>
+<p>Retrieval changes should pass gates before rollout. A new embedding model, chunking strategy, metadata filter, hybrid route, or reranker can improve one slice and break another.</p>
+<div class="real-world"><span class="label">Gate example</span><ul><li>High-risk policy Recall@10 must not drop below baseline.</li><li>Exact-id hit rate must stay above threshold.</li><li>MRR must not regress for top customer-support questions.</li><li>Stale-source hit rate must not increase.</li><li>p95 retrieval latency must remain inside product budget.</li></ul></div>
+<div class="mentor-note"><strong>Practical release rule:</strong> if a retrieval change improves overall Recall@10 but breaks high-risk policy lookup, do not ship it broadly. Canary it, route it selectively, or fix the failing slice first.</div>
 </section>
 
 <section id="mistakes" class="subtopic">
@@ -131,12 +181,12 @@ MRR = average reciprocal rank across queries</code></pre></div>
 <section id="interview" class="subtopic">
 <span class="subtopic-label">Sub-topic 14 of 15</span>
 <h2>Interview-Level Understanding</h2>
-<p>A strong answer sounds like this: "I evaluate retrieval separately from generation. I label gold evidence, run benchmark queries, compute Recall@K, Precision@K, MRR, hit rate, and sometimes nDCG, then slice by domain and query type. I use metrics to decide whether to tune chunking, filters, hybrid search, reranking, or index releases."</p>
+<p>A strong answer sounds like this: "I evaluate retrieval separately from generation. I label gold evidence, run benchmark queries, compute Recall@K, Precision@K, MRR, hit rate, and sometimes nDCG, then slice by domain and query type. If recall is low, I inspect corpus, parsing, chunking, filters, query rewriting, and retrieval strategy. If recall is high but MRR is low, I inspect ranking, fusion, and reranking. I use those metrics as release gates, not just dashboards."</p>
 </section>
 
 <section id="summary" class="subtopic">
 <span class="subtopic-label">Sub-topic 15 of 15</span>
-<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Retrieval metrics answer whether the right evidence reached the system.</li><li>Recall@K measures candidate presence; MRR measures rank quality.</li><li>Precision matters because noisy context hurts generation.</li><li>Average scores must be sliced by domain, query type, source, and risk.</li><li>Metrics should drive release gates and concrete tuning actions.</li></ul></div>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Retrieval metrics answer whether the right evidence reached the system.</li><li>Recall@K measures candidate presence; MRR measures rank quality.</li><li>Precision matters because noisy context hurts generation.</li><li>nDCG helps when relevance is graded, not simply yes/no.</li><li>Average scores must be sliced by domain, query type, source format, tenant, and risk.</li><li>Metrics should drive release gates and concrete tuning actions.</li></ul></div>
 </section>
 
 <p>Next, test your retrieval-metric judgment in the quiz, then build a metric calculator and release gate in the project.</p>
