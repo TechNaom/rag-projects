@@ -234,10 +234,12 @@ Goal: Make prompts grounded, testable, and resistant to unsupported answers.
 
 ### Chapter 20: Grounded System Prompts
 
-- Answer only from context.
-- Cite sources.
-- Refuse when context is insufficient.
-- Keep answers concise and precise.
+- Evidence-only source-of-truth rules.
+- Claim-level citation discipline.
+- Refusal behavior for missing, conflicting, restricted, or out-of-scope evidence.
+- Conflict handling using authority and freshness metadata.
+- Prompt templates with style, scope, and output contracts.
+- Prompt versioning, traces, regression tests, and rollout controls.
 
 ### Chapter 21: Prompt Testing
 

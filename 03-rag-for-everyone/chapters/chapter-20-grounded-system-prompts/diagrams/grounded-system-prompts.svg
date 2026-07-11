@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" role="img" aria-labelledby="title desc">
+  <title id="title">Grounded System Prompt Architecture</title>
+  <desc id="desc">System prompt, context pack, and user question flow into a model answer checked for grounding, citations, refusal behavior, conflicts, and traces.</desc>
+  <rect width="980" height="440" rx="28" fill="#f8fbff"/>
+  <rect x="42" y="54" width="896" height="332" rx="24" fill="#ffffff" stroke="#bdd7ee" stroke-width="2"/>
+  <text x="490" y="78" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#18324a">Grounded prompts enforce evidence-based answer behavior</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="15" fill="#18324a">
+    <rect x="74" y="112" width="150" height="78" rx="14" fill="#e8f4ff" stroke="#79acd8"/>
+    <text x="149" y="143" text-anchor="middle" font-weight="700">System prompt</text><text x="149" y="166" text-anchor="middle">rules</text>
+    <rect x="74" y="234" width="150" height="78" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="149" y="265" text-anchor="middle" font-weight="700">Context pack</text><text x="149" y="288" text-anchor="middle">evidence</text>
+    <rect x="274" y="174" width="140" height="78" rx="14" fill="#fff7e8" stroke="#e5b76b"/>
+    <text x="344" y="205" text-anchor="middle" font-weight="700">User question</text><text x="344" y="228" text-anchor="middle">intent</text>
+    <rect x="464" y="174" width="130" height="78" rx="14" fill="#f1edff" stroke="#a998df"/>
+    <text x="529" y="205" text-anchor="middle" font-weight="700">Model</text><text x="529" y="228" text-anchor="middle">draft answer</text>
+    <rect x="644" y="112" width="130" height="78" rx="14" fill="#ffeef4" stroke="#df8cab"/>
+    <text x="709" y="143" text-anchor="middle" font-weight="700">Grounding</text><text x="709" y="166" text-anchor="middle">check</text>
+    <rect x="644" y="234" width="130" height="78" rx="14" fill="#eaf7f7" stroke="#72b8bc"/>
+    <text x="709" y="265" text-anchor="middle" font-weight="700">Refusal</text><text x="709" y="288" text-anchor="middle">check</text>
+    <rect x="824" y="174" width="92" height="78" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="870" y="205" text-anchor="middle" font-weight="700">Final</text><text x="870" y="228" text-anchor="middle">answer</text>
+    <rect x="464" y="316" width="310" height="44" rx="14" fill="#f7fbff" stroke="#bdd7ee"/>
+    <text x="619" y="344" text-anchor="middle" font-weight="700">Trace prompt version, citations, refusal reason, eval result</text>
+  </g>
+  <g stroke="#4f7293" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M224 151 C330 151 350 188 464 203"/>
+    <path d="M224 273 C330 273 350 238 464 224"/>
+    <path d="M414 213h50"/>
+    <path d="M594 203 C620 190 625 162 644 151"/>
+    <path d="M594 224 C620 238 625 262 644 273"/>
+    <path d="M774 151 C810 160 820 188 824 203"/>
+    <path d="M774 273 C810 262 820 238 824 224"/>
+    <path d="M709 312v24h-90"/>
+  </g>
+  <g fill="#4f7293"><path d="M459 195l12 8-12 8z"/><path d="M459 216l12 8-12 8z"/><path d="M459 205l12 8-12 8z"/><path d="M640 143l12 8-12 8z"/><path d="M640 265l12 8-12 8z"/><path d="M820 195l12 8-12 8z"/><path d="M820 216l12 8-12 8z"/></g>
+</svg>

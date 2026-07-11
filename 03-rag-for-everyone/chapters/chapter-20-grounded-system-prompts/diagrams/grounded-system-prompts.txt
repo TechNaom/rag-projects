@@ -1,0 +1,9 @@
+Grounded System Prompt Flow
+
+System prompt rules
+  + context pack
+  + user question
+  -> model answer
+  -> citation check
+  -> refusal/conflict check
+  -> trace prompt version and eval result

@@ -440,7 +440,30 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-20", num: 20, title: "Grounded System Prompts", path: null },
+      {
+        id: "chapter-20",
+        num: 20,
+        title: "Grounded System Prompts",
+        path: "chapters/chapter-20-grounded-system-prompts/lesson.html",
+        description: "Evidence contracts, answer rules, refusal behavior, citations, conflict handling, prompt templates, evals, versioning, and rollout controls.",
+        subtopics: [
+          { id: "problem", title: "Why grounded prompts matter" },
+          { id: "analogy", title: "Security guard analogy" },
+          { id: "contract", title: "Prompt as contract" },
+          { id: "evidence", title: "Evidence rules" },
+          { id: "refusal", title: "Refusal behavior" },
+          { id: "citations", title: "Citation rules" },
+          { id: "conflicts", title: "Conflict handling" },
+          { id: "style", title: "Style and scope" },
+          { id: "template", title: "Prompt template" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "evals", title: "Prompt evals" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-21", num: 21, title: "Prompt Testing", path: null }
     ]
   },

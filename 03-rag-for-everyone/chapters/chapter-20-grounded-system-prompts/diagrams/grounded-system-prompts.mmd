@@ -1,0 +1,10 @@
+flowchart LR
+  S[System prompt rules] --> M[Model call]
+  C[Context pack] --> M
+  Q[User question] --> M
+  M --> A[Draft answer]
+  A --> G[Grounding check]
+  A --> R[Refusal and conflict check]
+  G --> O[Final answer with citations]
+  R --> O
+  O --> T[Trace prompt version and evals]
