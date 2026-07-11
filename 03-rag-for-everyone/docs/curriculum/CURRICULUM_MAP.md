@@ -118,10 +118,13 @@ Goal: Understand how chunk boundaries affect retrieval quality.
 ### Chapter 11: Chunking Failure Analysis
 
 - Lost context.
-- Overlapping noise.
+- Overlap noise.
 - Tiny chunks.
 - Giant chunks.
-- Training-policy miss from the current eval set.
+- Mixed-topic chunks.
+- Stale chunks and old-policy wins.
+- Trace inspection and gold evidence comparison.
+- Failure labels, controlled fixes, eval gates, and rollback.
 
 ## Module 4: Embeddings and Similarity
 

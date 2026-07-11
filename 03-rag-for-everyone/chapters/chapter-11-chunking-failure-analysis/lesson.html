@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11 — Chunking Failure Analysis</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-11">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 11 of 28</span><span class="badge-difficulty">Production Debugging</span><span class="reading-time">70 min read</span></div>
+<h1>Chunking Failure Analysis</h1>
+<p class="lede">Chunking looks simple until production users ask real questions. This chapter teaches you how to diagnose chunking failures from traces, citations, retrieval results, and answer behavior instead of guessing your way through chunk-size changes.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Think like an incident reviewer:</strong> every bad answer has a symptom, evidence trail, root cause, and fix candidate.</li><li><strong>Separate retrieval from generation:</strong> first prove whether the right chunk was retrieved before blaming the prompt or model.</li><li><strong>Use failure labels:</strong> lost context, mixed-topic chunks, overlap noise, tiny chunks, giant chunks, bad boundaries, stale chunks, and missing metadata are different problems.</li><li><strong>Prefer controlled fixes:</strong> change one chunking variable at a time and compare against golden queries.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why failure analysis matters</a><a href="#analogy">2. Doctor diagnosis analogy</a><a href="#symptoms">3. Failure symptoms</a><a href="#root-causes">4. Root causes</a><a href="#trace">5. Trace inspection</a><a href="#decision">6. Decision framework</a><a href="#architecture">7. Architecture view</a><a href="#examples">8. Production examples</a><a href="#metrics">9. Metrics and evals</a><a href="#fixes">10. Fix playbook</a><a href="#mistakes">11. Common mistakes</a><a href="#assignment">12. Mini assignment</a><a href="#summary">13. Summary</a></nav>
+
+<div class="hook">A bad answer is not a single bug. It may be a bad chunk boundary, bad metadata, bad retrieval ranking, bad context assembly, or a prompt that ignored the evidence.</div>
+<div class="what-is"><span class="label">Core idea</span>Chunking failure analysis is the discipline of using retrieval evidence, traces, citations, and golden questions to identify whether the chunk design helped or hurt the answer.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 13</span>
+<h2>Why Failure Analysis Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Chunking failures often look like model failures.</li><li>Changing chunk size blindly can improve one query and break ten others.</li><li>Production RAG needs failure labels, trace evidence, and controlled experiments.</li><li>The best teams build a repeatable debugging loop before they tune aggressively.</li></ul></div>
+<p>Imagine a support assistant answers a refund question incorrectly. The quick reaction is: "The model hallucinated." But a senior engineer asks better questions. Was the refund policy retrieved? Was the right section retrieved? Did the retrieved chunk include the exception? Did overlap add conflicting text? Did metadata hide the latest version?</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Failure-analysis north star</span><strong>Do not tune chunking until you can name the failure.</strong><p>Chunk size is a lever, not a diagnosis. The diagnosis comes from traces and evals.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Capture the bad answer</strong><p>Save user question, final answer, citations, retrieved chunks, scores, filters, prompt context, and index version.</p></div></div><div class="decision-step"><span>02</span><div><strong>Inspect the evidence</strong><p>Check whether the answer had enough source material to be correct.</p></div></div><div class="decision-step"><span>03</span><div><strong>Label the failure</strong><p>Lost context, wrong boundary, mixed topic, stale chunk, access filter, ranking, or prompt usage.</p></div></div><div class="decision-step"><span>04</span><div><strong>Test one fix</strong><p>Change one variable, run golden queries, compare metrics, and keep rollback ready.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 13</span>
+<h2>Real-Life Analogy: A Doctor Diagnosing Symptoms</h2>
+<p>If a patient says "I am tired," a good doctor does not randomly prescribe medicine. They ask about sleep, food, stress, blood work, and history. The symptom is not enough. You need evidence.</p>
+<p>RAG debugging is similar. "Answer is wrong" is only the symptom. The trace is your blood report. Retrieved chunks are your scan. Citations are your proof. Evaluation questions are your follow-up tests.</p>
+<div class="quick-recap"><span class="label">Mental model</span><ul><li>Symptom: what the user sees.</li><li>Trace: what the system did.</li><li>Root cause: why evidence failed.</li><li>Fix: the smallest controlled change that improves the failure set.</li></ul></div>
+</section>
+
+<section id="symptoms" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 13</span>
+<h2>Failure Symptoms</h2>
+<p>Start with visible symptoms. They help you choose where to inspect first.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Lost context</span><h3>The answer misses a condition</h3><p>The retrieved chunk has the rule but not the exception, definition, or eligibility boundary around it.</p></div><div class="depth-panel"><span>Mixed topic</span><h3>The chunk says too many things</h3><p>A single chunk combines refund rules, cancellation steps, pricing limits, and legal notes, confusing retrieval and generation.</p></div><div class="depth-panel"><span>Overlap noise</span><h3>Repeated text crowds the prompt</h3><p>Many near-duplicate chunks are retrieved because overlap is too high or deduplication is weak.</p></div><div class="depth-panel"><span>Tiny chunks</span><h3>Evidence is too fragmented</h3><p>Chunks retrieve terms but not enough meaning. The model has puzzle pieces, not a usable answer.</p></div><div class="depth-panel"><span>Giant chunks</span><h3>Retrieval is broad and lazy</h3><p>Large chunks match many questions but bury the exact evidence inside too much unrelated text.</p></div><div class="depth-panel"><span>Stale chunks</span><h3>Old policy wins</h3><p>The retriever finds an outdated chunk because freshness metadata, versioning, or re-indexing controls are weak.</p></div></div>
+</section>
+
+<section id="root-causes" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 13</span>
+<h2>Root Causes</h2>
+<p>Symptoms are what you observe. Root causes are what you fix. The same symptom can come from different causes, so the label matters.</p>
+<div class="field-depth"><div><h4>Boundary root causes</h4><p>Chunk starts after the definition, ends before the exception, cuts through a table, separates code from explanation, or merges unrelated headings.</p></div><div><h4>Metadata root causes</h4><p>Missing source version, heading path, access label, document type, effective date, parent id, or content owner blocks correct filtering and expansion.</p></div><div><h4>Retrieval root causes</h4><p>The chunk is good, but ranking, top-k, query rewriting, hybrid search, or reranking fails to put it into the context window.</p></div></div>
+<div class="mentor-note"><strong>Mentor note:</strong> do not call everything a chunking problem. A beautiful chunk can still fail because the retriever ranks it at position 27.</div>
+</section>
+
+<section id="trace" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 13</span>
+<h2>Trace Inspection</h2>
+<p>A production RAG trace should let you replay the answer. If you cannot replay it, you cannot debug it responsibly.</p>
+<div class="diagram-card"><h3>Minimum trace fields</h3><pre><code>{
+  "question": "Can EU annual customers get a refund after renewal?",
+  "answer_id": "ans_2026_07_11_001",
+  "index_version": "refund-index-v18",
+  "chunker_version": "recursive-800-120-v4",
+  "filters": {"region": "EU", "doc_status": "active"},
+  "retrieved_chunks": [
+    {"chunk_id": "refund_policy:eu:renewal:child_04", "rank": 1, "score": 0.83},
+    {"chunk_id": "refund_policy:global:exceptions:child_02", "rank": 2, "score": 0.78}
+  ],
+  "context_token_count": 1840,
+  "citations": ["refund_policy:eu:renewal:child_04"]
+}</code></pre></div>
+<div class="real-world"><span class="label">Trace inspection checklist</span><ul><li><strong>Was the gold chunk retrieved?</strong> If not, inspect chunk boundaries, embedding quality, filters, and ranking.</li><li><strong>Was it high enough?</strong> If it appears below top-k, tune retrieval before changing chunking.</li><li><strong>Was enough surrounding context present?</strong> If not, add parent-child expansion or neighbor windows.</li><li><strong>Was there conflicting context?</strong> If yes, inspect stale chunks, overlap duplicates, and version filters.</li><li><strong>Did the model ignore good evidence?</strong> If yes, inspect prompt instructions and context formatting.</li></ul></div>
+</section>
+
+<section id="decision" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 13</span>
+<h2>Decision Framework</h2>
+<p>Use this flow before changing chunking settings.</p>
+<div class="case-study-card"><span class="decision-label">Debug decision flow</span><h3>From bad answer to fix candidate</h3><ul><li><strong>1. Is the right source missing?</strong> Check ingestion, filters, metadata, index freshness, and access rules.</li><li><strong>2. Is the right document found but wrong section retrieved?</strong> Check chunk boundaries, headings, query rewriting, and hybrid search.</li><li><strong>3. Is the right chunk found but answer incomplete?</strong> Check neighbor chunks, parent expansion, context ordering, and prompt evidence use.</li><li><strong>4. Are many similar chunks repeated?</strong> Check overlap, deduplication, top-k, and reranking.</li><li><strong>5. Is old content beating new content?</strong> Check version metadata, effective dates, and index release process.</li></ul></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 13</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/chunking-failure-analysis.svg" alt="Chunking failure analysis loop showing user question, retrieval trace, failure label, fix experiment, eval gate, and release decision"><figcaption>Production debugging is a loop: capture the trace, label the failure, test a controlled fix, run evals, then release or roll back.</figcaption></figure>
+<div class="diagram-card"><h3>Failure analysis loop</h3><pre><code>bad answer
+  -> collect trace
+  -> inspect retrieved chunks
+  -> compare against gold evidence
+  -> label failure
+  -> propose one fix
+  -> run golden query set
+  -> release, rollback, or keep investigating</code></pre></div>
+</section>
+
+<section id="examples" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 13</span>
+<h2>Production Examples</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">E01</span><h3>HR policy misses probation exception</h3><div><strong>Symptom:</strong> answer says all employees qualify.</div><div><strong>Root cause:</strong> exception is in the next chunk and parent expansion is disabled.</div><div><strong>Fix:</strong> add section-level parent retrieval and cite the exact exception child.</div></article>
+<article class="mistake-card"><span class="mistake-id">E02</span><h3>Developer docs retrieve duplicate snippets</h3><div><strong>Symptom:</strong> prompt contains repeated setup commands.</div><div><strong>Root cause:</strong> overlap is too high and no duplicate collapse runs after retrieval.</div><div><strong>Fix:</strong> reduce overlap, add hash-based dedupe, and rerank diverse chunks.</div></article>
+<article class="mistake-card"><span class="mistake-id">E03</span><h3>Runbook answer skips warning step</h3><div><strong>Symptom:</strong> assistant suggests restart before checking customer impact.</div><div><strong>Root cause:</strong> fixed chunking split warning from the procedure.</div><div><strong>Fix:</strong> chunk by numbered procedure blocks and keep warning banners attached.</div></article>
+<article class="mistake-card"><span class="mistake-id">E04</span><h3>Legal FAQ cites outdated clause</h3><div><strong>Symptom:</strong> answer cites a retired policy.</div><div><strong>Root cause:</strong> stale chunks remain in the active index.</div><div><strong>Fix:</strong> enforce effective-date filters and index release cleanup.</div></article>
+<article class="mistake-card"><span class="mistake-id">E05</span><h3>Product manual retrieves the whole chapter</h3><div><strong>Symptom:</strong> answer is vague and citation is too broad.</div><div><strong>Root cause:</strong> giant chunks hide exact steps inside long sections.</div><div><strong>Fix:</strong> split by task heading and use parent section only as context.</div></article>
+</div>
+</section>
+
+<section id="metrics" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 13</span>
+<h2>Metrics and Evals</h2>
+<p>For chunking, final answer accuracy is important but not enough. You need intermediate metrics that tell you where the system broke.</p>
+<div class="field-depth"><div><h4>Retrieval metrics</h4><p>Recall@k, MRR, gold chunk rank, duplicate rate, stale-hit rate, context utilization, and filtered-out gold count.</p></div><div><h4>Chunk quality metrics</h4><p>Average chunk size, size variance, heading coverage, table break rate, parent-link completeness, overlap duplication, and boundary defect rate.</p></div><div><h4>Answer metrics</h4><p>Groundedness, citation support, completeness, contradiction rate, refusal correctness, and human reviewer severity.</p></div></div>
+<div class="diagram-card"><h3>Golden query table</h3><pre><code>| Query | Gold Evidence | Expected Failure Label | Fix Candidate |
+|---|---|---|---|
+| Refund after renewal? | EU renewal exception | lost_context | parent expansion |
+| Restart job during Sev1? | warning + procedure | bad_boundary | procedure chunking |
+| API key rotation? | latest policy v3 | stale_chunk | version filter |</code></pre></div>
+</section>
+
+<section id="fixes" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 13</span>
+<h2>Fix Playbook</h2>
+<div class="production-depth-grid"><div class="depth-panel"><span>Lost context</span><h3>Add neighbor or parent expansion</h3><p>Retrieve precise child chunks, then add bounded parent or adjacent chunks only when needed.</p></div><div class="depth-panel"><span>Mixed topics</span><h3>Split by semantic or heading boundaries</h3><p>Make each chunk represent one coherent idea, rule, task, or decision point.</p></div><div class="depth-panel"><span>Overlap noise</span><h3>Reduce overlap and dedupe</h3><p>Use overlap intentionally, then collapse near-duplicates before prompt assembly.</p></div><div class="depth-panel"><span>Tiny chunks</span><h3>Merge into complete thought units</h3><p>Attach definitions, examples, tables, warnings, and code blocks to their explanation.</p></div><div class="depth-panel"><span>Giant chunks</span><h3>Split and cite smaller evidence</h3><p>Keep parent context available, but cite the smallest verifiable evidence unit.</p></div><div class="depth-panel"><span>Stale chunks</span><h3>Version and release indexes</h3><p>Filter by active status and effective date, then validate index cleanup during release.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 13</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Changing chunk size without a failure label</h3><div><strong>Symptom:</strong> random tuning creates random improvement.</div><div><strong>Better move:</strong> label the failure first, then choose the smallest fix.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Blaming the model before checking retrieved chunks</h3><div><strong>Symptom:</strong> teams rewrite prompts while the right evidence was never retrieved.</div><div><strong>Better move:</strong> inspect top-k results and gold chunk rank first.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Using only one demo question</h3><div><strong>Symptom:</strong> fix helps the demo and hurts real users.</div><div><strong>Better move:</strong> run a golden set across policy, FAQ, table, code, and edge-case questions.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Ignoring stale chunks</h3><div><strong>Symptom:</strong> retrieval looks confident but answers with old policy.</div><div><strong>Better move:</strong> track source version, active status, effective date, and index version.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Making chunks huge to avoid lost context</h3><div><strong>Symptom:</strong> answer becomes vague because context is too broad.</div><div><strong>Better move:</strong> retrieve small evidence and expand context intentionally.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Making chunks tiny to improve precision</h3><div><strong>Symptom:</strong> retrieval finds keywords without enough meaning.</div><div><strong>Better move:</strong> chunk complete thought units, not isolated fragments.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Forgetting tables, code, and warnings</h3><div><strong>Symptom:</strong> critical rows or warning banners separate from explanation.</div><div><strong>Better move:</strong> use structure-aware parsing and chunking rules for special content.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>No rollback plan for re-chunking</h3><div><strong>Symptom:</strong> a new index ships and failures cannot be reversed quickly.</div><div><strong>Better move:</strong> version chunker, index, eval report, and release gate together.</div></article>
+<article class="mistake-card"><span class="mistake-id">M09</span><h3>Evaluating only answer text</h3><div><strong>Symptom:</strong> you know the answer is wrong but not whether retrieval, chunking, or prompt assembly failed.</div><div><strong>Better move:</strong> score retrieval, chunk quality, context assembly, and final answer separately.</div></article>
+<article class="mistake-card"><span class="mistake-id">M10</span><h3>Not saving traces for user complaints</h3><div><strong>Symptom:</strong> production issues become stories instead of evidence.</div><div><strong>Better move:</strong> store trace ids, chunks, scores, prompt context, citations, and index versions.</div></article>
+</div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 13</span>
+<h2>Mini Assignment</h2>
+<p>Take five bad RAG answers from any domain: HR policy, product docs, support KB, runbooks, or legal FAQ. For each one, fill a failure review: symptom, retrieved chunks, gold evidence, failure label, root cause, fix candidate, metric to improve, and rollback risk.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 13</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Chunking failure analysis turns bad answers into inspectable engineering evidence.</li><li>Do not tune chunk size blindly. Label the failure first.</li><li>Inspect retrieval traces before blaming the model or prompt.</li><li>Lost context, mixed topics, overlap noise, stale chunks, tiny chunks, and giant chunks need different fixes.</li><li>Production teams version chunkers, indexes, evals, and release decisions together.</li></ul></div>
+</section>
+
+<p>Next, test your debugging judgment in the quiz, then build a small failure-review engine in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-10-semantic-and-hierarchical-chunking/project/index.html">&larr; Chapter 10 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

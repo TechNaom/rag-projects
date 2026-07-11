@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Practice — Chunking Failure Analysis</title><link rel="stylesheet" href="../../../assets/style.css"></head>
+<body data-active-chapter="chapter-11"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../../index.html">All Chapters</a><a href="../../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+<main class="page"><p><a href="../exercises/index.html">&larr; Back to exercises</a></p><div class="page-meta"><span class="chapter-badge">Chapter 11 Practice Bank</span><span class="reading-time">75 min practice</span></div><h1>Practice Bank: Failure Review Scenarios</h1><p>Use <code>starter.py</code> to score realistic traces and produce release-safe recommendations.</p><div class="download-links"><a href="starter.py">starter.py</a><a href="solution.py">solution.py</a></div>
+<div class="feature-grid">
+<div class="feature-card"><h3>Scenario 1: HR probation exception</h3><p>Gold evidence exists but sits outside the retrieved child chunk.</p></div>
+<div class="feature-card"><h3>Scenario 2: API docs duplicates</h3><p>Repeated overlap crowds the prompt and lowers context usefulness.</p></div>
+<div class="feature-card"><h3>Scenario 3: Runbook warning split</h3><p>A restart step is retrieved without the safety warning.</p></div>
+<div class="feature-card"><h3>Scenario 4: Retired legal clause</h3><p>Old content wins because active-version filtering is missing.</p></div>
+<div class="feature-card"><h3>Scenario 5: Product manual chapter blob</h3><p>A giant chunk retrieves but citation is too broad to verify.</p></div>
+<div class="feature-card"><h3>Scenario 6: FAQ fragments</h3><p>Tiny chunks retrieve keywords but lose the full answer.</p></div>
+<div class="feature-card"><h3>Scenario 7: Mixed policy topics</h3><p>One chunk contains eligibility, pricing, cancellation, and legal warnings.</p></div>
+<div class="feature-card"><h3>Scenario 8: Table boundary break</h3><p>Rows are split away from column headers and units.</p></div>
+<div class="feature-card"><h3>Scenario 9: Code block without explanation</h3><p>Snippet retrieves, but setup constraints are outside context.</p></div>
+<div class="feature-card"><h3>Scenario 10: Correct chunk ranked too low</h3><p>The chunking is acceptable, but retrieval strategy needs work.</p></div>
+</div>
+<div class="chapter-nav"><a href="../exercises/index.html">&larr; Exercises</a><a href="../interview-questions.html">Interview Questions &rarr;</a></div></main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../../assets/chapters-data.js"></script><script src="../../../assets/progress.js"></script><script src="../../../assets/sidebar.js"></script></body></html>

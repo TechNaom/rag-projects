@@ -1,0 +1,10 @@
+flowchart LR
+  A[Bad answer] --> B[Collect trace]
+  B --> C[Inspect chunks, scores, filters]
+  C --> D[Compare with gold evidence]
+  D --> E[Label failure]
+  E --> F[Test one controlled fix]
+  F --> G[Run golden queries]
+  G --> H{Pass release gate?}
+  H -->|Yes| I[Release]
+  H -->|No| J[Rollback or keep investigating]

@@ -213,7 +213,28 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-11", num: 11, title: "Chunking Failure Analysis", path: null }
+      {
+        id: "chapter-11",
+        num: 11,
+        title: "Chunking Failure Analysis",
+        path: "chapters/chapter-11-chunking-failure-analysis/lesson.html",
+        description: "Lost context, mixed-topic chunks, overlap noise, tiny chunks, giant chunks, stale chunks, trace inspection, eval gates, and controlled fixes.",
+        subtopics: [
+          { id: "problem", title: "Why failure analysis matters" },
+          { id: "analogy", title: "Doctor diagnosis analogy" },
+          { id: "symptoms", title: "Failure symptoms" },
+          { id: "root-causes", title: "Root causes" },
+          { id: "trace", title: "Trace inspection" },
+          { id: "decision", title: "Decision framework" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "examples", title: "Production examples" },
+          { id: "metrics", title: "Metrics and evals" },
+          { id: "fixes", title: "Fix playbook" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {

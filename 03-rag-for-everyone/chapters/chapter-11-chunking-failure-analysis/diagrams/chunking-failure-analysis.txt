@@ -1,0 +1,8 @@
+Bad answer
+  -> Retrieval trace
+  -> Retrieved chunks + scores + filters
+  -> Gold evidence comparison
+  -> Failure label
+  -> Controlled fix experiment
+  -> Golden query eval gate
+  -> Release or rollback
