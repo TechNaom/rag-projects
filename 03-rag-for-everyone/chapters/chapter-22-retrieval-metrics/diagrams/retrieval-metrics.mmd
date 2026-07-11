@@ -1,0 +1,9 @@
+flowchart LR
+  G[Golden query set] --> R[Retriever]
+  R --> IDs[Retrieved result ids]
+  IDs --> M[Metric calculator]
+  G --> M
+  M --> D[Dashboards]
+  M --> F[Failure analysis]
+  F --> T[Tuning actions]
+  M --> Gate[Release gate]

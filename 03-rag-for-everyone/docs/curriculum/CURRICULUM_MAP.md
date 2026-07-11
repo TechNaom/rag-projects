@@ -256,11 +256,11 @@ Goal: Measure the system instead of demoing it by vibes.
 
 ### Chapter 22: Retrieval Metrics
 
-- Recall@K.
-- MRR.
-- Precision@K.
-- NDCG.
-- Reading eval output.
+- Gold evidence labels.
+- Recall@K, Precision@K, MRR, nDCG, and hit rate.
+- Failure slices by domain, query type, source format, tenant, and risk.
+- Filtered-out gold, stale hits, dashboards, and release gates.
+- Project: retrieval metrics dashboard seed.
 
 ### Chapter 23: Answer Quality Metrics
 
@@ -269,6 +269,8 @@ Goal: Measure the system instead of demoing it by vibes.
 - Answer relevancy.
 - Citation correctness.
 - Human review.
+- Refusal correctness, rubric design, and release gates.
+- Project: answer quality scorer.
 
 ### Chapter 24: Failure Analysis
 
@@ -277,6 +279,9 @@ Goal: Measure the system instead of demoing it by vibes.
 - Ambiguous questions.
 - Corpus gaps.
 - What to fix first.
+- Failure taxonomy across corpus, parsing, chunking, retrieval, context injection, prompt, and safety.
+- Trace-driven root-cause analysis and replay tests.
+- Project: RAG failure triage board.
 
 ## Module 8: Production RAG
 
@@ -288,6 +293,8 @@ Goal: Move from working demo to responsible system design.
 - Metadata filters.
 - Audit logs.
 - Sensitive data handling.
+- Prompt-injection safety, denied-context reporting, policy versioning, and access-aware gateways.
+- Project: access-aware RAG gateway.
 
 ### Chapter 26: Observability and Cost
 
@@ -296,6 +303,8 @@ Goal: Move from working demo to responsible system design.
 - Provider cost.
 - Query logs.
 - Caching.
+- Stage traces, quality signals, routing, compression, and cost optimization.
+- Project: RAG cost and trace monitor.
 
 ### Chapter 27: Deployment Patterns
 
@@ -304,6 +313,8 @@ Goal: Move from working demo to responsible system design.
 - FastAPI wrapper.
 - Hosted frontend.
 - Vector DB choices.
+- API gateway, auth, launch checklist, day-2 operations, and rollback planning.
+- Project: RAG deployment planner.
 
 ### Chapter 28: End-to-End Production RAG Capstone
 
@@ -319,6 +330,9 @@ Goal: Move from working demo to responsible system design.
 - Add observability.
 - Package the project for public review.
 - Explain production trade-offs.
+- Three production-grade products: Policy Intelligence Desk, Incident Runbook Copilot, Research Knowledge Studio.
+- Five capstone tracks: Enterprise Policy RAG, SRE Runbook RAG, Legal Contract Explorer, Customer Support Knowledge Hub, Research Briefing Studio.
+- Project: production RAG capstone planner.
 
 ## Content Tracks
 

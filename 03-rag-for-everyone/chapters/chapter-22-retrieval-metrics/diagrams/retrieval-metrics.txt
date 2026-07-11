@@ -1,0 +1,9 @@
+Retrieval Metrics Flow
+
+Golden query set
+  -> retriever
+  -> retrieved result ids
+  -> metric calculator
+  -> dashboards
+  -> failure analysis
+  -> release gate

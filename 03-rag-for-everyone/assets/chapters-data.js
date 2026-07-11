@@ -495,9 +495,9 @@ window.RFE_MODULES = [
     summary: "Move beyond vibes with retrieval metrics, answer quality checks, and failure-analysis habits.",
     examPath: null,
     chapters: [
-      { id: "chapter-22", num: 22, title: "Retrieval Metrics", path: null },
-      { id: "chapter-23", num: 23, title: "Answer Quality Metrics", path: null },
-      { id: "chapter-24", num: 24, title: "Failure Analysis", path: null }
+      { id: "chapter-22", num: 22, title: "Retrieval Metrics", path: "chapters/chapter-22-retrieval-metrics/lesson.html", description: "Gold evidence, Recall@K, Precision@K, MRR, nDCG, hit rate, failure slices, dashboards, and retrieval release gates." },
+      { id: "chapter-23", num: 23, title: "Answer Quality Metrics", path: "chapters/chapter-23-answer-quality-metrics/lesson.html", description: "Faithfulness, groundedness, answer relevance, citation correctness, refusal correctness, human review rubrics, and quality gates." },
+      { id: "chapter-24", num: 24, title: "Failure Analysis", path: "chapters/chapter-24-failure-analysis/lesson.html", description: "Root-cause analysis for corpus gaps, parsing failures, chunking issues, retrieval misses, prompt failures, and policy failures." }
     ]
   },
   {
@@ -505,10 +505,10 @@ window.RFE_MODULES = [
     summary: "Ship RAG like a real product: access control, observability, cost, deployment, and portfolio polish.",
     examPath: null,
     chapters: [
-      { id: "chapter-25", num: 25, title: "Access Control and Safety", path: null },
-      { id: "chapter-26", num: 26, title: "Observability and Cost", path: null },
-      { id: "chapter-27", num: 27, title: "Deployment Patterns", path: null },
-      { id: "chapter-28", num: 28, title: "End-to-End Production RAG Capstone", path: null }
+      { id: "chapter-25", num: 25, title: "Access Control and Safety", path: "chapters/chapter-25-access-control-and-safety/lesson.html", description: "RBAC retrieval, metadata filters, prompt-injection safety, sensitive data handling, audit logs, and access-aware gateways." },
+      { id: "chapter-26", num: 26, title: "Observability and Cost", path: "chapters/chapter-26-observability-and-cost/lesson.html", description: "Trace design, stage latency, token cost, caching, routing, quality monitoring, dashboards, and cost optimization." },
+      { id: "chapter-27", num: 27, title: "Deployment Patterns", path: "chapters/chapter-27-deployment-patterns/lesson.html", description: "Static demos, local CLI, FastAPI services, hosted frontends, vector DB choices, launch checklists, and day-2 operations." },
+      { id: "chapter-28", num: 28, title: "End-to-End Production RAG Capstone", path: "chapters/chapter-28-end-to-end-production-rag-capstone/lesson.html", description: "Three production-grade product builds, five capstone tracks, universal build roadmap, portfolio packaging, and production trade-offs." }
     ]
   }
 ];
