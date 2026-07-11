@@ -33,10 +33,20 @@ jobs:
         with:
           enablement: true
 
+      - name: Prepare Pages artifact
+        run: |
+          rm -rf pages-artifact
+          mkdir -p pages-artifact
+          cp -R 03-rag-for-everyone/. pages-artifact/
+          rm -rf pages-artifact/rag-for-everyone
+          mkdir -p pages-artifact/rag-for-everyone
+          cp -R 03-rag-for-everyone/. pages-artifact/rag-for-everyone/
+          rm -rf pages-artifact/rag-for-everyone/rag-for-everyone
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 03-rag-for-everyone
+          path: pages-artifact
 
       - name: Deploy to GitHub Pages
         id: deployment
