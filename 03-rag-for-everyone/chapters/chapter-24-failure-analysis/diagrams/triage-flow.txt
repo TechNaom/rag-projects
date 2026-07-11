@@ -1,0 +1,23 @@
+Bad answer reported
+  |
+  v
+Capture trace
+  - user query
+  - retrieved chunks and scores
+  - final answer and citations
+  - expected answer or policy
+  |
+  v
+Is expected evidence in top-k?
+  | yes                         | no
+  v                             v
+Did answer follow evidence?     Retrieval miss
+  | yes          | no           - inspect index freshness
+  v              v              - inspect chunking
+No failure or    Generation     - inspect query rewrite
+evaluation gap   error
+                 - tighten prompt
+                 - require support
+  |
+  v
+Assign owner -> recommend fix -> add replay test -> monitor recurrence

@@ -1,4 +1,266 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 27 — Deployment Patterns</title><link rel="stylesheet" href="../../assets/style.css"></head><body data-active-chapter="chapter-27"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header><main class="page"><p><a href="../../index.html">&larr; Back to all chapters</a></p><div class="page-meta"><span class="chapter-badge">Chapter 27 of 28</span><span class="badge-difficulty">Production RAG</span><span class="reading-time">105 min read</span></div><h1>Deployment Patterns</h1><p class="lede">Deployment is where the learning project becomes an engineering product. The right pattern depends on audience, risk, latency, data privacy, and operating maturity.</p><div class="lesson-hero"><h2>Patterns to understand</h2><ul><li><strong>Static demo:</strong> public learning UI, mock corpus, no secrets.</li><li><strong>Local CLI:</strong> reproducible developer workflow for indexing and evals.</li><li><strong>FastAPI service:</strong> clean backend boundary for retrieval, generation, and tracing.</li><li><strong>Hosted frontend:</strong> user-facing product shell with auth and feedback.</li><li><strong>Managed vector DB:</strong> scalable retrieval with backups, snapshots, and governance.</li></ul></div><section class="subtopic"><h2>Choosing a Deployment Pattern</h2><p>Do not deploy everything like a startup demo. A public course project can be static. An internal policy assistant needs auth, access control, traces, and rollback. A customer-facing assistant needs SLOs, abuse controls, and support workflows.</p></section><section class="subtopic"><h2>Reference Architecture</h2><div class="diagram-card"><pre><code>frontend -> API gateway -> auth
-  -> RAG service -> retriever/vector DB
-  -> model provider -> evaluator
-  -> trace store -> dashboard</code></pre></div></section><section class="subtopic"><h2>Project Roadmap</h2><p>Build a deployment planner that recommends local, static, API, or hosted architecture based on data sensitivity, traffic, risk, and team maturity.</p></section><div class="chapter-nav"><a href="../chapter-26-observability-and-cost/project/index.html">&larr; Chapter 26 Project</a><a href="project/index.html">Build the Project &rarr;</a></div></main><footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 27 - Deployment Patterns</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-27">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav>
+  </div>
+</header>
+<main class="page">
+  <p><a href="../../index.html">&larr; Back to all chapters</a></p>
+  <div class="page-meta">
+    <span class="chapter-badge">Chapter 27 of 28</span>
+    <span class="badge-difficulty">Production RAG</span>
+    <span class="reading-time">105 min read</span>
+  </div>
+  <h1>Deployment Patterns</h1>
+  <p class="lede">Deployment is the moment a RAG system stops being a notebook and starts making promises. The right pattern depends on who can use it, what data it touches, how fast it must answer, and how confidently your team can operate it after launch.</p>
+
+  <div class="lesson-hero">
+    <h2>What you will be able to decide</h2>
+    <ul>
+      <li>When a static demo is enough, and when it becomes risky theater.</li>
+      <li>How to separate local CLI workflows, online APIs, hosted frontends, indexing jobs, vector databases, and operations.</li>
+      <li>Which controls are mandatory for private data: auth, authorization filters, secrets, traces, eval gates, rollback, and cost limits.</li>
+      <li>How to build a roadmap from demo to production without overbuilding the first release.</li>
+    </ul>
+  </div>
+
+  <section id="problem" class="subtopic">
+    <h2>The Deployment Problem</h2>
+    <p>A RAG application has more moving parts than a normal CRUD app: source documents, chunking, embeddings, indexes, prompts, model providers, retrieval parameters, citations, feedback, traces, and eval sets. A release can fail even when the web server is healthy, because the wrong index shipped with the right prompt or because retrieval filters were skipped for one user group.</p>
+    <p>The deployment question is not "Where can I host this?" It is "What is the smallest architecture that satisfies privacy, reliability, latency, cost, rollback, and support expectations?"</p>
+    <div class="diagram-card">
+      <pre><code>Decision inputs
+  audience: public demo | internal users | customers | regulated users
+  data: mock | public | private | regulated
+  traffic: one user | team | department | internet scale
+  risk: learning | workflow helper | business critical | legal/safety critical
+  maturity: solo builder | small team | platform team | enterprise ops</code></pre>
+    </div>
+    <h3>Deployment decision framework</h3>
+    <ol>
+      <li><strong>Classify the data first.</strong> Public mock data can be static. Private data needs authentication before retrieval and authorization filters inside retrieval.</li>
+      <li><strong>Classify the promise.</strong> A portfolio demo promises learning. A production assistant promises support, uptime, traceability, and rollback.</li>
+      <li><strong>Separate online and offline work.</strong> Answering users is latency-sensitive. Crawling, chunking, embedding, and backfills are batch jobs.</li>
+      <li><strong>Version every behavior input.</strong> Code, prompt, config, retriever settings, embedding model, index schema, and corpus snapshot must be traceable.</li>
+      <li><strong>Choose the cheapest pattern that still protects trust.</strong> A static page is great for mock demos. It is irresponsible for private documents.</li>
+    </ol>
+  </section>
+
+  <section id="static" class="subtopic">
+    <h2>Static Demo Pattern</h2>
+    <p>A static deployment is ideal when the goal is education, portfolio proof, or stakeholder review with mock data. The app can run from HTML, CSS, JavaScript, and precomputed sample responses. There are no server secrets and no live private retrieval.</p>
+    <div class="diagram-card">
+      <pre><code>browser
+  -> static assets
+  -> sample corpus JSON
+  -> precomputed or client-side demo response
+
+No server secrets. No private documents. No write access.</code></pre>
+    </div>
+    <h3>Use it for</h3>
+    <ul>
+      <li>Course projects, documentation demos, sales walkthroughs, and portfolio artifacts.</li>
+      <li>Public corpora, synthetic documents, or snapshots that are safe to expose.</li>
+      <li>Explaining the user experience before investing in backend operations.</li>
+    </ul>
+    <h3>Pros</h3>
+    <ul>
+      <li>Very cheap, fast, cacheable, and easy to share.</li>
+      <li>Low operational burden: no runtime, no database, no model key in production.</li>
+      <li>Great for visualizing retrieval, citations, and failure states.</li>
+    </ul>
+    <h3>Cons</h3>
+    <ul>
+      <li>Cannot protect secrets or private data.</li>
+      <li>Cannot enforce real user-specific access control.</li>
+      <li>Can mislead stakeholders if sample answers hide real latency, cost, or retrieval failures.</li>
+    </ul>
+    <h3>Common mistakes</h3>
+    <ul>
+      <li>Putting API keys in frontend code.</li>
+      <li>Using private documents because "the repo is only shared internally."</li>
+      <li>Calling a mock demo production-ready because the UI looks polished.</li>
+    </ul>
+  </section>
+
+  <section id="cli" class="subtopic">
+    <h2>Local CLI Pattern</h2>
+    <p>A CLI is the production engineer's workshop. It makes indexing, evaluation, smoke tests, migrations, and incident reproduction repeatable. Even hosted systems should keep a local CLI path for maintainers.</p>
+    <div class="diagram-card">
+      <pre><code>developer laptop or CI runner
+  -> ingest command
+  -> chunk/embed command
+  -> eval command
+  -> smoke query command
+  -> report artifact</code></pre>
+    </div>
+    <h3>Use it for</h3>
+    <ul>
+      <li>Rebuilding indexes from a known corpus snapshot.</li>
+      <li>Running regression evals before a release.</li>
+      <li>Debugging one bad answer with the same retriever parameters used in production.</li>
+    </ul>
+    <h3>Trade-offs</h3>
+    <p>The CLI gives reproducibility and low cost, but it is not a multi-user product boundary. It should not become the only place your deployment logic exists. Promote shared behavior into libraries used by both CLI and API.</p>
+    <h3>Concrete commands</h3>
+    <div class="diagram-card">
+      <pre><code>rag ingest --source ./docs --snapshot 2026-07-11
+rag index --snapshot 2026-07-11 --embedding text-embedding-3-large
+rag eval --suite release-gate.yaml --index 2026-07-11
+rag smoke --question "How do I reset my badge?" --expect-citation</code></pre>
+    </div>
+  </section>
+
+  <section id="api" class="subtopic">
+    <h2>Backend API Pattern</h2>
+    <p>A backend API is the clean boundary for production RAG. It protects secrets, checks identity, applies authorization filters before retrieval, records traces, enforces rate limits, and gives the frontend a stable contract.</p>
+    <div class="diagram-card">
+      <pre><code>frontend
+  -> API gateway
+  -> auth middleware
+  -> RAG service
+       -> policy checks
+       -> retriever
+       -> reranker
+       -> generator
+       -> citation validator
+       -> trace writer</code></pre>
+    </div>
+    <h3>Design decisions</h3>
+    <ul>
+      <li><strong>Sync or async:</strong> use synchronous responses for short answers; use jobs or streaming for long-running workflows.</li>
+      <li><strong>Stateless or stateful:</strong> keep request handling stateless when possible; store conversations and feedback in explicit databases.</li>
+      <li><strong>Single service or split services:</strong> start with one service for simpler ownership; split ingestion, retrieval, and generation when scale or team boundaries demand it.</li>
+      <li><strong>Provider abstraction:</strong> isolate model and vector provider details enough to test fallbacks, but avoid a generic wrapper that hides important limits.</li>
+    </ul>
+    <h3>Minimum API contract</h3>
+    <div class="diagram-card">
+      <pre><code>POST /answer
+  input: user_id, question, conversation_id, filters
+  output: answer, citations, confidence_signals, trace_id
+
+GET /health
+  checks: app, model_provider, vector_db, trace_store, build_version
+
+POST /feedback
+  input: trace_id, rating, correction, unsafe_or_wrong_reason</code></pre>
+    </div>
+  </section>
+
+  <section id="frontend" class="subtopic">
+    <h2>Hosted Frontend Pattern</h2>
+    <p>The frontend turns the RAG service into a usable product. It must make citations inspectable, uncertainty visible, and recovery paths obvious. Production frontends should not hide source quality behind a chat bubble.</p>
+    <h3>What the frontend owns</h3>
+    <ul>
+      <li>Authentication handoff and session handling.</li>
+      <li>Question input, streaming answer display, citation panels, and source previews.</li>
+      <li>Feedback capture with trace IDs so operations can reproduce failures.</li>
+      <li>Clear error states for rate limits, missing access, provider outages, and empty retrieval.</li>
+    </ul>
+    <h3>Architecture choices</h3>
+    <ul>
+      <li><strong>Static frontend plus API:</strong> good default for many apps; simple deployment with strong backend controls.</li>
+      <li><strong>Server-rendered app:</strong> useful when auth, routing, and data fetching are tightly coupled.</li>
+      <li><strong>Internal tool shell:</strong> best for employee assistants where identity, audit, and permission boundaries matter more than visual polish.</li>
+    </ul>
+    <h3>Common mistakes</h3>
+    <ul>
+      <li>Showing generated answers without source snippets or document dates.</li>
+      <li>Letting the browser choose retrieval filters.</li>
+      <li>Capturing feedback without storing the prompt, retrieved chunks, model version, and index version needed to debug it.</li>
+    </ul>
+  </section>
+
+  <section id="vectordb" class="subtopic">
+    <h2>Vector Database Pattern</h2>
+    <p>The vector store is not just a nearest-neighbor box. In production it becomes a governed retrieval system with metadata filters, snapshots, backups, schema migrations, capacity planning, and access policy.</p>
+    <h3>Local index vs managed vector database</h3>
+    <table>
+      <thead><tr><th>Choice</th><th>Best fit</th><th>Watch out for</th></tr></thead>
+      <tbody>
+        <tr><td>Local FAISS or similar</td><td>Prototypes, batch evals, small offline apps</td><td>Backup, concurrency, filtering, deployment packaging</td></tr>
+        <tr><td>Postgres with vector extension</td><td>Teams already operating Postgres, moderate scale, transactional metadata</td><td>Index tuning, query plans, noisy neighbors</td></tr>
+        <tr><td>Managed vector DB/search</td><td>Production scale, snapshots, filtering, service SLOs, managed operations</td><td>Cost, vendor limits, migration planning</td></tr>
+      </tbody>
+    </table>
+    <h3>Production requirements</h3>
+    <ul>
+      <li>Metadata filters for tenant, document ACL, version, language, freshness, and source type.</li>
+      <li>Index versioning so releases can roll forward and back.</li>
+      <li>Snapshot and restore tests, not just backup configuration.</li>
+      <li>Capacity tests for query concurrency, embedding backfills, and reindex windows.</li>
+      <li>Data deletion workflows for retention rules and user requests.</li>
+    </ul>
+  </section>
+
+  <section id="operations" class="subtopic">
+    <h2>Operations and Release Controls</h2>
+    <p>Production RAG is operated through evidence. You need to know which version answered, what it retrieved, whether citations supported the answer, how much it cost, and how to return to the last good state.</p>
+    <h3>Release sequence</h3>
+    <ol>
+      <li>Build code and config with immutable version identifiers.</li>
+      <li>Build or select the index snapshot for the release.</li>
+      <li>Run unit tests, retrieval evals, answer-quality evals, safety checks, and cost estimates.</li>
+      <li>Deploy to staging with production-like auth and data boundaries.</li>
+      <li>Run smoke tests against known questions and expected citations.</li>
+      <li>Canary to a small cohort, compare latency, error rate, retrieval quality, and feedback.</li>
+      <li>Ramp gradually, monitor dashboards, and keep rollback ready until the release is stable.</li>
+    </ol>
+    <h3>Production checklist</h3>
+    <ul>
+      <li>Secrets are stored outside code and rotated on a schedule.</li>
+      <li>Authentication happens before retrieval; authorization filters are enforced server-side.</li>
+      <li>Health checks cover model provider, vector DB, trace store, and index version.</li>
+      <li>Every answer records trace ID, prompt version, model version, retriever settings, retrieved chunks, and cost.</li>
+      <li>Eval gates block releases that regress groundedness, citation quality, refusal behavior, or latency.</li>
+      <li>Rollback covers code, prompt, config, model choice, and index snapshot.</li>
+      <li>Rate limits, abuse controls, and budget alerts are active.</li>
+      <li>Incident runbooks explain provider outage, bad index, high cost, empty retrieval, and data leakage response.</li>
+    </ul>
+    <h3>Common production mistakes</h3>
+    <ul>
+      <li>Deploying the answer API and index rebuild as one fragile process.</li>
+      <li>Skipping ACL filters because "the prompt tells the model not to reveal private data."</li>
+      <li>Only monitoring uptime while ignoring retrieval miss rate, citation support, and cost per answer.</li>
+      <li>Rolling back code while leaving the broken index active.</li>
+      <li>Letting evaluation data go stale after the first launch.</li>
+    </ul>
+  </section>
+
+  <section id="project" class="subtopic">
+    <h2>Project Roadmap</h2>
+    <p>You will build a RAG deployment planner. Given a scenario, it recommends a deployment pattern, explains the trade-off, lists required controls, produces a launch checklist, and names the first day-2 operations tasks.</p>
+    <h3>Milestones</h3>
+    <ol>
+      <li><strong>Classify the scenario:</strong> data sensitivity, traffic, latency SLO, user audience, team maturity, and business risk.</li>
+      <li><strong>Choose the pattern:</strong> static demo, local CLI, hosted API, hosted frontend plus API, or enterprise deployment with managed vector DB.</li>
+      <li><strong>Add controls:</strong> auth, ACL filters, managed secrets, tracing, eval gates, rollback, rate limits, backups, and feedback.</li>
+      <li><strong>Write the roadmap:</strong> demo, staging, canary, production ramp, and operating cadence.</li>
+      <li><strong>Test the planner:</strong> run examples for public demos, internal assistants, and regulated customer deployments.</li>
+    </ol>
+    <p>Start with the project brief, then use the exercises and practice bank to pressure-test your decision logic.</p>
+  </section>
+
+  <div class="chapter-nav">
+    <a href="../chapter-26-observability-and-cost/project/index.html">&larr; Chapter 26 Project</a>
+    <a href="quiz.html">Take the Quiz &rarr;</a>
+  </div>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone - free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>

@@ -1,12 +1,230 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 28 — End-to-End Production RAG Capstone</title><link rel="stylesheet" href="../../assets/style.css"></head><body data-active-chapter="chapter-28"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header><main class="page"><p><a href="../../index.html">&larr; Back to all chapters</a></p><div class="page-meta"><span class="chapter-badge">Chapter 28 of 28</span><span class="badge-difficulty">Capstone</span><span class="reading-time">150 min roadmap</span></div><h1>End-to-End Production RAG Capstone</h1><p class="lede">The capstone turns the course into a portfolio-grade product. The goal is not a toy chatbot. The goal is a system people revisit because it teaches architecture, evaluation, operations, and product judgment.</p><div class="lesson-hero"><h2>Three production-grade products with high revisit value</h2><ul><li><strong>Policy Intelligence Desk:</strong> enterprise policy assistant with access control, citations, conflict handling, and audit logs.</li><li><strong>Incident Runbook Copilot:</strong> SRE assistant that retrieves runbooks, ranks by service/severity, proposes steps, and captures feedback.</li><li><strong>Research Knowledge Studio:</strong> document research workspace with source comparison, evidence boards, claim checks, and exportable briefs.</li></ul></div><section class="subtopic"><h2>Five Capstone Tracks</h2><div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">C01</span><h3>Enterprise Policy RAG</h3><p>Build ingestion, metadata, RBAC, hybrid retrieval, grounded answers, citation audits, and release gates.</p></article><article class="mistake-card"><span class="mistake-id">C02</span><h3>SRE Runbook RAG</h3><p>Build service-aware retrieval, incident severity routing, step-by-step answers, freshness checks, and post-incident evals.</p></article><article class="mistake-card"><span class="mistake-id">C03</span><h3>Legal Contract Explorer</h3><p>Build clause search, conflict detection, authority ranking, refusal behavior, and human-review workflow.</p></article><article class="mistake-card"><span class="mistake-id">C04</span><h3>Customer Support Knowledge Hub</h3><p>Build FAQ plus ticket history retrieval, answer quality scoring, feedback loop, and cost controls.</p></article><article class="mistake-card"><span class="mistake-id">C05</span><h3>Research Briefing Studio</h3><p>Build multi-document evidence boards, citation-rich summaries, claim verification, and exportable brief generation.</p></article></div></section><section class="subtopic"><h2>Universal Build Roadmap</h2><div class="diagram-card"><pre><code>1. Choose domain and users
-2. Collect public-safe corpus
-3. Parse and clean documents
-4. Design metadata and access model
-5. Chunk and index
-6. Build retrieval + reranking
-7. Inject context with citations
-8. Add grounded prompt and refusals
-9. Add retrieval and answer evals
-10. Add observability and cost tracking
-11. Package UI, README, architecture diagram, demo script
-12. Write production trade-off report</code></pre></div></section><section class="subtopic"><h2>What Makes It Portfolio Grade</h2><p>Include architecture diagrams, eval reports, trace examples, failure analysis, deployment plan, security notes, cost model, roadmap, and demo scenarios. A reviewer should see how you think, not only what you coded.</p></section><section class="subtopic"><h2>Project Roadmap</h2><p>Use the capstone planner to choose a track, generate the build backlog, and decide minimum viable product versus production hardening milestones.</p></section><div class="chapter-nav"><a href="../chapter-27-deployment-patterns/project/index.html">&larr; Chapter 27 Project</a><a href="project/index.html">Build the Capstone Planner &rarr;</a></div></main><footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 28 - End-to-End Production RAG Capstone</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-28">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar">
+  <div class="page">
+    <a href="../../index.html" class="brand">RAG for Everyone</a>
+    <nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav>
+  </div>
+</header>
+<main class="page">
+  <p><a href="../../index.html">&larr; Back to all chapters</a></p>
+  <div class="page-meta">
+    <span class="chapter-badge">Chapter 28 of 28</span>
+    <span class="badge-difficulty">Capstone</span>
+    <span class="reading-time">150 min roadmap</span>
+  </div>
+  <h1>End-to-End Production RAG Capstone</h1>
+  <p class="lede">This final chapter turns the course into a portfolio-grade RAG product. The target is not a thin chatbot demo. The target is a durable workflow: a system with a clear user, trusted evidence, measurable quality, operational controls, and artifacts that make a reviewer want to open it twice.</p>
+
+  <div class="lesson-hero">
+    <h2>Capstone Standard</h2>
+    <p>Your finished project should answer five questions without hand waving: who revisits this product, what corpus does it trust, how does retrieval work, how do you know answers are grounded, and what happens when quality, cost, access, or freshness fails?</p>
+  </div>
+
+  <section class="subtopic" id="problem">
+    <h2>Problem</h2>
+    <p>A production RAG capstone is a product decision before it is a model decision. The strongest projects choose a repeated knowledge workflow where users need evidence, not vibes: resolving a policy question, responding to an incident, comparing contract clauses, answering support tickets, or writing a research brief.</p>
+    <div class="mistake-catalog">
+      <article class="mistake-card">
+        <span class="mistake-id">P01</span>
+        <h3>Repeated job</h3>
+        <p>Name the user, trigger, input, expected output, and saved artifact. A saved artifact can be an audit note, runbook checklist, clause review, support draft, evidence board, or brief.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">P02</span>
+        <h3>Trust boundary</h3>
+        <p>Define what the system may use, what it must refuse, and which answer types require human review. Production quality starts with explicit boundaries.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">P03</span>
+        <h3>Evaluation target</h3>
+        <p>Write success criteria before building: retrieval recall, citation support, refusal accuracy, latency, cost per answer, and a demo path with happy, edge, and failure cases.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="subtopic" id="products">
+    <h2>Products</h2>
+    <p>These three product shapes have high revisit value because they create durable work products, improve with feedback, and expose enough complexity to show production judgment.</p>
+    <div class="mistake-catalog">
+      <article class="mistake-card">
+        <span class="mistake-id">A</span>
+        <h3>Policy Intelligence Desk</h3>
+        <p><strong>User:</strong> employee, HR partner, compliance analyst. <strong>Workflow:</strong> ask a policy question, retrieve authorized policy sections, compare conflicts across versions, and produce a cited answer with an audit trail.</p>
+        <p><strong>Production depth:</strong> role-based access, metadata by region/team/effective date, citation coverage, stale-policy warnings, escalation when policy language conflicts, and traceable answer review.</p>
+        <p><strong>Revisit value:</strong> saved policy answers become auditable decisions and a feedback queue for confusing policies.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">B</span>
+        <h3>Incident Runbook Copilot</h3>
+        <p><strong>User:</strong> on-call engineer or incident commander. <strong>Workflow:</strong> describe a symptom, retrieve service runbooks and recent postmortems, rank by service/severity/freshness, and generate a step-by-step checklist.</p>
+        <p><strong>Production depth:</strong> service catalog metadata, severity routing, freshness gates, source confidence, safety refusals for destructive actions, feedback capture, and post-incident evaluation.</p>
+        <p><strong>Revisit value:</strong> every incident leaves a checklist, trace, and knowledge-gap note that improves the next response.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">C</span>
+        <h3>Research Knowledge Studio</h3>
+        <p><strong>User:</strong> analyst, student, product researcher, or founder. <strong>Workflow:</strong> upload a corpus, ask comparative questions, build an evidence board, check claims, and export a cited brief.</p>
+        <p><strong>Production depth:</strong> document parsing, source comparison, claim-level citations, contradiction detection, reusable boards, export templates, and answer support evaluation.</p>
+        <p><strong>Revisit value:</strong> the board evolves from question answering into a living research workspace.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="subtopic" id="tracks">
+    <h2>Tracks</h2>
+    <p>Choose one track and keep it narrow enough to finish end to end. Each track should deliver an MVP, hardening pass, evaluation gate, and portfolio package.</p>
+    <div class="mistake-catalog">
+      <article class="mistake-card">
+        <span class="mistake-id">T01</span>
+        <h3>Enterprise Policy RAG</h3>
+        <p><strong>Steps:</strong> collect policy docs, model departments/regions/effective dates, build hybrid retrieval, add citation-required answers, detect conflicts, and log decisions.</p>
+        <p><strong>Milestones:</strong> corpus card, metadata schema, retrieval baseline, grounded answer UI, access-control simulation, release report.</p>
+        <p><strong>Gate:</strong> answers must cite current authorized policy text and refuse when user role or policy freshness is insufficient.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">T02</span>
+        <h3>SRE Runbook RAG</h3>
+        <p><strong>Steps:</strong> define service catalog, index runbooks/postmortems, route by service and severity, generate action checklists, and capture incident feedback.</p>
+        <p><strong>Milestones:</strong> incident taxonomy, freshness-aware retriever, checklist generator, destructive-action refusal, post-incident eval packet.</p>
+        <p><strong>Gate:</strong> top evidence must match service and severity, and risky actions must be labeled or deferred to human confirmation.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">T03</span>
+        <h3>Legal Contract Explorer</h3>
+        <p><strong>Steps:</strong> chunk agreements by clause, rank authority, compare clauses, identify missing terms, and route risky answers to review.</p>
+        <p><strong>Milestones:</strong> clause schema, comparison view, citation matrix, risk flags, review queue export.</p>
+        <p><strong>Gate:</strong> the system must distinguish retrieved language from legal advice and preserve clause provenance.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">T04</span>
+        <h3>Customer Support Knowledge Hub</h3>
+        <p><strong>Steps:</strong> combine help center content and ticket patterns, retrieve by product/version/customer segment, draft answers, score knowledge gaps, and track deflection quality.</p>
+        <p><strong>Milestones:</strong> answer templates, gap dashboard, feedback labels, cost budget, escalation rules.</p>
+        <p><strong>Gate:</strong> responses must cite public or internal-approved sources and avoid inventing unsupported troubleshooting steps.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">T05</span>
+        <h3>Research Briefing Studio</h3>
+        <p><strong>Steps:</strong> parse source documents, build evidence boards, compare claims, generate cited summaries, and export a briefing package.</p>
+        <p><strong>Milestones:</strong> source library, claim table, contradiction report, brief exporter, reviewer notes.</p>
+        <p><strong>Gate:</strong> claims in the brief must map to specific evidence snippets, and unsupported claims must be marked unresolved.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="subtopic" id="roadmap">
+    <h2>Roadmap</h2>
+    <p>Use this roadmap to prevent the capstone from becoming a sprawling wishlist. The MVP proves one valuable loop. Hardening proves that you understand production pressure.</p>
+    <div class="diagram-card">
+      <pre><code>Milestone 1 - Product frame
+  Define user, repeated workflow, corpus, saved artifact, and demo questions.
+
+Milestone 2 - Data foundation
+  Build corpus card, parser, metadata schema, chunk strategy, and index version.
+
+Milestone 3 - Retrieval baseline
+  Implement lexical/vector or hybrid retrieval, reranking, filters, and citation snippets.
+
+Milestone 4 - Answer loop
+  Generate grounded responses, refuse unsupported requests, and save user-facing artifacts.
+
+Milestone 5 - Evaluation gate
+  Run retrieval, answer support, refusal, latency, and cost checks against a small gold set.
+
+Milestone 6 - Operations gate
+  Add traces, quality dashboards, rollback notes, access/freshness checks, and release criteria.
+
+Milestone 7 - Portfolio package
+  Ship README, architecture diagram, eval report, failure analysis, demo script, and roadmap.</code></pre>
+    </div>
+  </section>
+
+  <section class="subtopic" id="architecture">
+    <h2>Architecture</h2>
+    <p>Your architecture diagram should prove that the system is more than prompt glue. Show the path from documents to decisions and make every trust boundary visible.</p>
+    <ul>
+      <li><strong>Ingestion:</strong> source inventory, parser, normalization, deduplication, metadata validation, and corpus versioning.</li>
+      <li><strong>Indexing:</strong> chunk policy, embedding model, lexical index, vector index, filters, and reranker inputs.</li>
+      <li><strong>Runtime:</strong> query understanding, retrieval, reranking, context assembly, grounded prompt, citation rendering, refusals, and feedback capture.</li>
+      <li><strong>Control plane:</strong> eval sets, prompt/index/config versions, trace storage, cost budget, deployment target, and rollback path.</li>
+      <li><strong>Security:</strong> access model, PII handling, source authorization, audit log, and human review workflow.</li>
+    </ul>
+  </section>
+
+  <section class="subtopic" id="evals">
+    <h2>Evals</h2>
+    <p>A serious capstone includes a small but meaningful evaluation suite. Ten excellent test cases beat one hundred vague ones. Mix common questions, edge cases, stale-source cases, contradictory evidence, and unsupported requests.</p>
+    <div class="mistake-catalog">
+      <article class="mistake-card">
+        <span class="mistake-id">E01</span>
+        <h3>Retrieval</h3>
+        <p>Measure whether the expected evidence appears in top-k results, whether metadata filters work, and whether reranking improves support for the final answer.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">E02</span>
+        <h3>Answer support</h3>
+        <p>Check that each important claim is grounded in retrieved text. Penalize missing citations, citation drift, overbroad summaries, and invented details.</p>
+      </article>
+      <article class="mistake-card">
+        <span class="mistake-id">E03</span>
+        <h3>Failure behavior</h3>
+        <p>Test refusals for missing evidence, stale documents, unauthorized sources, legal/medical-style overreach, destructive incident actions, and conflicting sources.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="subtopic" id="operations">
+    <h2>Operations</h2>
+    <p>Production RAG fails in ordinary ways: stale documents, bad chunks, weak filters, hidden cost growth, prompt drift, access mistakes, and silent quality regressions. Your capstone should show how you would notice and respond.</p>
+    <ul>
+      <li><strong>Trace every answer:</strong> query, filters, retrieved IDs, reranker scores, prompt version, citations, latency, token cost, and feedback.</li>
+      <li><strong>Release with gates:</strong> compare each change against baseline evals before changing prompts, indexes, chunking, models, or filters.</li>
+      <li><strong>Operate the corpus:</strong> document owner, freshness date, source URL, access group, deletion process, and reindex schedule.</li>
+      <li><strong>Budget explicitly:</strong> estimate ingestion cost, per-answer cost, cache opportunities, top expensive paths, and shutdown thresholds.</li>
+      <li><strong>Plan rollback:</strong> keep known-good prompt, model, index, config, and corpus versions.</li>
+    </ul>
+  </section>
+
+  <section class="subtopic" id="portfolio">
+    <h2>Portfolio</h2>
+    <p>The portfolio package is what lets a reviewer understand your judgment without sitting beside you. It should show the product, the engineering, the evidence, and the next increment.</p>
+    <div class="diagram-card">
+      <pre><code>Final artifact checklist
+  README with setup, demo script, corpus card, architecture, eval results, and roadmap
+  Architecture diagram with data flow and trust boundaries
+  Evaluation report with metrics, examples, and failure analysis
+  Trace samples for happy, edge, and refusal paths
+  Product screenshots or CLI transcript
+  Security, privacy, cost, observability, and deployment notes
+  Backlog separating MVP, hardening, and future product bets</code></pre>
+    </div>
+  </section>
+
+  <section class="subtopic" id="project">
+    <h2>Project</h2>
+    <p>The project builds a capstone planner that turns a track into a production backlog. Use it as a scaffold, then replace the sample corpus and goals with your own project decisions.</p>
+    <p>Before coding the full app, produce the planner output, review the gates, and remove any scope item that does not help the first end-to-end demo. The best capstone feels complete at a small scale and honest about what comes next.</p>
+    <div class="chapter-nav">
+      <a href="../chapter-27-deployment-patterns/project/index.html">&larr; Chapter 27 Project</a>
+      <a href="quiz.html">Take the Quiz &rarr;</a>
+      <a href="project/index.html">Build the Capstone Planner &rarr;</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="page"><span>RAG for Everyone - free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script>
+<script src="../../assets/progress.js"></script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+</html>

@@ -495,9 +495,71 @@ window.RFE_MODULES = [
     summary: "Move beyond vibes with retrieval metrics, answer quality checks, and failure-analysis habits.",
     examPath: null,
     chapters: [
-      { id: "chapter-22", num: 22, title: "Retrieval Metrics", path: "chapters/chapter-22-retrieval-metrics/lesson.html", description: "Gold evidence, Recall@K, Precision@K, MRR, nDCG, hit rate, failure slices, dashboards, and retrieval release gates." },
-      { id: "chapter-23", num: 23, title: "Answer Quality Metrics", path: "chapters/chapter-23-answer-quality-metrics/lesson.html", description: "Faithfulness, groundedness, answer relevance, citation correctness, refusal correctness, human review rubrics, and quality gates." },
-      { id: "chapter-24", num: 24, title: "Failure Analysis", path: "chapters/chapter-24-failure-analysis/lesson.html", description: "Root-cause analysis for corpus gaps, parsing failures, chunking issues, retrieval misses, prompt failures, and policy failures." }
+      {
+        id: "chapter-22",
+        num: 22,
+        title: "Retrieval Metrics",
+        path: "chapters/chapter-22-retrieval-metrics/lesson.html",
+        description: "Gold evidence, Recall@K, Precision@K, MRR, nDCG, hit rate, failure slices, dashboards, and retrieval release gates.",
+        subtopics: [
+          { id: "problem", title: "Why retrieval metrics matter" },
+          { id: "analogy", title: "Search party analogy" },
+          { id: "gold", title: "Gold evidence" },
+          { id: "recall", title: "Recall@K" },
+          { id: "precision", title: "Precision@K" },
+          { id: "mrr", title: "MRR" },
+          { id: "ndcg", title: "nDCG" },
+          { id: "hit-rate", title: "Hit rate" },
+          { id: "slices", title: "Failure slices" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "dashboards", title: "Dashboards" },
+          { id: "gates", title: "Release gates" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
+      {
+        id: "chapter-23",
+        num: 23,
+        title: "Answer Quality Metrics",
+        path: "chapters/chapter-23-answer-quality-metrics/lesson.html",
+        description: "Faithfulness, groundedness, answer relevance, citation correctness, refusal correctness, human review rubrics, and quality gates.",
+        subtopics: [
+          { id: "problem", title: "Why answer quality matters" },
+          { id: "analogy", title: "Judge and evidence analogy" },
+          { id: "faithfulness", title: "Faithfulness" },
+          { id: "groundedness", title: "Groundedness" },
+          { id: "relevance", title: "Answer relevance" },
+          { id: "citations", title: "Citation correctness" },
+          { id: "refusal", title: "Refusal correctness" },
+          { id: "rubric", title: "Rubric design" },
+          { id: "human", title: "Human review" },
+          { id: "gates", title: "Release gates" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "project", title: "Project roadmap" }
+        ]
+      },
+      {
+        id: "chapter-24",
+        num: 24,
+        title: "Failure Analysis",
+        path: "chapters/chapter-24-failure-analysis/lesson.html",
+        description: "Root-cause analysis for corpus gaps, parsing failures, chunking issues, retrieval misses, prompt failures, and policy failures.",
+        subtopics: [
+          { id: "problem", title: "Why failure analysis matters" },
+          { id: "trace", title: "Trace anatomy" },
+          { id: "taxonomy", title: "Failure taxonomy" },
+          { id: "corpus", title: "Corpus and parsing gaps" },
+          { id: "retrieval", title: "Retrieval failures" },
+          { id: "prompt", title: "Prompt and generation failures" },
+          { id: "safety", title: "Safety failures" },
+          { id: "priority", title: "What to fix first" },
+          { id: "replay", title: "Replay tests" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "project", title: "Project roadmap" }
+        ]
+      }
     ]
   },
   {
@@ -505,10 +567,76 @@ window.RFE_MODULES = [
     summary: "Ship RAG like a real product: access control, observability, cost, deployment, and portfolio polish.",
     examPath: null,
     chapters: [
-      { id: "chapter-25", num: 25, title: "Access Control and Safety", path: "chapters/chapter-25-access-control-and-safety/lesson.html", description: "RBAC retrieval, metadata filters, prompt-injection safety, sensitive data handling, audit logs, and access-aware gateways." },
-      { id: "chapter-26", num: 26, title: "Observability and Cost", path: "chapters/chapter-26-observability-and-cost/lesson.html", description: "Trace design, stage latency, token cost, caching, routing, quality monitoring, dashboards, and cost optimization." },
-      { id: "chapter-27", num: 27, title: "Deployment Patterns", path: "chapters/chapter-27-deployment-patterns/lesson.html", description: "Static demos, local CLI, FastAPI services, hosted frontends, vector DB choices, launch checklists, and day-2 operations." },
-      { id: "chapter-28", num: 28, title: "End-to-End Production RAG Capstone", path: "chapters/chapter-28-end-to-end-production-rag-capstone/lesson.html", description: "Three production-grade product builds, five capstone tracks, universal build roadmap, portfolio packaging, and production trade-offs." }
+      {
+        id: "chapter-25",
+        num: 25,
+        title: "Access Control and Safety",
+        path: "chapters/chapter-25-access-control-and-safety/lesson.html",
+        description: "RBAC retrieval, metadata filters, prompt-injection safety, sensitive data handling, audit logs, and access-aware gateways.",
+        subtopics: [
+          { id: "problem", title: "Why access control matters" },
+          { id: "identity", title: "Identity and claims" },
+          { id: "metadata", title: "Security metadata" },
+          { id: "filters", title: "Retrieval filters" },
+          { id: "context", title: "Context safety" },
+          { id: "injection", title: "Prompt injection" },
+          { id: "audit", title: "Audit logs" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "project", title: "Project roadmap" }
+        ]
+      },
+      {
+        id: "chapter-26",
+        num: 26,
+        title: "Observability and Cost",
+        path: "chapters/chapter-26-observability-and-cost/lesson.html",
+        description: "Trace design, stage latency, token cost, caching, routing, quality monitoring, dashboards, and cost optimization.",
+        subtopics: [
+          { id: "traces", title: "Trace first" },
+          { id: "latency", title: "Stage latency" },
+          { id: "tokens", title: "Token usage" },
+          { id: "cost", title: "Cost is architecture" },
+          { id: "levers", title: "Cost levers" },
+          { id: "dashboards", title: "Dashboards" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "project", title: "Project roadmap" }
+        ]
+      },
+      {
+        id: "chapter-27",
+        num: 27,
+        title: "Deployment Patterns",
+        path: "chapters/chapter-27-deployment-patterns/lesson.html",
+        description: "Static demos, local CLI, FastAPI services, hosted frontends, vector DB choices, launch checklists, and day-2 operations.",
+        subtopics: [
+          { id: "problem", title: "Why deployment patterns matter" },
+          { id: "static", title: "Static demo" },
+          { id: "cli", title: "Local CLI" },
+          { id: "api", title: "FastAPI service" },
+          { id: "frontend", title: "Hosted frontend" },
+          { id: "vectordb", title: "Vector DB choices" },
+          { id: "operations", title: "Day-2 operations" },
+          { id: "project", title: "Project roadmap" }
+        ]
+      },
+      {
+        id: "chapter-28",
+        num: 28,
+        title: "End-to-End Production RAG Capstone",
+        path: "chapters/chapter-28-end-to-end-production-rag-capstone/lesson.html",
+        description: "Three production-grade product builds, five capstone tracks, universal build roadmap, portfolio packaging, and production trade-offs.",
+        subtopics: [
+          { id: "problem", title: "Capstone objective" },
+          { id: "products", title: "Three product builds" },
+          { id: "tracks", title: "Five capstone tracks" },
+          { id: "roadmap", title: "Universal build roadmap" },
+          { id: "architecture", title: "Architecture deliverables" },
+          { id: "evals", title: "Evaluation deliverables" },
+          { id: "operations", title: "Production operations" },
+          { id: "portfolio", title: "Portfolio packaging" },
+          { id: "project", title: "Capstone planner" }
+        ]
+      }
     ]
   }
 ];

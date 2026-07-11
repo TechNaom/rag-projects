@@ -1,0 +1,16 @@
+Capstone roadmap
+
+MVP
+  1. Pick user and workflow
+  2. Build corpus and metadata
+  3. Chunk and index
+  4. Retrieve and rerank
+  5. Generate cited answer
+  6. Evaluate retrieval and answer support
+  7. Demo with feedback capture
+
+Production hardening
+  8. Add access/freshness/refusal behavior
+  9. Add traces and cost tracking
+ 10. Add release gates and rollback
+ 11. Package README, diagrams, eval report, demo script, and roadmap

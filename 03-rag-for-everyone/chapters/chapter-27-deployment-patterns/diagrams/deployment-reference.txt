@@ -1,0 +1,16 @@
+User
+  |
+Frontend
+  |
+API gateway + auth
+  |
+RAG service
+  +--> retriever + managed vector DB
+  +--> model provider
+  +--> evaluator
+  +--> trace store
+  |
+Dashboards + alerts + support review
+
+Batch path:
+documents -> parser -> chunker -> embedding job -> versioned index

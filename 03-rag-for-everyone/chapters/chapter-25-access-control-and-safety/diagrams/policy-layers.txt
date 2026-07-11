@@ -1,0 +1,10 @@
+Layer                    Purpose
+----------------------   -------------------------------------------------------
+Authentication           Know which identity made the request
+Authorization metadata   Know roles, tenant, department, groups, and expiration
+Pre-filtering            Keep unauthorized documents out of candidate retrieval
+Post-filtering           Catch stale metadata, mixed chunks, and policy drift
+Prompt boundary          Treat retrieved text as data, never instructions
+Refusal policy           Decline unsafe or unauthorized requests without leakage
+Audit logging            Preserve decisions for review, compliance, and response
+Replay tests             Prove access and safety behavior survives future changes

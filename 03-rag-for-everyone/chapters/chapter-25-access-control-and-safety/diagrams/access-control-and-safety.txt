@@ -1,0 +1,1 @@
+user claims -> policy resolver -> pre-filter -> retrieval -> post-filter -> context pack -> audit log

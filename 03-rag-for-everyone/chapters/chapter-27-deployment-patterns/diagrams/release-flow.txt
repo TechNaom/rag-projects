@@ -1,0 +1,10 @@
+Release flow
+
+1. Build code and package config
+2. Run unit tests and offline eval set
+3. Create prompt and index version records
+4. Deploy to staging
+5. Run smoke tests and health checks
+6. Canary to small cohort
+7. Compare quality, latency, cost, and feedback
+8. Promote or roll back

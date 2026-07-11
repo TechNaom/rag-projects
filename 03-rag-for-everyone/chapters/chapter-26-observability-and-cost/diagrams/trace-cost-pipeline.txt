@@ -1,0 +1,14 @@
+Question
+  |
+  v
+Trace ID + route + tenant
+  |
+  +--> rewrite latency + tokens
+  +--> retrieval latency + result ids + empty result flag
+  +--> rerank latency + selected ids + score distribution
+  +--> context packing tokens + duplicate context flag
+  +--> model latency + prompt/completion tokens + cost
+  +--> quality checks + citations + feedback
+  |
+  v
+Dashboard slices: route, tenant, model, index version, risk class

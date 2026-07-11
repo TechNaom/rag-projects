@@ -1,0 +1,12 @@
+High-revisit capstone loop
+
+User workflow
+  -> ask or upload
+  -> retrieve evidence
+  -> compare sources
+  -> generate cited output
+  -> save board / runbook / brief / answer
+  -> collect feedback
+  -> improve corpus, evals, and prompts
+
+The saved artifact is what brings the user back.

@@ -1,0 +1,29 @@
+Request
+  |
+  v
+Authenticate user
+  |
+  v
+Load roles, tenant, department, and policy context
+  |
+  v
+Pre-filter retrieval candidates
+  |
+  v
+Retrieve and rank authorized candidates
+  |
+  v
+Post-filter chunks
+  - stale metadata?
+  - mixed sensitivity?
+  - unsafe instruction in content?
+  |
+  v
+Any safe evidence left?
+  | yes                         | no
+  v                             v
+Generate grounded answer        Safe refusal
+with allowed citations          with no restricted details
+  |
+  v
+Audit request, policy decisions, denied ids, citations, and outcome

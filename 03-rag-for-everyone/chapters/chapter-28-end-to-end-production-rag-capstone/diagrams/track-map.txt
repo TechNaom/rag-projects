@@ -1,0 +1,21 @@
+Track map
+
+Enterprise Policy RAG
+  User: employee, HR, compliance
+  Revisit artifact: policy answer with audit trail
+
+Incident Runbook Copilot
+  User: on-call engineer
+  Revisit artifact: incident checklist and post-incident notes
+
+Legal Contract Explorer
+  User: legal ops, procurement
+  Revisit artifact: clause comparison and review queue
+
+Customer Support Knowledge Hub
+  User: support lead, agent
+  Revisit artifact: answer draft, ticket pattern, knowledge gap
+
+Research Briefing Studio
+  User: analyst, student, researcher
+  Revisit artifact: evidence board and exportable brief

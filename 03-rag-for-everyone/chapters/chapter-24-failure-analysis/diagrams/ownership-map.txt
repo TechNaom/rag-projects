@@ -1,0 +1,8 @@
+Failure type          Likely owner       Production check
+-------------------   ---------------    ---------------------------------------
+Retrieval miss        Search/Data        Expected doc appears in top-k replay
+Wrong ranking         Search             Expected doc ranks above distractors
+Generation error      Prompt/Model       Answer uses only cited evidence
+Citation mismatch     App/Prompt         Each citation supports its claim
+Evaluation gap        Product/Eval       Gold answer and rubric are clarified
+Policy contradiction  Content owner      Source of truth is named and current

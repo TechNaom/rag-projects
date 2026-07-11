@@ -1,0 +1,6 @@
+question + evidence + answer
+  -> faithfulness check
+  -> relevance check
+  -> citation support check
+  -> refusal correctness
+  -> release gate

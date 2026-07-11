@@ -1,0 +1,19 @@
+Cost levers in a RAG product
+
+Input shape
+  - chunk size
+  - top-k
+  - rerank pool
+  - context packing
+
+Execution shape
+  - model route
+  - cache policy
+  - retry budget
+  - timeout budget
+
+Product shape
+  - tenant limits
+  - feature budgets
+  - quality gates
+  - support review queue
