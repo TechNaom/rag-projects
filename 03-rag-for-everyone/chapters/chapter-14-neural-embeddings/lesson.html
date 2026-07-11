@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 14 — Neural Embeddings</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-14">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 14 of 28</span><span class="badge-difficulty">Embedding Model Choice</span><span class="reading-time">75 min read</span></div>
+<h1>Neural Embeddings</h1>
+<p class="lede">Neural embeddings are the modern workhorse of semantic retrieval. They are powerful because they learn meaning from large training data, but production teams still need disciplined model selection, privacy review, re-indexing plans, and retrieval evals.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Think model selection, not model worship:</strong> the best embedding model is the one that retrieves your evidence reliably under your constraints.</li><li><strong>Separate capability from operations:</strong> accuracy is only one dimension. Cost, latency, privacy, dimensions, and re-indexing also decide architecture.</li><li><strong>Use evals:</strong> never choose embeddings from vibes. Use golden queries, expected chunks, and failure labels.</li><li><strong>Plan migration:</strong> changing embedding models means re-embedding documents and releasing a new index safely.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why neural embeddings matter</a><a href="#analogy">2. Translator analogy</a><a href="#how">3. How they work</a><a href="#providers">4. Provider and model choices</a><a href="#dimensions">5. Dimensions and vector stores</a><a href="#selection">6. Selection framework</a><a href="#architecture">7. Architecture view</a><a href="#evals">8. Evaluation plan</a><a href="#migration">9. Re-indexing and migration</a><a href="#production">10. Production considerations</a><a href="#mistakes">11. Common mistakes</a><a href="#interview">12. Interview understanding</a><a href="#assignment">13. Mini assignment</a><a href="#summary">14. Summary</a></nav>
+
+<div class="hook">A neural embedding model can understand "rotate key" and "regenerate credential" as related. That power is useful, expensive, and operationally serious.</div>
+<div class="what-is"><span class="label">Core idea</span>Neural embeddings are vectors produced by trained neural models. They capture semantic relationships better than simple lexical methods, but they still need governance, evals, and versioned indexes.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 14</span>
+<h2>Why Neural Embeddings Matter</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>They handle paraphrase better than TF-IDF.</li><li>They support semantic search across messy user language.</li><li>They can improve RAG recall when terms do not match exactly.</li><li>They introduce model, cost, privacy, and re-indexing decisions.</li></ul></div>
+<p>Chapter 13 showed local lexical retrieval. It is transparent and useful, but it can miss meaning when users use different words. Neural embeddings help with that gap. They learn from language patterns, so related concepts can be close even without exact token overlap.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Neural embedding north star</span><strong>Choose the embedding model that retrieves the right evidence for your product, not the one that sounds most impressive.</strong><p>Measure recall, citation support, latency, cost, privacy fit, and re-indexing burden.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Define the corpus</strong><p>Policies, docs, tickets, code, tables, multilingual support, or domain-specific content behave differently.</p></div></div><div class="decision-step"><span>02</span><div><strong>Create golden queries</strong><p>Include paraphrase, exact IDs, stale content, access-controlled data, and edge cases.</p></div></div><div class="decision-step"><span>03</span><div><strong>Compare candidates</strong><p>Test local, neural, and hybrid retrieval with the same eval set.</p></div></div><div class="decision-step"><span>04</span><div><strong>Release with versioning</strong><p>Store model, dimension, index version, corpus version, and rollback plan.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 14</span>
+<h2>Real-Life Analogy: A Skilled Translator</h2>
+<p>Imagine two people describe the same thing differently. One says "terminate employee access." Another says "remove the user's permissions." A skilled translator understands they are close ideas.</p>
+<p>Neural embeddings act like that translator for retrieval. They help the system recognize similar meanings across different wording. But a translator can still misunderstand domain rules, miss a rare code, or use the wrong context. That is why we still evaluate.</p>
+<div class="quick-recap"><span class="label">Mental picture</span><ul><li>TF-IDF listens for word overlap.</li><li>Neural embeddings listen for learned meaning.</li><li>Hybrid retrieval listens for both.</li><li>Evaluation decides which behavior is reliable.</li></ul></div>
+</section>
+
+<section id="how" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 14</span>
+<h2>How Neural Embeddings Work</h2>
+<p>A neural embedding model takes text and returns a fixed-length vector. The model has learned from large datasets how to place related meanings near each other.</p>
+<div class="field-depth"><div><h4>Input</h4><p>Question, chunk, title, paragraph, support ticket, product description, code comment, or multimodal text representation.</p></div><div><h4>Model</h4><p>A trained neural network that produces a vector representation. It may be open-source, hosted by a provider, or deployed inside your own environment.</p></div><div><h4>Output</h4><p>A dense vector with a fixed dimension. The same model family must be used consistently for indexed chunks and runtime queries.</p></div></div>
+<div class="mentor-note"><strong>Mentor note:</strong> neural embeddings are stronger for meaning, but they are not source-of-truth systems. They retrieve candidates.</div>
+</section>
+
+<section id="providers" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 14</span>
+<h2>Provider and Model Choices</h2>
+<p>Common choices include local open-source models, managed API embeddings, and provider-specific models from AI platforms. The right choice depends on your constraints.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Local</span><h3>Open-source models</h3><p>Good for privacy, offline demos, cost control, and customization. You own more operations.</p></div><div class="depth-panel"><span>Managed API</span><h3>Hosted embeddings</h3><p>Good for speed to production, strong quality, and lower infra burden. You must review privacy, cost, and rate limits.</p></div><div class="depth-panel"><span>Domain</span><h3>Specialized models</h3><p>Useful for legal, medical, code, support, or multilingual corpora when general models miss domain meaning.</p></div><div class="depth-panel"><span>Hybrid</span><h3>Dense plus sparse</h3><p>Often strongest when paraphrase and exact terms both matter.</p></div></div>
+</section>
+
+<section id="dimensions" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 14</span>
+<h2>Dimensions and Vector Stores</h2>
+<p>Every embedding model outputs vectors with a fixed number of dimensions. Your vector store collection is usually created for one dimension size. If the model changes and dimensions change, the collection must change too.</p>
+<div class="diagram-card"><h3>Dimension compatibility</h3><pre><code>model A -> 384 dimensions
+model B -> 768 dimensions
+model C -> 1536 dimensions
+
+Do not mix them in the same vector collection unless the system explicitly supports it.
+Usually: new model = new vectors = new index release.</code></pre></div>
+<div class="real-world"><span class="label">Engineering checks</span><ul><li>Store embedding model name or id.</li><li>Store vector dimension.</li><li>Store embedding version and index version.</li><li>Block writes if vector dimension does not match collection config.</li><li>Run evals before switching production traffic.</li></ul></div>
+</section>
+
+<section id="selection" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 14</span>
+<h2>Selection Framework</h2>
+<p>Choose embedding models with a decision framework, not intuition alone.</p>
+<div class="case-study-card"><span class="decision-label">Model selection scorecard</span><h3>Compare candidates across dimensions</h3><ul><li><strong>Retrieval quality:</strong> Recall@k, MRR, gold chunk rank, citation support.</li><li><strong>Corpus fit:</strong> domain language, code, tables, multilingual, short queries, long chunks.</li><li><strong>Operations:</strong> latency, throughput, rate limits, batch embedding support.</li><li><strong>Cost:</strong> corpus embedding cost, query embedding cost, re-indexing cost.</li><li><strong>Governance:</strong> privacy, data residency, auditability, provider approval.</li><li><strong>Migration:</strong> rebuild time, rollback strategy, index versioning, compatibility.</li></ul></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 14</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/neural-embeddings.svg" alt="Neural embedding architecture showing corpus evaluation, model candidates, embedding service, vector index, query embedding, hybrid retrieval, eval gate, and production release"><figcaption>Neural embedding adoption should pass through evaluation and release gates before production traffic depends on it.</figcaption></figure>
+<div class="diagram-card"><h3>Neural embedding release flow</h3><pre><code>candidate models
+  -> embed evaluation corpus
+  -> run golden queries
+  -> compare retrieval metrics
+  -> choose model + dimension
+  -> build new index version
+  -> shadow test
+  -> release or rollback</code></pre></div>
+</section>
+
+<section id="evals" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 14</span>
+<h2>Evaluation Plan</h2>
+<p>Good embedding evaluation uses real retrieval cases. A leaderboard score is not enough because your corpus has its own language and failure modes.</p>
+<div class="field-depth"><div><h4>Golden queries</h4><p>Questions with expected evidence chunks. Include happy paths and edge cases.</p></div><div><h4>Retrieval metrics</h4><p>Recall@k, MRR, gold rank, duplicate rate, stale-hit rate, and filtered gold count.</p></div><div><h4>Answer metrics</h4><p>Citation support, groundedness, completeness, contradiction rate, and reviewer severity.</p></div></div>
+<div class="diagram-card"><h3>Eval split</h3><pre><code>exact-term queries       -> IDs, error codes, policy numbers
+paraphrase queries       -> different wording, same meaning
+domain queries           -> product vocabulary, internal terms
+multilingual queries     -> if product supports multiple languages
+risk queries             -> stale, restricted, safety-sensitive content</code></pre></div>
+</section>
+
+<section id="migration" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 14</span>
+<h2>Re-Indexing and Migration</h2>
+<p>Changing embedding models is not a small config tweak. It changes the vector space. A safe migration treats the new embedding model as a new index release.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Prepare</span><h3>Version everything</h3><p>Model, dimension, chunker, metadata schema, corpus version, and index id.</p></div><div class="depth-panel"><span>Build</span><h3>Create a parallel index</h3><p>Do not overwrite the existing production index until the new one passes evals.</p></div><div class="depth-panel"><span>Compare</span><h3>Run shadow queries</h3><p>Compare old and new retrieval on golden queries and sampled real queries.</p></div><div class="depth-panel"><span>Release</span><h3>Gate and roll back</h3><p>Ship gradually, monitor failures, and keep the old index available.</p></div></div>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 14</span>
+<h2>Production Considerations</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Batch embedding:</strong> large corpora need resumable jobs, retries, and checkpointing.</li><li><strong>Rate limits:</strong> query-time embedding calls can throttle user traffic.</li><li><strong>Latency:</strong> cache frequent query embeddings where appropriate.</li><li><strong>Privacy:</strong> sensitive corpora may require local models or approved hosted environments.</li><li><strong>Cost controls:</strong> estimate corpus rebuilds and query volume before choosing providers.</li><li><strong>Monitoring:</strong> track embedding failures, dimension mismatch, retrieval misses, and drift.</li><li><strong>Fallback:</strong> keep sparse/local retrieval as fallback for provider outage or exact-term needs.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 14</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Choosing by popularity</h3><div><strong>Symptom:</strong> a famous model performs poorly on your corpus.</div><div><strong>Better move:</strong> run corpus-specific retrieval evals.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Mixing vector spaces</h3><div><strong>Symptom:</strong> query and document vectors come from different models.</div><div><strong>Better move:</strong> enforce model and dimension compatibility.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>No re-indexing plan</h3><div><strong>Symptom:</strong> model upgrade breaks retrieval with no rollback.</div><div><strong>Better move:</strong> build parallel index versions and release gradually.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Ignoring exact terms</h3><div><strong>Symptom:</strong> dense retrieval misses error codes or IDs.</div><div><strong>Better move:</strong> use hybrid retrieval with sparse signals.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Skipping privacy review</h3><div><strong>Symptom:</strong> sensitive text is sent to an unapproved provider.</div><div><strong>Better move:</strong> classify data and choose approved local or hosted options.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Evaluating only top-1</h3><div><strong>Symptom:</strong> good evidence appears at rank 5 but never reaches context.</div><div><strong>Better move:</strong> track Recall@k, MRR, reranking, and context assembly.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Ignoring cost of rebuilds</h3><div><strong>Symptom:</strong> every model experiment becomes expensive and slow.</div><div><strong>Better move:</strong> sample first, estimate full rebuild cost, then scale.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>No failure labels</h3><div><strong>Symptom:</strong> teams know model A is "worse" but not why.</div><div><strong>Better move:</strong> label misses as paraphrase, exact-term, stale, domain, language, or access failures.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 14</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Neural embeddings are dense vectors produced by trained models. They are usually stronger than lexical methods for paraphrase and semantic retrieval, but model choice must be validated on the target corpus. In production, I version the model and dimension, rebuild indexes on model changes, evaluate Recall@k and citation support, and often combine dense retrieval with sparse search."</p>
+<div class="case-study-card"><span class="decision-label">Senior signal</span><h3>What impresses in real architecture reviews?</h3><p>Do not only say which provider you like. Explain the eval set, expected failures, migration plan, privacy posture, cost estimate, and rollback path.</p></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 14</span>
+<h2>Mini Assignment</h2>
+<p>Design an embedding model selection experiment for a support knowledge base. Include three candidate approaches, ten golden queries, expected evidence chunks, metrics, cost considerations, privacy concerns, and a migration plan.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 14</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Neural embeddings are strong for semantic and paraphrase retrieval.</li><li>They do not remove the need for metadata, citations, filters, or evals.</li><li>Model changes usually require a new vector index release.</li><li>Choose models with corpus-specific golden queries, not popularity alone.</li><li>Production teams plan cost, latency, privacy, fallback, monitoring, and rollback.</li></ul></div>
+</section>
+
+<p>Next, test embedding-model judgment in the quiz, then build a model-selection scorecard in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-13-local-tfidf-svd-embeddings/project/index.html">&larr; Chapter 13 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

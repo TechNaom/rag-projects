@@ -159,6 +159,10 @@ Goal: Explain vector search clearly enough to debug it.
 - Voyage and other providers.
 - Model choice trade-offs.
 - Re-indexing when embeddings change.
+- Corpus-specific golden-query evals.
+- Dimensions, vector-store compatibility, and model versioning.
+- Privacy, latency, rate limits, cost, and fallback planning.
+- Hybrid retrieval for semantic plus exact-term needs.
 
 ## Module 5: Vector Stores and Retrieval
 

@@ -287,7 +287,29 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-14", num: 14, title: "Neural Embeddings", path: null }
+      {
+        id: "chapter-14",
+        num: 14,
+        title: "Neural Embeddings",
+        path: "chapters/chapter-14-neural-embeddings/lesson.html",
+        description: "Neural embedding model choice, provider trade-offs, dimensions, privacy, latency, cost, hybrid retrieval, evals, re-indexing, and rollout planning.",
+        subtopics: [
+          { id: "problem", title: "Why neural embeddings matter" },
+          { id: "analogy", title: "Translator analogy" },
+          { id: "how", title: "How they work" },
+          { id: "providers", title: "Provider and model choices" },
+          { id: "dimensions", title: "Dimensions and vector stores" },
+          { id: "selection", title: "Selection framework" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "evals", title: "Evaluation plan" },
+          { id: "migration", title: "Re-indexing and migration" },
+          { id: "production", title: "Production considerations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {

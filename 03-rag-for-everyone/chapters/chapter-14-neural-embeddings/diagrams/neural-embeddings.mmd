@@ -1,0 +1,13 @@
+flowchart LR
+  A[Candidate models] --> B[Eval corpus]
+  B --> C[Golden queries]
+  C --> D[Metrics comparison]
+  D --> E[Chosen model]
+  E --> F[Embed corpus]
+  F --> G[(New vector index)]
+  H[User query] --> I[Same model]
+  I --> J[Query vector]
+  G --> K[Dense or hybrid retrieval]
+  J --> K
+  K --> L[Eval gate + shadow test]
+  L --> M[Release or rollback]

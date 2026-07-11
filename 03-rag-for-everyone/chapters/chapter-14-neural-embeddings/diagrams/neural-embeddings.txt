@@ -1,0 +1,4 @@
+Candidate models -> eval corpus -> golden queries -> metrics comparison
+Chosen model -> embed corpus -> new vector index version
+Query -> same model -> query vector -> dense/hybrid retrieval
+Eval gate + shadow testing -> release or rollback
