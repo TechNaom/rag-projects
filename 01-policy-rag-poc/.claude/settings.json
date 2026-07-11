@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/dell/projects/python-for-everyone/**)"
+    ],
+    "additionalDirectories": [
+      "/home/dell/projects/python-for-everyone/assets"
+    ]
+  }
+}
