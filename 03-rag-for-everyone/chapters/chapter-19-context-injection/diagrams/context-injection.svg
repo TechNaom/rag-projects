@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" role="img" aria-labelledby="title desc">
+  <title id="title">Context Injection Architecture</title>
+  <desc id="desc">Flow from user question through retrieved chunks, policy filter, ordering, compression, prompt boundary builder, model answer, citations, and trace logs.</desc>
+  <rect width="980" height="440" rx="28" fill="#f7fbff"/>
+  <rect x="40" y="52" width="900" height="336" rx="24" fill="#ffffff" stroke="#bdd7ee" stroke-width="2"/>
+  <g font-family="Inter, Arial, sans-serif" font-size="15" fill="#18324a">
+    <g>
+      <rect x="70" y="120" width="120" height="72" rx="14" fill="#e8f4ff" stroke="#79acd8"/>
+      <text x="130" y="150" text-anchor="middle" font-weight="700">User</text><text x="130" y="172" text-anchor="middle">question</text>
+    </g>
+    <g>
+      <rect x="230" y="92" width="130" height="128" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+      <text x="295" y="124" text-anchor="middle" font-weight="700">Retrieved</text><text x="295" y="146" text-anchor="middle">chunks</text><text x="295" y="177" text-anchor="middle">scores</text><text x="295" y="199" text-anchor="middle">metadata</text>
+    </g>
+    <g>
+      <rect x="400" y="92" width="130" height="128" rx="14" fill="#fff7e8" stroke="#e5b76b"/>
+      <text x="465" y="123" text-anchor="middle" font-weight="700">Policy</text><text x="465" y="145" text-anchor="middle">filter</text><text x="465" y="177" text-anchor="middle">access</text><text x="465" y="199" text-anchor="middle">freshness</text>
+    </g>
+    <g>
+      <rect x="570" y="92" width="130" height="128" rx="14" fill="#f1edff" stroke="#a998df"/>
+      <text x="635" y="123" text-anchor="middle" font-weight="700">Context</text><text x="635" y="145" text-anchor="middle">packer</text><text x="635" y="177" text-anchor="middle">order</text><text x="635" y="199" text-anchor="middle">budget</text>
+    </g>
+    <g>
+      <rect x="740" y="92" width="130" height="128" rx="14" fill="#ffeef4" stroke="#df8cab"/>
+      <text x="805" y="123" text-anchor="middle" font-weight="700">Prompt</text><text x="805" y="145" text-anchor="middle">boundary</text><text x="805" y="177" text-anchor="middle">evidence as</text><text x="805" y="199" text-anchor="middle">data</text>
+    </g>
+    <g>
+      <rect x="570" y="276" width="130" height="68" rx="14" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="635" y="306" text-anchor="middle" font-weight="700">Trace logs</text><text x="635" y="328" text-anchor="middle">included/dropped</text>
+    </g>
+    <g>
+      <rect x="740" y="276" width="130" height="68" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+      <text x="805" y="306" text-anchor="middle" font-weight="700">Answer</text><text x="805" y="328" text-anchor="middle">with citations</text>
+    </g>
+  </g>
+  <g stroke="#4f7293" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M190 156h40"/><path d="M360 156h40"/><path d="M530 156h40"/><path d="M700 156h40"/>
+    <path d="M805 220v56"/><path d="M700 310h40"/><path d="M635 220v56"/>
+  </g>
+  <g fill="#4f7293"><path d="M226 148l12 8-12 8z"/><path d="M396 148l12 8-12 8z"/><path d="M566 148l12 8-12 8z"/><path d="M736 148l12 8-12 8z"/><path d="M797 270l8 12 8-12z"/><path d="M736 302l12 8-12 8z"/><path d="M627 270l8 12 8-12z"/></g>
+  <text x="490" y="74" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#18324a">Context Injection turns evidence into safe model context</text>
+</svg>

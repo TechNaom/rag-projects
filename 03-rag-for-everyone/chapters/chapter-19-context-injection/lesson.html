@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 19 — Context Injection</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-19">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 19 of 28</span><span class="badge-difficulty">Prompting for RAG</span><span class="reading-time">90 min read</span></div>
+<h1>Context Injection</h1>
+<p class="lede">Context injection is the engineering step where retrieved evidence becomes model-ready context. This is where a RAG system either becomes grounded and useful, or quietly becomes noisy, expensive, and risky.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Think like a prompt architect:</strong> retrieved chunks are ingredients; context injection is the recipe.</li><li><strong>Protect the model:</strong> separate instructions from evidence so documents cannot silently control behavior.</li><li><strong>Design for answer quality:</strong> order, compress, label, cite, and budget context intentionally.</li><li><strong>Make it testable:</strong> context packs should be traceable, measurable, and repeatable.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why context injection matters</a><a href="#analogy">2. Chef plating analogy</a><a href="#definition">3. What context injection is</a><a href="#context-pack">4. Context pack design</a><a href="#ordering">5. Ordering and grouping</a><a href="#compression">6. Compression</a><a href="#boundaries">7. Prompt boundaries</a><a href="#citations">8. Citations and traceability</a><a href="#budget">9. Token budget</a><a href="#architecture">10. Architecture view</a><a href="#production">11. Production controls</a><a href="#mistakes">12. Common mistakes</a><a href="#interview">13. Interview understanding</a><a href="#assignment">14. Mini assignment</a><a href="#summary">15. Summary</a></nav>
+
+<div class="hook">Retrieval finds evidence. Context injection decides what the model is allowed to see, how it sees it, and what it must do with it.</div>
+<div class="what-is"><span class="label">Core idea</span>A context pack is a structured bundle of evidence, metadata, instructions, budget decisions, and citation ids sent to the model for grounded answering.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 15</span>
+<h2>Why Context Injection Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Raw retrieved chunks are not automatically good prompt context.</li><li>Context must be ordered, labeled, trimmed, and protected.</li><li>Poor injection causes hallucination, citation mismatch, token waste, and prompt injection risk.</li><li>Strong injection makes RAG answers easier to trust and debug.</li></ul></div>
+<p>Many teams celebrate when retrieval starts returning good chunks. That is only half the journey. If those chunks are pasted into a prompt without structure, the model may over-trust stale text, miss the highest authority source, confuse two versions of a policy, or follow malicious instructions hidden inside a document.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Context injection north star</span><strong>Give the model the smallest, cleanest, safest evidence pack that can answer the user question.</strong><p>The goal is not maximum context. The goal is useful context with boundaries, traceability, and enough signal to answer accurately.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Select evidence</strong><p>Choose chunks by relevance, authority, freshness, diversity, and access permissions.</p></div></div><div class="decision-step"><span>02</span><div><strong>Shape context</strong><p>Order, group, summarize, or compress evidence without losing answer-critical facts.</p></div></div><div class="decision-step"><span>03</span><div><strong>Add boundaries</strong><p>Clearly separate system instructions, user question, retrieved evidence, and output rules.</p></div></div><div class="decision-step"><span>04</span><div><strong>Trace results</strong><p>Carry citation ids, source metadata, and dropped-context reasons into logs.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 15</span>
+<h2>Real-Life Analogy: Chef Plating</h2>
+<p>Retrieval is like collecting ingredients from the kitchen. Context injection is the chef plating only the right ingredients in the right order. A plate overloaded with every ingredient is not a better meal. A prompt overloaded with every chunk is not a better answer.</p>
+<p>A senior chef also protects the dish: expired ingredients are rejected, labels are kept clear, and the final plate tells the eater what is actually there. In RAG, that means freshness checks, metadata labels, citations, and refusal rules.</p>
+</section>
+
+<section id="definition" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 15</span>
+<h2>What Context Injection Is</h2>
+<p>Context injection is the process of placing retrieved evidence into the model call in a deliberate structure. It is not only a prompt-writing concern. It is an interface contract between retrieval, safety, prompting, evaluation, and observability.</p>
+<div class="field-depth"><div><h4>Evidence text</h4><p>The chunk content or compressed evidence the model can use.</p></div><div><h4>Metadata</h4><p>Source, section, timestamp, access scope, authority, and citation id.</p></div><div><h4>Instructions</h4><p>Rules for using evidence, refusing unsupported claims, and formatting output.</p></div></div>
+</section>
+
+<section id="context-pack" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 15</span>
+<h2>Context Pack Design</h2>
+<p>A context pack is a production-friendly object that says: here is the question, here is the selected evidence, here is why it was selected, here is what was dropped, and here are the answer rules.</p>
+<div class="diagram-card"><h3>Context pack shape</h3><pre><code>{
+  "question": "What is the refund exception for enterprise plans?",
+  "evidence": [
+    {"id": "S1", "source": "refund-policy-v4", "text": "...", "authority": "high"},
+    {"id": "S2", "source": "enterprise-addendum", "text": "...", "authority": "high"}
+  ],
+  "rules": ["answer only from evidence", "cite every claim", "say when evidence is missing"],
+  "dropped": [{"id": "S7", "reason": "duplicate"}, {"id": "S8", "reason": "stale"}]
+}</code></pre></div>
+</section>
+
+<section id="ordering" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 15</span>
+<h2>Ordering and Grouping</h2>
+<p>Models pay attention to placement. A reliable pack usually puts the most authoritative and directly relevant evidence first, groups related chunks together, and avoids mixing contradictory versions without explanation.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Authority</span><h3>Policy beats chat</h3><p>Official policy should appear before informal support notes.</p></div><div class="depth-panel"><span>Freshness</span><h3>New beats old</h3><p>Recent approved versions should outrank stale documents.</p></div><div class="depth-panel"><span>Diversity</span><h3>Cover angles</h3><p>Include distinct evidence instead of repeated copies.</p></div><div class="depth-panel"><span>Flow</span><h3>Readable context</h3><p>Group problem, rule, exception, and example in a natural sequence.</p></div></div>
+</section>
+
+<section id="compression" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 15</span>
+<h2>Compression</h2>
+<p>Compression reduces context size while preserving answer-critical facts. It may remove boilerplate, keep only relevant sentences, or create a grounded summary with source ids. Compression is powerful, but it can also erase nuance.</p>
+<div class="real-world"><span class="label">Production guidance</span><ul><li>Compress only after retrieval and reranking have selected credible candidates.</li><li>Keep citation ids tied to compressed facts.</li><li>Never compress away conditions, dates, exceptions, or thresholds.</li><li>Evaluate compressed context against uncompressed context for answer quality.</li><li>Log what was removed so failures can be inspected.</li></ul></div>
+</section>
+
+<section id="boundaries" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 15</span>
+<h2>Prompt Boundaries</h2>
+<p>Documents are data, not instructions. Context injection must make that boundary obvious. If a retrieved page says "ignore the previous rules," the model should treat it as quoted evidence, not as a command.</p>
+<div class="diagram-card"><h3>Boundary pattern</h3><pre><code>SYSTEM:
+You are a grounded assistant. Use only EVIDENCE.
+
+USER QUESTION:
+{question}
+
+EVIDENCE:
+[S1] source=policy-v4 date=2026-01-10
+""" ... document text ... """
+
+ANSWER RULES:
+- Cite sources as [S1], [S2].
+- If evidence is insufficient, say what is missing.</code></pre></div>
+</section>
+
+<section id="citations" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 15</span>
+<h2>Citations and Traceability</h2>
+<p>Citations are not decoration. They are the user-facing expression of traceability. A production RAG system should know which source supported which claim, which chunks were included, and which chunks were dropped.</p>
+<div class="field-depth"><div><h4>Good citation</h4><p>Stable source id, title, section, version, and quote span or chunk id.</p></div><div><h4>Weak citation</h4><p>A vague file name with no section, version, or trace.</p></div><div><h4>Audit value</h4><p>When an answer is challenged, traces show whether retrieval, injection, or generation failed.</p></div></div>
+</section>
+
+<section id="budget" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 15</span>
+<h2>Token Budget</h2>
+<p>Every token spent on irrelevant context is a token not available for instructions, reasoning space, answer detail, or additional evidence. Budgeting is therefore a quality decision, not only a cost decision.</p>
+<div class="field-depth"><div><h4>Reserve</h4><p>Keep budget for system rules, user question, final answer, and citations.</p></div><div><h4>Trim</h4><p>Drop duplicates, low-authority chunks, stale versions, and unrelated passages first.</p></div><div><h4>Fallback</h4><p>If evidence exceeds budget, prefer clear insufficiency over silent truncation.</p></div></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 15</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/context-injection.svg" alt="Context injection architecture showing retrieval results, selection, compression, boundary builder, prompt pack, model answer, citations, and trace logs"><figcaption>Context injection turns retrieved chunks into a safe, ordered, cited, budgeted prompt pack.</figcaption></figure>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 15</span>
+<h2>Production Controls</h2>
+<p>In real systems, context injection is controlled by policies. A finance assistant may require high-authority sources and strict citations. A support bot may allow lighter context for simple FAQ questions. A legal assistant may refuse if source versions conflict.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Accuracy</span><h3>Evidence fit</h3><p>Check whether selected context directly supports the answer.</p></div><div class="depth-panel"><span>Consistency</span><h3>Stable packing</h3><p>Similar questions should not randomly receive different evidence ordering.</p></div><div class="depth-panel"><span>Security</span><h3>Data boundary</h3><p>Access filters and prompt-injection defenses must hold after retrieval.</p></div><div class="depth-panel"><span>Scale</span><h3>Cost control</h3><p>Compress, cache, and route based on risk and latency budgets.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 15</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Pasting chunks without structure</h3><div><strong>Symptom:</strong> the model misses the strongest source or mixes unrelated passages.</div><div><strong>Better move:</strong> build labeled context packs with order, source ids, and answer rules.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Treating documents as instructions</h3><div><strong>Symptom:</strong> prompt injection inside retrieved text changes behavior.</div><div><strong>Better move:</strong> isolate evidence and tell the model documents are data.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Overfilling the prompt</h3><div><strong>Symptom:</strong> cost rises, latency increases, and answer quality drops.</div><div><strong>Better move:</strong> reserve budget and drop low-value context intentionally.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Compressing away conditions</h3><div><strong>Symptom:</strong> answer sounds right but misses exceptions, dates, or thresholds.</div><div><strong>Better move:</strong> protect legal, policy, numeric, and conditional facts.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Weak citations</h3><div><strong>Symptom:</strong> users cannot verify claims and teams cannot debug failures.</div><div><strong>Better move:</strong> use stable citation ids tied to chunks and versions.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>No conflict handling</h3><div><strong>Symptom:</strong> old and new policies appear together and the model blends them.</div><div><strong>Better move:</strong> detect conflicts and prefer authoritative/fresh sources or refuse.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Silent truncation</h3><div><strong>Symptom:</strong> important evidence disappears because the prompt exceeded budget.</div><div><strong>Better move:</strong> log dropped context and state insufficiency when needed.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>No injection evals</h3><div><strong>Symptom:</strong> retrieval looks good but answers still fail.</div><div><strong>Better move:</strong> test context precision, citation support, and prompt-pack stability.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 15</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Context injection is the controlled assembly of retrieved evidence into a model-ready prompt. I structure evidence with source ids, preserve metadata, order by relevance and authority, enforce boundaries between instructions and documents, manage token budget, and log what was included or dropped for evaluation."</p>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 15</span>
+<h2>Mini Assignment</h2>
+<p>Design a context pack for a policy assistant answering enterprise refund questions. Define source ordering, citation format, compression rules, conflict handling, token budget, and refusal behavior.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 15 of 15</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Context injection is a production contract, not copy-paste prompting.</li><li>Evidence should be selected, ordered, labeled, cited, and budgeted.</li><li>Documents are data, not instructions.</li><li>Compression must preserve answer-critical facts.</li><li>Trace included and dropped context so failures can be debugged.</li></ul></div>
+</section>
+
+<p>Next, test your judgment in the quiz, then build a context packer that makes prompt evidence safer and more reliable.</p>
+<div class="chapter-nav"><a href="../chapter-18-reranking-and-retrieval-optimization/project/index.html">&larr; Chapter 18 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

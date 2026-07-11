@@ -1,0 +1,10 @@
+flowchart LR
+  Q[User question] --> R[Retrieved chunks]
+  R --> F[Policy filter]
+  F --> O[Order by relevance authority freshness]
+  O --> C[Compress and budget]
+  C --> B[Prompt boundary builder]
+  B --> M[Model answer]
+  M --> A[Citations]
+  B --> T[Trace included and dropped context]
+  T --> E[Evals and failure analysis]

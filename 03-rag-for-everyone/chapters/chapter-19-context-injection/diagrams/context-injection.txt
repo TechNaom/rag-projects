@@ -1,0 +1,10 @@
+Context Injection Flow
+
+User question
+  -> retrieval results
+  -> policy filter
+  -> evidence ordering
+  -> compression and token budget
+  -> prompt boundary builder
+  -> model answer with citations
+  -> trace logs and evals

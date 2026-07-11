@@ -416,7 +416,30 @@ window.RFE_MODULES = [
     summary: "Teach the model how to use retrieved evidence clearly, safely, and testably.",
     examPath: null,
     chapters: [
-      { id: "chapter-19", num: 19, title: "Context Injection", path: null },
+      {
+        id: "chapter-19",
+        num: 19,
+        title: "Context Injection",
+        path: "chapters/chapter-19-context-injection/lesson.html",
+        description: "Context packs, evidence ordering, compression, prompt boundaries, citations, token budgets, conflict handling, and traceable prompt assembly.",
+        subtopics: [
+          { id: "problem", title: "Why context injection matters" },
+          { id: "analogy", title: "Chef plating analogy" },
+          { id: "definition", title: "What context injection is" },
+          { id: "context-pack", title: "Context pack design" },
+          { id: "ordering", title: "Ordering and grouping" },
+          { id: "compression", title: "Compression" },
+          { id: "boundaries", title: "Prompt boundaries" },
+          { id: "citations", title: "Citations and traceability" },
+          { id: "budget", title: "Token budget" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-20", num: 20, title: "Grounded System Prompts", path: null },
       { id: "chapter-21", num: 21, title: "Prompt Testing", path: null }
     ]

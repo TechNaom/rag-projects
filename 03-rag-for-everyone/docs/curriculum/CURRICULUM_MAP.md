@@ -225,10 +225,12 @@ Goal: Make prompts grounded, testable, and resistant to unsupported answers.
 
 ### Chapter 19: Context Injection
 
-- Formatting retrieved chunks.
-- Source labels.
-- Ordering.
-- Context windows.
+- How retrieved chunks become a structured context pack.
+- Evidence ordering by relevance, authority, freshness, and diversity.
+- Prompt boundaries that treat documents as data, not instructions.
+- Compression without losing conditions, exceptions, dates, or thresholds.
+- Citation ids, dropped-context reasons, and traceable audit logs.
+- Token budget decisions, conflict handling, and context-injection evals.
 
 ### Chapter 20: Grounded System Prompts
 
