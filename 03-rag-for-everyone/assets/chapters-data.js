@@ -363,7 +363,29 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-17", num: 17, title: "Hybrid Search and Query Routing", path: null },
+      {
+        id: "chapter-17",
+        num: 17,
+        title: "Hybrid Search and Query Routing",
+        path: "chapters/chapter-17-hybrid-search-and-query-routing/lesson.html",
+        description: "Dense vs sparse retrieval, BM25, hybrid search, reciprocal rank fusion, query routing, exact-term protection, risk routing, and route traces.",
+        subtopics: [
+          { id: "problem", title: "Why hybrid matters" },
+          { id: "analogy", title: "Two-lens analogy" },
+          { id: "dense-sparse", title: "Dense vs sparse" },
+          { id: "bm25", title: "BM25" },
+          { id: "fusion", title: "Fusion strategies" },
+          { id: "routing", title: "Query routing" },
+          { id: "risk", title: "Risk-based routing" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "examples", title: "Production examples" },
+          { id: "metrics", title: "Metrics" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-18", num: 18, title: "Reranking and Retrieval Optimization", path: null }
     ]
   },

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520" role="img" aria-labelledby="title desc">
+  <title id="title">Hybrid Search and Query Routing</title>
+  <desc id="desc">A hybrid retrieval architecture with query routing, dense search, sparse search, fusion, dedupe, reranking, context, citations, trace, and eval loop.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#f6fbff"/><stop offset="100%" stop-color="#f4fff1"/></linearGradient>
+    <linearGradient id="node" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#eef8ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#123047" flood-opacity="0.14"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#47728f"/></marker>
+  </defs>
+  <rect width="1180" height="520" rx="34" fill="url(#bg)"/>
+  <text x="60" y="64" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" fill="#17324d">Hybrid Search and Query Routing</text>
+  <text x="60" y="96" font-family="Inter, Arial, sans-serif" font-size="16" fill="#536676">Route by intent, combine dense and sparse signals when both are needed, then trace the decision.</text>
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <g transform="translate(55 160)"><rect width="145" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">Query</text><text x="22" y="70" font-size="13" fill="#536676">intent + risk</text></g>
+    <g transform="translate(245 160)"><rect width="165" height="100" rx="20" fill="#fff8ec" stroke="#efc777"/><text x="22" y="40" font-size="16" font-weight="800" fill="#5d3b00">Router</text><text x="22" y="70" font-size="13" fill="#6d5c3f">dense, sparse, hybrid</text></g>
+    <g transform="translate(470 90)"><rect width="165" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">Dense Search</text><text x="22" y="70" font-size="13" fill="#536676">meaning lens</text></g>
+    <g transform="translate(470 245)"><rect width="165" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">Sparse Search</text><text x="22" y="70" font-size="13" fill="#536676">exact-term lens</text></g>
+    <g transform="translate(695 160)"><rect width="150" height="100" rx="20" fill="#f1fff6" stroke="#9ad3ad"/><text x="22" y="40" font-size="16" font-weight="800" fill="#155c37">Fusion</text><text x="22" y="70" font-size="13" fill="#3f6b51">RRF / merge</text></g>
+    <g transform="translate(890 160)"><rect width="145" height="100" rx="20" fill="#17324d"/><text x="22" y="40" font-size="16" font-weight="800" fill="#ffffff">Dedupe</text><text x="22" y="70" font-size="13" fill="#dcecf8">collapse repeats</text></g>
+    <g transform="translate(440 380)"><rect width="165" height="90" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="37" font-size="16" font-weight="800" fill="#17324d">Rerank</text><text x="22" y="64" font-size="13" fill="#536676">best evidence</text></g>
+    <g transform="translate(665 380)"><rect width="180" height="90" rx="20" fill="#f1fff6" stroke="#9ad3ad"/><text x="22" y="37" font-size="16" font-weight="800" fill="#155c37">Context</text><text x="22" y="64" font-size="13" fill="#3f6b51">citations + trace</text></g>
+  </g>
+  <g stroke="#47728f" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M203 210 H240"/><path d="M413 197 C440 170 445 145 465 140"/><path d="M413 224 C440 250 445 290 465 295"/>
+    <path d="M638 140 C665 160 670 185 690 200"/><path d="M638 295 C665 270 670 235 690 218"/>
+    <path d="M848 210 H885"/><path d="M960 263 C880 350 670 360 608 405"/><path d="M608 425 H660"/>
+    <path d="M755 380 C710 310 350 310 325 263"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="55" y="350" width="190" height="100" rx="22" fill="#ffffff" stroke="#cfe3ef"/>
+    <text x="78" y="382" font-size="15" font-weight="800" fill="#17324d">Routing Rule</text>
+    <text x="78" y="409" font-size="13" fill="#536676">Use hybrid when</text>
+    <text x="78" y="428" font-size="13" fill="#536676">both signals matter.</text>
+  </g>
+</svg>

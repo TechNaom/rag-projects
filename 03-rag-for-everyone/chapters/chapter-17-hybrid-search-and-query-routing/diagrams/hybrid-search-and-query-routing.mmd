@@ -1,0 +1,12 @@
+flowchart LR
+  A[User query] --> B[Query router]
+  B --> C[Dense search]
+  B --> D[Sparse search]
+  C --> E[Fusion]
+  D --> E
+  E --> F[Dedupe]
+  F --> G[Rerank]
+  G --> H[Context + citations]
+  H --> I[Route trace]
+  I --> J[Eval loop]
+  J --> B

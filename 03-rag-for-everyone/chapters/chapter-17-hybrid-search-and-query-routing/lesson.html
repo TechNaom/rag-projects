@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 17 — Hybrid Search and Query Routing</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-17">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 17 of 28</span><span class="badge-difficulty">Hybrid Retrieval</span><span class="reading-time">80 min read</span></div>
+<h1>Hybrid Search and Query Routing</h1>
+<p class="lede">Hybrid search combines different retrieval signals, usually dense semantic search and sparse keyword search. Query routing decides which retrieval path to use for each question. Together, they help production RAG systems handle both natural language and exact operational facts.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Think complementary strengths:</strong> dense search understands meaning; sparse search protects exact terms like IDs, error codes, SKUs, and clause numbers.</li><li><strong>Do not blend blindly:</strong> hybrid search needs fusion logic, score normalization, dedupe, and evals.</li><li><strong>Route by intent and risk:</strong> a support paraphrase, legal clause lookup, and Sev1 runbook query should not always use the same retrieval path.</li><li><strong>Trace every decision:</strong> production teams must explain why dense, sparse, hybrid, or fallback was chosen.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why hybrid matters</a><a href="#analogy">2. Two-lens analogy</a><a href="#dense-sparse">3. Dense vs sparse</a><a href="#bm25">4. BM25</a><a href="#fusion">5. Fusion strategies</a><a href="#routing">6. Query routing</a><a href="#risk">7. Risk-based routing</a><a href="#architecture">8. Architecture view</a><a href="#examples">9. Production examples</a><a href="#metrics">10. Metrics</a><a href="#mistakes">11. Common mistakes</a><a href="#interview">12. Interview understanding</a><a href="#assignment">13. Mini assignment</a><a href="#summary">14. Summary</a></nav>
+
+<div class="hook">Dense retrieval may understand "regenerate credentials." Sparse retrieval may protect "ERR-AZ-4032-B." A production system often needs both.</div>
+<div class="what-is"><span class="label">Core idea</span>Hybrid search combines multiple retrieval methods. Query routing chooses the right method based on intent, domain, exact-term need, risk, cost, and latency.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 14</span>
+<h2>Why Hybrid Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Dense search is strong for meaning and paraphrase.</li><li>Sparse search is strong for exact terms and rare tokens.</li><li>Hybrid search can improve recall and precision when domains need both.</li><li>Routing prevents every query from paying every retrieval cost.</li></ul></div>
+<p>A user asks, "Why did deployment fail with AZ-4032-B after rotating the key?" Dense retrieval may understand key rotation. Sparse retrieval protects the exact error code. Hybrid retrieval can bring both signals together so the answer has the right troubleshooting evidence.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Hybrid retrieval north star</span><strong>Use the retrieval signal that matches the question, and combine signals only when the product needs it.</strong><p>Hybrid is not automatically better. It is better when dense and sparse solve different parts of the same user need.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Detect exact-term need</strong><p>Error codes, product IDs, SKUs, legal clauses, and ticket numbers often need sparse retrieval.</p></div></div><div class="decision-step"><span>02</span><div><strong>Detect semantic need</strong><p>Paraphrases, vague questions, and natural-language support queries often need dense retrieval.</p></div></div><div class="decision-step"><span>03</span><div><strong>Choose route</strong><p>Use dense, sparse, hybrid, graph, or fallback based on intent and risk.</p></div></div><div class="decision-step"><span>04</span><div><strong>Fuse and evaluate</strong><p>Merge results, dedupe, rerank, and measure retrieval quality against golden queries.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 14</span>
+<h2>Real-Life Analogy: Two Lenses</h2>
+<p>Imagine reading a document with two lenses. One lens sees the overall meaning. The other lens highlights exact words and codes. If you only use the meaning lens, you may miss a specific policy number. If you only use the exact-word lens, you may miss a paraphrase.</p>
+<p>Hybrid search uses both lenses when needed. Query routing decides whether one lens is enough or both should be used.</p>
+<div class="quick-recap"><span class="label">Mental picture</span><ul><li>Dense search: meaning lens.</li><li>Sparse search: exact-term lens.</li><li>Fusion: merge both views.</li><li>Routing: choose the right lens for the question.</li></ul></div>
+</section>
+
+<section id="dense-sparse" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 14</span>
+<h2>Dense vs Sparse</h2>
+<div class="production-depth-grid"><div class="depth-panel"><span>Dense</span><h3>Semantic vectors</h3><p>Good for paraphrase, concept search, natural language, and meaning-based retrieval.</p></div><div class="depth-panel"><span>Sparse</span><h3>Keyword signals</h3><p>Good for IDs, codes, exact names, rare terms, legal clauses, and product identifiers.</p></div><div class="depth-panel"><span>Hybrid</span><h3>Combined evidence</h3><p>Good when the user question contains both semantic intent and exact operational facts.</p></div><div class="depth-panel"><span>Routing</span><h3>Choose path</h3><p>Good when every query should not pay every retrieval cost.</p></div></div>
+</section>
+
+<section id="bm25" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 14</span>
+<h2>BM25</h2>
+<p>BM25 is a classic sparse retrieval method. It scores documents based on query term matches, term rarity, and document length. You do not need to memorize the formula to use the mental model: rare matched terms matter more than common words.</p>
+<div class="field-depth"><div><h4>Strong signal</h4><p><code>AZ-4032-B</code>, <code>tenant_id</code>, <code>Policy 7.3</code>, <code>SKU-9910</code>, and exact API names.</p></div><div><h4>Weak signal</h4><p>Vague paraphrases where user words do not appear in the document.</p></div><div><h4>Production role</h4><p>BM25 is often the sparse side of hybrid search and a useful fallback when dense retrieval misses exact terms.</p></div></div>
+</section>
+
+<section id="fusion" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 14</span>
+<h2>Fusion Strategies</h2>
+<p>Hybrid search must merge results from different retrievers. Dense scores and sparse scores may live on different scales, so simple score addition can be misleading.</p>
+<div class="case-study-card"><span class="decision-label">Common fusion pattern</span><h3>Reciprocal Rank Fusion</h3><p>RRF combines rankings instead of raw scores. If a chunk ranks high in dense search and sparse search, it gets a stronger final rank. This is useful because raw dense and sparse scores are often not directly comparable.</p></div>
+<div class="diagram-card"><h3>Fusion flow</h3><pre><code>dense results:  A, C, D, F
+sparse results: B, A, E, C
+
+fusion:
+  A appears high in both -> strong
+  C appears in both      -> useful
+  B sparse-only exact hit -> keep if exact term matters
+  duplicates             -> collapse before context</code></pre></div>
+</section>
+
+<section id="routing" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 14</span>
+<h2>Query Routing</h2>
+<p>Query routing decides which retrieval path to use. A router can be rule-based, model-based, or hybrid.</p>
+<div class="field-depth"><div><h4>Rule-based router</h4><p>If query contains error code pattern, use sparse or hybrid. If query is natural language, use dense.</p></div><div><h4>Model-based router</h4><p>Classify intent with a lightweight model or LLM, then choose retrieval path.</p></div><div><h4>Hybrid router</h4><p>Use rules for obvious exact-term cases and a model for nuanced cases.</p></div></div>
+<div class="mentor-note"><strong>Mentor note:</strong> routing is a product behavior. Log the route decision so failures can be debugged.</div>
+</section>
+
+<section id="risk" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 14</span>
+<h2>Risk-Based Routing</h2>
+<p>Some queries are high-risk: legal, HR, security, finance, medical, compliance, or operational incidents. These may need stricter filters, higher recall, reranking, citations, and refusal behavior.</p>
+<div class="real-world"><span class="label">Routing examples</span><ul><li><strong>Simple FAQ:</strong> dense search with low k may be enough.</li><li><strong>Error code:</strong> sparse or hybrid retrieval protects the code.</li><li><strong>Policy exception:</strong> hybrid plus reranking and parent expansion.</li><li><strong>High-risk legal:</strong> strict metadata filters, exact clause retrieval, and citation checks.</li><li><strong>Sev1 runbook:</strong> route to runbook corpus with ordered procedural context.</li></ul></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 14</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/hybrid-search-and-query-routing.svg" alt="Hybrid search and query routing architecture showing query classifier, dense search, sparse search, fusion, reranking, filters, and context assembly"><figcaption>Hybrid retrieval routes the query, runs the needed retrievers, fuses results, deduplicates, reranks, and assembles context with citations.</figcaption></figure>
+<div class="diagram-card"><h3>Hybrid trace</h3><pre><code>{
+  "query": "AZ-4032-B after key rotation",
+  "route": "hybrid",
+  "route_reason": "error code + semantic troubleshooting intent",
+  "dense_top": ["key_rotation_runbook:c4", "credential_update:c2"],
+  "sparse_top": ["az_4032_b_errors:c1", "key_rotation_runbook:c4"],
+  "fusion": "rrf",
+  "selected": ["key_rotation_runbook:c4", "az_4032_b_errors:c1"]
+}</code></pre></div>
+</section>
+
+<section id="examples" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 14</span>
+<h2>Production Examples</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">E01</span><h3>Support article paraphrase</h3><div><strong>Route:</strong> dense.</div><div><strong>Reason:</strong> user words differ from article title, exact IDs are not central.</div></article>
+<article class="mistake-card"><span class="mistake-id">E02</span><h3>Error-code troubleshooting</h3><div><strong>Route:</strong> hybrid.</div><div><strong>Reason:</strong> exact error code plus semantic context both matter.</div></article>
+<article class="mistake-card"><span class="mistake-id">E03</span><h3>Legal clause lookup</h3><div><strong>Route:</strong> sparse first, then rerank.</div><div><strong>Reason:</strong> exact clause and version are critical.</div></article>
+<article class="mistake-card"><span class="mistake-id">E04</span><h3>Broad product question</h3><div><strong>Route:</strong> dense or multi-query dense.</div><div><strong>Reason:</strong> user needs concept coverage across docs.</div></article>
+<article class="mistake-card"><span class="mistake-id">E05</span><h3>Sev1 runbook query</h3><div><strong>Route:</strong> domain-specific hybrid.</div><div><strong>Reason:</strong> runbook domain, exact alert name, and ordered steps matter.</div></article>
+</div>
+</section>
+
+<section id="metrics" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 14</span>
+<h2>Metrics</h2>
+<div class="field-depth"><div><h4>Route quality</h4><p>Correct route rate, route override rate, route failure label, and high-risk route accuracy.</p></div><div><h4>Retrieval quality</h4><p>Recall@k by route, MRR, gold rank, exact-term recall, citation support, and duplicate rate.</p></div><div><h4>Operations</h4><p>Latency by route, search count per query, fusion cost, fallback rate, and empty result rate.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 14</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Using dense search for everything</h3><div><strong>Symptom:</strong> exact IDs and error codes get missed.</div><div><strong>Better move:</strong> route exact-term queries to sparse or hybrid retrieval.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Using sparse search for paraphrases</h3><div><strong>Symptom:</strong> natural language questions miss relevant docs.</div><div><strong>Better move:</strong> route semantic questions to dense retrieval.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Adding raw dense and sparse scores</h3><div><strong>Symptom:</strong> one score type dominates unfairly.</div><div><strong>Better move:</strong> normalize or use rank-based fusion such as RRF.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>No route trace</h3><div><strong>Symptom:</strong> teams cannot explain why retrieval chose a path.</div><div><strong>Better move:</strong> log route, reason, retrievers used, fusion method, and selected chunks.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Hybrid for every query</h3><div><strong>Symptom:</strong> cost and latency increase without measurable quality gain.</div><div><strong>Better move:</strong> route only when hybrid is justified by intent or evals.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Ignoring high-risk routing</h3><div><strong>Symptom:</strong> legal or security answers use weak evidence paths.</div><div><strong>Better move:</strong> enforce stricter filters, citations, and reranking for high-risk domains.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>No exact-term eval slice</h3><div><strong>Symptom:</strong> aggregate recall looks fine while code/SKU queries fail.</div><div><strong>Better move:</strong> split evals by exact-term, paraphrase, domain, and risk.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Forgetting dedupe after fusion</h3><div><strong>Symptom:</strong> same chunk appears through dense and sparse paths and wastes context.</div><div><strong>Better move:</strong> dedupe by chunk id, source id, parent id, or content hash.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 14</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Hybrid search combines dense semantic retrieval with sparse lexical retrieval. It is useful when queries need both paraphrase understanding and exact-term protection. I route queries by intent and risk, fuse results with calibrated or rank-based methods, dedupe, rerank, and evaluate route-specific Recall@k, exact-term recall, latency, and citation support."</p>
+<div class="case-study-card"><span class="decision-label">Senior signal</span><h3>What production reviewers want</h3><p>Explain when not to use hybrid too. Good architecture avoids unnecessary cost and complexity when dense or sparse alone is enough.</p></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 14</span>
+<h2>Mini Assignment</h2>
+<p>Create a routing policy for five query types: simple FAQ, error code, legal clause, policy exception, and incident runbook. Define retrieval route, filters, fusion method, top-k, reranking need, and metrics.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 14</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Dense retrieval is strong for meaning; sparse retrieval is strong for exact terms.</li><li>Hybrid search combines signals when a query needs both.</li><li>Query routing avoids unnecessary cost and chooses the right retrieval path.</li><li>Fusion must handle different score scales and duplicates.</li><li>Production hybrid retrieval needs route traces and route-specific evals.</li></ul></div>
+</section>
+
+<p>Next, test hybrid routing judgment in the quiz, then build a query router in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-16-retrieval-strategies-and-top-k/project/index.html">&larr; Chapter 16 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

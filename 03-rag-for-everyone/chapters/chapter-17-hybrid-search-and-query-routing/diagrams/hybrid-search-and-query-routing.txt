@@ -1,0 +1,4 @@
+User query -> query router -> dense route / sparse route / hybrid route
+Dense results + sparse results -> fusion -> dedupe -> rerank
+Selected chunks -> context + citations + route trace
+Eval loop -> route policy updates

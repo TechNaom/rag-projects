@@ -203,6 +203,9 @@ Goal: Build retrieval systems that can be reasoned about and improved.
 - Reciprocal Rank Fusion.
 - Routing by intent, domain, and risk.
 - When to combine search strategies.
+- Exact-term protection for IDs, SKUs, clauses, and error codes.
+- Route traces with route reason, retrievers used, fusion method, and selected chunks.
+- Route-specific evals for paraphrase, exact-term, domain, and high-risk queries.
 
 ### Chapter 18: Reranking and Retrieval Optimization
 
