@@ -1,0 +1,10 @@
+flowchart LR
+  U[User claims] --> P[Policy resolver]
+  P --> F[Pre-retrieval filter]
+  F --> R[Candidate retrieval]
+  R --> C[Post-retrieval check]
+  C --> K[Context pack: allowed only]
+  K --> G[Generate grounded answer]
+  C --> S[Safe refusal]
+  G --> A[Audit log]
+  S --> A[Audit log]

@@ -1,0 +1,8 @@
+flowchart LR
+  C[Release candidate] --> S[Staging deploy]
+  S --> Canary[Canary route]
+  Canary --> Ramp[Monitored ramp]
+  Ramp --> Full[Full rollout]
+  Ramp --> Gate[Rollback gate]
+  Gate --> Last[Last good version]
+  Last -.-> C

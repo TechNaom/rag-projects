@@ -1,0 +1,8 @@
+flowchart LR
+  Q[Question + trace id + route + tenant] --> S[Stage capture]
+  S --> C[Cost calculator]
+  Q --> C
+  C --> D[Dashboards]
+  C --> A[Alert / budget gate]
+  D --> R[Cost review by tenant/route]
+  R --> O[Optimization actions]

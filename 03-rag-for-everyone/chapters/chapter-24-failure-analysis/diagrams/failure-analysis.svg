@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" role="img" aria-labelledby="title desc">
+  <title id="title">Failure Analysis Architecture</title>
+  <desc id="desc">A bad answer is captured as a trace, classified against the failure taxonomy, assigned an owner, and placed in priority order, then a fix is recommended, turned into a replay test, and enforced by a release gate.</desc>
+  <rect width="980" height="440" rx="28" fill="#f8fbff"/>
+  <rect x="42" y="54" width="896" height="332" rx="24" fill="#ffffff" stroke="#bdd7ee" stroke-width="2"/>
+  <text x="490" y="78" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#18324a">Failure analysis turns a bad answer into a traced fix</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="15" fill="#18324a">
+    <rect x="72" y="126" width="145" height="76" rx="14" fill="#e8f4ff" stroke="#79acd8"/>
+    <text x="145" y="157" text-anchor="middle" font-weight="700">Trace</text><text x="145" y="180" text-anchor="middle">capture signals</text>
+    <rect x="270" y="126" width="145" height="76" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="343" y="157" text-anchor="middle" font-weight="700">Taxonomy</text><text x="343" y="180" text-anchor="middle">classify root cause</text>
+    <rect x="468" y="126" width="145" height="76" rx="14" fill="#fff7e8" stroke="#e5b76b"/>
+    <text x="541" y="157" text-anchor="middle" font-weight="700">Ownership</text><text x="541" y="180" text-anchor="middle">assign owner</text>
+    <rect x="666" y="126" width="145" height="76" rx="14" fill="#f1edff" stroke="#a998df"/>
+    <text x="739" y="157" text-anchor="middle" font-weight="700">Priority</text><text x="739" y="180" text-anchor="middle">fix order</text>
+    <rect x="190" y="282" width="145" height="66" rx="14" fill="#ffeef4" stroke="#df8cab"/>
+    <text x="263" y="310" text-anchor="middle" font-weight="700">Fix</text><text x="263" y="332" text-anchor="middle">recommend change</text>
+    <rect x="418" y="282" width="145" height="66" rx="14" fill="#eaf7f7" stroke="#72b8bc"/>
+    <text x="491" y="310" text-anchor="middle" font-weight="700">Replay test</text><text x="491" y="332" text-anchor="middle">frozen regression</text>
+    <rect x="646" y="282" width="145" height="66" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="719" y="310" text-anchor="middle" font-weight="700">Release</text><text x="719" y="332" text-anchor="middle">gate</text>
+  </g>
+  <g stroke="#4f7293" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M217 164h53"/><path d="M415 164h53"/><path d="M613 164h53"/>
+    <path d="M739 202 C680 252 590 282 563 302"/>
+    <path d="M739 202 C700 250 710 260 719 282"/>
+    <path d="M666 180 C520 235 390 280 335 304"/>
+    <path d="M145 202 C220 245 350 280 418 304"/>
+  </g>
+  <g fill="#4f7293"><path d="M266 156l12 8-12 8z"/><path d="M464 156l12 8-12 8z"/><path d="M662 156l12 8-12 8z"/><path d="M560 295l12 8-12 8z"/><path d="M711 276l8 12 8-12z"/><path d="M331 296l12 8-12 8z"/><path d="M414 296l12 8-12 8z"/></g>
+</svg>

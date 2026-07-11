@@ -28,13 +28,13 @@
 </ul>
 </div>
 
-<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why answer quality matters</a><a href="#analogy">2. Judge and evidence analogy</a><a href="#faithfulness">3. Faithfulness</a><a href="#groundedness">4. Groundedness</a><a href="#relevance">5. Answer relevance</a><a href="#citations">6. Citation correctness</a><a href="#refusal">7. Refusal correctness</a><a href="#rubric">8. Rubric design</a><a href="#human">9. Human review</a><a href="#gates">10. Release gates</a><a href="#mistakes">11. Common mistakes</a><a href="#project">12. Project roadmap</a></nav>
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why answer quality matters</a><a href="#analogy">2. Judge and evidence analogy</a><a href="#faithfulness">3. Faithfulness</a><a href="#groundedness">4. Groundedness</a><a href="#relevance">5. Answer relevance</a><a href="#citations">6. Citation correctness</a><a href="#refusal">7. Refusal correctness</a><a href="#architecture">8. Architecture view</a><a href="#rubric">9. Rubric design</a><a href="#human">10. Human review</a><a href="#gates">11. Release gates</a><a href="#mistakes">12. Common mistakes</a><a href="#interview">13. Interview understanding</a><a href="#summary">14. Summary</a><a href="#project">15. Project roadmap</a></nav>
 
 <div class="hook">A good RAG answer is not the answer that sounds smartest. It is the answer that is supported, useful, calibrated, cited, and safe.</div>
 <div class="what-is"><span class="label">Core idea</span>Answer quality metrics evaluate the generated response against the user's question, retrieved evidence, citations, expected behavior, risk level, and product promise.</div>
 
 <section id="problem" class="subtopic">
-<span class="subtopic-label">Sub-topic 1 of 12</span>
+<span class="subtopic-label">Sub-topic 1 of 15</span>
 <h2>Why Answer Quality Metrics Matter</h2>
 <p>A RAG pipeline can retrieve the correct source and still fail. The answer may overstate the policy, miss an exception, cite a source that does not support the sentence, refuse unnecessarily, or answer a neighboring question instead of the real one.</p>
 <p>This is why answer quality evaluation must sit after retrieval and before release. It treats the final answer as a product artifact, not as a nice paragraph.</p>
@@ -43,7 +43,7 @@
 </section>
 
 <section id="analogy" class="subtopic">
-<span class="subtopic-label">Sub-topic 2 of 12</span>
+<span class="subtopic-label">Sub-topic 2 of 15</span>
 <h2>Real-Life Analogy: Judge and Evidence</h2>
 <p>Imagine a judge hearing a case. A confident speech is not enough. The judge asks: what evidence supports this claim? Is the evidence relevant? Is the cited document the correct version? Did the argument answer the actual question?</p>
 <p>Answer evaluation works the same way. The answer is the argument. Retrieved context is the evidence. Metrics are the courtroom checklist.</p>
@@ -58,7 +58,7 @@
 </section>
 
 <section id="faithfulness" class="subtopic">
-<span class="subtopic-label">Sub-topic 3 of 12</span>
+<span class="subtopic-label">Sub-topic 3 of 15</span>
 <h2>Faithfulness</h2>
 <p>Faithfulness asks whether the answer stays inside the evidence. If the evidence says "VP approval is required after 30 days" and the answer says "manager approval is enough," faithfulness failed.</p>
 <div class="field-depth"><div><h4>What it catches</h4><p>Hallucinated thresholds, invented names, unsupported dates, wrong policy owners, and confident claims not present in evidence.</p></div><div><h4>How to measure</h4><p>Extract claims, map each claim to evidence, then mark supported, contradicted, missing support, or not applicable.</p></div><div><h4>Production action</h4><p>High-risk unsupported or contradicted claims should block release, even if the answer is fluent.</p></div></div>
@@ -69,7 +69,7 @@ Failure: contradicted claim</code></pre></div>
 </section>
 
 <section id="groundedness" class="subtopic">
-<span class="subtopic-label">Sub-topic 4 of 12</span>
+<span class="subtopic-label">Sub-topic 4 of 15</span>
 <h2>Groundedness</h2>
 <p>Groundedness checks whether the answer can be traced back to retrieved context. Faithfulness asks, "Is it supported?" Groundedness asks, "Can we point to where it is supported?"</p>
 <div class="diagram-card"><h3>Groundedness trace</h3><pre><code>answer claim
@@ -84,14 +84,14 @@ Failure: contradicted claim</code></pre></div>
 </section>
 
 <section id="relevance" class="subtopic">
-<span class="subtopic-label">Sub-topic 5 of 12</span>
+<span class="subtopic-label">Sub-topic 5 of 15</span>
 <h2>Answer Relevance</h2>
 <p>An answer can be faithful but still not helpful. If the user asks for refund exceptions and the answer gives a general refund-policy summary, relevance is weak. Relevance measures whether the answer resolves the user's actual task.</p>
 <div class="production-depth-grid"><div class="depth-panel"><span>Task fit</span><h3>Did it answer the actual ask?</h3><p>A broad overview may be faithful but useless when the user needs a decision.</p></div><div class="depth-panel"><span>Specificity</span><h3>Did it include the needed conditions?</h3><p>Policies often depend on amount, date, region, role, customer tier, or exception path.</p></div><div class="depth-panel"><span>Actionability</span><h3>Can the user move forward?</h3><p>For production support, a good answer should often include the next action, owner, or escalation path.</p></div></div>
 </section>
 
 <section id="citations" class="subtopic">
-<span class="subtopic-label">Sub-topic 6 of 12</span>
+<span class="subtopic-label">Sub-topic 6 of 15</span>
 <h2>Citation Correctness</h2>
 <p>Citation correctness is deeper than citation presence. The cited source must directly support the sentence. This is one of the biggest gaps in shallow RAG demos.</p>
 <div class="real-world"><span class="label">Citation test levels</span><ul><li><strong>Level 1:</strong> citation exists.</li><li><strong>Level 2:</strong> citation is about the same topic.</li><li><strong>Level 3:</strong> cited source supports the exact claim.</li><li><strong>Level 4:</strong> cited source is current, authoritative, accessible, and the right version.</li></ul></div>
@@ -102,15 +102,29 @@ Problem: citation exists, but it does not support the claim.</code></pre></div>
 </section>
 
 <section id="refusal" class="subtopic">
-<span class="subtopic-label">Sub-topic 7 of 12</span>
+<span class="subtopic-label">Sub-topic 7 of 15</span>
 <h2>Refusal Correctness</h2>
 <p>RAG systems can fail by answering when they should refuse, or refusing when they should answer. Track both missed refusals and false refusals. Both hurt trust in different ways.</p>
 <div class="field-depth"><div><h4>Missed refusal</h4><p>The assistant answers without enough evidence, or gives restricted guidance. This is a safety and trust risk.</p></div><div><h4>False refusal</h4><p>The assistant refuses even when evidence is available. This makes the product feel weak and frustrating.</p></div><div><h4>Calibrated answer</h4><p>The assistant answers what is supported, names uncertainty, and escalates only when needed.</p></div></div>
 <p>Refusal quality is especially important for legal, finance, health, security, HR, and production operations workflows.</p>
 </section>
 
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 15</span>
+<h2>Architecture View</h2>
+<p>Once the individual dimensions are defined, they need to run as a pipeline: a golden question, its evidence, and the candidate answer go into an evaluator that scores each dimension separately, rolls those scores into an aggregate report, and hands the result to a release gate.</p>
+<figure class="diagram-figure"><img src="diagrams/answer-quality-metrics.svg" alt="Answer quality metrics architecture showing golden question and evidence set, candidate answer, quality evaluator, per-dimension scores, aggregate report, risk slice, and release gate"><figcaption>Answer quality evaluation turns a candidate answer into per-dimension scores, then an aggregate report that feeds risk-sliced release gates.</figcaption></figure>
+<div class="diagram-card"><h3>Answer quality pipeline</h3><pre><code>golden question + evidence + candidate answer
+  -> quality evaluator (faithfulness, groundedness, relevance, citation, refusal)
+  -> per-dimension scores
+  -> aggregate report
+  -> slice by risk/domain
+  -> compare with baseline
+  -> pass, warn, block, or human review</code></pre></div>
+</section>
+
 <section id="rubric" class="subtopic">
-<span class="subtopic-label">Sub-topic 8 of 12</span>
+<span class="subtopic-label">Sub-topic 9 of 15</span>
 <h2>Rubric Design</h2>
 <p>A useful rubric has clear fields and examples. Without examples, reviewers drift. One reviewer gives a 5 because the answer sounds nice; another gives a 2 because a citation is weak. The rubric must reduce that drift.</p>
 <div class="diagram-card"><h3>Simple production rubric</h3><pre><code>faithfulness: 0 = contradicted, 1 = partially supported, 2 = fully supported
@@ -123,14 +137,14 @@ safety: 0 = unsafe, 1 = needs review, 2 = safe</code></pre></div>
 </section>
 
 <section id="human" class="subtopic">
-<span class="subtopic-label">Sub-topic 9 of 12</span>
+<span class="subtopic-label">Sub-topic 10 of 15</span>
 <h2>Human Review</h2>
 <p>Use human review for high-risk and ambiguous cases: legal, finance, medical, security, executive policy, HR, production incidents, and customer-impacting answers. Human review should calibrate automated metrics, not replace all automation.</p>
 <div class="production-depth-grid"><div class="depth-panel"><span>Calibration</span><h3>Reviewer alignment</h3><p>Give reviewers examples of pass, warn, block, false refusal, and missed refusal.</p></div><div class="depth-panel"><span>Sampling</span><h3>Review the right cases</h3><p>Prioritize high-risk queries, low-confidence scores, regressions, new prompts, and incident replay sets.</p></div><div class="depth-panel"><span>Traceability</span><h3>Keep review evidence</h3><p>Store question, answer, evidence, citations, model version, prompt version, score, reviewer, and decision.</p></div></div>
 </section>
 
 <section id="gates" class="subtopic">
-<span class="subtopic-label">Sub-topic 10 of 12</span>
+<span class="subtopic-label">Sub-topic 11 of 15</span>
 <h2>Release Gates</h2>
 <p>A prompt, model, retriever, or index release should be blocked if it introduces high-risk unsupported claims, citation-support regressions, unsafe refusals, or known incident replays.</p>
 <div class="real-world"><span class="label">Gate examples</span><ul><li>Block if any high-risk answer has a contradicted claim.</li><li>Block if citation support drops below the baseline on legal or finance slices.</li><li>Warn if false refusals increase on low-risk support workflows.</li><li>Block if the incident replay set has a missed refusal.</li><li>Require human review if score confidence is low or evidence is ambiguous.</li></ul></div>
@@ -143,7 +157,7 @@ safety: 0 = unsafe, 1 = needs review, 2 = safe</code></pre></div>
 </section>
 
 <section id="mistakes" class="subtopic">
-<span class="subtopic-label">Sub-topic 11 of 12</span>
+<span class="subtopic-label">Sub-topic 12 of 15</span>
 <h2>Common Mistakes</h2>
 <div class="mistake-catalog">
 <article class="mistake-card"><span class="mistake-id">M01</span><h3>Scoring only fluency</h3><div><strong>Symptom:</strong> answers sound beautiful but contain unsupported claims.</div><div><strong>Better move:</strong> score faithfulness and citation support before style.</div></article>
@@ -157,8 +171,19 @@ safety: 0 = unsafe, 1 = needs review, 2 = safe</code></pre></div>
 </div>
 </section>
 
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 15</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "I evaluate RAG answers on separate dimensions instead of one vague quality score: faithfulness against the retrieved evidence, groundedness so every claim can be traced to a specific source and version, answer relevance to the user's actual task, citation correctness so a cited source actually supports the exact sentence it is attached to, and refusal correctness so I track missed refusals and false refusals separately. I score these with a rubric that has explicit examples so reviewers don't drift, and I route high-risk or ambiguous cases to calibrated human review. Above all, I gate releases by risk slice rather than by average score, so one contradicted claim in a legal, finance, or health answer can block a release even when the overall numbers look fine."</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 15</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Answer quality metrics evaluate the generated response itself, because correct retrieval can still produce an unsupported or unhelpful answer.</li><li>Faithfulness and groundedness are different checks: faithfulness asks if a claim is supported, groundedness asks if it can be traced back to a specific source and version.</li><li>Relevance measures whether the answer actually solves the user's task, not only whether it is factually safe.</li><li>Citation correctness requires the cited source to support the exact claim, not just share the same general topic.</li><li>Refusal quality must track both missed refusals and false refusals, since each damages trust in a different way.</li><li>Rubrics need explicit examples and reviewer calibration, and release gates must act on risk slices, not only averages.</li></ul></div>
+</section>
+
 <section id="project" class="subtopic">
-<span class="subtopic-label">Sub-topic 12 of 12</span>
+<span class="subtopic-label">Sub-topic 15 of 15</span>
 <h2>Project Roadmap</h2>
 <p>Build an answer quality scorer that receives question, evidence, answer, citations, expected behavior, and risk. It should return faithfulness, relevance, citation correctness, completeness, refusal correctness, severity, and release gate.</p>
 <div class="lesson-hero"><h2>What you will build next</h2><ul><li>A rubric-based scorer for answer quality.</li><li>A deterministic evaluator for citation presence, support phrases, unsupported terms, and refusal behavior.</li><li>A release gate that blocks high-risk unsupported or unsafe answers.</li><li>A trace format product teams can store for prompt, model, retriever, and corpus comparisons.</li></ul></div>

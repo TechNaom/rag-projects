@@ -19,10 +19,13 @@
 
 <div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Trace the journey:</strong> every answer should be explainable from question to final response.</li><li><strong>Measure by stage:</strong> retrieval, rerank, model, evals, and post-processing all have different latency and cost profiles.</li><li><strong>Connect cost to quality:</strong> spending more is acceptable only when quality, safety, or business value improves.</li><li><strong>Design for operations:</strong> dashboards, alerts, budgets, and failure reviews are part of the product.</li></ul></div>
 
-<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#traces">1. Trace first</a><a href="#latency">2. Stage latency</a><a href="#tokens">3. Token usage</a><a href="#cost">4. Cost is architecture</a><a href="#levers">5. Cost levers</a><a href="#dashboards">6. Dashboards</a><a href="#mistakes">7. Common mistakes</a><a href="#project">8. Project roadmap</a></nav>
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#traces">1. Trace first</a><a href="#analogy">2. Car dashboard analogy</a><a href="#latency">3. Stage latency</a><a href="#tokens">4. Token usage</a><a href="#cost">5. Cost is architecture</a><a href="#levers">6. Cost levers</a><a href="#architecture">7. Architecture view</a><a href="#dashboards">8. Dashboards</a><a href="#mistakes">9. Common mistakes</a><a href="#interview">10. Interview understanding</a><a href="#project">11. Project roadmap</a><a href="#summary">12. Summary</a></nav>
+
+<div class="hook">A user says "the assistant was wrong" and a bill arrives that is three times last month's. Without observability and cost data, both are just feelings. With them, both become facts you can act on.</div>
+<div class="what-is"><span class="label">Core idea</span>Observability and cost management means capturing a trace and a price for every RAG answer, so the team can explain what happened at each stage and control what it costs to keep happening.</div>
 
 <section id="traces" class="subtopic">
-<span class="subtopic-label">Sub-topic 1 of 8</span>
+<span class="subtopic-label">Sub-topic 1 of 12</span>
 <h2>Trace First</h2>
 <p>A trace explains one answer. When a user says "the assistant was wrong," a trace lets the team inspect route, filters, retrieved chunks, prompt version, model call, citations, and evaluation result.</p>
 <div class="diagram-card"><h3>Trace anatomy</h3><pre><code>trace_id
@@ -37,50 +40,83 @@
   user feedback and cost</code></pre></div>
 </section>
 
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 12</span>
+<h2>Real-Life Analogy: The Car Dashboard</h2>
+<p>You do not wait for the engine to seize before you check the gauges. A car dashboard shows speed, fuel, engine temperature, and warning lights continuously, so a small problem gets fixed at the next service stop instead of becoming a breakdown on the highway. Observability in RAG works the same way: stage latency, token counts, and error rates are the gauges that let a team catch a slipping retriever or a runaway prompt before a user files a complaint.</p>
+<p>Now picture a fleet manager who watches fuel cost per mile across a hundred vehicles instead of one dashboard on one car. One route through the mountains burns far more fuel than a flat highway route, and if the manager only looks at the fleet average, that expensive route hides in plain sight. Watching cost per query across routes, tenants, and models is the same discipline: averages flatten the picture, and the one expensive route quietly drains the budget until someone finally slices the data and finds it.</p>
+</section>
+
 <section id="latency" class="subtopic">
-<span class="subtopic-label">Sub-topic 2 of 8</span>
+<span class="subtopic-label">Sub-topic 3 of 12</span>
 <h2>Stage Latency</h2>
 <p>Overall latency is not enough. You need stage latency. If p95 is slow, is retrieval slow? Is reranking too large? Is the model waiting on a long prompt? Is an evaluator running synchronously?</p>
 <div class="field-depth"><div><h4>Retrieval</h4><p>Measure query rewrite, vector search, BM25, hybrid fusion, and filter time.</p></div><div><h4>Reranking</h4><p>Track candidate count, timeout rate, fallback rate, and p95 latency.</p></div><div><h4>Generation</h4><p>Track prompt tokens, completion tokens, model latency, retry count, and provider errors.</p></div></div>
 </section>
 
 <section id="tokens" class="subtopic">
-<span class="subtopic-label">Sub-topic 3 of 8</span>
+<span class="subtopic-label">Sub-topic 4 of 12</span>
 <h2>Token Usage</h2>
 <p>Token usage is one of the clearest cost signals. Track system prompt tokens, evidence tokens, user tokens, answer tokens, duplicate context tokens, and dropped-context reasons.</p>
 <p>A practical signal is <strong>wasted context ratio</strong>: how much context was sent but not used in citations or answer support. High waste usually means poor retrieval precision, weak dedupe, or too-large final k.</p>
 </section>
 
 <section id="cost" class="subtopic">
-<span class="subtopic-label">Sub-topic 4 of 8</span>
+<span class="subtopic-label">Sub-topic 5 of 12</span>
 <h2>Cost Is Architecture</h2>
 <p>Cost is not only provider pricing. Cost comes from top-k, reranking pool size, prompt length, model choice, retries, poor caching, unnecessary evaluations, and weak routing.</p>
 <div class="decision-board"><div class="decision-north-star"><span class="decision-label">Cost north star</span><strong>Spend more only when it buys measurable quality, safety, or business value.</strong><p>A high-value policy answer may deserve reranking and a stronger model. A simple FAQ may not.</p></div></div>
 </section>
 
 <section id="levers" class="subtopic">
-<span class="subtopic-label">Sub-topic 5 of 8</span>
+<span class="subtopic-label">Sub-topic 6 of 12</span>
 <h2>Cost Levers</h2>
 <div class="production-depth-grid"><div class="depth-panel"><span>Cache</span><h3>Reuse stable work</h3><p>Cache retrieval results, context packs, or full answers for stable FAQ and policy queries.</p></div><div class="depth-panel"><span>Route</span><h3>Match cost to risk</h3><p>Use smaller models or skip reranking for low-risk routes.</p></div><div class="depth-panel"><span>Compress</span><h3>Reduce context</h3><p>Compress safely while preserving facts, citations, conditions, and exceptions.</p></div><div class="depth-panel"><span>Batch</span><h3>Move offline work</h3><p>Run expensive evals, indexing checks, and summaries asynchronously where possible.</p></div></div>
 </section>
 
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 12</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/observability-and-cost.svg" alt="Observability and cost architecture showing a question with trace id and tenant flowing into stage capture, a cost calculator, dashboards, a budget and alert gate, and cost review feeding optimization actions"><figcaption>Every query carries a trace id through stage capture and a cost calculator, then fans out into dashboards, alerts, and optimization actions.</figcaption></figure>
+</section>
+
 <section id="dashboards" class="subtopic">
-<span class="subtopic-label">Sub-topic 6 of 8</span>
+<span class="subtopic-label">Sub-topic 8 of 12</span>
 <h2>Dashboards</h2>
 <p>Dashboards should be sliced by route, tenant, model, index version, risk class, and source type. Averages hide expensive tenants, failing domains, and high-risk regressions.</p>
 <div class="real-world"><span class="label">Dashboard tiles</span><ul><li>p50/p95 latency by stage.</li><li>Cost per query and cost per successful grounded answer.</li><li>Cache hit rate and cache savings.</li><li>Empty retrieval rate and fallback rate.</li><li>Citation support and refusal correctness trends.</li></ul></div>
 </section>
 
 <section id="mistakes" class="subtopic">
-<span class="subtopic-label">Sub-topic 7 of 8</span>
+<span class="subtopic-label">Sub-topic 9 of 12</span>
 <h2>Common Mistakes</h2>
-<div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">M01</span><h3>Only logging final answers</h3><p>You cannot debug retrieval, tokens, or latency from the answer alone.</p></article><article class="mistake-card"><span class="mistake-id">M02</span><h3>No per-stage latency</h3><p>The team cannot tell whether retrieval, rerank, or model call is slow.</p></article><article class="mistake-card"><span class="mistake-id">M03</span><h3>No cost owner</h3><p>Token spend grows quietly until someone outside engineering complains.</p></article><article class="mistake-card"><span class="mistake-id">M04</span><h3>Cutting cost blindly</h3><p>Reducing context or model quality without evals can save money while breaking trust.</p></article></div>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Only logging final answers</h3><div><strong>Symptom:</strong> you cannot debug retrieval, tokens, or latency from the answer alone.</div><div><strong>Better move:</strong> capture a full trace per query, not just the final text.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>No per-stage latency</h3><div><strong>Symptom:</strong> the team cannot tell whether retrieval, rerank, or model call is slow.</div><div><strong>Better move:</strong> time every stage and store it alongside the trace.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>No cost owner</h3><div><strong>Symptom:</strong> token spend grows quietly until someone outside engineering complains.</div><div><strong>Better move:</strong> assign an owner and a budget to cost the same way you would for latency or errors.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Cutting cost blindly</h3><div><strong>Symptom:</strong> reducing context or model quality without evals can save money while breaking trust.</div><div><strong>Better move:</strong> pair every cost cut with a quality check before it ships.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Alerting on averages, not tails</h3><div><strong>Symptom:</strong> mean latency looks healthy while a real slice of users hit multi-second waits or timeouts.</div><div><strong>Better move:</strong> alert on p95 and p99 per stage, not just the mean, so tail incidents get caught.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>No cost attribution by tenant or route</h3><div><strong>Symptom:</strong> total spend rises and nobody notices that one route or tenant is driving 80% of it.</div><div><strong>Better move:</strong> tag every trace with tenant and route, and slice cost dashboards by both.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Caching without invalidation</h3><div><strong>Symptom:</strong> a cached answer keeps serving after the source document changed underneath it.</div><div><strong>Better move:</strong> tie cache entries to source or index version and invalidate on update, not just on time-to-live.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Treating evaluator calls as free</h3><div><strong>Symptom:</strong> LLM-as-judge evals and safety checks run on every query and quietly become a large, growing cost line nobody tracks.</div><div><strong>Better move:</strong> meter evaluator and judge-model calls like any other model spend, and sample instead of running them on 100% of traffic where risk allows.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 12</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "I treat every RAG answer as something that must be explainable and priced. I trace each query end to end with stage-level latency and token counts, slice dashboards by route, tenant, and model instead of trusting averages, and alert on p95/p99 so tail incidents get caught. On cost, I attribute spend by route and tenant, cache safely with invalidation tied to source updates, meter evaluator and judge-model calls like any other model cost, and only spend more when it buys measurable quality, safety, or business value."</p>
 </section>
 
 <section id="project" class="subtopic">
-<span class="subtopic-label">Sub-topic 8 of 8</span>
+<span class="subtopic-label">Sub-topic 11 of 12</span>
 <h2>Project Roadmap</h2>
 <p>Build a RAG trace and cost monitor that summarizes per-query cost, slowest stage, optimization recommendations, and quality risk. The monitor should help a product team answer: what happened, how much did it cost, and what should we improve next?</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 12</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>A trace explains one answer end to end; without it, debugging is guesswork.</li><li>Stage latency, not overall latency, tells you where time and money actually go.</li><li>Cost comes from architecture choices — top-k, context size, model route, caching, and evals — not just provider pricing.</li><li>Dashboards must be sliced by route, tenant, model, and risk class; averages and mean latency hide the worst cases.</li><li>Spend more only when it buys measurable quality, safety, or business value, and always pair cost cuts with quality checks.</li></ul></div>
 </section>
 
 <div class="chapter-nav"><a href="../chapter-25-access-control-and-safety/project/index.html">&larr; Chapter 25 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>

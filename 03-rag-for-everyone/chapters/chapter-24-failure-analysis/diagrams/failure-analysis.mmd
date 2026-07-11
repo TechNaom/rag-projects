@@ -1,0 +1,8 @@
+flowchart LR
+  T[Trace] --> C[Taxonomy]
+  C --> O[Ownership]
+  O --> P[Priority]
+  P --> Fx[Fix]
+  T --> Fx
+  Fx --> RT[Replay test]
+  RT --> Gate[Release gate]

@@ -3,19 +3,104 @@
 <body data-active-chapter="chapter-25"><button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button><aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside><div class="sidebar-scrim" id="sidebar-scrim"></div><header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
 <main class="page"><p><a href="../../index.html">&larr; Back to all chapters</a></p><div class="page-meta"><span class="chapter-badge">Chapter 25 of 28</span><span class="badge-difficulty">Production RAG</span><span class="reading-time">110 min read</span></div><h1>Access Control and Safety</h1><p class="lede">Production RAG must answer only with information the user is allowed to see. Access control is not a UI checkbox; it is a retrieval, indexing, context, prompt, and audit architecture.</p>
 <div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Security starts before retrieval:</strong> user identity and document permissions must shape the candidate pool.</li><li><strong>Metadata is policy:</strong> tenant, role, source status, sensitivity, and expiry fields control behavior.</li><li><strong>Safety is layered:</strong> pre-filter, post-filter, context-pack checks, prompt rules, and audit logs all matter.</li><li><strong>Auditability builds trust:</strong> production teams must explain why a chunk was used or denied.</li></ul></div>
-<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why access control matters</a><a href="#identity">2. Identity and claims</a><a href="#metadata">3. Security metadata</a><a href="#filters">4. Retrieval filters</a><a href="#context">5. Context safety</a><a href="#injection">6. Prompt injection</a><a href="#audit">7. Audit logs</a><a href="#mistakes">8. Common mistakes</a><a href="#project">9. Project roadmap</a></nav>
-<section id="problem" class="subtopic"><h2>Why Access Control Matters</h2><p>A RAG assistant can accidentally become a data leak if it retrieves documents outside the user's permission boundary. The danger is quiet: the final answer may reveal a salary band, legal memo, customer secret, unreleased roadmap, or internal incident note without showing the raw source.</p><div class="decision-board"><div class="decision-north-star"><span class="decision-label">Safety north star</span><strong>The model should never receive context the user is not allowed to access.</strong><p>Do not rely on the model to keep secrets. Prevent restricted context from entering the prompt.</p></div></div></section>
-<section id="identity" class="subtopic"><h2>Identity and Claims</h2><p>Every request should resolve user claims: tenant, user id, role, group, department, clearance, region, and purpose. These claims become retrieval filters and audit fields.</p><div class="field-depth"><div><h4>Tenant</h4><p>Prevents cross-customer leakage.</p></div><div><h4>Role</h4><p>Controls functional access such as finance, HR, legal, or support.</p></div><div><h4>Clearance</h4><p>Separates public, internal, confidential, and restricted material.</p></div></div></section>
-<section id="metadata" class="subtopic"><h2>Security Metadata</h2><p>Chunks need security metadata at indexing time. If permissions live only in the original source system and are not reflected in the index, retrieval can drift from source-of-truth access.</p></section>
-<section id="filters" class="subtopic"><h2>Retrieval Filters</h2><p>Apply filters before search where supported, and verify after retrieval before context injection. Log filtered-out gold evidence so you can distinguish security behavior from search failure.</p><div class="diagram-card"><pre><code>user claims
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why access control matters</a><a href="#analogy">2. Keycard building analogy</a><a href="#identity">3. Identity and claims</a><a href="#metadata">4. Security metadata</a><a href="#filters">5. Retrieval filters</a><a href="#context">6. Context safety</a><a href="#injection">7. Prompt injection</a><a href="#audit">8. Audit logs</a><a href="#architecture">9. Architecture view</a><a href="#mistakes">10. Common mistakes</a><a href="#interview">11. Interview understanding</a><a href="#summary">12. Summary</a><a href="#project">13. Project roadmap</a></nav>
+
+<div class="hook">A single unfiltered retrieval can hand a stranger's question the keys to a file it was never meant to open — and the assistant will answer politely, with citations, while it does it.</div>
+<div class="what-is"><span class="label">Core idea</span>Access control and safety in RAG means every retrieval, every context pack, and every generated answer stays inside the requesting user's permission boundary, checked before the model ever sees the data — not patched afterward by asking it nicely to forget what it read.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 13</span>
+<h2>Why Access Control Matters</h2>
+<p>A RAG assistant can accidentally become a data leak if it retrieves documents outside the user's permission boundary. The danger is quiet: the final answer may reveal a salary band, legal memo, customer secret, unreleased roadmap, or internal incident note without showing the raw source.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Safety north star</span><strong>The model should never receive context the user is not allowed to access.</strong><p>Do not rely on the model to keep secrets. Prevent restricted context from entering the prompt.</p></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 13</span>
+<h2>Real-Life Analogy: The Keycard Building</h2>
+<p>Think of a large office building with a badge reader at every floor and every door. Everyone who works there has a badge, but not every badge opens every room. A finance analyst's badge opens the finance floor and the general kitchen, but it does nothing at the executive boardroom or the server room. Crucially, the check happens at the door, before you ever step inside — not after you've already wandered around and someone asks you to leave.</p>
+<p>A RAG system needs the same discipline. "Being logged in" is like having a badge at all: it proves who you are, not what you can see. The pre-retrieval filter is the door reader that decides which rooms even show up on your directory. The post-retrieval check is the guard who double-checks your badge once you're standing in the doorway, in case your access changed since you walked in. And the audit log is the building's badge-swipe history — the record that lets security reconstruct, months later, exactly who opened which door and when.</p>
+</section>
+
+<section id="identity" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 13</span>
+<h2>Identity and Claims</h2>
+<p>Every request should resolve user claims: tenant, user id, role, group, department, clearance, region, and purpose. These claims become retrieval filters and audit fields.</p>
+<div class="field-depth"><div><h4>Tenant</h4><p>Prevents cross-customer leakage.</p></div><div><h4>Role</h4><p>Controls functional access such as finance, HR, legal, or support.</p></div><div><h4>Clearance</h4><p>Separates public, internal, confidential, and restricted material.</p></div></div>
+</section>
+
+<section id="metadata" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 13</span>
+<h2>Security Metadata</h2>
+<p>Chunks need security metadata at indexing time. If permissions live only in the original source system and are not reflected in the index, retrieval can drift from source-of-truth access.</p>
+</section>
+
+<section id="filters" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 13</span>
+<h2>Retrieval Filters</h2>
+<p>Apply filters before search where supported, and verify after retrieval before context injection. Log filtered-out gold evidence so you can distinguish security behavior from search failure.</p>
+<div class="diagram-card"><pre><code>user claims
   -> policy resolver
   -> pre-retrieval metadata filter
   -> candidate retrieval
   -> post-retrieval access check
-  -> context pack</code></pre></div></section>
-<section id="context" class="subtopic"><h2>Context Safety</h2><p>The context pack should include only allowed evidence, cite only allowed sources, and report denied chunks in an internal audit field, not in the user answer.</p></section>
-<section id="injection" class="subtopic"><h2>Prompt Injection</h2><p>Retrieved documents may contain text like "ignore previous instructions." Treat documents as data. Use boundaries, sanitize high-risk content, and test adversarial snippets.</p></section>
-<section id="audit" class="subtopic"><h2>Audit Logs</h2><p>A useful audit log contains request id, user claims, policy version, filters, allowed chunk ids, denied chunk ids, denial reasons, answer id, and citations used.</p></section>
-<section id="mistakes" class="subtopic"><h2>Common Mistakes</h2><div class="mistake-catalog"><article class="mistake-card"><span class="mistake-id">M01</span><h3>Filtering only in UI</h3><p>The model may still see restricted context. Filter before context injection.</p></article><article class="mistake-card"><span class="mistake-id">M02</span><h3>No permission refresh</h3><p>Source permissions change; indexes must update.</p></article><article class="mistake-card"><span class="mistake-id">M03</span><h3>No denied-context audit</h3><p>Security behavior becomes impossible to explain.</p></article><article class="mistake-card"><span class="mistake-id">M04</span><h3>Trusting the model with secrets</h3><p>Never send restricted context and hope prompting will hide it.</p></article></div></section>
-<section id="project" class="subtopic"><h2>Project Roadmap</h2><p>Build an access-aware RAG gateway. It should resolve user claims, filter chunks, create an audit record, prevent restricted context from entering the prompt, and provide safety metrics like denied-chunk count and access-policy version.</p></section>
+  -> context pack</code></pre></div>
+</section>
+
+<section id="context" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 13</span>
+<h2>Context Safety</h2>
+<p>The context pack should include only allowed evidence, cite only allowed sources, and report denied chunks in an internal audit field, not in the user answer.</p>
+</section>
+
+<section id="injection" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 13</span>
+<h2>Prompt Injection</h2>
+<p>Retrieved documents may contain text like "ignore previous instructions." Treat documents as data. Use boundaries, sanitize high-risk content, and test adversarial snippets.</p>
+</section>
+
+<section id="audit" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 13</span>
+<h2>Audit Logs</h2>
+<p>A useful audit log contains request id, user claims, policy version, filters, allowed chunk ids, denied chunk ids, denial reasons, answer id, and citations used.</p>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 13</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/access-control-and-safety.svg" alt="Access control architecture showing user claims flowing through a policy resolver, pre-retrieval filter, candidate retrieval, post-retrieval check, context pack, and audit log"><figcaption>Every request is resolved to claims, filtered before and after retrieval, packed into allowed-only context, and recorded in an audit log.</figcaption></figure>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 13</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Filtering only in UI</h3><div><strong>Symptom:</strong> the model still receives restricted context even though the screen hides it.</div><div><strong>Better move:</strong> filter before context injection, not just before display.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>No permission refresh</h3><div><strong>Symptom:</strong> a user who lost access last week can still retrieve the document today.</div><div><strong>Better move:</strong> sync source-system permission changes into the index on a defined schedule.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>No denied-context audit</h3><div><strong>Symptom:</strong> nobody can explain why a chunk was excluded, so security behavior looks like search failure.</div><div><strong>Better move:</strong> log denied chunk ids and denial reasons separately from search misses.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Trusting the model with secrets</h3><div><strong>Symptom:</strong> restricted context is sent to the model with a prompt instruction to "not mention it," and it leaks anyway.</div><div><strong>Better move:</strong> never send restricted context in the first place; prompting is not a security boundary.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Assuming the vector index inherits source permissions</h3><div><strong>Symptom:</strong> a document that is restricted in the source system is fully searchable in the vector store because nobody carried the ACL over at indexing time.</div><div><strong>Better move:</strong> treat permission sync as a first-class pipeline step and verify it with a test document that should never appear for a low-privilege user.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>Skipping the filter on cached results</h3><div><strong>Symptom:</strong> a semantic or response cache returns a previous user's chunks to a new user because the cache key ignored identity.</div><div><strong>Better move:</strong> include user claims in the cache key, or re-run the access filter on every cache hit, not just on cache misses.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Not testing mid-session role changes</h3><div><strong>Symptom:</strong> a user's role is downgraded, but their still-open session keeps answering with the old, wider permission set.</div><div><strong>Better move:</strong> resolve claims fresh per request instead of caching them for the life of a session, and add a test that changes role mid-conversation.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Logging denied chunks in a way that leaks them</h3><div><strong>Symptom:</strong> the audit log meant to explain a denial stores the full restricted chunk text, so anyone with log access can read what was supposedly blocked.</div><div><strong>Better move:</strong> log chunk ids, source, and denial reason, not the restricted content itself, and restrict who can read the audit log.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 13</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "I resolve user identity into claims — tenant, role, clearance — on every request, and use those claims to filter candidates before retrieval, not just before display. I re-check access after retrieval to catch stale or mixed-sensitivity chunks, and I keep the cache and session logic aware of identity so a role change or a cache hit can never leak the previous state. Denied chunks are recorded by id and reason, never by content, so the audit trail itself can't become the leak. Retrieved text is always treated as data, never as instructions, so prompt injection can't widen what a user is allowed to see."</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 13</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Access control must happen before the model sees context, not after the answer is shown.</li><li>User claims — tenant, role, clearance — should drive both pre-retrieval and post-retrieval filtering.</li><li>Caches and sessions need identity awareness, or they will silently replay another user's access.</li><li>Audit logs should record ids and reasons for denials, never the restricted content itself.</li><li>Retrieved documents are data, not instructions — prompt injection is a safety failure, not just a quality one.</li></ul></div>
+</section>
+
+<section id="project" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 13</span>
+<h2>Project Roadmap</h2>
+<p>Build an access-aware RAG gateway. It should resolve user claims, filter chunks, create an audit record, prevent restricted context from entering the prompt, and provide safety metrics like denied-chunk count and access-policy version.</p>
+</section>
+
 <div class="chapter-nav"><a href="../chapter-24-failure-analysis/project/index.html">&larr; Chapter 24 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div></main><footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer><script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script></body></html>

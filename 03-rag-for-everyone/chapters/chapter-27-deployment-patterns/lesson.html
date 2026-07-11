@@ -36,7 +36,13 @@
     </ul>
   </div>
 
+  <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. The deployment problem</a><a href="#analogy">2. Fleet rollout analogy</a><a href="#static">3. Static demo pattern</a><a href="#cli">4. Local CLI pattern</a><a href="#api">5. Backend API pattern</a><a href="#frontend">6. Hosted frontend pattern</a><a href="#vectordb">7. Vector database pattern</a><a href="#architecture">8. Architecture view</a><a href="#operations">9. Operations and release controls</a><a href="#mistakes">10. Common mistakes</a><a href="#interview">11. Interview understanding</a><a href="#project">12. Project roadmap</a><a href="#summary">13. Summary</a></nav>
+
+  <div class="hook">Shipping a new embedding model, prompt, or retrieval tweak to every user at once is how a small regression becomes a company-wide incident. Good deployment patterns turn that all-or-nothing gamble into a series of small, reversible bets.</div>
+  <div class="what-is"><span class="label">Core idea</span>Deployment patterns for RAG are the rollout mechanics - versioned builds, canary traffic, monitored ramps, and a documented rollback plan - that let you change code, prompts, models, and indexes in production without breaking trust for everyone at once.</div>
+
   <section id="problem" class="subtopic">
+    <span class="subtopic-label">Sub-topic 1 of 13</span>
     <h2>The Deployment Problem</h2>
     <p>A RAG application has more moving parts than a normal CRUD app: source documents, chunking, embeddings, indexes, prompts, model providers, retrieval parameters, citations, feedback, traces, and eval sets. A release can fail even when the web server is healthy, because the wrong index shipped with the right prompt or because retrieval filters were skipped for one user group.</p>
     <p>The deployment question is not "Where can I host this?" It is "What is the smallest architecture that satisfies privacy, reliability, latency, cost, rollback, and support expectations?"</p>
@@ -58,7 +64,15 @@
     </ol>
   </section>
 
+  <section id="analogy" class="subtopic">
+    <span class="subtopic-label">Sub-topic 2 of 13</span>
+    <h2>Real-Life Analogy: The Fleet-Wide Software Update</h2>
+    <p>An airline that pushes a new flight-management software build never installs it on every aircraft in the fleet the same night. It picks a handful of canary planes on low-risk routes, watches telemetry from those flights closely, and only widens the rollout once the data looks clean. If something looks wrong mid-flight-day, there is a rehearsed way to revert those planes to the previous certified build before the next departure, not a scramble to invent one.</p>
+    <p>RAG deployments deserve the same discipline. A new embedding model, a rewritten prompt, or a re-tuned reranker is a "software update" for how your system understands and answers questions. Route it to a canary slice of traffic first, watch quality and cost like a flight engineer watches instruments, and keep a rehearsed rollback path ready - covering the code, the prompt, and the index together - so a bad build never gets to fly the whole fleet.</p>
+  </section>
+
   <section id="static" class="subtopic">
+    <span class="subtopic-label">Sub-topic 3 of 13</span>
     <h2>Static Demo Pattern</h2>
     <p>A static deployment is ideal when the goal is education, portfolio proof, or stakeholder review with mock data. The app can run from HTML, CSS, JavaScript, and precomputed sample responses. There are no server secrets and no live private retrieval.</p>
     <div class="diagram-card">
@@ -96,6 +110,7 @@ No server secrets. No private documents. No write access.</code></pre>
   </section>
 
   <section id="cli" class="subtopic">
+    <span class="subtopic-label">Sub-topic 4 of 13</span>
     <h2>Local CLI Pattern</h2>
     <p>A CLI is the production engineer's workshop. It makes indexing, evaluation, smoke tests, migrations, and incident reproduction repeatable. Even hosted systems should keep a local CLI path for maintainers.</p>
     <div class="diagram-card">
@@ -124,6 +139,7 @@ rag smoke --question "How do I reset my badge?" --expect-citation</code></pre>
   </section>
 
   <section id="api" class="subtopic">
+    <span class="subtopic-label">Sub-topic 5 of 13</span>
     <h2>Backend API Pattern</h2>
     <p>A backend API is the clean boundary for production RAG. It protects secrets, checks identity, applies authorization filters before retrieval, records traces, enforces rate limits, and gives the frontend a stable contract.</p>
     <div class="diagram-card">
@@ -160,6 +176,7 @@ POST /feedback
   </section>
 
   <section id="frontend" class="subtopic">
+    <span class="subtopic-label">Sub-topic 6 of 13</span>
     <h2>Hosted Frontend Pattern</h2>
     <p>The frontend turns the RAG service into a usable product. It must make citations inspectable, uncertainty visible, and recovery paths obvious. Production frontends should not hide source quality behind a chat bubble.</p>
     <h3>What the frontend owns</h3>
@@ -184,6 +201,7 @@ POST /feedback
   </section>
 
   <section id="vectordb" class="subtopic">
+    <span class="subtopic-label">Sub-topic 7 of 13</span>
     <h2>Vector Database Pattern</h2>
     <p>The vector store is not just a nearest-neighbor box. In production it becomes a governed retrieval system with metadata filters, snapshots, backups, schema migrations, capacity planning, and access policy.</p>
     <h3>Local index vs managed vector database</h3>
@@ -205,7 +223,15 @@ POST /feedback
     </ul>
   </section>
 
+  <section id="architecture" class="subtopic">
+    <span class="subtopic-label">Sub-topic 8 of 13</span>
+    <h2>Architecture View</h2>
+    <p>A release candidate is a bundle of code, prompt, and index versions moving together. It earns trust in stages: staging first, then a small canary slice of real traffic, then a monitored ramp that compares quality, latency, and cost against the last good version. Only then does it become the full rollout. If the ramp shows a regression, the rollback gate sends traffic straight back to the last good version while the candidate goes back for a fix - never the other way around.</p>
+    <figure class="diagram-figure"><img src="diagrams/deployment-patterns.svg" alt="Deployment patterns architecture showing a release candidate moving through staging deploy, canary route, and monitored ramp, then either promoting to full rollout or tripping a rollback gate back to the last good version"><figcaption>Deployment patterns turn a risky all-at-once release into a staged, reversible rollout with a rehearsed rollback gate.</figcaption></figure>
+  </section>
+
   <section id="operations" class="subtopic">
+    <span class="subtopic-label">Sub-topic 9 of 13</span>
     <h2>Operations and Release Controls</h2>
     <p>Production RAG is operated through evidence. You need to know which version answered, what it retrieved, whether citations supported the answer, how much it cost, and how to return to the last good state.</p>
     <h3>Release sequence</h3>
@@ -239,7 +265,29 @@ POST /feedback
     </ul>
   </section>
 
+  <section id="mistakes" class="subtopic">
+    <span class="subtopic-label">Sub-topic 10 of 13</span>
+    <h2>Common Mistakes</h2>
+    <div class="mistake-catalog">
+      <article class="mistake-card"><span class="mistake-id">M01</span><h3>Swapping the embedding model without a full re-index</h3><div><strong>Symptom:</strong> old vectors and new vectors sit in the same index, so similarity scores stop meaning anything and retrieval quality quietly collapses.</div><div><strong>Better move:</strong> treat a new embedding model as a new index build. Re-embed the full corpus, version it separately, and cut over atomically once it passes eval.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M02</span><h3>No rollback plan for a prompt or model regression</h3><div><strong>Symptom:</strong> a prompt or model version ships, quality drops, and the team improvises a fix live instead of reverting.</div><div><strong>Better move:</strong> version prompts and model choices like code, and rehearse the revert path before you need it under pressure.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M03</span><h3>Blue/green deploys that ignore the stateful vector index</h3><div><strong>Symptom:</strong> the app swaps cleanly between blue and green, but both environments point at the same mutable index, so a bad write corrupts both.</div><div><strong>Better move:</strong> version the index alongside the app and let each environment pin its own index snapshot.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M04</span><h3>Skipping canary traffic for retrieval changes because "it's just search"</h3><div><strong>Symptom:</strong> a reranker or chunking change ships to 100% of users at once and silently degrades answer grounding.</div><div><strong>Better move:</strong> route retrieval changes through the same canary and monitored-ramp discipline as code and prompt changes.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M05</span><h3>Coupling index rebuilds to code deploys</h3><div><strong>Symptom:</strong> a bad code release forces a rollback that also reverts a perfectly good index, or a bad index can't be rolled back without redeploying code.</div><div><strong>Better move:</strong> version code and index snapshots independently so either can roll back without dragging the other along.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M06</span><h3>No feature flag for risky retrieval changes</h3><div><strong>Symptom:</strong> a new retrieval strategy can only be turned off by a full redeploy, so a bad rollout stays live for the length of a build pipeline.</div><div><strong>Better move:</strong> gate risky retrieval and ranking changes behind a flag that can be flipped off in seconds.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M07</span><h3>Deploying to all tenants simultaneously instead of staging the rollout</h3><div><strong>Symptom:</strong> a multi-tenant regression hits every customer at the same moment, turning one bad release into a mass incident.</div><div><strong>Better move:</strong> stage rollout by tenant cohort, starting with low-risk or internal tenants before widening.</div></article>
+      <article class="mistake-card"><span class="mistake-id">M08</span><h3>Missing a documented rollback runbook</h3><div><strong>Symptom:</strong> during an incident, no one agrees on what "roll back" means for code, prompt, model, and index together, so recovery is improvised and slow.</div><div><strong>Better move:</strong> write and rehearse a runbook that names the exact steps and owners for reverting every layer of a release.</div></article>
+    </div>
+  </section>
+
+  <section id="interview" class="subtopic">
+    <span class="subtopic-label">Sub-topic 11 of 13</span>
+    <h2>Interview-Level Understanding</h2>
+    <p>A strong answer sounds like this: "I treat a RAG release as a bundle of versioned code, prompt, and index that moves through staging, a canary slice of real traffic, and a monitored ramp before it becomes the full rollout. Retrieval changes get the same canary discipline as code changes, because a bad embedding model or reranker degrades trust just as fast as a bad deploy. I version the index independently from code so either can roll back without dragging the other along, gate risky retrieval changes behind feature flags, stage multi-tenant rollouts by cohort, and keep a documented, rehearsed rollback runbook so recovery during an incident is a known procedure, not an improvisation."</p>
+  </section>
+
   <section id="project" class="subtopic">
+    <span class="subtopic-label">Sub-topic 12 of 13</span>
     <h2>Project Roadmap</h2>
     <p>You will build a RAG deployment planner. Given a scenario, it recommends a deployment pattern, explains the trade-off, lists required controls, produces a launch checklist, and names the first day-2 operations tasks.</p>
     <h3>Milestones</h3>
@@ -251,6 +299,11 @@ POST /feedback
       <li><strong>Test the planner:</strong> run examples for public demos, internal assistants, and regulated customer deployments.</li>
     </ol>
     <p>Start with the project brief, then use the exercises and practice bank to pressure-test your decision logic.</p>
+  </section>
+
+  <section id="summary" class="subtopic">
+    <span class="subtopic-label">Sub-topic 13 of 13</span>
+    <div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Treat every release as a versioned bundle of code, prompt, and index that moves together, but can roll back independently.</li><li>Retrieval and ranking changes need the same canary and monitored-ramp discipline as code changes - "it's just search" is how regressions slip through.</li><li>A new embedding model needs a full re-index before cutover, never a partial mix of old and new vectors.</li><li>Stage rollouts by cohort, whether that's a traffic percentage or a tenant list, instead of shipping to everyone at once.</li><li>A rollback plan only works if it is written down, covers every layer of the release, and has been rehearsed before an incident forces you to use it.</li></ul></div>
   </section>
 
   <div class="chapter-nav">

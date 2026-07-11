@@ -1,0 +1,7 @@
+flowchart LR
+  G[Golden question and evidence] --> E[Quality evaluator]
+  C[Candidate answer] --> E
+  E --> S[Per-dimension scores]
+  S --> A[Aggregate report]
+  A --> SL[Risk / domain slice]
+  SL --> Gate[Release gate]
