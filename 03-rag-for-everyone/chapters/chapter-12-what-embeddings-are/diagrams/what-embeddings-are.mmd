@@ -1,0 +1,10 @@
+flowchart LR
+  A[Documents] --> B[Chunks]
+  B --> C[Embedding model]
+  C --> D[(Vectors + metadata)]
+  E[User question] --> F[Same embedding model]
+  F --> G[Query vector]
+  G --> H[Similarity search]
+  D --> H
+  H --> I[Top chunks]
+  I --> J[Grounded answer]

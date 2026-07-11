@@ -1,0 +1,4 @@
+Documents -> chunks -> embedding model -> vectors + metadata
+Question -> same embedding model -> query vector
+Query vector + stored vectors -> similarity search -> top chunks
+Top chunks -> prompt context -> grounded answer

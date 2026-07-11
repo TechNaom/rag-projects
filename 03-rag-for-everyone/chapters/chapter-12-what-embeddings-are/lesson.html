@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 12 — What Embeddings Are</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-12">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 12 of 28</span><span class="badge-difficulty">Embeddings</span><span class="reading-time">70 min read</span></div>
+<h1>What Embeddings Are</h1>
+<p class="lede">Embeddings turn text into numbers so machines can search by meaning. They are the bridge between human language and retrieval math, but they also have limits that every production RAG builder must understand.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Start simple:</strong> an embedding is a numeric location for a piece of text in meaning space.</li><li><strong>Keep the engineering view:</strong> embeddings are used for retrieval, clustering, recommendation, deduplication, and semantic matching.</li><li><strong>Do not treat similarity as truth:</strong> close vectors mean "likely related," not "correct, current, safe, or complete."</li><li><strong>Think production:</strong> model choice, dimension size, cost, latency, drift, re-indexing, privacy, and evaluation all matter.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why embeddings exist</a><a href="#analogy">2. Map analogy</a><a href="#mental-model">3. Mental model</a><a href="#technical">4. Technical explanation</a><a href="#similarity">5. Similarity</a><a href="#dense-sparse">6. Dense vs sparse</a><a href="#architecture">7. Architecture view</a><a href="#code">8. Practical example</a><a href="#production">9. Production considerations</a><a href="#mistakes">10. Common mistakes</a><a href="#interview">11. Interview understanding</a><a href="#assignment">12. Mini assignment</a><a href="#summary">13. Summary</a></nav>
+
+<div class="hook">Search used to ask: "Do these words match?" Embeddings ask a deeper question: "Do these ideas live near each other?"</div>
+<div class="what-is"><span class="label">Core idea</span>An embedding is a vector: a list of numbers that represents text, image, audio, or other data in a space where similar meanings tend to be close together.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 13</span>
+<h2>Why Embeddings Exist</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Keyword search misses meaning when words differ.</li><li>Embeddings help retrieve related text even when vocabulary is different.</li><li>RAG uses embeddings to find candidate chunks before the model answers.</li><li>Embeddings are useful but imperfect, so they need metadata, reranking, and evals.</li></ul></div>
+<p>Suppose a user asks, "How do I rotate an API credential?" The document says, "Regenerate the access key and update dependent services." A pure keyword search may struggle because "rotate" and "regenerate" are different words. Embeddings help because they can place related ideas near each other.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Embeddings north star</span><strong>Use vectors to find likely relevant evidence, then use engineering controls to prove it is safe and useful.</strong><p>Embeddings are excellent candidate finders. They are not a replacement for source governance, metadata, citations, or evaluation.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Convert text to vector</strong><p>Each chunk and question becomes a list of numbers.</p></div></div><div class="decision-step"><span>02</span><div><strong>Compare vectors</strong><p>Similarity functions rank chunks by closeness to the question.</p></div></div><div class="decision-step"><span>03</span><div><strong>Filter and assemble context</strong><p>Metadata, reranking, and context budgets decide what reaches the model.</p></div></div><div class="decision-step"><span>04</span><div><strong>Evaluate behavior</strong><p>Recall, precision, citation support, and failure analysis decide whether the embedding setup works.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 13</span>
+<h2>Real-Life Analogy: Google Maps for Meaning</h2>
+<p>Think of embeddings like a map. Restaurants are near other restaurants. Hospitals are near health services. Airports are near travel locations. If you search for "food near me," the map does not match only the word "food"; it understands related places.</p>
+<p>Embeddings create a similar map for meaning. "Password reset," "credential rotation," and "access key regeneration" may live near each other because they are conceptually related.</p>
+<div class="quick-recap"><span class="label">Mental picture</span><ul><li>Text becomes a point on a map.</li><li>Related meanings sit nearby.</li><li>Search becomes a nearest-neighbor problem.</li><li>Close does not always mean correct.</li></ul></div>
+</section>
+
+<section id="mental-model" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 13</span>
+<h2>Mental Model</h2>
+<p>A vector is just a list of numbers. In simple examples, we can imagine two or three dimensions. In real embedding models, vectors often have hundreds or thousands of dimensions.</p>
+<div class="diagram-card"><h3>Tiny example</h3><pre><code>"reset password"      -> [0.82, 0.10, 0.44]
+"change credentials"  -> [0.79, 0.13, 0.41]
+"quarterly revenue"   -> [0.05, 0.91, 0.22]</code></pre></div>
+<p>The first two vectors are close because the meanings are related. The revenue vector is far away because it talks about a different topic.</p>
+<div class="mentor-note"><strong>Mentor note:</strong> the numbers themselves are not meant for humans to interpret one by one. The useful behavior comes from comparing vectors.</div>
+</section>
+
+<section id="technical" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 13</span>
+<h2>Technical Explanation</h2>
+<p>An embedding model reads input and returns a fixed-length numeric vector. Fixed length matters because every chunk and query must live in the same vector space to be compared.</p>
+<div class="field-depth"><div><h4>Input</h4><p>A chunk, query, title, image caption, product description, ticket, policy section, or code snippet.</p></div><div><h4>Embedding model</h4><p>A model trained to place related items near one another. It can be local, open-source, or API-based.</p></div><div><h4>Output</h4><p>A vector such as 384, 768, 1024, 1536, or more numbers depending on the model.</p></div></div>
+<div class="real-world"><span class="label">Where it fits in RAG</span><ul><li><strong>Index time:</strong> embed chunks and store vectors with text, metadata, ids, and source references.</li><li><strong>Query time:</strong> embed the user's question using the same embedding model family.</li><li><strong>Retrieval:</strong> compare the query vector to stored chunk vectors.</li><li><strong>Context assembly:</strong> send the best chunks, not the vectors, to the language model.</li></ul></div>
+</section>
+
+<section id="similarity" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 13</span>
+<h2>Similarity</h2>
+<p>Similarity is how we measure closeness between vectors. Common approaches include cosine similarity, dot product, and Euclidean distance.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Cosine</span><h3>Angle between vectors</h3><p>Measures direction more than raw length. Common for text embeddings.</p></div><div class="depth-panel"><span>Dot product</span><h3>Magnitude and direction</h3><p>Often used by vector databases and embedding systems optimized around it.</p></div><div class="depth-panel"><span>Euclidean</span><h3>Straight-line distance</h3><p>Measures geometric distance, useful in some settings but not always best for text search.</p></div><div class="depth-panel"><span>Ranking</span><h3>Nearest neighbors</h3><p>Retrieval ranks chunks by similarity and returns top-k candidates.</p></div></div>
+<div class="diagram-card"><h3>Cosine intuition</h3><pre><code>same direction      -> high similarity
+opposite direction  -> low similarity
+unrelated direction -> weak similarity</code></pre></div>
+</section>
+
+<section id="dense-sparse" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 13</span>
+<h2>Dense vs Sparse Intuition</h2>
+<p>Embeddings are often called dense vectors because most dimensions contain some value. Traditional keyword systems such as TF-IDF or BM25 are sparse because most vocabulary dimensions are zero for a document.</p>
+<div class="field-depth"><div><h4>Sparse retrieval</h4><p>Great for exact terms, product codes, error IDs, names, legal clauses, and rare keywords.</p></div><div><h4>Dense retrieval</h4><p>Great for paraphrases, semantic matching, concepts, and natural-language questions.</p></div><div><h4>Hybrid retrieval</h4><p>Combines both. In production, hybrid is often stronger than choosing one camp blindly.</p></div></div>
+<div class="case-study-card"><span class="decision-label">Production example</span><h3>Error code search</h3><p>If the user searches for <code>AZ-4032-B</code>, sparse search may outperform dense embeddings because exact tokens matter. If the user asks "Why did my deployment fail after rotating a key?", dense retrieval may help more. A strong RAG system can route or blend both.</p></div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 13</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/what-embeddings-are.svg" alt="Embedding architecture showing chunks and question converted to vectors, compared by similarity, and returned as context"><figcaption>Embeddings convert chunks and questions into comparable vectors. Retrieval uses vector similarity to find candidate evidence for the prompt.</figcaption></figure>
+<div class="diagram-card"><h3>Embedding retrieval flow</h3><pre><code>documents
+  -> chunks
+  -> embedding model
+  -> vectors + metadata in vector store
+
+user question
+  -> same embedding model
+  -> query vector
+  -> similarity search
+  -> top chunks
+  -> grounded answer</code></pre></div>
+</section>
+
+<section id="code" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 13</span>
+<h2>Practical Example</h2>
+<p>The course project stays dependency-light, so this chapter uses a tiny local vector example to teach similarity. It is not a replacement for a real embedding model, but it makes the mechanics visible.</p>
+<div class="diagram-card"><h3>Mini similarity example</h3><pre><code>from math import sqrt
+
+def cosine(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    left = sqrt(sum(x * x for x in a))
+    right = sqrt(sum(y * y for y in b))
+    return dot / (left * right)
+
+query = [0.80, 0.12, 0.40]
+chunk = [0.78, 0.11, 0.42]
+print(round(cosine(query, chunk), 3))</code></pre></div>
+<p>In real systems, the embedding model creates the vectors. Your job as an engineer is to choose the model, store vectors correctly, evaluate retrieval, and know when similarity is misleading.</p>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 13</span>
+<h2>Production Considerations</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Model consistency:</strong> index chunks and embed queries with compatible models. Changing models requires re-indexing.</li><li><strong>Dimension compatibility:</strong> vector stores expect a fixed dimension for a collection.</li><li><strong>Latency:</strong> query embedding adds runtime latency unless cached or optimized.</li><li><strong>Cost:</strong> embedding large corpora and frequent queries can be expensive.</li><li><strong>Privacy:</strong> sending sensitive text to an external embedding API may need legal and security review.</li><li><strong>Drift:</strong> documents, user language, and embedding models change over time.</li><li><strong>Evaluation:</strong> measure whether the right chunks are retrieved, not whether the vectors look impressive.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 13</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Treating similarity as correctness</h3><div><strong>Symptom:</strong> close chunks are trusted even when they are stale or incomplete.</div><div><strong>Better move:</strong> combine similarity with metadata, citations, freshness, and evals.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Changing embedding model without re-indexing</h3><div><strong>Symptom:</strong> query vectors and stored vectors live in incompatible spaces.</div><div><strong>Better move:</strong> version embedding model and rebuild the index when the model changes.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Ignoring exact identifiers</h3><div><strong>Symptom:</strong> embeddings miss ticket IDs, product codes, error codes, and policy numbers.</div><div><strong>Better move:</strong> use sparse or hybrid retrieval for exact-match-heavy domains.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Embedding noisy chunks</h3><div><strong>Symptom:</strong> headers, footers, navigation text, or broken tables pollute vectors.</div><div><strong>Better move:</strong> clean and structure content before embedding.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Embedding whole documents blindly</h3><div><strong>Symptom:</strong> retrieval returns broad documents instead of precise evidence.</div><div><strong>Better move:</strong> chunk at useful thought units and keep parent context separately.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>No embedding version in metadata</h3><div><strong>Symptom:</strong> teams cannot explain retrieval shifts after rebuilds.</div><div><strong>Better move:</strong> store embedding model, dimension, chunker version, and index version.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Overlooking privacy review</h3><div><strong>Symptom:</strong> sensitive documents are sent to an external model without governance.</div><div><strong>Better move:</strong> classify data and choose local or approved providers where needed.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Skipping retrieval evals</h3><div><strong>Symptom:</strong> demos look fine, but production users see misses.</div><div><strong>Better move:</strong> maintain golden queries with expected chunks and measure Recall@k.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 13</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Embeddings represent text as vectors so semantically related chunks can be found by similarity. In RAG, we embed chunks at index time and embed the query at runtime. But vector similarity is only a candidate-generation step; we still need metadata filters, reranking, citations, freshness controls, and evals."</p>
+<div class="case-study-card"><span class="decision-label">Senior signal</span><h3>What separates beginner and production thinking?</h3><p>A beginner says, "Embeddings find similar text." A production engineer adds, "Similarity can retrieve stale, unsafe, or incomplete text, so we version models, filter metadata, evaluate Recall@k, and re-index when embedding behavior changes."</p></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 13</span>
+<h2>Mini Assignment</h2>
+<p>Choose five pairs of sentences from your domain. Label each pair as exact match, semantic match, related but unsafe, or unrelated. Then explain whether sparse, dense, or hybrid retrieval should handle each pair and why.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 13</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Embeddings turn text into vectors that can be compared by similarity.</li><li>RAG uses embeddings to retrieve candidate evidence, not to prove truth.</li><li>Dense vectors are strong for semantic matching; sparse retrieval is strong for exact terms.</li><li>Embedding model changes usually require re-indexing.</li><li>Production embedding systems need metadata, evals, privacy controls, versioning, and failure analysis.</li></ul></div>
+</section>
+
+<p>Next, test the mental model in the quiz, then build a tiny similarity searcher in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-11-chunking-failure-analysis/project/index.html">&larr; Chapter 11 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

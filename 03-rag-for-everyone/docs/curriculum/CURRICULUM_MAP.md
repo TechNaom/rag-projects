@@ -136,6 +136,10 @@ Goal: Explain vector search clearly enough to debug it.
 - Similarity.
 - Dense vs sparse intuition.
 - Cosine similarity.
+- Embeddings as candidate retrieval, not proof of truth.
+- Model consistency, dimensions, privacy, latency, cost, and drift.
+- Re-indexing and embedding versioning.
+- Retrieval evals such as Recall@K and gold chunk rank.
 
 ### Chapter 13: Local TF-IDF + SVD Embeddings
 

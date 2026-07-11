@@ -242,7 +242,28 @@ window.RFE_MODULES = [
     summary: "Make meaning searchable by understanding embeddings, similarity, and the limits of vector matching.",
     examPath: null,
     chapters: [
-      { id: "chapter-12", num: 12, title: "What Embeddings Are", path: null },
+      {
+        id: "chapter-12",
+        num: 12,
+        title: "What Embeddings Are",
+        path: "chapters/chapter-12-what-embeddings-are/lesson.html",
+        description: "Text-to-vector intuition, semantic similarity, cosine similarity, dense vs sparse retrieval, model consistency, re-indexing, privacy, and embedding evals.",
+        subtopics: [
+          { id: "problem", title: "Why embeddings exist" },
+          { id: "analogy", title: "Map analogy" },
+          { id: "mental-model", title: "Mental model" },
+          { id: "technical", title: "Technical explanation" },
+          { id: "similarity", title: "Similarity" },
+          { id: "dense-sparse", title: "Dense vs sparse" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "code", title: "Practical example" },
+          { id: "production", title: "Production considerations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-13", num: 13, title: "Local TF-IDF + SVD Embeddings", path: null },
       { id: "chapter-14", num: 14, title: "Neural Embeddings", path: null }
     ]
