@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 520" role="img" aria-labelledby="title desc">
+  <title id="title">Semantic and hierarchical chunking architecture</title>
+  <desc id="desc">A document is split into topic-aware child chunks linked to parent sections, then retrieval expands from child evidence to parent context.</desc>
+  <rect width="1120" height="520" fill="#f6f8fc"/>
+  <rect x="70" y="70" width="190" height="95" rx="16" fill="#101b33"/>
+  <text x="165" y="110" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Document</text>
+  <text x="165" y="136" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">source + metadata</text>
+  <rect x="340" y="50" width="220" height="85" rx="16" fill="#2e6bb8"/>
+  <text x="450" y="88" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Semantic chunks</text>
+  <text x="450" y="112" text-anchor="middle" fill="#eaf1fc" font-family="Inter, Arial" font-size="14">topic boundaries</text>
+  <rect x="340" y="175" width="220" height="95" rx="16" fill="#3a7f5f"/>
+  <text x="450" y="214" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Parent sections</text>
+  <text x="450" y="239" text-anchor="middle" fill="#e7f4ed" font-family="Inter, Arial" font-size="14">larger context</text>
+  <path d="M260 118 H300 V92 H340 M300 118 V222 H340" stroke="#101b33" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="660" y="90" width="220" height="120" rx="18" fill="#fff" stroke="#cdd7ea"/>
+  <text x="770" y="130" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="18" font-weight="800">Retrieve child</text>
+  <text x="770" y="160" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">precise evidence</text>
+  <text x="770" y="184" text-anchor="middle" fill="#4c5a73" font-family="Inter, Arial" font-size="15">then expand parent</text>
+  <path d="M560 92 H610 V150 H660 M560 222 H610 V150" stroke="#2e6bb8" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="930" y="90" width="150" height="120" rx="18" fill="#101b33"/>
+  <text x="1005" y="133" text-anchor="middle" fill="#fff" font-family="Inter, Arial" font-size="18" font-weight="800">Grounded</text>
+  <text x="1005" y="162" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">answer</text>
+  <text x="1005" y="186" text-anchor="middle" fill="#d9e3f6" font-family="Inter, Arial" font-size="15">with citation</text>
+  <path d="M880 150 H930" stroke="#101b33" stroke-width="4" stroke-linecap="round"/>
+  <rect x="130" y="350" width="860" height="58" rx="14" fill="#eaf1fc" stroke="#cdd7ea"/>
+  <text x="560" y="385" text-anchor="middle" fill="#101b33" font-family="Inter, Arial" font-size="17" font-weight="700">Semantic chunks improve topic purity; hierarchy restores context when small evidence is not enough.</text>
+</svg>

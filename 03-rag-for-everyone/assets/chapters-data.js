@@ -193,7 +193,26 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-10", num: 10, title: "Semantic and Hierarchical Chunking", path: null },
+      {
+        id: "chapter-10",
+        num: 10,
+        title: "Semantic and Hierarchical Chunking",
+        path: "chapters/chapter-10-semantic-and-hierarchical-chunking/lesson.html",
+        description: "Topic-aware boundaries, parent-child retrieval, section-aware chunks, hierarchy metadata, context expansion, and when simple chunking is enough.",
+        subtopics: [
+          { id: "problem", title: "Why advanced chunking matters" },
+          { id: "analogy", title: "Book chapter analogy" },
+          { id: "semantic", title: "Semantic chunking" },
+          { id: "hierarchical", title: "Hierarchical chunking" },
+          { id: "parent-child", title: "Parent-child retrieval" },
+          { id: "simple-enough", title: "When simple is enough" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "production", title: "Production controls" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-11", num: 11, title: "Chunking Failure Analysis", path: null }
     ]
   },

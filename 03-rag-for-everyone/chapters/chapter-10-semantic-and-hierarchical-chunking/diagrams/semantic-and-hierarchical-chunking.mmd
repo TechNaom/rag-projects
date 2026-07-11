@@ -1,0 +1,7 @@
+flowchart LR
+  A[Document] --> B[Semantic child chunks]
+  A --> C[Parent sections]
+  B --> D[Retrieve precise child evidence]
+  D --> E[Fetch parent context]
+  C --> E
+  E --> F[Answer with child citation and parent context]

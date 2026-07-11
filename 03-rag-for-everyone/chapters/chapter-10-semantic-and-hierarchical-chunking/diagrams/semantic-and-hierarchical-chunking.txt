@@ -1,0 +1,6 @@
+Document
+  -> semantic child chunks
+  -> parent sections
+  -> retrieve precise child evidence
+  -> fetch parent context
+  -> answer with child citation and parent context
