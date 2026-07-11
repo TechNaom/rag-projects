@@ -215,6 +215,9 @@ Goal: Build retrieval systems that can be reasoned about and improved.
 - When reranking fixes real misses.
 - Retrieval eval loops.
 - Production tuning playbooks.
+- Candidate-k vs final-k decisions.
+- Before-rerank and after-rerank metrics.
+- Dedupe, diversity, timeout fallback, and rollout strategy.
 
 ## Module 6: Prompting for RAG
 

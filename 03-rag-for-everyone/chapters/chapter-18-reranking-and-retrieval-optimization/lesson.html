@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 18 — Reranking and Retrieval Optimization</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-18">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 18 of 28</span><span class="badge-difficulty">Retrieval Optimization</span><span class="reading-time">80 min read</span></div>
+<h1>Reranking and Retrieval Optimization</h1>
+<p class="lede">First-stage retrieval is built for speed and recall. Reranking is built for judgment. In production RAG, a common pattern is retrieve many candidates, rerank carefully, and return only the strongest evidence to the prompt.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>Separate recall from precision:</strong> first retrieve enough candidates, then rerank to choose the best few.</li><li><strong>Understand cost:</strong> rerankers improve ordering but add latency and compute.</li><li><strong>Use reranking for the right failures:</strong> it helps when the gold chunk is in candidates but ranked too low.</li><li><strong>Optimize with eval loops:</strong> retrieval tuning is a measured cycle, not a one-time setting.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why reranking matters</a><a href="#analogy">2. Hiring shortlist analogy</a><a href="#first-stage">3. First-stage retrieval</a><a href="#reranking">4. Reranking</a><a href="#cross-encoder">5. Cross-encoder intuition</a><a href="#when">6. When reranking helps</a><a href="#architecture">7. Architecture view</a><a href="#optimization">8. Optimization loop</a><a href="#latency">9. Cost and latency</a><a href="#metrics">10. Metrics</a><a href="#mistakes">11. Common mistakes</a><a href="#interview">12. Interview understanding</a><a href="#assignment">13. Mini assignment</a><a href="#summary">14. Summary</a></nav>
+
+<div class="hook">Reranking cannot recover a chunk that retrieval never found. It can only reorder the candidates it receives.</div>
+<div class="what-is"><span class="label">Core idea</span>Reranking takes a candidate set from retrieval and applies a stronger relevance model or scoring rule to choose the best chunks for context.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 14</span>
+<h2>Why Reranking Matters</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>Initial retrieval often optimizes recall and speed.</li><li>Reranking improves precision among candidates.</li><li>Reranking is useful when the correct chunk is retrieved but not ranked high enough.</li><li>It adds latency, so use it where quality gain justifies cost.</li></ul></div>
+<p>Imagine a vector search returns 30 chunks. The correct answer is there, but it sits at rank 11. If your prompt only receives the top 5, the model still misses the answer. A reranker can inspect the query and candidate chunks more carefully, move the strongest evidence upward, and reduce context noise.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Reranking north star</span><strong>Retrieve enough candidates for recall, rerank enough candidates for precision, and send only useful evidence to the model.</strong><p>Reranking should be justified by measured gains in gold rank, citation support, and answer quality.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Retrieve broad candidates</strong><p>Use dense, sparse, hybrid, or multi-query retrieval to build a candidate pool.</p></div></div><div class="decision-step"><span>02</span><div><strong>Rerank carefully</strong><p>Score query-candidate relevance with a stronger model or rule set.</p></div></div><div class="decision-step"><span>03</span><div><strong>Select context</strong><p>Choose final chunks by relevance, diversity, token budget, and citation quality.</p></div></div><div class="decision-step"><span>04</span><div><strong>Evaluate loop</strong><p>Measure Recall@candidate_k, MRR, gold rank, latency, and answer groundedness.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 14</span>
+<h2>Real-Life Analogy: Hiring Shortlist</h2>
+<p>First-stage retrieval is like collecting resumes from a big job board. You want a wide enough pool so strong candidates are not missed. Reranking is the hiring panel reading the shortlist carefully and deciding who truly fits the role.</p>
+<p>If the right candidate never enters the shortlist, the panel cannot choose them. If the shortlist is too big, the panel becomes slow and expensive. The art is choosing the right candidate pool size.</p>
+</section>
+
+<section id="first-stage" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 14</span>
+<h2>First-Stage Retrieval</h2>
+<p>First-stage retrieval should usually optimize for recall and speed. It may use vector search, BM25, hybrid search, query rewriting, or multi-query retrieval.</p>
+<div class="field-depth"><div><h4>Candidate k</h4><p>The larger pool sent to reranking, such as 30, 50, or 100 candidates.</p></div><div><h4>Final k</h4><p>The smaller set sent to the prompt, such as 4, 6, or 8 chunks.</p></div><div><h4>Key question</h4><p>Does the gold evidence appear in the candidate pool before reranking?</p></div></div>
+</section>
+
+<section id="reranking" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 14</span>
+<h2>Reranking</h2>
+<p>A reranker takes the query and candidate chunks and returns a new relevance order. Some rerankers are neural models; others are rule-based or weighted scoring systems.</p>
+<div class="diagram-card"><h3>Retrieve many, return few</h3><pre><code>query
+  -> retrieve top 40 candidates
+  -> rerank 40 candidates
+  -> dedupe and diversify
+  -> send top 6 to context
+  -> answer with citations</code></pre></div>
+</section>
+
+<section id="cross-encoder" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 14</span>
+<h2>Cross-Encoder Intuition</h2>
+<p>A bi-encoder embeds query and documents separately, which is fast for search. A cross-encoder reads the query and candidate text together, which is slower but often more precise.</p>
+<div class="production-depth-grid"><div class="depth-panel"><span>Bi-encoder</span><h3>Fast search</h3><p>Great for first-stage retrieval across large collections.</p></div><div class="depth-panel"><span>Cross-encoder</span><h3>Careful scoring</h3><p>Great for reranking a smaller candidate set.</p></div><div class="depth-panel"><span>Trade-off</span><h3>Quality vs latency</h3><p>More careful scoring costs more runtime.</p></div><div class="depth-panel"><span>Rule</span><h3>Small pool</h3><p>Rerank candidates, not the whole corpus.</p></div></div>
+</section>
+
+<section id="when" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 14</span>
+<h2>When Reranking Helps</h2>
+<div class="real-world"><span class="label">Good fit</span><ul><li>Gold evidence appears in top 50 but not top 5.</li><li>Dense and sparse retrieval produce mixed candidate quality.</li><li>Many candidates are related but only a few directly answer the query.</li><li>High-risk answers need stronger evidence ordering before prompt assembly.</li><li>Context budget is tight and every chunk must earn its place.</li></ul></div>
+<div class="mentor-note"><strong>Mentor note:</strong> if the correct evidence is not in the candidate pool at all, fix retrieval, chunking, filters, or query rewriting first.</div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 14</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/reranking-and-retrieval-optimization.svg" alt="Reranking architecture showing query, broad retrieval, candidate pool, reranker, dedupe, final context, citations, and eval loop"><figcaption>Reranking improves precision after broad retrieval, then sends a smaller, stronger evidence set to the prompt.</figcaption></figure>
+</section>
+
+<section id="optimization" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 14</span>
+<h2>Optimization Loop</h2>
+<div class="diagram-card"><h3>Retrieval tuning loop</h3><pre><code>collect failure trace
+  -> label miss
+  -> inspect candidate pool
+  -> tune retrieval or reranking
+  -> run golden queries
+  -> compare quality + latency
+  -> release or roll back</code></pre></div>
+<p>Optimization is not "turn on reranking." It is repeated measurement across failure types: missing evidence, wrong order, duplicates, stale chunks, access-filter misses, and context overflow.</p>
+</section>
+
+<section id="latency" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 14</span>
+<h2>Cost and Latency</h2>
+<p>Reranking can be expensive because every candidate may require a query-chunk relevance score. Candidate pool size matters.</p>
+<div class="field-depth"><div><h4>Rerank 10</h4><p>Fast but may miss gold evidence if candidate recall is low.</p></div><div><h4>Rerank 50</h4><p>Higher recall opportunity but more latency and cost.</p></div><div><h4>Rerank 200</h4><p>Often too expensive unless offline, batch, or high-value workflow.</p></div></div>
+</section>
+
+<section id="metrics" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 14</span>
+<h2>Metrics</h2>
+<div class="field-depth"><div><h4>Before rerank</h4><p>Candidate Recall@k, gold candidate presence, duplicate rate, stale-hit rate.</p></div><div><h4>After rerank</h4><p>MRR, gold final rank, final Recall@k, context precision, citation support.</p></div><div><h4>Operations</h4><p>Rerank latency, cost per query, timeout rate, fallback rate, and token savings.</p></div></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 14</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Using reranking to fix missing candidates</h3><div><strong>Symptom:</strong> reranker cannot promote gold evidence because it never received it.</div><div><strong>Better move:</strong> improve first-stage retrieval or candidate k.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Reranking too many chunks</h3><div><strong>Symptom:</strong> latency spikes and user experience suffers.</div><div><strong>Better move:</strong> cap candidate pool and use routing for high-value cases.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Evaluating only final answers</h3><div><strong>Symptom:</strong> team cannot tell whether retrieval or reranking helped.</div><div><strong>Better move:</strong> measure before and after rerank metrics separately.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>No dedupe after rerank</h3><div><strong>Symptom:</strong> top results contain repeated chunks from same section.</div><div><strong>Better move:</strong> dedupe and diversify final context.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Ignoring access and freshness</h3><div><strong>Symptom:</strong> reranker promotes restricted or stale chunks.</div><div><strong>Better move:</strong> enforce filters before and after rerank.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>No latency budget</h3><div><strong>Symptom:</strong> quality improves in tests but product feels slow.</div><div><strong>Better move:</strong> track p50/p95 rerank latency and timeouts.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>One reranker for every domain</h3><div><strong>Symptom:</strong> legal, code, and support behave differently.</div><div><strong>Better move:</strong> evaluate by domain and risk slice.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>No fallback on reranker failure</h3><div><strong>Symptom:</strong> retrieval path fails hard when reranker times out.</div><div><strong>Better move:</strong> fallback to first-stage rank with lower confidence.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 14</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "Reranking is a second-stage retrieval step. I first retrieve a broader candidate pool for recall, then rerank candidates with a stronger relevance model, dedupe, and send a smaller context set to the prompt. I measure candidate recall before rerank and final rank/citation support after rerank, while watching latency and cost."</p>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 14</span>
+<h2>Mini Assignment</h2>
+<p>Design a reranking policy for three flows: low-risk FAQ, high-risk policy answer, and Sev1 runbook. Define candidate k, final k, reranker use, fallback, latency budget, and metrics.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 14</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>Reranking improves ordering, not candidate discovery.</li><li>Use first-stage retrieval for recall and reranking for precision.</li><li>Measure before and after reranking separately.</li><li>Reranking adds cost and latency, so use it intentionally.</li><li>Optimization is an eval loop, not a single switch.</li></ul></div>
+</section>
+
+<p>Next, test reranking judgment in the quiz, then build a reranking policy planner in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-17-hybrid-search-and-query-routing/project/index.html">&larr; Chapter 17 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

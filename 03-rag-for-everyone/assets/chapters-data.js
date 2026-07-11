@@ -386,7 +386,29 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-18", num: 18, title: "Reranking and Retrieval Optimization", path: null }
+      {
+        id: "chapter-18",
+        num: 18,
+        title: "Reranking and Retrieval Optimization",
+        path: "chapters/chapter-18-reranking-and-retrieval-optimization/lesson.html",
+        description: "Retrieve many return few, cross-encoder intuition, candidate pools, reranking, dedupe, latency/cost trade-offs, metrics, and optimization loops.",
+        subtopics: [
+          { id: "problem", title: "Why reranking matters" },
+          { id: "analogy", title: "Hiring shortlist analogy" },
+          { id: "first-stage", title: "First-stage retrieval" },
+          { id: "reranking", title: "Reranking" },
+          { id: "cross-encoder", title: "Cross-encoder intuition" },
+          { id: "when", title: "When reranking helps" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "optimization", title: "Optimization loop" },
+          { id: "latency", title: "Cost and latency" },
+          { id: "metrics", title: "Metrics" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {

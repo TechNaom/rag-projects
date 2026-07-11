@@ -1,0 +1,9 @@
+flowchart LR
+  A[Query] --> B[First-stage retrieval]
+  B --> C[Candidate pool]
+  C --> D[Reranker]
+  D --> E[Dedupe + diversify]
+  E --> F[Final context]
+  F --> G[Answer + citations]
+  G --> H[Eval loop]
+  H --> B

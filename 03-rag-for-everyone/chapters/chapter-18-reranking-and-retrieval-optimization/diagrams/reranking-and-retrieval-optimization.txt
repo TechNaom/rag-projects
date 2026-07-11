@@ -1,0 +1,4 @@
+Query -> first-stage retrieval -> candidate pool
+Candidate pool -> reranker -> dedupe/diversify -> final context
+Final context -> answer + citations
+Traces + evals -> tune retrieval, candidate k, final k, reranker, fallback
