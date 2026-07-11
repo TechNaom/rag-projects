@@ -264,7 +264,29 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-13", num: 13, title: "Local TF-IDF + SVD Embeddings", path: null },
+      {
+        id: "chapter-13",
+        num: 13,
+        title: "Local TF-IDF + SVD Embeddings",
+        path: "chapters/chapter-13-local-tfidf-svd-embeddings/lesson.html",
+        description: "Local lexical embeddings, TF-IDF weighting, SVD/latent-topic compression, exact-term strengths, paraphrase limits, rebuilds, and hybrid positioning.",
+        subtopics: [
+          { id: "problem", title: "Why local embeddings matter" },
+          { id: "analogy", title: "Library shelf analogy" },
+          { id: "tfidf", title: "TF-IDF" },
+          { id: "svd", title: "SVD and latent topics" },
+          { id: "workflow", title: "End-to-end workflow" },
+          { id: "strengths", title: "What it is good at" },
+          { id: "limits", title: "What it misses" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "code", title: "Practical example" },
+          { id: "production", title: "Production considerations" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "assignment", title: "Mini assignment" },
+          { id: "summary", title: "Summary" }
+        ]
+      },
       { id: "chapter-14", num: 14, title: "Neural Embeddings", path: null }
     ]
   },

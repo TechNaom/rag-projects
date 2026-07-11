@@ -1,0 +1,4 @@
+Documents -> tokenizer -> vocabulary -> TF-IDF matrix
+TF-IDF matrix -> SVD / latent projection -> local vectors
+Query -> same tokenizer/vocabulary/IDF/projection -> query vector
+Query vector + local vectors -> cosine ranking -> traceable results

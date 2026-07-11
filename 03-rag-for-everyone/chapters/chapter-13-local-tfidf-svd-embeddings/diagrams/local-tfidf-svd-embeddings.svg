@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520" role="img" aria-labelledby="title desc">
+  <title id="title">Local TF-IDF + SVD Embeddings</title>
+  <desc id="desc">A local retrieval pipeline from documents to tokenizer, vocabulary, TF-IDF matrix, SVD projection, local vectors, query vector, and traceable results.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="100%" stop-color="#f4fff1"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef8ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#123047" flood-opacity="0.14"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#47728f"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="520" rx="34" fill="url(#bg)"/>
+  <text x="60" y="64" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" fill="#17324d">Local TF-IDF + SVD Embeddings</text>
+  <text x="60" y="96" font-family="Inter, Arial, sans-serif" font-size="16" fill="#536676">A transparent local path from words to weighted vectors to smaller latent topic space.</text>
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <g transform="translate(60 150)"><rect width="150" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">Documents</text><text x="22" y="70" font-size="13" fill="#536676">source chunks</text></g>
+    <g transform="translate(245 150)"><rect width="150" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">Tokenizer</text><text x="22" y="70" font-size="13" fill="#536676">terms + ids</text></g>
+    <g transform="translate(430 150)"><rect width="165" height="100" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="40" font-size="16" font-weight="800" fill="#17324d">TF-IDF Matrix</text><text x="22" y="70" font-size="13" fill="#536676">word weights</text></g>
+    <g transform="translate(630 150)"><rect width="175" height="100" rx="20" fill="#fff8ec" stroke="#efc777"/><text x="22" y="40" font-size="16" font-weight="800" fill="#5d3b00">SVD Projection</text><text x="22" y="70" font-size="13" fill="#6d5c3f">latent topics</text></g>
+    <g transform="translate(840 150)"><rect width="160" height="100" rx="20" fill="#f1fff6" stroke="#9ad3ad"/><text x="22" y="40" font-size="16" font-weight="800" fill="#155c37">Local Vectors</text><text x="22" y="70" font-size="13" fill="#3f6b51">stored index</text></g>
+    <g transform="translate(245 340)"><rect width="150" height="92" rx="20" fill="#f1fff6" stroke="#9ad3ad"/><text x="22" y="38" font-size="16" font-weight="800" fill="#155c37">Query</text><text x="22" y="66" font-size="13" fill="#3f6b51">same pipeline</text></g>
+    <g transform="translate(540 330)"><rect width="180" height="112" rx="20" fill="url(#node)" stroke="#b8d8ee"/><text x="22" y="42" font-size="16" font-weight="800" fill="#17324d">Cosine Ranking</text><text x="22" y="72" font-size="13" fill="#536676">compare vectors</text></g>
+    <g transform="translate(805 330)"><rect width="215" height="112" rx="20" fill="#17324d"/><text x="22" y="42" font-size="16" font-weight="800" fill="#ffffff">Traceable Results</text><text x="22" y="72" font-size="13" fill="#dcecf8">matched terms,</text><text x="22" y="91" font-size="13" fill="#dcecf8">scores, warnings</text></g>
+  </g>
+  <g stroke="#47728f" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M213 200 H240"/>
+    <path d="M398 200 H425"/>
+    <path d="M598 200 H625"/>
+    <path d="M808 200 H835"/>
+    <path d="M398 386 C452 386 488 386 535 386"/>
+    <path d="M1002 200 C1070 230 1050 382 1025 386"/>
+    <path d="M724 386 H800"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="60" y="322" width="145" height="102" rx="22" fill="#ffffff" stroke="#cfe3ef"/>
+    <text x="82" y="356" font-size="15" font-weight="800" fill="#17324d">Why local?</text>
+    <text x="82" y="382" font-size="13" fill="#536676">Private, cheap,</text>
+    <text x="82" y="401" font-size="13" fill="#536676">debuggable.</text>
+  </g>
+</svg>

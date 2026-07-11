@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 13 — Local TF-IDF + SVD Embeddings</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body data-active-chapter="chapter-13">
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle chapter list" aria-expanded="false">Chapters</button>
+<aside id="chapter-sidebar" class="sidebar" data-root="../../" aria-label="Chapter navigation"></aside>
+<div class="sidebar-scrim" id="sidebar-scrim"></div>
+<header class="top-bar"><div class="page"><a href="../../index.html" class="brand">RAG for Everyone</a><nav><a href="../../index.html">All Chapters</a><a href="../../docs/curriculum/index.html">Roadmap</a></nav></div></header>
+
+<main class="page">
+<p><a href="../../index.html">&larr; Back to all chapters</a></p>
+<div class="page-meta"><span class="chapter-badge">Chapter 13 of 28</span><span class="badge-difficulty">Local Embeddings</span><span class="reading-time">75 min read</span></div>
+<h1>Local TF-IDF + SVD Embeddings</h1>
+<p class="lede">Before neural embeddings, there was a powerful local idea: represent documents by important words, then compress that large word-space into smaller topic-like dimensions. TF-IDF + SVD is not the newest tool, but it is one of the best ways to understand retrieval engineering honestly.</p>
+
+<div class="lesson-hero"><h2>How to read this chapter</h2><ul><li><strong>See it as a learning bridge:</strong> TF-IDF teaches sparse lexical weighting; SVD teaches dimensionality reduction and latent topics.</li><li><strong>Respect local engineering:</strong> local methods are transparent, private, cheap, and easy to debug.</li><li><strong>Know the limits:</strong> lexical methods struggle with paraphrase, multilingual meaning, and deep semantics.</li><li><strong>Think production:</strong> local retrieval can be a baseline, fallback, privacy-preserving mode, or hybrid partner with neural embeddings.</li></ul></div>
+
+<nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Why local embeddings matter</a><a href="#analogy">2. Library shelf analogy</a><a href="#tfidf">3. TF-IDF</a><a href="#svd">4. SVD and latent topics</a><a href="#workflow">5. End-to-end workflow</a><a href="#strengths">6. What it is good at</a><a href="#limits">7. What it misses</a><a href="#architecture">8. Architecture view</a><a href="#code">9. Practical example</a><a href="#production">10. Production considerations</a><a href="#mistakes">11. Common mistakes</a><a href="#interview">12. Interview understanding</a><a href="#assignment">13. Mini assignment</a><a href="#summary">14. Summary</a></nav>
+
+<div class="hook">Local embeddings are like a transparent workshop. You can see the words, weights, scores, and failure points instead of treating retrieval as a black box.</div>
+<div class="what-is"><span class="label">Core idea</span>TF-IDF turns documents into sparse word-importance vectors. SVD compresses those vectors into fewer dimensions that capture broader latent patterns.</div>
+
+<section id="problem" class="subtopic">
+<span class="subtopic-label">Sub-topic 1 of 14</span>
+<h2>Why Local Embeddings Matter</h2>
+<div class="lesson-stack"><div class="lesson-pill">At a glance</div><ul class="lesson-bullets"><li>TF-IDF is simple, local, explainable, and strong for exact terms.</li><li>SVD reduces high-dimensional word vectors into smaller latent vectors.</li><li>Local methods are useful when privacy, cost, offline demos, or transparency matter.</li><li>They are not a replacement for modern neural embeddings in every scenario.</li></ul></div>
+<p>Many learners jump directly to cloud embeddings. That works, but it can hide the basics. TF-IDF + SVD helps you understand what retrieval is doing: which terms mattered, how documents were represented, and why a result ranked high.</p>
+<div class="decision-board"><div class="decision-north-star"><span class="decision-label">Local embedding north star</span><strong>Use local methods when you need transparent, cheap, private, and debuggable retrieval behavior.</strong><p>Do not pretend it understands every paraphrase. Use it where its strengths match the product need.</p></div><div class="decision-path"><div class="decision-step"><span>01</span><div><strong>Build word importance</strong><p>TF-IDF rewards terms that are important in one document but not common everywhere.</p></div></div><div class="decision-step"><span>02</span><div><strong>Create sparse vectors</strong><p>Each document becomes a vector across vocabulary terms.</p></div></div><div class="decision-step"><span>03</span><div><strong>Reduce dimensions</strong><p>SVD compresses sparse vectors into latent topic dimensions.</p></div></div><div class="decision-step"><span>04</span><div><strong>Evaluate honestly</strong><p>Test exact-term, paraphrase, stale-content, and domain-specific queries separately.</p></div></div></div></div>
+</section>
+
+<section id="analogy" class="subtopic">
+<span class="subtopic-label">Sub-topic 2 of 14</span>
+<h2>Real-Life Analogy: Library Shelves and Topic Aisles</h2>
+<p>Imagine a library. TF-IDF is like looking at the labels on every book and asking, "Which words make this book distinctive?" If every book says "the" and "guide," those words do not help. But "OAuth," "refund," "Kubernetes," or "probation" can tell you a lot.</p>
+<p>SVD is like reorganizing those many labels into bigger topic aisles: security, finance, HR, deployment, support. You lose some detail, but you gain a smaller map that can reveal patterns.</p>
+<div class="quick-recap"><span class="label">Mental picture</span><ul><li>TF-IDF asks: which words are important here?</li><li>SVD asks: can we compress word patterns into fewer topics?</li><li>Search asks: which document vector is closest to the query vector?</li></ul></div>
+</section>
+
+<section id="tfidf" class="subtopic">
+<span class="subtopic-label">Sub-topic 3 of 14</span>
+<h2>TF-IDF</h2>
+<p>TF-IDF means Term Frequency-Inverse Document Frequency. The phrase sounds heavy, but the intuition is simple.</p>
+<div class="field-depth"><div><h4>Term Frequency</h4><p>How often does a word appear in this document? If "refund" appears often in a refund policy, it matters.</p></div><div><h4>Inverse Document Frequency</h4><p>How rare is the word across the corpus? If every document says "company," it is less useful.</p></div><div><h4>TF-IDF Weight</h4><p>Important locally plus rare globally. That combination makes the word a stronger retrieval signal.</p></div></div>
+<div class="diagram-card"><h3>Simple intuition</h3><pre><code>high term frequency + rare across corpus = strong signal
+high term frequency + common everywhere = weak signal
+low term frequency  + rare across corpus = possible niche signal</code></pre></div>
+</section>
+
+<section id="svd" class="subtopic">
+<span class="subtopic-label">Sub-topic 4 of 14</span>
+<h2>SVD and Latent Topics</h2>
+<p>TF-IDF creates very large sparse vectors. If your vocabulary has 20,000 terms, every document vector has 20,000 positions. Most are zero. SVD compresses this space into fewer dimensions that capture patterns across terms and documents.</p>
+<div class="case-study-card"><span class="decision-label">Latent Semantic Analysis</span><h3>What SVD gives you</h3><p>With TF-IDF + SVD, documents that share related word patterns can become closer in a smaller latent space. This is often called Latent Semantic Analysis. It is not the same as modern neural semantics, but it is a valuable conceptual and production baseline.</p></div>
+<div class="production-depth-grid"><div class="depth-panel"><span>Before SVD</span><h3>Vocabulary space</h3><p>Huge, sparse, interpretable term vectors.</p></div><div class="depth-panel"><span>After SVD</span><h3>Latent space</h3><p>Smaller, denser, topic-like vectors.</p></div><div class="depth-panel"><span>Benefit</span><h3>Compression</h3><p>Lower storage, less noise, and broader topic matching.</p></div><div class="depth-panel"><span>Risk</span><h3>Lost detail</h3><p>Compression can blur exact identifiers or critical rare terms.</p></div></div>
+</section>
+
+<section id="workflow" class="subtopic">
+<span class="subtopic-label">Sub-topic 5 of 14</span>
+<h2>End-to-End Workflow</h2>
+<div class="diagram-card"><h3>Local embedding pipeline</h3><pre><code>documents
+  -> tokenize and clean
+  -> build vocabulary
+  -> compute TF-IDF matrix
+  -> fit SVD / latent projection
+  -> store document vectors
+
+query
+  -> same tokenizer
+  -> same vocabulary
+  -> TF-IDF query vector
+  -> same SVD projection
+  -> similarity search</code></pre></div>
+<p>The key phrase is <strong>same</strong>. The query must use the same tokenizer, vocabulary, IDF values, and projection learned from the document corpus. Otherwise, comparison becomes unreliable.</p>
+</section>
+
+<section id="strengths" class="subtopic">
+<span class="subtopic-label">Sub-topic 6 of 14</span>
+<h2>What It Is Good At</h2>
+<div class="production-depth-grid"><div class="depth-panel"><span>Exact terms</span><h3>Error codes and IDs</h3><p>TF-IDF can strongly preserve signals like <code>ERR-429</code>, SKU codes, policy IDs, and API names.</p></div><div class="depth-panel"><span>Privacy</span><h3>Local processing</h3><p>No document text leaves your machine or approved environment.</p></div><div class="depth-panel"><span>Cost</span><h3>No embedding API bill</h3><p>Great for prototypes, public learning projects, demos, and constrained environments.</p></div><div class="depth-panel"><span>Debuggability</span><h3>Explainable scores</h3><p>You can inspect vocabulary, weights, query terms, and missing tokens.</p></div></div>
+</section>
+
+<section id="limits" class="subtopic">
+<span class="subtopic-label">Sub-topic 7 of 14</span>
+<h2>What It Misses</h2>
+<p>TF-IDF is not a deep language understanding system. SVD helps, but it does not magically become a modern embedding model.</p>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">L01</span><h3>Paraphrase gaps</h3><div><strong>Example:</strong> "rotate keys" may not match "regenerate credentials" strongly unless terms overlap or SVD captures the pattern.</div></article>
+<article class="mistake-card"><span class="mistake-id">L02</span><h3>Vocabulary mismatch</h3><div><strong>Example:</strong> user says "PTO"; documents say "paid time off." Token normalization matters.</div></article>
+<article class="mistake-card"><span class="mistake-id">L03</span><h3>Context blindness</h3><div><strong>Example:</strong> word counts do not understand negation, hierarchy, or procedural order deeply.</div></article>
+<article class="mistake-card"><span class="mistake-id">L04</span><h3>Compression trade-off</h3><div><strong>Example:</strong> SVD can blur rare but important identifiers if dimensions are too low.</div></article>
+</div>
+</section>
+
+<section id="architecture" class="subtopic">
+<span class="subtopic-label">Sub-topic 8 of 14</span>
+<h2>Architecture View</h2>
+<figure class="diagram-figure"><img src="diagrams/local-tfidf-svd-embeddings.svg" alt="Local TF-IDF plus SVD embedding architecture showing documents, tokenizer, TF-IDF matrix, SVD projection, vectors, query vector, and similarity search"><figcaption>Local TF-IDF + SVD keeps the full retrieval pipeline inspectable: tokenizer, vocabulary, weights, projection, vectors, and ranking.</figcaption></figure>
+<div class="diagram-card"><h3>Traceable local retrieval</h3><pre><code>query: "rotate api key"
+tokens: ["rotate", "api", "key"]
+top weighted terms: api, key, rotate
+top document: "Rotate API credentials safely"
+warning: lexical match strong; check active metadata before trusting</code></pre></div>
+</section>
+
+<section id="code" class="subtopic">
+<span class="subtopic-label">Sub-topic 9 of 14</span>
+<h2>Practical Example</h2>
+<p>In production, you would usually use a numeric library such as scikit-learn for TF-IDF and TruncatedSVD. In this course, the hands-on lab uses a tiny pure-Python version so the moving parts are visible.</p>
+<div class="diagram-card"><h3>Core local retrieval idea</h3><pre><code>docs = [
+  "rotate api credentials safely",
+  "quarterly revenue forecast",
+  "reset password and update access key"
+]
+
+query = "api key rotation"
+
+1. build vocabulary
+2. compute TF-IDF vectors
+3. compare query vector to document vectors
+4. rank by cosine similarity</code></pre></div>
+<p>The project adds a small latent-topic projection to mimic the SVD idea: reducing many term weights into fewer topic dimensions. It is intentionally tiny, but the mental model transfers to real TruncatedSVD.</p>
+</section>
+
+<section id="production" class="subtopic">
+<span class="subtopic-label">Sub-topic 10 of 14</span>
+<h2>Production Considerations</h2>
+<div class="real-world"><span class="label">Production gear</span><ul><li><strong>Tokenizer version:</strong> changing tokenization changes vectors and rankings.</li><li><strong>Vocabulary freeze:</strong> query-time vocabulary must match the index vocabulary.</li><li><strong>IDF drift:</strong> adding many documents changes global term rarity and may require rebuilds.</li><li><strong>SVD dimensions:</strong> too few dimensions lose detail; too many dimensions keep noise.</li><li><strong>Explainability:</strong> log top query terms, matched terms, and missing tokens.</li><li><strong>Hybrid use:</strong> pair local lexical retrieval with neural embeddings when paraphrase and exact terms both matter.</li><li><strong>Baseline value:</strong> use TF-IDF as a regression baseline before expensive embedding changes.</li></ul></div>
+</section>
+
+<section id="mistakes" class="subtopic">
+<span class="subtopic-label">Sub-topic 11 of 14</span>
+<h2>Common Mistakes</h2>
+<div class="mistake-catalog">
+<article class="mistake-card"><span class="mistake-id">M01</span><h3>Calling TF-IDF semantic search</h3><div><strong>Symptom:</strong> users expect paraphrase understanding that lexical matching cannot provide.</div><div><strong>Better move:</strong> explain it as lexical weighting with optional latent compression.</div></article>
+<article class="mistake-card"><span class="mistake-id">M02</span><h3>Using a different query vocabulary</h3><div><strong>Symptom:</strong> query vectors do not align with document vectors.</div><div><strong>Better move:</strong> persist vocabulary, IDF values, and projection parameters.</div></article>
+<article class="mistake-card"><span class="mistake-id">M03</span><h3>Removing important tokens during cleaning</h3><div><strong>Symptom:</strong> error codes, API names, and policy IDs vanish.</div><div><strong>Better move:</strong> design domain-aware tokenization and stop-word rules.</div></article>
+<article class="mistake-card"><span class="mistake-id">M04</span><h3>Over-compressing with SVD</h3><div><strong>Symptom:</strong> different policies or products become too similar.</div><div><strong>Better move:</strong> tune dimensions using retrieval evals, not aesthetics.</div></article>
+<article class="mistake-card"><span class="mistake-id">M05</span><h3>Ignoring paraphrase failures</h3><div><strong>Symptom:</strong> users ask natural questions and retrieval misses correct docs.</div><div><strong>Better move:</strong> add synonyms, query expansion, or neural/hybrid retrieval.</div></article>
+<article class="mistake-card"><span class="mistake-id">M06</span><h3>No rebuild strategy</h3><div><strong>Symptom:</strong> new documents change IDF behavior unpredictably.</div><div><strong>Better move:</strong> version vocabulary, IDF, projection, and index releases.</div></article>
+<article class="mistake-card"><span class="mistake-id">M07</span><h3>Not logging matched terms</h3><div><strong>Symptom:</strong> teams cannot explain why a result ranked high.</div><div><strong>Better move:</strong> include matched terms and top weighted query terms in traces.</div></article>
+<article class="mistake-card"><span class="mistake-id">M08</span><h3>Replacing neural embeddings everywhere</h3><div><strong>Symptom:</strong> local lexical retrieval is forced into tasks needing semantic understanding.</div><div><strong>Better move:</strong> use local methods as baseline, fallback, exact-term engine, or hybrid partner.</div></article>
+</div>
+</section>
+
+<section id="interview" class="subtopic">
+<span class="subtopic-label">Sub-topic 12 of 14</span>
+<h2>Interview-Level Understanding</h2>
+<p>A strong answer sounds like this: "TF-IDF represents documents using term importance, and SVD compresses that high-dimensional sparse matrix into lower-dimensional latent vectors. It is local, explainable, cheap, and good for exact terms, but it is weaker than neural embeddings for paraphrase and deep semantic matching."</p>
+<div class="case-study-card"><span class="decision-label">Senior signal</span><h3>How to position it in architecture</h3><p>Use TF-IDF + SVD as a baseline, offline fallback, privacy-preserving retrieval option, exact-term retrieval component, or hybrid search partner. Do not oversell it as universal semantic understanding.</p></div>
+</section>
+
+<section id="assignment" class="subtopic">
+<span class="subtopic-label">Sub-topic 13 of 14</span>
+<h2>Mini Assignment</h2>
+<p>Take ten documents from a domain you know. Identify five exact-term queries and five paraphrase-heavy queries. Predict where TF-IDF will perform well, where SVD may help, and where neural embeddings or hybrid retrieval will likely be better.</p>
+</section>
+
+<section id="summary" class="subtopic">
+<span class="subtopic-label">Sub-topic 14 of 14</span>
+<div class="points-to-remember"><h2>Points To Remember</h2><ul><li>TF-IDF turns documents into sparse word-importance vectors.</li><li>SVD compresses sparse vectors into smaller latent-topic vectors.</li><li>Local retrieval is transparent, private, cheap, and useful as a baseline.</li><li>Lexical methods are strong for exact terms but weaker for paraphrase.</li><li>Production systems version tokenizer, vocabulary, IDF, projection, and index releases.</li></ul></div>
+</section>
+
+<p>Next, test the local retrieval mental model in the quiz, then build a tiny TF-IDF search lab in exercises and project.</p>
+<div class="chapter-nav"><a href="../chapter-12-what-embeddings-are/project/index.html">&larr; Chapter 12 Project</a><a href="quiz.html">Take the Quiz &rarr;</a></div>
+</main>
+
+<footer class="site-footer"><div class="page"><span>RAG for Everyone — free, visual, engineering-first GenAI learning.</span></div></footer>
+<script src="../../assets/chapters-data.js"></script><script src="../../assets/progress.js"></script><script src="../../assets/sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+flowchart LR
+  A[Documents] --> B[Tokenizer]
+  B --> C[Vocabulary]
+  C --> D[TF-IDF Matrix]
+  D --> E[SVD / Latent Projection]
+  E --> F[(Local Vectors)]
+  G[Query] --> H[Same tokenizer + vocabulary]
+  H --> I[Query TF-IDF]
+  I --> J[Same projection]
+  J --> K[Query Vector]
+  F --> L[Cosine Ranking]
+  K --> L
+  L --> M[Traceable Results]

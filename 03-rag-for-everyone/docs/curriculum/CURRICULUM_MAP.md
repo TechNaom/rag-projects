@@ -147,6 +147,10 @@ Goal: Explain vector search clearly enough to debug it.
 - What lexical retrieval is good at.
 - What it misses.
 - Why this is honest engineering under constraints.
+- TF-IDF term weighting and inverse document frequency.
+- SVD/latent-topic compression.
+- Tokenizer, vocabulary, IDF, projection, and index versioning.
+- Local retrieval as baseline, fallback, exact-term engine, or hybrid partner.
 
 ### Chapter 14: Neural Embeddings
 
