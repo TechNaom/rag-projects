@@ -44,6 +44,9 @@ Posts in this series are mirrored from real, working projects:
 | 08 | [GenAI Deep R&D Journal, Ep. 01: Why Vector Databases?](posts/08-genai-rd-journal-ep01-vector-databases.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
 | 09 | [GenAI Deep R&D Journal, Ep. 02: Why Brute-Force Search Doesn't Scale](posts/09-genai-rd-journal-ep02-vector-search-at-scale.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
 | 10 | [GenAI Deep R&D Journal, Ep. 03: Why HNSW Exists](posts/10-genai-rd-journal-ep03-hnsw.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
+| 11 | [GenAI Deep R&D Journal, Ep. 04: What's Actually Inside an Embedding](posts/11-genai-rd-journal-ep04-embeddings.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
+| 12 | [GenAI Deep R&D Journal, Ep. 05: Dense vs. Sparse Retrieval](posts/12-genai-rd-journal-ep05-dense-vs-sparse.md) | Technical deep-dive — recurring R&D journal series | 01-policy-rag-poc | ✅ Ready |
+| 13 | [GenAI Deep R&D Journal, Ep. 06: Why Chunking Breaks RAG](posts/13-genai-rd-journal-ep06-chunking.md) | Technical deep-dive — recurring R&D journal series (closes the 6-episode arc) | 01-policy-rag-poc | ✅ Ready |
 
 ## Posting Schedule (Suggested)
 
@@ -59,3 +62,6 @@ Posts in this series are mirrored from real, working projects:
 | 8 | 08 — GenAI Deep R&D Journal Ep. 01 (flexible timing — first entry in a new recurring series) |
 | 9 | 09 — GenAI Deep R&D Journal Ep. 02 (post after Ep. 01's comments have had time to land — this episode explicitly builds on reader engagement from it) |
 | 10 | 10 — GenAI Deep R&D Journal Ep. 03 (post soon after Ep. 02 while the comment thread on the O(n) question is still warm — this episode resolves it directly) |
+| 11 | 11 — GenAI Deep R&D Journal Ep. 04 (resolves the "what is an embedding" thread Ep. 01 opened and Ep. 03 explicitly promised next) |
+| 12 | 12 — GenAI Deep R&D Journal Ep. 05 (dense vs. sparse — connects back to Post 03's exact eval numbers, keep the 86.7% figure consistent) |
+| 13 | 13 — GenAI Deep R&D Journal Ep. 06 (chunking — closes the 6-episode arc; does not tease a specific Ep. 07 topic) |
