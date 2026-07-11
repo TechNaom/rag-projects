@@ -464,7 +464,30 @@ window.RFE_MODULES = [
           { id: "summary", title: "Summary" }
         ]
       },
-      { id: "chapter-21", num: 21, title: "Prompt Testing", path: null }
+      {
+        id: "chapter-21",
+        num: 21,
+        title: "Prompt Testing",
+        path: "chapters/chapter-21-prompt-testing/lesson.html",
+        description: "Golden questions, prompt assertions, test datasets, citation support, refusal tests, adversarial cases, metrics, and release gates.",
+        subtopics: [
+          { id: "problem", title: "Why prompt testing matters" },
+          { id: "analogy", title: "Flight checklist analogy" },
+          { id: "golden", title: "Golden questions" },
+          { id: "assertions", title: "Prompt assertions" },
+          { id: "datasets", title: "Test datasets" },
+          { id: "failure-modes", title: "Failure modes" },
+          { id: "citations", title: "Citation tests" },
+          { id: "refusals", title: "Refusal tests" },
+          { id: "adversarial", title: "Adversarial tests" },
+          { id: "architecture", title: "Architecture view" },
+          { id: "metrics", title: "Metrics" },
+          { id: "release", title: "Release gates" },
+          { id: "mistakes", title: "Common mistakes" },
+          { id: "interview", title: "Interview understanding" },
+          { id: "summary", title: "Summary" }
+        ]
+      }
     ]
   },
   {

@@ -243,11 +243,12 @@ Goal: Make prompts grounded, testable, and resistant to unsupported answers.
 
 ### Chapter 21: Prompt Testing
 
-- Golden questions.
-- Bad prompts vs good prompts.
-- Citation behavior.
-- Refusal behavior.
-- Regression tests for prompts.
+- Golden questions with expected prompt behavior.
+- Prompt assertions for grounding, citations, refusals, conflicts, and format.
+- Test datasets built from logs, incidents, synthetic edges, and risk slices.
+- Citation support checks beyond citation presence.
+- Refusal tests for missing, restricted, stale, or conflicting evidence.
+- Adversarial prompt-injection cases and release gates.
 
 ## Module 7: Evaluation
 

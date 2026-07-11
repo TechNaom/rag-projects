@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" role="img" aria-labelledby="title desc">
+  <title id="title">Prompt Testing Architecture</title>
+  <desc id="desc">Prompt version, golden cases, and generated answers flow into assertions, metrics, release gate, and failure report.</desc>
+  <rect width="980" height="440" rx="28" fill="#f8fbff"/>
+  <rect x="42" y="54" width="896" height="332" rx="24" fill="#ffffff" stroke="#bdd7ee" stroke-width="2"/>
+  <text x="490" y="78" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#18324a">Prompt testing turns behavior into release evidence</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="15" fill="#18324a">
+    <rect x="70" y="112" width="140" height="68" rx="14" fill="#e8f4ff" stroke="#79acd8"/>
+    <text x="140" y="141" text-anchor="middle" font-weight="700">Prompt</text><text x="140" y="164" text-anchor="middle">version</text>
+    <rect x="70" y="214" width="140" height="68" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="140" y="243" text-anchor="middle" font-weight="700">Golden</text><text x="140" y="266" text-anchor="middle">cases</text>
+    <rect x="70" y="316" width="140" height="44" rx="14" fill="#fff7e8" stroke="#e5b76b"/>
+    <text x="140" y="344" text-anchor="middle" font-weight="700">Answers</text>
+    <rect x="290" y="180" width="140" height="82" rx="14" fill="#f1edff" stroke="#a998df"/>
+    <text x="360" y="212" text-anchor="middle" font-weight="700">Test runner</text><text x="360" y="235" text-anchor="middle">same cases</text>
+    <rect x="510" y="112" width="140" height="68" rx="14" fill="#ffeef4" stroke="#df8cab"/>
+    <text x="580" y="141" text-anchor="middle" font-weight="700">Assertions</text><text x="580" y="164" text-anchor="middle">behavior checks</text>
+    <rect x="510" y="214" width="140" height="68" rx="14" fill="#eaf7f7" stroke="#72b8bc"/>
+    <text x="580" y="243" text-anchor="middle" font-weight="700">Metrics</text><text x="580" y="266" text-anchor="middle">pass rates</text>
+    <rect x="730" y="112" width="150" height="68" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="805" y="141" text-anchor="middle" font-weight="700">Release gate</text><text x="805" y="164" text-anchor="middle">ship or block</text>
+    <rect x="730" y="250" width="150" height="68" rx="14" fill="#fff7e8" stroke="#e5b76b"/>
+    <text x="805" y="279" text-anchor="middle" font-weight="700">Failure report</text><text x="805" y="302" text-anchor="middle">iterate prompt</text>
+  </g>
+  <g stroke="#4f7293" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M210 146 C250 150 260 190 290 205"/>
+    <path d="M210 248h80"/>
+    <path d="M210 338 C250 330 260 260 290 238"/>
+    <path d="M430 205 C470 190 480 158 510 146"/>
+    <path d="M430 238 C470 245 480 248 510 248"/>
+    <path d="M650 146h80"/>
+    <path d="M650 248 C690 250 705 275 730 284"/>
+  </g>
+  <g fill="#4f7293"><path d="M286 197l12 8-12 8z"/><path d="M286 240l12 8-12 8z"/><path d="M286 230l12 8-12 8z"/><path d="M506 138l12 8-12 8z"/><path d="M506 240l12 8-12 8z"/><path d="M726 138l12 8-12 8z"/><path d="M726 276l12 8-12 8z"/></g>
+</svg>

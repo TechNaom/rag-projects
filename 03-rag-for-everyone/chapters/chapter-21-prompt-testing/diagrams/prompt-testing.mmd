@@ -1,0 +1,9 @@
+flowchart LR
+  P[Prompt version] --> R[Test runner]
+  G[Golden cases] --> R
+  A[Generated answers] --> R
+  R --> C[Assertions]
+  C --> M[Metrics]
+  M --> Gate[Release gate]
+  C --> F[Failure report]
+  F --> I[Prompt iteration]
