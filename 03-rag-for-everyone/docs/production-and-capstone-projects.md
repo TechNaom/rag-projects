@@ -89,18 +89,56 @@ Each track shares the same **roadmap coverage checklist** — the point is that 
 **User:** employee, HR, compliance &nbsp;·&nbsp; **Revisit artifact:** policy answer with audit trail
 **Track focus:** Emphasize citation-to-clause traceability and a superseded-policy test case.
 
+🌉 **This track doesn't need a new build — [`01-policy-rag-poc`](../../01-policy-rag-poc/) already covers most of it.** Roadmap coverage, mapped to its real files:
+
+| Checklist item | Where it's covered | Status |
+|---|---|---|
+| Ch.5-8 source/metadata/ingestion | `data/raw_docs/*.md` (12 docs) + `src/ingest.py` + `src/vectorstore.py` metadata fields | ✅ covered |
+| Ch.9-11 chunking strategy | `src/ingest.py` — `MarkdownHeaderTextSplitter` + `RecursiveCharacterTextSplitter` | ✅ covered |
+| Ch.12-14 embedding choice | `src/embeddings.py` — TF-IDF/SVD, with the neural swap-in point documented in its docstring | ✅ covered |
+| Ch.15-18 retrieval, hybrid search, reranking | `src/vectorstore.py` (Chroma) + `src/rag_chain.py` `retrieve()` | ⚠️ partial — vector retrieval only, no hybrid search or reranking pass |
+| Ch.19-21 grounded prompt + prompt tests | `src/rag_chain.py`'s `SYSTEM_PROMPT` | ⚠️ partial — grounded prompt exists, no formal prompt test suite |
+| Ch.22-24 retrieval/answer-quality metrics | `src/eval.py` — Recall@3/MRR on a 15-question golden set | ⚠️ partial — retrieval metrics only, no answer-quality or failure-analysis pass |
+| Ch.25 access control | — | ❌ gap |
+| Ch.26 observability/cost | — | ❌ gap |
+| Ch.27 deployment pattern | `README.md`'s "What would change for production" section discusses it, not implemented | ❌ gap |
+
+**If you're doing this as your capstone:** clone `01-policy-rag-poc`, get it running, then close the gaps above yourself — add a hybrid search + rerank pass (Ch.17-18), a prompt test suite (Ch.21), an access-control layer (Ch.25, you can lift the pattern from [`04-multi-tenant-docs-copilot`](../../04-multi-tenant-docs-copilot/)'s isolation approach), and a cost/latency dashboard (Ch.26, the pattern in [`06-realtime-oncall-copilot/src/latency_budget.py`](../../06-realtime-oncall-copilot/src/latency_budget.py) is a good reference). That's a genuine, well-scoped capstone project on its own.
+
 ### 2. Incident Runbook Copilot
 **User:** on-call engineer &nbsp;·&nbsp; **Revisit artifact:** incident checklist and post-incident notes
 **Track focus:** Emphasize freshness — runbooks and incident notes must reflect live edits, not a static index.
+
+🌉 **This track doesn't need a new build either — [`06-realtime-oncall-copilot`](../../06-realtime-oncall-copilot/) already covers most of it**, and is a stronger match than the policy example above since it was built specifically for this exact user and problem. Roadmap coverage, mapped to its real files:
+
+| Checklist item | Where it's covered | Status |
+|---|---|---|
+| Ch.5-8 source/metadata/ingestion | `data/runbooks/*.md` + `data/incident_notes/*.md` + `src/ingest.py` (`doc_type` tagging) + `src/vectorstore.py` | ✅ covered |
+| Ch.9-11 chunking strategy | `src/ingest.py` `chunk_file()` — and its README documents a real chunk-ID collision bug found and fixed during development, a genuine chunking-failure case study | ✅ covered |
+| Ch.12-14 embedding choice | `src/embeddings.py` — same TF-IDF/SVD pattern, with the added constraint of a *frozen* embedder (documented, since that's what makes incremental upsert cheap) | ✅ covered |
+| Ch.15-18 retrieval, hybrid search, reranking | `src/vectorstore.py` (Chroma) + `src/cost_router.py`'s lexical-overlap rerank pass on the "complex" route | ✅ covered (rerank is intentionally lightweight — see its docstring) |
+| Ch.19-21 grounded prompt + prompt tests | `src/rag_chain.py` prompt construction | ⚠️ partial — no formal golden-question prompt test suite |
+| Ch.22-24 retrieval/answer-quality metrics | `tests/test_live_update.py` functions as a real regression test, but there's no Recall@k/MRR-style retrieval-quality suite | ⚠️ partial |
+| Ch.25 access control | — | ❌ gap |
+| Ch.26 observability/cost | `src/latency_budget.py` — real p50/p95 per-stage timing against a documented budget | ✅ covered |
+| Ch.27 deployment pattern | README's "What would change for production" section discusses blue/green, not implemented | ❌ gap |
+
+**If you're doing this as your capstone:** clone `06-realtime-oncall-copilot`, then close the remaining gaps yourself — a prompt test suite (Ch.21), a retrieval-quality golden set (Ch.22-23, the pattern in [`01-policy-rag-poc/src/eval.py`](../../01-policy-rag-poc/src/eval.py) is a good reference), and role-based access control on which runbooks/incidents a given engineer can see (Ch.25).
 
 ### 3. Legal Contract Explorer
 **User:** legal ops, procurement &nbsp;·&nbsp; **Revisit artifact:** clause comparison and review queue
 **Track focus:** Emphasize clause-level chunking (Ch.10 hierarchical chunking) and side-by-side contract version comparison.
 
+📦 **Reference implementation:** [`chapter-28/project/tracks/legal-contract-explorer`](../chapters/chapter-28-end-to-end-production-rag-capstone/project/tracks/legal-contract-explorer/) — a lighter, zero-dependency scaffold (pure Python stdlib, no `pip install` needed, matching the rest of the course's exercises) with a `starter.py` to complete and a working `solution.py` reference. Retrieves the matching clause from every contract independently and flags contracts missing that clause type for review.
+
 ### 4. Customer Support Knowledge Hub
 **User:** support lead, agent &nbsp;·&nbsp; **Revisit artifact:** answer draft, ticket pattern, knowledge gap
 **Track focus:** Emphasize the knowledge-gap signal — track questions the corpus cannot yet answer as a backlog input.
 
+📦 **Reference implementation:** [`chapter-28/project/tracks/customer-support-knowledge-hub`](../chapters/chapter-28-end-to-end-production-rag-capstone/project/tracks/customer-support-knowledge-hub/) — pure-stdlib scaffold with a documented confidence threshold: below it, the system refuses to force an answer and logs the question to a knowledge-gap backlog instead.
+
 ### 5. Research Briefing Studio (Research Knowledge Studio)
 **User:** analyst, student, researcher &nbsp;·&nbsp; **Revisit artifact:** evidence board and exportable brief
 **Track focus:** Emphasize multi-source synthesis and an exportable, cited evidence board rather than a single chat answer.
+
+📦 **Reference implementation:** [`chapter-28/project/tracks/research-knowledge-studio`](../chapters/chapter-28-end-to-end-production-rag-capstone/project/tracks/research-knowledge-studio/) — pure-stdlib scaffold that retrieves evidence across multiple source documents for one research question and synthesizes it into a cited, exportable Markdown brief, explicitly noting where sources agree or diverge.
