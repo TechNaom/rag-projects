@@ -2,7 +2,7 @@
 
 This is the full spec sheet referenced by [Chapter 28's project brief](../chapters/chapter-28-end-to-end-production-rag-capstone/project/README.md). It has two tiers:
 
-- **3 Production-Grade Projects** — broader, resume-grade builds meant to sit at the very end of the course, past "I completed the curriculum" into "I built something a company could actually run." Each is in a different domain from the Northkeep policy-RAG example used throughout the course.
+- **3 Production-Grade Projects** — broader, resume-grade builds meant to sit at the very end of the course, past "I completed the curriculum" into "I built something a company could actually run." Each is in a different domain from the Northkeep policy-RAG example used throughout the course. **All 3 are now real, working, open-source reference implementations in this repo** — see the links below.
 - **5 Capstone Tracks** — scoped to prove curriculum mastery. Each track exercises the full pipeline once, and comes with a roadmap coverage checklist so you can self-verify you've exercised the entire curriculum by finishing one.
 
 ---
@@ -11,6 +11,8 @@ This is the full spec sheet referenced by [Chapter 28's project brief](../chapte
 
 ### 1. Multi-Tenant Documentation Copilot
 **Domain:** SaaS / Platform &nbsp;·&nbsp; **User:** multiple customer teams sharing one hosted RAG service, each with their own private knowledge base
+
+📦 **Reference implementation:** [`04-multi-tenant-docs-copilot`](../../04-multi-tenant-docs-copilot/) — clone it, `pip install -r requirements.txt`, `python src/vectorstore.py`, `pytest tests/ -v`. Real, passing test output (including the cross-tenant isolation proof) is in its README.
 
 **Problem:** Build a RAG-as-a-service platform where many tenants each upload their own docs, and the system must never let one tenant's retrieval touch another tenant's index — while still sharing infrastructure to keep cost per tenant low.
 
@@ -31,6 +33,8 @@ This is the full spec sheet referenced by [Chapter 28's project brief](../chapte
 ### 2. Audit-Grade Compliance RAG
 **Domain:** Regulated Industry &nbsp;·&nbsp; **User:** a compliance or legal reviewer who must be able to justify every answer to an external auditor
 
+📦 **Reference implementation:** [`05-audit-grade-compliance-rag`](../../05-audit-grade-compliance-rag/) — its README includes a real audit report where the system catches and flags an answer that cites a superseded policy version.
+
 **Problem:** Go beyond "cites its source" (what the Northkeep POC already does) to full audit-grade traceability: every answer must carry a signed explanation of exactly which evidence supported which claim, at the sentence level, plus proof the source was the current authoritative version at answer time.
 
 **Required corpus:** A versioned document set where some documents are deliberately superseded by newer ones, so the system must prove it used the current version and can explain what changed.
@@ -48,6 +52,8 @@ This is the full spec sheet referenced by [Chapter 28's project brief](../chapte
 
 ### 3. Real-Time On-Call Ops Copilot
 **Domain:** Latency-Critical &nbsp;·&nbsp; **User:** an on-call engineer during an active incident, where every extra second matters
+
+📦 **Reference implementation:** [`06-realtime-oncall-copilot`](../../06-realtime-oncall-copilot/) — `python src/live_updater.py` runs a real before/after demo proving a live-edited incident note becomes retrievable with no full index rebuild.
 
 **Problem:** Retrieve over runbooks and past incident notes that change frequently (documents get edited mid-incident), under a hard latency budget, with cost-aware routing so cheap questions don't pay for expensive reranking.
 

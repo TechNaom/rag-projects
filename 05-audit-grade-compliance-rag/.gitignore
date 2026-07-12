@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.env
+*.egg-info/
+.DS_Store
+.pytest_cache/
+
+# IDE
+.vscode/
+
+# Config with secrets (use config.example.ini as template)
+config/config.ini
+config/*.local.ini
+
+# Generated artifacts — vector store, embedder, and audit trail
+data/chroma_db/
+data/embedder.pkl
+data/traces.jsonl
