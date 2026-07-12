@@ -31,7 +31,13 @@
     <p>Your finished project should answer five questions without hand waving: who revisits this product, what corpus does it trust, how does retrieval work, how do you know answers are grounded, and what happens when quality, cost, access, or freshness fails?</p>
   </div>
 
+  <nav class="page-toc" aria-label="On this page"><span class="toc-label">On this page</span><a href="#problem">1. Problem</a><a href="#analogy">2. Real-life analogy</a><a href="#products">3. Products</a><a href="#tracks">4. Tracks</a><a href="#roadmap">5. Roadmap</a><a href="#architecture">6. Architecture</a><a href="#evals">7. Evals</a><a href="#operations">8. Operations</a><a href="#portfolio">9. Portfolio</a><a href="#interview">10. Interview understanding</a><a href="#summary">11. Summary</a><a href="#project">12. Project</a></nav>
+
+  <div class="hook">A demo answers one rehearsed question. A capstone proves you can run a real knowledge workflow, for a real user, under real constraints, and show your work when it breaks.</div>
+  <div class="what-is"><span class="label">Core idea</span>A production RAG capstone demonstrates end-to-end product judgment: a chosen user workflow, a trusted corpus, measurable retrieval and grounding, named failure modes, and a portfolio package that lets a reviewer trust your decisions without you in the room.</div>
+
   <section class="subtopic" id="problem">
+    <span class="subtopic-label">Sub-topic 1 of 12</span>
     <h2>Problem</h2>
     <p>A production RAG capstone is a product decision before it is a model decision. The strongest projects choose a repeated knowledge workflow where users need evidence, not vibes: resolving a policy question, responding to an incident, comparing contract clauses, answering support tickets, or writing a research brief.</p>
     <div class="mistake-catalog">
@@ -53,7 +59,15 @@
     </div>
   </section>
 
+  <section class="subtopic" id="analogy">
+    <span class="subtopic-label">Sub-topic 2 of 12</span>
+    <h2>Real-Life Analogy: The Chef's Practical Exam</h2>
+    <p>A written culinary test asks a cook to name sauces and knife cuts. The final practical exam asks something harder: run a live service. A guest with real dietary limits sits down, the clock is running, ingredients are what they are, and an examiner watches every decision. The cook is not judged on how many dishes they can recite, but on whether they can plate a real meal, on time, safely, and explain each choice when asked. That is the difference between a demo and a capstone.</p>
+    <p>Your production RAG capstone is that practical exam. The user is real, the corpus is your pantry, the evaluation gate is the examiner tasting the plate, and the failure modes are the moments a burner flares or an order comes back. You are not proving that you know every retrieval technique. You are proving that you can pick the right ones for one real workflow, run it end to end under constraints, and stand behind the result when someone probes it.</p>
+  </section>
+
   <section class="subtopic" id="products">
+    <span class="subtopic-label">Sub-topic 3 of 12</span>
     <h2>Products</h2>
     <p>These three product shapes have high revisit value because they create durable work products, improve with feedback, and expose enough complexity to show production judgment.</p>
     <div class="mistake-catalog">
@@ -82,6 +96,7 @@
   </section>
 
   <section class="subtopic" id="tracks">
+    <span class="subtopic-label">Sub-topic 4 of 12</span>
     <h2>Tracks</h2>
     <p>Choose one track and keep it narrow enough to finish end to end. Each track should deliver an MVP, hardening pass, evaluation gate, and portfolio package.</p>
     <div class="mistake-catalog">
@@ -124,6 +139,7 @@
   </section>
 
   <section class="subtopic" id="roadmap">
+    <span class="subtopic-label">Sub-topic 5 of 12</span>
     <h2>Roadmap</h2>
     <p>Use this roadmap to prevent the capstone from becoming a sprawling wishlist. The MVP proves one valuable loop. Hardening proves that you understand production pressure.</p>
     <div class="diagram-card">
@@ -151,8 +167,10 @@ Milestone 7 - Portfolio package
   </section>
 
   <section class="subtopic" id="architecture">
+    <span class="subtopic-label">Sub-topic 6 of 12</span>
     <h2>Architecture</h2>
     <p>Your architecture diagram should prove that the system is more than prompt glue. Show the path from documents to decisions and make every trust boundary visible.</p>
+    <figure class="diagram-figure"><img src="diagrams/capstone-architecture.svg" alt="Capstone architecture: ingestion and indexing feed a runtime of query understanding, retrieval, reranking, grounded prompt, and citations or refusals, wrapped by a control plane for evals, versions, traces, cost, and rollback, and a security layer for access, audit, and human review"><figcaption>Documents flow through ingestion and indexing into a governed runtime, with a control plane and security layer wrapping every answer.</figcaption></figure>
     <ul>
       <li><strong>Ingestion:</strong> source inventory, parser, normalization, deduplication, metadata validation, and corpus versioning.</li>
       <li><strong>Indexing:</strong> chunk policy, embedding model, lexical index, vector index, filters, and reranker inputs.</li>
@@ -163,6 +181,7 @@ Milestone 7 - Portfolio package
   </section>
 
   <section class="subtopic" id="evals">
+    <span class="subtopic-label">Sub-topic 7 of 12</span>
     <h2>Evals</h2>
     <p>A serious capstone includes a small but meaningful evaluation suite. Ten excellent test cases beat one hundred vague ones. Mix common questions, edge cases, stale-source cases, contradictory evidence, and unsupported requests.</p>
     <div class="mistake-catalog">
@@ -185,6 +204,7 @@ Milestone 7 - Portfolio package
   </section>
 
   <section class="subtopic" id="operations">
+    <span class="subtopic-label">Sub-topic 8 of 12</span>
     <h2>Operations</h2>
     <p>Production RAG fails in ordinary ways: stale documents, bad chunks, weak filters, hidden cost growth, prompt drift, access mistakes, and silent quality regressions. Your capstone should show how you would notice and respond.</p>
     <ul>
@@ -197,6 +217,7 @@ Milestone 7 - Portfolio package
   </section>
 
   <section class="subtopic" id="portfolio">
+    <span class="subtopic-label">Sub-topic 9 of 12</span>
     <h2>Portfolio</h2>
     <p>The portfolio package is what lets a reviewer understand your judgment without sitting beside you. It should show the product, the engineering, the evidence, and the next increment.</p>
     <div class="diagram-card">
@@ -211,7 +232,25 @@ Milestone 7 - Portfolio package
     </div>
   </section>
 
+  <section class="subtopic" id="interview">
+    <span class="subtopic-label">Sub-topic 10 of 12</span>
+    <h2>Interview-Level Understanding</h2>
+    <p>A strong answer sounds like this: "I started with a product decision, not a model. I picked one repeated workflow - resolving a policy question for a compliance analyst - and named the user, trigger, and saved artifact. I set the trust boundary up front: the system only cites authorized, current policy text, and it refuses or escalates when the user's role or the document's freshness is insufficient. I wrote the eval gate before building - retrieval recall on a small gold set, citation support per claim, refusal accuracy, plus latency and cost per answer - and I block releases that regress against baseline. I planned for the ordinary failure modes: stale documents, weak filters, prompt drift, access mistakes, and silent quality regressions, each with a trace field and a rollback path. And I packaged it so a reviewer can judge me without me present: a README, an architecture diagram with trust boundaries, an evaluation report with failure analysis, and trace samples for happy, edge, and refusal paths. The portfolio is the proof of judgment, not a screenshot of a demo."</p>
+  </section>
+
+  <section class="subtopic" id="summary">
+    <span class="subtopic-label">Sub-topic 11 of 12</span>
+    <div class="points-to-remember"><h2>Points To Remember</h2><ul>
+      <li>A capstone is a product decision before it is a model decision: name the user, the repeated workflow, and the saved artifact first.</li>
+      <li>Evaluation criteria come before building - retrieval, citation support, refusal accuracy, latency, and cost - so quality is a gate, not an afterthought.</li>
+      <li>Production quality means making trust boundaries and failure modes explicit: what the system may use, what it must refuse, and what breaks under stale, unauthorized, or conflicting evidence.</li>
+      <li>The portfolio package is what lets a reviewer understand your judgment without you present: README, architecture diagram, eval report, failure analysis, and trace samples.</li>
+      <li>This is the last chapter, but you are not starting from zero: the course ships a working <code>01-policy-rag-poc</code> and real reference implementations in <code>04-multi-tenant-docs-copilot</code>, <code>05-audit-grade-compliance-rag</code>, <code>06-realtime-oncall-copilot</code>, and <code>chapter-28/project/tracks/</code> - study them, then build the one workflow you can stand behind end to end.</li>
+    </ul></div>
+  </section>
+
   <section class="subtopic" id="project">
+    <span class="subtopic-label">Sub-topic 12 of 12</span>
     <h2>Project</h2>
     <p>The project builds a capstone planner that turns a track into a production backlog. Use it as a scaffold, then replace the sample corpus and goals with your own project decisions.</p>
     <p>Before coding the full app, produce the planner output, review the gates, and remove any scope item that does not help the first end-to-end demo. The best capstone feels complete at a small scale and honest about what comes next.</p>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" role="img" aria-labelledby="title desc">
+  <title id="title">Production RAG Capstone Architecture</title>
+  <desc id="desc">Documents flow through ingestion and indexing into a runtime that runs query understanding, retrieval, reranking, grounded prompting, and citations or refusals. A control plane tracks evals, versions, traces, cost, and rollback, while a security layer governs access, audit, and human review.</desc>
+  <rect width="980" height="500" rx="28" fill="#f8fbff"/>
+  <rect x="42" y="54" width="896" height="404" rx="24" fill="#ffffff" stroke="#bdd7ee" stroke-width="2"/>
+  <text x="490" y="90" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="800" fill="#18324a">From documents to trustworthy decisions</text>
+  <g font-family="Inter, Arial, sans-serif" fill="#18324a">
+    <rect x="150" y="116" width="200" height="64" rx="14" fill="#e8f4ff" stroke="#79acd8"/>
+    <text x="250" y="144" text-anchor="middle" font-size="16" font-weight="700">Ingestion</text>
+    <text x="250" y="164" text-anchor="middle" font-size="12">parse - normalize - version</text>
+    <rect x="430" y="116" width="200" height="64" rx="14" fill="#eefbf3" stroke="#7ac89c"/>
+    <text x="530" y="144" text-anchor="middle" font-size="16" font-weight="700">Indexing</text>
+    <text x="530" y="164" text-anchor="middle" font-size="12">chunk - embed - filter</text>
+
+    <rect x="72" y="206" width="836" height="118" rx="18" fill="#f6fcfc" stroke="#cfe7e8" stroke-dasharray="6 5"/>
+    <text x="90" y="228" font-size="13" font-weight="700" fill="#3f6d70" letter-spacing="1">RUNTIME</text>
+    <g font-size="14">
+      <rect x="84" y="244" width="148" height="62" rx="13" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="158" y="272" text-anchor="middle" font-weight="700">Query</text>
+      <text x="158" y="290" text-anchor="middle" font-size="12">understanding</text>
+      <rect x="250" y="244" width="148" height="62" rx="13" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="324" y="272" text-anchor="middle" font-weight="700">Retrieval</text>
+      <text x="324" y="290" text-anchor="middle" font-size="12">top-k evidence</text>
+      <rect x="416" y="244" width="148" height="62" rx="13" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="490" y="272" text-anchor="middle" font-weight="700">Reranking</text>
+      <text x="490" y="290" text-anchor="middle" font-size="12">order + filter</text>
+      <rect x="582" y="244" width="148" height="62" rx="13" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="656" y="272" text-anchor="middle" font-weight="700">Grounded</text>
+      <text x="656" y="290" text-anchor="middle" font-size="12">prompt</text>
+      <rect x="748" y="244" width="148" height="62" rx="13" fill="#eaf7f7" stroke="#72b8bc"/>
+      <text x="822" y="272" text-anchor="middle" font-weight="700">Citations</text>
+      <text x="822" y="290" text-anchor="middle" font-size="12">or refusals</text>
+    </g>
+
+    <rect x="96" y="356" width="380" height="80" rx="16" fill="#f1edff" stroke="#a998df"/>
+    <text x="286" y="382" text-anchor="middle" font-size="16" font-weight="700">Control plane</text>
+    <text x="286" y="402" text-anchor="middle" font-size="12">evals - versions - traces</text>
+    <text x="286" y="420" text-anchor="middle" font-size="12">cost - rollback</text>
+    <rect x="504" y="356" width="380" height="80" rx="16" fill="#fff7e8" stroke="#e5b76b"/>
+    <text x="694" y="382" text-anchor="middle" font-size="16" font-weight="700">Security</text>
+    <text x="694" y="402" text-anchor="middle" font-size="12">access - source authorization</text>
+    <text x="694" y="420" text-anchor="middle" font-size="12">audit - human review</text>
+  </g>
+  <g stroke="#4f7293" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M350 148h72"/>
+    <path d="M530 180 C486 210 384 216 328 244"/>
+    <path d="M232 275h20"/><path d="M398 275h20"/><path d="M564 275h20"/><path d="M730 275h20"/>
+    <path d="M286 324v30"/><path d="M694 324v30"/>
+  </g>
+  <g fill="#4f7293">
+    <path d="M418 140l12 8-12 8z"/>
+    <path d="M320 236l8 12 8-12z"/>
+    <path d="M248 267l12 8-12 8z"/><path d="M414 267l12 8-12 8z"/><path d="M580 267l12 8-12 8z"/><path d="M746 267l12 8-12 8z"/>
+    <path d="M278 352l8 12 8-12z"/><path d="M686 352l8 12 8-12z"/>
+  </g>
+</svg>

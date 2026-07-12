@@ -1,0 +1,9 @@
+flowchart TB
+  Ing[Ingestion: parse, normalize, version] --> Idx[Indexing: chunk, embed, filter]
+  Idx --> Ret
+  subgraph Runtime
+    direction LR
+    Q[Query understanding] --> Ret[Retrieval top-k] --> Rr[Reranking] --> GP[Grounded prompt] --> Out[Citations or refusals]
+  end
+  Runtime --> CP[Control plane: evals, versions, traces, cost, rollback]
+  Runtime --> Sec[Security: access, source authorization, audit, human review]
